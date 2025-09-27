@@ -5,6 +5,47 @@
 //  Created by Eunmin Park on 2025-09-22.
 //  Copyright © 2025 iOS Quantum Engineering. All rights reserved.
 //
+//// MARK: - Linear Algebra: Quantum Circuits as Matrix Composition
+//
+// Quantum circuits demonstrate the power of composing linear transformations.
+// Each gate is a matrix, and circuit execution is sequential matrix multiplication.
+//
+// Key Linear Algebra Concepts:
+//
+// 1. Matrix Composition (Associativity)
+//    - Circuit: |ψ_final⟩ = U_n···U_2·U_1|ψ_initial⟩
+//    - Matrix product: U_total = U_n·U_(n-1)···U_2·U_1
+//    - Order matters: Matrix multiplication is non-commutative
+//
+// 2. Sequential Transformations
+//    - Each gate transforms the state vector
+//    - Intermediate states: |ψ_k⟩ = U_k|ψ_(k-1)⟩
+//    - Final state: |ψ_final⟩ = (U_n···U_1)|ψ_0⟩
+//
+// 3. Circuit Optimization
+//    - Gate cancellation: U·U† = I (inverse gates)
+//    - Gate fusion: U_2·U_1 = U_combined (combine gates)
+//    - Matrix simplification: H·H = I, X·X = I, etc.
+//
+// 4. Unitary Preservation
+//    - Each gate is unitary: U†U = I
+//    - Composition preserves unitarity: (U_2U_1)†(U_2U_1) = I
+//    - Circuit always maps unit vectors to unit vectors
+//
+// 5. Measurement as Projection
+//    - Measurement projects state onto basis vectors
+//    - Probability = |⟨basis|ψ⟩|² (inner product squared)
+//    - Non-unitary operation (destroys superposition)
+//
+// Educational Resource:
+// For visual understanding of matrix transformations and compositions:
+// https://eunminpark.hashnode.dev/reviews-linear-algebra-through-three-lenses-an-ios-developers-journey-with-3blue1brown
+//
+// Circuit Execution:
+// |ψ⟩ → [Gate1] → [Gate2] → [Gate3] → ... → [GateN] → |ψ'⟩
+//   ↓       ↓         ↓         ↓              ↓        ↓
+//  |ψ₀⟩   U₁|ψ₀⟩   U₂U₁|ψ₀⟩  ...         U_N···U₁|ψ₀⟩  |ψ_final⟩
+//
 
 import Foundation
 
