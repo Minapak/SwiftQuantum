@@ -344,7 +344,7 @@ Senior iOS Developer & CTO
 6 years of iOS development experience  
 Patent holder in AI-based systems
 
-Connect: [LinkedIn](https://www.linkedin.com/in/eunmin-park-284346341) | [Blog](https://eunminpark.hashnode.dev)
+Connect: [LinkedIn](https://www.linkedin.com/in/eunminpark-ios) | [Blog](https://eunminpark.hashnode.dev)
 
 ---
 
