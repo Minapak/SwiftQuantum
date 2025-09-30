@@ -25,14 +25,7 @@ struct QuickPresetsView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Quick Quantum States")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-            
-            Text("Tap any state to apply it instantly")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+ 
             
             LazyVGrid(columns: [
                 GridItem(.flexible()),
