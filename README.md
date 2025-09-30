@@ -489,7 +489,7 @@ SOFTWARE.
 - **Author**: Eunmin Park
 - **Email**: dmsals2008@gmail.com
 - **GitHub**: [@Minapak](https://github.com/Minapak)
-- **Blog**: [blog.eunminpark.dev](https://eunminpark.hashnode.dev/series/ios-quantum-engineer)
+- **Blog**: [eunminpark.hashnode.dev](https://eunminpark.hashnode.dev/series/ios-quantum-engineer)
 
 
 ### Support
