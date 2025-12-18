@@ -78,7 +78,7 @@ struct SuperpositionView: View {
                         headerSection
                         
                         // Bloch Sphere
-                        BlochSphereView(qubit: qubit)
+                        BlochSphereView3D(qubit: qubit)
                             .frame(height: 320)
                             .padding(.horizontal)
                         
