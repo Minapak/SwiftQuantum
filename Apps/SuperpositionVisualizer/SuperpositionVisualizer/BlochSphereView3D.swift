@@ -3,7 +3,7 @@
 //  SuperpositionVisualizer
 //
 //  Created by Eunmin Park on 2025-01-18.
-//  3D transparent Bloch sphere with animated coordinate tracking
+//  3D transparent Bloch sphere with ENHANCED state vector visualization
 //
 
 import SwiftUI
@@ -24,17 +24,17 @@ extension Qubit {
 }
 #endif
 
-/// 3D Bloch Sphere Visualization
+/// 3D Bloch Sphere Visualization (ENHANCED VERSION)
 ///
 /// A fully interactive 3D representation of quantum states using SceneKit.
 /// Features:
 /// - Transparent 3D sphere (70% transparent, white color)
+/// - ENHANCED state vector visualization (BOLD and CLEAR!)
 /// - Interactive touch-based rotation
-/// - Real-time coordinate display (X, Y, Z)
 /// - Smooth state vector animation
 /// - Wireframe grid (latitude/longitude lines)
 /// - Colored axes (Red/Green/Blue for X/Y/Z)
-/// - Equatorial plane visualization
+/// - Origin marker for reference
 /// - Multi-layer lighting system
 ///
 /// Usage:
@@ -48,93 +48,15 @@ struct BlochSphereView3D: View {
     /// Reference to the SceneKit view for camera control
     @State private var sceneView: SCNView?
     
-    /// Current display coordinates (updated in real-time from 0-50Hz)
-    @State private var displayCoordinates: (x: Double, y: Double, z: Double) = (0, 0, 0)
-    
-    /// Animation playback state
-    @State private var isAnimating = true
-    
     var body: some View {
         ZStack {
-            /// 3D SceneKit visualization layer
+            /// 3D SceneKit visualization layer - ENHANCED!
             SceneKitViewRepresentable(
                 qubit: qubit,
-                sceneView: $sceneView,
-                displayCoordinates: $displayCoordinates
+                sceneView: $sceneView
             )
             .ignoresSafeArea()
-            
-            /// Overlay UI layer: Coordinates and interactive controls
-            VStack(spacing: 16) {
-                /// Top Section: Bloch Vector Information Panel
-                VStack(spacing: 8) {
-                    Text("Bloch Vector")
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
-                        .foregroundColor(.white)
-                    
-                    /// Display X, Y, Z coordinates with color coding
-                    /// Red: X-axis, Green: Y-axis, Cyan: Z-axis
-                    HStack(spacing: 20) {
-                        CoordinateDisplay(label: "X", value: displayCoordinates.x, color: .red)
-                        CoordinateDisplay(label: "Y", value: displayCoordinates.y, color: .green)
-                        CoordinateDisplay(label: "Z", value: displayCoordinates.z, color: .cyan)
-                    }
-                    .font(.system(.caption, design: .monospaced))
-                }
-                .padding(12)
-                .background(Color.black.opacity(0.5))
-                .cornerRadius(12)
-                .padding()
-                
-                Spacer()
-                
-                /// Bottom Section: Control Buttons
-                HStack(spacing: 12) {
-                    /// Button: Pause/Play animation
-                    Button(action: { toggleAnimation() }) {
-                        Image(systemName: isAnimating ? "pause.fill" : "play.fill")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 44, height: 44)
-                            .background(Color.blue.opacity(0.6))
-                            .cornerRadius(8)
-                    }
-                    
-                    /// Button: Reset camera orientation to default
-                    Button(action: { resetView() }) {
-                        Image(systemName: "arrow.counterclockwise")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 44, height: 44)
-                            .background(Color.blue.opacity(0.6))
-                            .cornerRadius(8)
-                    }
-                    
-                    Spacer()
-                    
-                    /// Instruction text
-                    Text("Rotate with your finger")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
-                }
-                .padding()
-            }
         }
-    }
-    
-    /// Toggle animation playback state
-    private func toggleAnimation() {
-        isAnimating.toggle()
-    }
-    
-    /// Reset the 3D camera to default orientation
-    private func resetView() {
-        guard let sceneView = sceneView else { return }
-        /// Reset camera to default position and orientation
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(0, 0, 3.5)
-        sceneView.pointOfView = cameraNode
     }
 }
 
@@ -148,10 +70,6 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
     
     /// Binding to the underlying SceneKit view for external camera control
     @Binding var sceneView: SCNView?
-    
-    /// Binding to display coordinates that update in real-time
-    /// Used to show X, Y, Z values in the UI
-    @Binding var displayCoordinates: (x: Double, y: Double, z: Double)
     
     func makeUIView(context: Context) -> SCNView {
         /// Initialize 3D scene
@@ -190,19 +108,25 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         /// Includes: transparent sphere, wireframe grid, axes, equatorial plane
         addBlochSphere(to: scene)
         
-        // MARK: Add State Vector Visualization
+        // MARK: Add Origin Marker (NEW!)
+        
+        /// 원점을 명확하게 표시
+        addOriginMarker(to: scene)
+        
+        // MARK: Add State Vector Visualization (ENHANCED!)
         
         /// Create animated arrow pointing from origin to current quantum state
-        let stateVectorNode = createStateVector(qubit: qubit)
+        /// NOW WITH MUCH BETTER VISIBILITY!
+        let stateVectorNode = createEnhancedStateVector(qubit: qubit)
         scene.rootNode.addChildNode(stateVectorNode)
         
         /// Save reference to SceneKit view for camera control
         self.sceneView = sceneView
         
-        /// IMPORTANT: Setup a timer to continuously update coordinates
-        /// This ensures the coordinates are always in sync with the qubit state
+        /// IMPORTANT: Setup a timer to continuously update state vector
+        /// This ensures the state vector is always in sync with the qubit state
         let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
-            updateStateVectorAndCoordinates(sceneView: sceneView, qubit: qubit)
+            updateStateVector(sceneView: sceneView, qubit: qubit)
         }
         
         /// Store timer reference in a way that keeps it alive
@@ -214,22 +138,17 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
     func updateUIView(_ uiView: SCNView, context: Context) {
         /// Update state vector position based on qubit state changes
         /// This is called whenever the parent SwiftUI view updates
-        updateStateVectorAndCoordinates(sceneView: uiView, qubit: qubit)
+        updateStateVector(sceneView: uiView, qubit: qubit)
     }
     
     // MARK: - Update Methods
     
-    /// Update both state vector position and display coordinates
-    private func updateStateVectorAndCoordinates(sceneView: SCNView, qubit: Qubit) {
+    /// Update state vector position (FASTER ANIMATION!)
+    private func updateStateVector(sceneView: SCNView, qubit: Qubit) {
         guard let scene = sceneView.scene else { return }
         
         /// Get current Bloch coordinates (x, y, z all in range [-1, 1])
         let (x, y, z) = qubit.blochCoordinates()
-        
-        /// IMPORTANT: Update the binding FIRST to trigger UI refresh
-        DispatchQueue.main.async {
-            self.displayCoordinates = (x, y, z)
-        }
         
         /// Update the 3D state vector position
         if let stateVector = scene.rootNode.childNode(withName: "stateVector", recursively: true) {
@@ -237,9 +156,9 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
             /// Note: Y and Z are swapped for proper 3D orientation
             let targetPosition = SCNVector3(x: Float(x), y: Float(z), z: Float(y))
             
-            /// Smoothly animate the state vector to the new position
+            /// Smoothly animate the state vector to the new position (FASTER!)
             SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.3
+            SCNTransaction.animationDuration = 0.15  // 더 빠른 애니메이션 (0.3 → 0.15)
             stateVector.position = targetPosition
             SCNTransaction.commit()
         }
@@ -304,6 +223,19 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         addEquatorialPlane(to: scene)
     }
     
+    /// Add origin marker (원점 표시) - NEW!
+    private func addOriginMarker(to scene: SCNScene) {
+        /// 작은 하얀색 구로 원점 표시
+        let originSphere = SCNSphere(radius: 0.08)
+        originSphere.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6)
+        originSphere.firstMaterial?.emission.contents = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.3)
+        
+        let originNode = SCNNode(geometry: originSphere)
+        originNode.position = SCNVector3(0, 0, 0)
+        originNode.name = "originMarker"
+        scene.rootNode.addChildNode(originNode)
+    }
+    
     /// Create wireframe sphere using torus shapes
     /// Represents latitude and longitude lines
     private func addWireframeSphere(to scene: SCNScene) {
@@ -359,25 +291,22 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         /// X-axis: Red (left-right)
         addAxis(to: scene, from: SCNVector3(-axisLength, 0, 0),
                 to: SCNVector3(axisLength, 0, 0),
-                color: UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 0.8),
-                label: "X")
+                color: UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 0.8))
         
         /// Y-axis: Green (up-down)
         addAxis(to: scene, from: SCNVector3(0, -axisLength, 0),
                 to: SCNVector3(0, axisLength, 0),
-                color: UIColor(red: 0.2, green: 1.0, blue: 0.2, alpha: 0.8),
-                label: "Y")
+                color: UIColor(red: 0.2, green: 1.0, blue: 0.2, alpha: 0.8))
         
         /// Z-axis: Blue (front-back)
         addAxis(to: scene, from: SCNVector3(0, 0, -axisLength),
                 to: SCNVector3(0, 0, axisLength),
-                color: UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 0.8),
-                label: "Z")
+                color: UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 0.8))
     }
     
     /// Create a single coordinate axis line with endpoint sphere
     private func addAxis(to scene: SCNScene, from: SCNVector3, to: SCNVector3,
-                        color: UIColor, label: String) {
+                        color: UIColor) {
         /// Calculate axis length using 3D distance formula
         let length = simd_distance(simd_float3(from), simd_float3(to))
         
@@ -419,23 +348,23 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         scene.rootNode.addChildNode(equatorNode)
     }
     
-    /// Create the state vector visualization
-    /// Consists of: arrow line from origin to state, arrowhead, and glowing marker sphere
-    private func createStateVector(qubit: Qubit) -> SCNNode {
+    /// Create ENHANCED state vector visualization
+    /// Much more visible and intuitive!
+    private func createEnhancedStateVector(qubit: Qubit) -> SCNNode {
         let (x, y, z) = qubit.blochCoordinates()
         
-        // MARK: Arrow Line
+        // MARK: Arrow Line (MUCH THICKER!)
         
         /// Calculate length of arrow from origin to state position
         let lineLength = sqrt(x*x + y*y + z*z)
         
-        /// Create cylinder for arrow line
-        let cylinder = SCNCylinder(radius: 0.012, height: CGFloat(lineLength))
+        /// Create cylinder for arrow line (THICKER: 0.012 → 0.03)
+        let cylinder = SCNCylinder(radius: 0.03, height: CGFloat(lineLength))
         
-        /// Configure arrow line appearance (golden yellow with glow)
-        let gradient = UIColor(red: 1.0, green: 0.8, blue: 0.0, alpha: 0.9)
+        /// Configure arrow line appearance (BRIGHTER and more GLOWING!)
+        let gradient = UIColor(red: 1.0, green: 0.95, blue: 0.0, alpha: 1.0)
         cylinder.firstMaterial?.diffuse.contents = gradient
-        cylinder.firstMaterial?.emission.contents = UIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 0.5)
+        cylinder.firstMaterial?.emission.contents = UIColor(red: 1.0, green: 0.8, blue: 0.0, alpha: 0.8)  // 더 밝은 발광
         
         let arrowLineNode = SCNNode(geometry: cylinder)
         /// Position arrow at midpoint
@@ -453,26 +382,26 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         /// Position at the quantum state location
         stateVectorNode.position = SCNVector3(x: Float(x), y: Float(z), z: Float(y))
         
-        // MARK: Arrowhead
+        // MARK: Arrowhead (MUCH BIGGER!)
         
-        /// Create cone for arrowhead
-        let cone = SCNCone(topRadius: 0, bottomRadius: 0.08, height: 0.2)
-        cone.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 0.8, blue: 0.0, alpha: 1.0)
-        cone.firstMaterial?.emission.contents = UIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 0.7)
+        /// Create cone for arrowhead (BIGGER: 0.08 → 0.15)
+        let cone = SCNCone(topRadius: 0, bottomRadius: 0.15, height: 0.3)
+        cone.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 0.95, blue: 0.0, alpha: 1.0)
+        cone.firstMaterial?.emission.contents = UIColor(red: 1.0, green: 0.8, blue: 0.0, alpha: 0.9)  // 매우 밝은 발광
         
         let arrowheadNode = SCNNode(geometry: cone)
         /// Rotate cone to point upward (default is pointing up in Z)
         arrowheadNode.eulerAngles = SCNVector3(-Float.pi / 2, 0, 0)
         /// Position arrowhead slightly above the state marker
-        arrowheadNode.position = SCNVector3(0, 0.1, 0)
+        arrowheadNode.position = SCNVector3(0, 0.15, 0)
         stateVectorNode.addChildNode(arrowheadNode)
         
-        // MARK: State Marker
+        // MARK: State Marker (MUCH BIGGER!)
         
-        /// Create glowing sphere at the state position
-        let markerSphere = SCNSphere(radius: 0.12)
-        markerSphere.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 0.9, blue: 0.0, alpha: 0.9)
-        markerSphere.firstMaterial?.emission.contents = UIColor(red: 1.0, green: 0.7, blue: 0.0, alpha: 0.6)
+        /// Create glowing sphere at the state position (BIGGER: 0.12 → 0.25)
+        let markerSphere = SCNSphere(radius: 0.25)
+        markerSphere.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 0.95, blue: 0.0, alpha: 1.0)
+        markerSphere.firstMaterial?.emission.contents = UIColor(red: 1.0, green: 0.8, blue: 0.0, alpha: 0.9)  // 매우 밝은 발광
         
         let markerNode = SCNNode(geometry: markerSphere)
         markerNode.position = SCNVector3(0, 0, 0)
@@ -486,44 +415,6 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         parentContainer.addChildNode(stateVectorNode)
         
         return parentContainer
-    }
-}
-
-// MARK: - Coordinate Display Component
-
-/// Individual coordinate display showing one axis value (X, Y, or Z)
-/// Features:
-/// - Color-coded by axis (Red/Green/Blue)
-/// - Monospaced font for precise alignment
-/// - Semi-transparent background
-struct CoordinateDisplay: View {
-    /// Axis label (X, Y, or Z)
-    let label: String
-    
-    /// Numeric coordinate value in range [-1.0, 1.0]
-    let value: Double
-    
-    /// Color for this coordinate axis
-    /// Red = X-axis, Green = Y-axis, Cyan = Z-axis
-    let color: Color
-    
-    var body: some View {
-        VStack(spacing: 4) {
-            /// Axis label in small gray text
-            Text(label)
-                .font(.caption2)
-                .foregroundColor(.white.opacity(0.7))
-            
-            /// Coordinate value with monospaced font (better alignment)
-            /// Display with 3 decimal places for precision
-            Text(String(format: "%.3f", value))
-                .font(.system(.body, design: .monospaced))
-                .foregroundColor(color)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(8)
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(8)
     }
 }
 

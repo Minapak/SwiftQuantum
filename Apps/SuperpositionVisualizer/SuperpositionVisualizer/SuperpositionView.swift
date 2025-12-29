@@ -2,65 +2,18 @@
 //  SuperpositionView.swift
 //  SuperpositionVisualizer
 //
-//  Created by Eunmin Park on 2025-09-30.
-//  Main view for exploring quantum superposition interactively
-//
+//  Main view with centered XYZ coordinates
 
 import SwiftUI
-#if canImport(SwiftQuantum)
-import SwiftQuantum
-#else
-// Preview를 위한 Mock Qubit
-extension Qubit {
-    static var previewSuperposition: Qubit {
-        return Qubit.superposition
-    }
-}
-#endif
 
-
-/// Main view for the Superposition Visualizer app
-///
-/// Provides interactive controls to:
-/// - Adjust qubit probability
-/// - Change relative phase
-/// - Visualize on Bloch sphere
-/// - Perform measurements
-/// - Compare with standard states
 struct SuperpositionView: View {
-    // MARK: - State
-    
-    @State private var probability0: Double = 0.5
-    @State private var phase: Double = 0.0
-    @State private var measurementResults: [Int] = []
-    @State private var isAnimating = false
+    @StateObject private var stateManager = QuantumStateManager()
     @State private var showingInfo = false
     @State private var selectedTab = 0
-    
-    // MARK: - Computed Properties
-    
-    private var qubit: Qubit {
-        let alpha = sqrt(probability0)
-        let beta = sqrt(1 - probability0)
-        
-        return Qubit(
-            amplitude0: Complex(alpha, 0),
-            amplitude1: Complex(beta * cos(phase), beta * sin(phase))
-        )
-    }
-    
-    private var measurementStats: (count0: Int, count1: Int) {
-        let count0 = measurementResults.filter { $0 == 0 }.count
-        let count1 = measurementResults.filter { $0 == 1 }.count
-        return (count0, count1)
-    }
-    
-    // MARK: - Body
     
     var body: some View {
         NavigationView {
             ZStack {
-                // Background gradient
                 LinearGradient(
                     colors: [
                         Color(red: 0.1, green: 0.1, blue: 0.3),
@@ -71,16 +24,101 @@ struct SuperpositionView: View {
                 )
                 .ignoresSafeArea()
                 
-                // Main content
                 ScrollView {
-                    VStack(spacing: 25) {
+                    VStack(spacing: 20) {
                         // Header
                         headerSection
                         
-                        // Bloch Sphere
-                        BlochSphereView3D(qubit: qubit)
-                            .frame(height: 320)
-                            .padding(.horizontal)
+                        // Bloch Sphere - Smaller height to avoid overlapping
+                        VStack(spacing: 16) {
+                            // Title
+                            Text("Bloch Vector")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            
+                            // 3D Sphere
+                            BlochSphereView3D(qubit: stateManager.qubit)
+                                .frame(height: 260)
+                            
+                            // Coordinates display - CENTERED VERTICAL (DYNAMIC)
+                            let (x, y, z) = stateManager.qubit.blochCoordinates()
+                            
+                            HStack(spacing: 12) {
+                                // X Coordinate
+                                VStack(spacing: 6) {
+                                    Text("X")
+                                        .font(.headline)
+                                        .foregroundColor(.white.opacity(0.7))
+                                    Text(String(format: "%.3f", x))
+                                        .font(.system(size: 20, weight: .bold, design: .monospaced))
+                                        .foregroundColor(.red)
+                                }
+                                
+                                // Y Coordinate
+                                VStack(spacing: 6) {
+                                    Text("Y")
+                                        .font(.headline)
+                                        .foregroundColor(.white.opacity(0.7))
+                                    Text(String(format: "%.3f", y))
+                                        .font(.system(size: 20, weight: .bold, design: .monospaced))
+                                        .foregroundColor(.green)
+                                }
+                                
+                                // Z Coordinate
+                                VStack(spacing: 6) {
+                                    Text("Z")
+                                        .font(.headline)
+                                        .foregroundColor(.white.opacity(0.7))
+                                    Text(String(format: "%.3f", z))
+                                        .font(.system(size: 20, weight: .bold, design: .monospaced))
+                                        .foregroundColor(.cyan)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(10)
+                            .background(Color.white.opacity(0.08))
+                            .cornerRadius(12)
+                            
+                            // State display
+                            if stateManager.showDisplay {
+                                VStack(spacing: 8) {
+                                    HStack {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(.green)
+                                        Text("Superposition Set")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                        Spacer()
+                                    }
+                                    
+                                    Divider().background(Color.white.opacity(0.2))
+                                    
+                                    HStack {
+                                        Text("P(|0⟩):")
+                                            .foregroundColor(.white.opacity(0.7))
+                                        Spacer()
+                                        Text(String(format: "%.1f%%", stateManager.probability0 * 100))
+                                            .foregroundColor(.green).fontWeight(.bold)
+                                    }
+                                    
+                                    HStack {
+                                        Text("P(|1⟩):")
+                                            .foregroundColor(.white.opacity(0.7))
+                                        Spacer()
+                                        Text(String(format: "%.1f%%", (1 - stateManager.probability0) * 100))
+                                            .foregroundColor(.red).fontWeight(.bold)
+                                    }
+                                }
+                                .padding(12)
+                                .background(Color.green.opacity(0.15))
+                                .cornerRadius(10)
+                                .transition(.moveAndFade)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.08))
+                        .cornerRadius(20)
+                        .padding(.horizontal)
                         
                         // Tab selector
                         tabSelector
@@ -96,6 +134,12 @@ struct SuperpositionView: View {
                                 presetsTab
                             case 3:
                                 infoTab
+                            case 4:
+                                ExamplesView()
+                                    .environmentObject(stateManager)
+                            case 5:
+                                AdvancedExamplesView()
+                                    .environmentObject(stateManager)
                             default:
                                 controlsTab
                             }
@@ -116,24 +160,24 @@ struct SuperpositionView: View {
         VStack(spacing: 8) {
             HStack {
                 Image(systemName: "atom")
-                    .font(.system(size: 30))
+                    .font(.system(size: 28))
                     .foregroundColor(.cyan)
                 
-                Text("Superposition Explorer")
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                Text("Quantum Explorer")
+                    .font(.system(size: 26, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                 
                 Spacer()
                 
                 Button(action: { showingInfo.toggle() }) {
                     Image(systemName: "info.circle")
-                        .font(.system(size: 24))
+                        .font(.system(size: 22))
                         .foregroundColor(.cyan)
                 }
             }
             
-            Text("Explore the quantum realm")
-                .font(.subheadline)
+            Text("Control • Measure • Examples • Advanced")
+                .font(.caption)
                 .foregroundColor(.white.opacity(0.7))
         }
         .padding()
@@ -147,64 +191,75 @@ struct SuperpositionView: View {
     // MARK: - Tab Selector
     
     private var tabSelector: some View {
-        HStack(spacing: 15) {
-            TabButton(title: "Controls", icon: "slider.horizontal.3", isSelected: selectedTab == 0) {
-                withAnimation { selectedTab = 0 }
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                TabButton(title: "Controls", icon: "slider.horizontal.3", isSelected: selectedTab == 0) {
+                    withAnimation { selectedTab = 0 }
+                }
+                TabButton(title: "Measure", icon: "waveform.path.ecg", isSelected: selectedTab == 1) {
+                    withAnimation { selectedTab = 1 }
+                }
+                TabButton(title: "Presets", icon: "star.fill", isSelected: selectedTab == 2) {
+                    withAnimation { selectedTab = 2 }
+                }
+                TabButton(title: "Info", icon: "chart.bar.fill", isSelected: selectedTab == 3) {
+                    withAnimation { selectedTab = 3 }
+                }
+                TabButton(title: "Examples", icon: "flask.fill", isSelected: selectedTab == 4) {
+                    withAnimation { selectedTab = 4 }
+                }
+                TabButton(title: "Advanced", icon: "sparkles", isSelected: selectedTab == 5) {
+                    withAnimation { selectedTab = 5 }
+                }
+                
+                Spacer()
+                    .frame(width: 8)
             }
-            TabButton(title: "Measure", icon: "waveform.path.ecg", isSelected: selectedTab == 1) {
-                withAnimation { selectedTab = 1 }
-            }
-            TabButton(title: "Presets", icon: "star.fill", isSelected: selectedTab == 2) {
-                withAnimation { selectedTab = 2 }
-            }
-            TabButton(title: "Info", icon: "chart.bar.fill", isSelected: selectedTab == 3) {
-                withAnimation { selectedTab = 3 }
-            }
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
     }
     
     // MARK: - Controls Tab
     
     private var controlsTab: some View {
-        VStack(spacing: 25) {
-            // Probability Control
+        VStack(spacing: 20) {
             ControlCard(
                 title: "Probability P(|0⟩)",
-                value: probability0,
+                value: stateManager.probability0,
                 icon: "0.circle.fill"
             ) {
                 VStack(spacing: 15) {
                     HStack {
-                        Text(String(format: "%.3f", probability0))
-                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                        Text(String(format: "%.3f", stateManager.probability0))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(.cyan)
                         
                         Spacer()
                         
                         VStack(alignment: .trailing, spacing: 4) {
-                            Text("P(|0⟩): \(String(format: "%.1f%%", probability0 * 100))")
+                            Text("P(|0⟩): \(String(format: "%.1f%%", stateManager.probability0 * 100))")
                                 .font(.caption)
-                            Text("P(|1⟩): \(String(format: "%.1f%%", (1-probability0) * 100))")
+                            Text("P(|1⟩): \(String(format: "%.1f%%", (1-stateManager.probability0) * 100))")
                                 .font(.caption)
                         }
                         .foregroundColor(.white.opacity(0.7))
                     }
                     
-                    Slider(value: $probability0, in: 0...1)
+                    Slider(value: Binding(
+                        get: { stateManager.probability0 },
+                        set: { stateManager.setSuperposition($0) }
+                    ), in: 0...1)
                         .accentColor(.cyan)
-                        .padding(.horizontal)
                     
-                    // Visual probability bars
                     HStack(spacing: 10) {
                         ProbabilityBar(
-                            value: probability0,
+                            value: stateManager.probability0,
                             color: .blue,
                             label: "|0⟩"
                         )
                         
                         ProbabilityBar(
-                            value: 1 - probability0,
+                            value: 1 - stateManager.probability0,
                             color: .red,
                             label: "|1⟩"
                         )
@@ -213,16 +268,15 @@ struct SuperpositionView: View {
                 }
             }
             
-            // Phase Control
             ControlCard(
                 title: "Relative Phase",
-                value: phase,
+                value: stateManager.phase,
                 icon: "waveform.circle.fill"
             ) {
                 VStack(spacing: 15) {
                     HStack {
-                        Text(String(format: "%.3f", phase))
-                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                        Text(String(format: "%.3f", stateManager.phase))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(.purple)
                         
                         Text("rad")
@@ -231,195 +285,216 @@ struct SuperpositionView: View {
                         
                         Spacer()
                         
-                        Text("\(String(format: "%.1f", phase * 180 / .pi))°")
+                        Text("\(String(format: "%.1f", stateManager.phase * 180 / .pi))°")
                             .font(.title2)
                             .foregroundColor(.white.opacity(0.7))
                     }
                     
-                    Slider(value: $phase, in: 0...(2 * .pi))
+                    Slider(value: Binding(
+                        get: { stateManager.phase },
+                        set: { stateManager.updateState(probability0: stateManager.probability0, phase: $0) }
+                    ), in: 0...(2 * .pi))
                         .accentColor(.purple)
-                        .padding(.horizontal)
                     
-                    // Phase visualization circle
-                    PhaseCircleView(phase: phase)
-                        .frame(height: 100)
+                    PhaseCircleView(phase: stateManager.phase)
+                        .frame(height: 120)
                 }
             }
-            
-            // State Summary
-            StateInfoCard(qubit: qubit)
         }
+        .padding(.horizontal)
     }
     
     // MARK: - Measurement Tab
     
     private var measurementTab: some View {
         VStack(spacing: 20) {
-            // Single measurement button
-            Button(action: performSingleMeasurement) {
-                HStack {
-                    Image(systemName: "waveform.path.ecg")
-                        .font(.title2)
-                    Text("Single Measurement")
-                        .font(.headline)
-                }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    LinearGradient(
-                        colors: [.blue, .purple],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .cornerRadius(15)
-                .shadow(color: .blue.opacity(0.3), radius: 10, x: 0, y: 5)
-                .scaleEffect(isAnimating ? 1.05 : 1.0)
-                .animation(.spring(response: 0.3), value: isAnimating)
-            }
-            
-            // Multiple measurements button
-            Button(action: performMultipleMeasurements) {
-                HStack {
-                    Image(systemName: "chart.bar.fill")
-                        .font(.title2)
-                    Text("Measure 1000 Times")
-                        .font(.headline)
-                }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    LinearGradient(
-                        colors: [.green, .teal],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .cornerRadius(15)
-                .shadow(color: .green.opacity(0.3), radius: 10, x: 0, y: 5)
-            }
-            
-            // Clear button
-            if !measurementResults.isEmpty {
-                Button(action: clearMeasurements) {
+            VStack(spacing: 15) {
+                Button(action: { stateManager.performMeasurement() }) {
                     HStack {
-                        Image(systemName: "trash")
-                        Text("Clear Results")
+                        Image(systemName: "bolt.fill")
+                        Text("Single Measurement")
+                            .fontWeight(.semibold)
                     }
-                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.red.opacity(0.8))
-                    .cornerRadius(15)
+                    .background(Color.cyan.opacity(0.6))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
+                
+                Button(action: { stateManager.performStatisticalMeasurement(1000) }) {
+                    HStack {
+                        Image(systemName: "bolt.fill")
+                        Text("1000 Measurements")
+                            .fontWeight(.semibold)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.purple.opacity(0.6))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
+                
+                Button(action: { stateManager.reset() }) {
+                    HStack {
+                        Image(systemName: "arrow.counterclockwise")
+                        Text("Reset State")
+                            .fontWeight(.semibold)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange.opacity(0.3))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
                 }
             }
+            .padding()
+            .background(Color.white.opacity(0.1))
+            .cornerRadius(20)
             
-            // Measurement results
-            if !measurementResults.isEmpty {
-                MeasurementHistogram(
-                    results: measurementResults,
-                    expectedProb0: qubit.probability0
-                )
-                .transition(.scale.combined(with: .opacity))
+            VStack(spacing: 12) {
+                HStack {
+                    Image(systemName: "info.circle.fill")
+                        .foregroundColor(.cyan)
+                    Text("Current State Information")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                }
                 
-                MeasurementStatsCard(
-                    results: measurementResults,
-                    expectedProb0: qubit.probability0
-                )
-            } else {
-                EmptyMeasurementView()
+                Divider().background(Color.white.opacity(0.2))
+                
+                HStack {
+                    Text("P(|0⟩):")
+                        .foregroundColor(.white.opacity(0.7))
+                    Spacer()
+                    Text(String(format: "%.1f%%", stateManager.probability0 * 100))
+                        .foregroundColor(.cyan)
+                }
+                
+                HStack {
+                    Text("P(|1⟩):")
+                        .foregroundColor(.white.opacity(0.7))
+                    Spacer()
+                    Text(String(format: "%.1f%%", (1 - stateManager.probability0) * 100))
+                        .foregroundColor(.red)
+                }
+                
+                HStack {
+                    Text("Phase:")
+                        .foregroundColor(.white.opacity(0.7))
+                    Spacer()
+                    Text(String(format: "%.3f rad", stateManager.phase))
+                        .foregroundColor(.purple)
+                }
             }
+            .padding(15)
+            .background(Color.white.opacity(0.05))
+            .cornerRadius(12)
         }
+        .padding(.horizontal)
     }
     
     // MARK: - Presets Tab
     
     private var presetsTab: some View {
-        VStack(spacing: 20) {
-            Text("Quick Quantum States")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-            
-            Text("Tap any state to apply it instantly")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
-            
-            QuickPresetsView(
-                onSelectProb: { prob in
-                    withAnimation(.spring()) {
-                        probability0 = prob
+        VStack(spacing: 15) {
+            ForEach(BasicQuantumState.allCases, id: \.self) { state in
+                Button(action: { stateManager.setState(state) }) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(state.rawValue)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            Text(stateDescription(for: state))
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.7))
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.cyan)
                     }
-                },
-                onSelectPhase: { ph in
-                    withAnimation(.spring()) {
-                        phase = ph
-                    }
+                    .padding()
+                    .background(Color.white.opacity(0.1))
+                    .cornerRadius(12)
                 }
-            )
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    private func stateDescription(for state: BasicQuantumState) -> String {
+        switch state {
+        case .zero: return "Ground state"
+        case .one: return "Excited state"
+        case .plus: return "Equal superposition"
+        case .minus: return "Phase inverted"
+        case .iState: return "Complex phase"
         }
     }
     
     // MARK: - Info Tab
     
     private var infoTab: some View {
-        VStack(spacing: 20) {
-            StateInfoCard(qubit: qubit)
+        VStack(alignment: .leading, spacing: 20) {
+            Text("Quantum State Details")
+                .font(.headline)
+                .foregroundColor(.white)
             
-            AmplitudeCard(qubit: qubit)
-            
-            BlochCoordinatesCard(qubit: qubit)
-        }
-    }
-    
-    // MARK: - Actions
-    
-    private func performSingleMeasurement() {
-        withAnimation(.spring(response: 0.3)) {
-            isAnimating = true
-        }
-        
-        // Simulate quantum measurement delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            let result = qubit.measure()
-            measurementResults = [result]
-            
-            // Haptic feedback
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
-            
-            withAnimation {
-                isAnimating = false
+            VStack(spacing: 12) {
+                HStack {
+                    Text("|ψ⟩ = ")
+                        .foregroundColor(.white)
+                    Text(String(format: "%.3f", sqrt(stateManager.probability0)))
+                        .foregroundColor(.cyan)
+                    Text("|0⟩ + ")
+                        .foregroundColor(.white)
+                    Text(String(format: "%.3f", sqrt(1 - stateManager.probability0)))
+                        .foregroundColor(.red)
+                    Text("e^(i\(String(format: "%.2f", stateManager.phase)))|1⟩")
+                        .foregroundColor(.white)
+                }
+                
+                HStack {
+                    Text("Entanglement: ")
+                        .foregroundColor(.white)
+                    Text(String(format: "%.2f", stateManager.probability0 * (1 - stateManager.probability0)))
+                        .foregroundColor(.purple)
+                }
             }
-        }
-    }
-    
-    private func performMultipleMeasurements() {
-        withAnimation {
-            let results = qubit.measureMultiple(count: 1000)
-            var allResults: [Int] = []
+            .padding()
+            .background(Color.white.opacity(0.1))
+            .cornerRadius(12)
             
-            for _ in 0..<(results[0] ?? 0) {
-                allResults.append(0)
+            Divider()
+                .background(Color.white.opacity(0.3))
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text("About Quantum Superposition")
+                    .font(.headline)
+                    .foregroundColor(.cyan)
+                
+                Text("A quantum qubit can exist in a superposition of both |0⟩ and |1⟩ states simultaneously until measured. Select states from the Presets or Examples tabs to see real-time updates on the 3D Bloch sphere.")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.8))
+                    .lineLimit(nil)
             }
-            for _ in 0..<(results[1] ?? 0) {
-                allResults.append(1)
-            }
-            
-            measurementResults = allResults
-            
-            // Haptic feedback
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.success)
+            .padding()
+            .background(Color.white.opacity(0.05))
+            .cornerRadius(12)
         }
+        .padding(.horizontal)
     }
-    
-    private func clearMeasurements() {
-        withAnimation {
-            measurementResults = []
-        }
+}
+
+// MARK: - Animation Extension
+
+extension AnyTransition {
+    static var moveAndFade: AnyTransition {
+        let insertion = AnyTransition.move(edge: .bottom)
+            .combined(with: .opacity)
+        let removal = AnyTransition.move(edge: .top)
+            .combined(with: .opacity)
+        return AnyTransition.asymmetric(insertion: insertion, removal: removal)
     }
 }
 
@@ -435,14 +510,15 @@ struct TabButton: View {
         Button(action: action) {
             VStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(.system(size: 20))
+                    .font(.system(size: 16))
                 Text(title)
-                    .font(.caption)
+                    .font(.caption2)
                     .fontWeight(.medium)
             }
             .foregroundColor(isSelected ? .cyan : .white.opacity(0.6))
-            .frame(maxWidth: .infinity)
+            .frame(minWidth: 65)
             .padding(.vertical, 12)
+            .padding(.horizontal, 8)
             .background(
                 isSelected ?
                 Color.cyan.opacity(0.2) :
@@ -505,11 +581,9 @@ struct ProbabilityBar: View {
     var body: some View {
         VStack(spacing: 8) {
             ZStack(alignment: .bottom) {
-                // Background
                 RoundedRectangle(cornerRadius: 8)
                     .fill(color.opacity(0.2))
                 
-                // Fill
                 GeometryReader { geometry in
                     RoundedRectangle(cornerRadius: 8)
                         .fill(
@@ -549,19 +623,16 @@ struct PhaseCircleView: View {
             let radius = min(geometry.size.width, geometry.size.height) / 2 * 0.8
             
             ZStack {
-                // Circle
                 Circle()
                     .stroke(Color.white.opacity(0.3), lineWidth: 2)
                     .frame(width: radius * 2, height: radius * 2)
                 
-                // Reference line (0 phase)
                 Path { path in
                     path.move(to: center)
                     path.addLine(to: CGPoint(x: center.x + radius, y: center.y))
                 }
                 .stroke(Color.white.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [5]))
                 
-                // Phase arrow
                 Path { path in
                     path.move(to: center)
                     path.addLine(to: CGPoint(
@@ -571,7 +642,6 @@ struct PhaseCircleView: View {
                 }
                 .stroke(Color.purple, lineWidth: 3)
                 
-                // Phase marker
                 Circle()
                     .fill(Color.purple)
                     .frame(width: 12, height: 12)
@@ -581,7 +651,6 @@ struct PhaseCircleView: View {
                     )
                     .shadow(color: .purple, radius: 10)
                 
-                // Labels
                 Text("0")
                     .foregroundColor(.white.opacity(0.7))
                     .position(x: center.x + radius + 15, y: center.y)
@@ -592,31 +661,6 @@ struct PhaseCircleView: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
-    }
-}
-
-// MARK: - Empty Measurement View
-
-struct EmptyMeasurementView: View {
-    var body: some View {
-        VStack(spacing: 15) {
-            Image(systemName: "waveform.path")
-                .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.3))
-            
-            Text("No measurements yet")
-                .font(.title3)
-                .foregroundColor(.white.opacity(0.6))
-            
-            Text("Tap the buttons above to measure the quantum state")
-                .font(.caption)
-                .foregroundColor(.white.opacity(0.4))
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(40)
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(20)
     }
 }
 
