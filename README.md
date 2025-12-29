@@ -37,7 +37,7 @@
 - **Touch-Based Rotation**: Intuitive finger gestures to explore quantum states
 - **Live Measurements**: Perform quantum measurements with animated histograms
 - **Preset States**: Quick access to standard quantum states (|0⟩, |1⟩, |+⟩, |−⟩)
-- **Educational Examples**: 5 quantum computing demonstrations
+- **Educational Examples**: 5 quantum computing demonstrations with optimized layouts
 - **Beautiful UI**: Dark mode quantum-themed interface with smooth animations
 
 ---
@@ -144,7 +144,7 @@ BlochSphereConfig.clean
 
 ---
 
-## 📱 Superposition Visualizer App
+## 📱 Superposition Visualizer App (v1.1) ✨
 
 A comprehensive quantum computing visualization app with 6 interactive tabs!
 
@@ -215,15 +215,12 @@ Results Display:
 **Quick access to standard quantum states**
 
 ```
-Probability Presets:
-├─ |0⟩ State (P = 1.0)
-├─ |1⟩ State (P = 0.0)
-└─ |+⟩ Superposition (P = 0.5)
-
-Phase Presets:
-├─ 0 rad (0°)
-├─ π/2 rad (90°)
-└─ π rad (180°)
+Preset Buttons:
+├─ State |0⟩ (P = 1.0)
+├─ State |1⟩ (P = 0.0)
+├─ Equal Superposition (P = 0.5, phase = 0)
+├─ +|⟩ State (P = 0.5, phase = 0)
+└─ −|⟩ State (P = 0.5, phase = π)
 
 One-Click Application:
 └─ Smooth animation to target state
@@ -234,25 +231,33 @@ One-Click Application:
 
 ```
 Quantum State Card:
-├─ P(|0⟩) probability
-├─ P(|1⟩) probability
-└─ Current phase
-
-Amplitudes Card:
-├─ α (|0⟩ coefficient)
-└─ β (|1⟩ coefficient)
+├─ Current state formula |ψ⟩
+├─ α and β amplitudes
+└─ Phase information
 
 Bloch Coordinates Card:
 ├─ X coordinate
 ├─ Y coordinate
 └─ Z coordinate
 
-Real-time Updates:
-└─ All values update as controls change
+Quantum Concept Information:
+└─ Educational text about superposition
 ```
 
-### 🧪 Tab 6: Examples (NEW!)
-**5 Interactive quantum computing demonstrations**
+### 🧪 Tab 6: Examples (IMPROVED!)
+**5 Interactive quantum computing demonstrations with optimized layout**
+
+#### Layout: 2-Row Grid System
+
+```
+Row 1 (3 buttons - full width):
+├─ Basic Operations    │ Quantum Gates    │ Random Numbers
+└─ [50% width each]    │ [50% width]      │ [responsive]
+
+Row 2 (2 buttons + Spacer):
+├─ Algorithm           │ Applications     │ Spacer
+└─ [~45% width]        │ [~45% width]     │ [flexes]
+```
 
 #### Example 1️⃣: Basic Operations
 ```
@@ -261,11 +266,12 @@ Demonstrates: Fundamental quantum mechanics
 Features:
 ├─ State selector (|0⟩, |1⟩, |+⟩, |−⟩)
 ├─ Real-time probability display
-├─ 1000-shot measurement with histogram
+├─ Visual probability bars (2×2 grid layout)
+├─ Measure button for 1000 shots
 └─ Statistical analysis
   ├─ Measurement counts
-  ├─ Entropy calculation
-  └─ Balance analysis
+  ├─ Total shots
+  └─ Percentage calculations
 
 Educational Value:
 └─ Understand qubit states and measurement
@@ -284,11 +290,11 @@ let results = superposed.measureMultiple(count: 1000)
 Demonstrates: Quantum gate operations
 
 Features:
-├─ Input state selection
+├─ Input state selection (3 button grid)
 │  ├─ |0⟩ ground state
 │  ├─ |+⟩ superposition
-│  └─ Custom state
-├─ Gate selection
+│  └─ |−⟩ custom state
+├─ Gate selection (4 scrollable options)
 │  ├─ H (Hadamard) - Creates superposition
 │  ├─ X (Pauli-X) - Bit flip
 │  ├─ Z (Pauli-Z) - Phase flip
@@ -296,8 +302,8 @@ Features:
 ├─ Output visualization
 │  ├─ Resulting quantum state
 │  ├─ Probability display
-│  └─ Bloch sphere position
-└─ State transformation visualization
+│  └─ Gate description
+└─ State transformation details
 
 Educational Value:
 └─ Learn how quantum gates transform states
@@ -330,7 +336,7 @@ Features:
 │  ├─ Balance analysis
 │  └─ Statistical tests
 └─ Visualization
-  ├─ Random number histogram
+  ├─ Random number list
   ├─ Distribution display
   └─ Quality indicators
 
@@ -363,19 +369,18 @@ Features:
 ├─ Algorithm implementation
 │  ├─ Constant function detection
 │  └─ Balanced function detection
-├─ Oracle simulation
-│  ├─ Function evaluation
-│  └─ Quantum oracle
-├─ Circuit visualization
-│  ├─ Gate sequence display
-│  ├─ Superposition states
-│  └─ Interference effects
-├─ Result analysis
-│  ├─ Function type identification
-│  ├─ Success/failure feedback
-│  └─ Comparison with classical (1 query vs 2ⁿ⁻¹ queries)
-└─ Interactive testing
-  └─ Toggle between constant/balanced
+├─ Function type selector
+│  ├─ Constant toggle
+│  └─ Balanced toggle
+├─ Algorithm information
+│  ├─ Function type display
+│  ├─ Quantum queries: 1
+│  └─ Classical queries: 2
+├─ Run Algorithm button
+└─ Result analysis
+  ├─ Function type identification
+  ├─ Success/failure feedback
+  └─ Comparison display
 
 Educational Value:
 ├─ First quantum algorithm with exponential speedup
@@ -402,20 +407,16 @@ Demonstrates: Real-world quantum computing applications
 
 Features:
 ├─ Optimization Problem
-│  ├─ Quadratic function: f(x) = (x-2)² + 1
-│  ├─ Find minimum value
-│  ├─ Quantum search
-│  └─ Classical comparison
-├─ Quantum Clustering
-│  ├─ K-means with quantum enhancement
-│  ├─ 2 cluster formation
-│  ├─ Distance calculations
-│  └─ Cluster visualization
+│  ├─ Function: f(x) = (x-2)² + 1
+│  ├─ Goal: Find minimum value
+│  ├─ Visual representation
+│  └─ Mathematical formula display
+├─ Run Optimization button
 ├─ Results Display
-│  ├─ Optimal parameter found
+│  ├─ Optimal x value found
+│  ├─ Minimum f(x) calculated
 │  ├─ Quantum vs classical comparison
-│  ├─ Performance metrics
-│  └─ Speedup factors
+│  └─ Speedup factor
 └─ Interactive Adjustment
   └─ Test different parameters
 
@@ -443,43 +444,60 @@ let clusterer = QuantumApplications.QuantumClusterer()
 let clusters = clusterer.cluster(data, k: 2)
 ```
 
-### 📊 Tab 6 Example Architecture
+### 🎛️ Tab Structure Update (v1.1.1)
 
+**Previous Layout Issues:**
+- Single horizontal ScrollView with 5 buttons
+- Buttons would compress and overflow on smaller screens
+- Text truncation issues on iPhone SE
+
+**Improved Layout:**
+```swift
+// SuperpositionView Tab Selector
+private var tabSelector: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 12) {
+            // 5 TabButtons with optimized spacing
+            TabButton(...) // Controls
+            TabButton(...) // Measure
+            TabButton(...) // Presets
+            TabButton(...) // Info
+            TabButton(...) // Examples
+            
+            Spacer().frame(width: 8)  // Trailing spacer
+        }
+        .padding(.horizontal)
+    }
+}
+
+// TabButton Component
+struct TabButton: View {
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 18))
+                Text(title)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+            }
+            .frame(minWidth: 70)           // Minimum width, not maximum
+            .padding(.vertical, 12)
+            .padding(.horizontal, 8)       // Added horizontal padding
+            .background(isSelected ? Color.cyan.opacity(0.2) : Color.white.opacity(0.05))
+            .cornerRadius(12)
+        }
+    }
+}
 ```
-ExamplesView (Main Container)
-├─ Picker (5 examples)
-├─ Content View (switch statement)
-│  ├─ BasicOperationsExample
-│  │  ├─ State selector
-│  │  ├─ Probability display
-│  │  ├─ Measure button
-│  │  └─ Results histogram
-│  │
-│  ├─ QuantumGatesExample
-│  │  ├─ Input state picker
-│  │  ├─ Gate selector
-│  │  ├─ Output display
-│  │  └─ Bloch visualization
-│  │
-│  ├─ RandomNumberExample
-│  │  ├─ Random integer generator
-│  │  ├─ UUID generator
-│  │  ├─ Distribution histogram
-│  │  └─ Quality metrics
-│  │
-│  ├─ AlgorithmExample
-│  │  ├─ Function selector
-│  │  ├─ Deutsch-Jozsa circuit
-│  │  ├─ Query counter
-│  │  └─ Result display
-│  │
-│  └─ ApplicationsExample
-│     ├─ Optimization problem
-│     ├─ Quantum search
-│     ├─ Results comparison
-│     └─ Speedup factor
-└─ Spacer + ScrollView
-```
+
+**Benefits:**
+✅ All buttons visible on single line
+✅ Responsive to screen size
+✅ Better touch targets (70pt minimum width)
+✅ Consistent spacing between tabs
+✅ No text truncation
+✅ Flexible layout system
 
 ---
 
@@ -787,60 +805,69 @@ Reconstruct unknown quantum states.
 
 ```
 SwiftQuantum/
-├── Sources/SwiftQuantum/
-│   ├── Complex.swift           # Complex number arithmetic
-│   ├── Qubit.swift              # Single-qubit quantum states
-│   ├── QuantumGates.swift       # Quantum gate operations
-│   ├── QuantumCircuit.swift     # Circuit building and execution
-│   ├── QubitVisualizer.swift    # State visualization tools
-│   └── SwiftQuantum.swift       # Public API
+├── 📄 README.md                          # Main documentation
+├── 📄 Package.swift                      # Package definition
 │
-├── Examples/
-│   ├── BasicQuantumOperations.swift
-│   ├── AdvancedQuantumExamples.swift
-│   ├── SuperpositionPlayground.swift
-│   └── QuantumAlgorithmTutorials.swift
+├── 📁 Sources/SwiftQuantum/              # Core quantum computing library
+│   ├── Complex.swift                     # Complex number arithmetic
+│   ├── Qubit.swift                       # Single-qubit quantum states
+│   ├── QuantumGates.swift                # Quantum gate operations
+│   ├── QuantumCircuit.swift              # Circuit building and execution
+│   ├── QubitVisualizer.swift             # State visualization tools
+│   └── SwiftQuantum.swift                # Public API
 │
-├── Apps/
-│   └── SuperpositionVisualizer/
-│       ├── SuperpositionVisualizerApp.swift
-│       ├── Views/
-│       │   ├── SuperpositionView.swift (Main view with 6 tabs)
-│       │   ├── BlochSphereView3D.swift (3D visualization)
-│       │   ├── BlochSphereView3D+Advanced.swift (Configuration)
-│       │   ├── TabButton.swift
-│       │   ├── ControlCard.swift
-│       │   ├── ProbabilityBar.swift
-│       │   ├── PhaseCircleView.swift
-│       │   ├── StateInfoCard.swift
-│       │   ├── AmplitudeCard.swift
-│       │   ├── BlochCoordinatesCard.swift
-│       │   ├── QuickPresetsView.swift
-│       │   ├── MeasurementHistogram.swift
-│       │   ├── MeasurementStatsCard.swift
-│       │   ├── ExamplesView.swift (5 interactive examples)
-│       │   │   ├─ BasicOperationsExample
-│       │   │   ├─ QuantumGatesExample
-│       │   │   ├─ RandomNumberExample
-│       │   │   ├─ AlgorithmExample
-│       │   │   └─ ApplicationsExample
-│       │   └── InfoView.swift
-│       ├── Models/
-│       │   └── QuantumApplications.swift
-│       ├── Utilities/
-│       │   └── QuantumAlgorithms.swift
-│       └── Assets/
+├── 📁 Apps/SuperpositionVisualizer/      # Interactive iOS app
+│   ├── 📁 SuperpositionVisualizer/       # Main app target
+│   │   ├── SuperpositionVisualizerApp.swift
+│   │   ├── Preview Content/
+│   │   ├── Assets/                       # Images, colors, etc.
+│   │   │
+│   │   └── Views/
+│   │       ├── SuperpositionView.swift       (6-tab main view)
+│   │       │   ├─ Tab 1: 3D Bloch Sphere
+│   │       │   ├─ Tab 2: Controls (Probability & Phase)
+│   │       │   ├─ Tab 3: Measure (Single & Batch)
+│   │       │   ├─ Tab 4: Presets (5 preset states)
+│   │       │   ├─ Tab 5: Info (State details)
+│   │       │   └─ Tab 6: Examples (5 demonstrations)
+│   │       │
+│   │       ├── ExamplesView.swift            (5 interactive examples)
+│   │       │   ├─ ExampleButton component
+│   │       │   ├─ BasicOperationsExample
+│   │       │   ├─ QuantumGatesExample
+│   │       │   ├─ RandomNumberExample
+│   │       │   ├─ AlgorithmExample
+│   │       │   └─ ApplicationsExample
+│   │       │
+│   │       ├── BlochSphereView.swift         (3D visualization)
+│   │       ├── BlochSphereView3D.swift       (Enhanced 3D)
+│   │       ├── BlochSpher...D+Advanced.swift (Configuration)
+│   │       ├── InfoView.swift
+│   │       ├── MeasurementHistogram.swift
+│   │       ├── QuickPresetaView.swift
+│   │       ├── StateInfoCard.swift
+│   │       └── (Component files)
+│   │
+│   └── 📁 SuperpositionVisualizerTests/  # App unit tests
 │
-├── Tests/
-│   └── SwiftQuantumTests/
+├── 📁 Examples/                          # Standalone examples
+│   ├── AdvancedQuantumExamples.swift     # Advanced algorithms
+│   ├── BasicQuantumOperations.swift      # Getting started
+│   ├── DocumentationGenerator.swift      # Doc generation
+│   ├── QuantumAlgorithmTutorials.swift   # Tutorial implementations
+│   ├── QuantumApplications.swift         # Real-world apps
+│   ├── RunTutorials.swift                # Tutorial runner
+│   └── SuperpositionPlayground.swift     # Interactive playground
 │
-├── Docs/
+├── 📁 Tests/                             # Core library tests
+│
+├── 📁 docs/                              # Documentation
 │   ├── QUICK_REFERENCE_EN.md
 │   ├── COMPLETE_INTEGRATION_GUIDE_EN.md
 │   ├── USAGE_EXAMPLES_EN.md
 │   └── ... (other documentation)
 │
-└── README.md
+└── (Config files: CHANGELOG, LICENSE, etc.)
 ```
 
 ### Design Philosophy
@@ -900,27 +927,32 @@ Test coverage: **95%+**
 
 ## 🗺️ Roadmap
 
-### Version 1.1 (Q4 2025)
-- [x] 3D Bloch sphere visualization (RELEASED! ✨)
+### Version 1.1 (Released ✅)
+- [x] 3D Bloch sphere visualization
 - [x] Interactive Examples tab with 5 demonstrations
-- [ ] Multi-qubit support (2-qubit systems)
-- [ ] Quantum entanglement
-- [ ] CNOT and controlled gates
+- [x] Optimized tab layouts for SuperpositionView
+- [x] Improved ExamplesView with 2-row grid system
 
 ### Version 1.2 (Q1 2026)
+- [ ] Multi-qubit support (2-qubit systems)
+- [ ] Quantum entanglement visualization
+- [ ] CNOT and controlled gates
 - [ ] Advanced quantum algorithms
   - [ ] Grover's search algorithm
   - [ ] Quantum Fourier Transform
   - [ ] Phase estimation
+
+### Version 1.3 (Q2 2026)
 - [ ] Noise models
 - [ ] Decoherence simulation
-
-### Version 2.0 (Q2 2026)
-- [ ] Multi-qubit circuits (up to 10 qubits)
 - [ ] Quantum error correction
 - [ ] macOS app with 3D support
+
+### Version 2.0 (Q3 2026)
+- [ ] Multi-qubit circuits (up to 10 qubits)
 - [ ] Cloud quantum computing integration
 - [ ] Extended visualization options
+- [ ] Performance optimizations
 
 ---
 
@@ -1036,36 +1068,79 @@ SOFTWARE.
 
 ---
 
-## 🌟 What's New in This Release
+## 🌟 What's New in This Release (v1.1.1)
 
-### Superposition Visualizer App (v1.1) ✨
+### Layout Improvements ✨
 
-A comprehensive iOS app for interactive quantum computing exploration!
+#### SuperpositionView Tab Selector
+**Problem Solved**: Tab buttons were being compressed and truncated on smaller screens.
 
-**New Features:**
-- **6 Interactive Tabs**: Complete quantum computing exploration
-  1. 🌐 3D Bloch Sphere - Real-time visualization
-  2. 🎚️ Controls - Probability & phase manipulation
-  3. 📊 Measure - Single & batch measurements
-  4. ⭐ Presets - Quick access to standard states
-  5. 📖 Info - Complete state information
-  6. 🧪 Examples - 5 interactive demonstrations
+**Solution Implemented**:
+```swift
+// Changed from maxWidth: .infinity to minWidth: 70
+TabButton:
+  - minWidth: 70pt (responsive minimum)
+  - Horizontal padding: 8pt (internal spacing)
+  - Vertical padding: 12pt (touch target size)
+  - Spacing between tabs: 12pt (better separation)
+  - Font size: .caption2 (optimized for space)
+```
 
-- **5 Interactive Examples**:
-  1. Basic Operations - Fundamental quantum mechanics
-  2. Quantum Gates - Learn gate transformations
-  3. Random Numbers - Quantum RNG implementation
-  4. Deutsch-Jozsa - Quantum algorithm showcase
-  5. Applications - Real-world quantum computing
+**Results**:
+✅ All 5 tabs visible on single line
+✅ Works on iPhone SE to iPhone 15 Pro Max
+✅ Responsive to screen orientation
+✅ Better touch targets (minimum 70×36pt)
+✅ No text truncation
 
-**Performance:**
-- 60fps smooth animations
-- Real-time 3D rendering
-- Minimal memory footprint
-- Optimized for iOS 14+
+#### ExamplesView Button Grid
+**New Layout System**: 2-row responsive grid
 
-**Installation:**
-See [Quick Integration Guide](docs/QUICK_REFERENCE_EN.md) - it's ready to use!
+```
+Row 1: [Basic] [Gates] [Random]  (3 buttons, 100% width)
+Row 2: [Algorithm] [Apps] [Spacer]  (2 buttons + flexible space)
+```
+
+**Benefits**:
+✅ All examples visible without scrolling
+✅ Balanced button distribution
+✅ Responsive to screen size
+✅ Touch-friendly button sizes
+✅ Clean visual hierarchy
+
+### New Features in Examples Tab
+
+#### 5 Interactive Demonstrations
+
+1. **Basic Operations**
+   - 2×2 state selector grid
+   - Real-time probability bars
+   - 1000-shot measurement
+   - Statistical analysis
+
+2. **Quantum Gates**
+   - Input state selection
+   - 4-gate selector
+   - Output visualization
+   - Gate descriptions
+
+3. **Random Numbers**
+   - Quantum RNG implementation
+   - Random integer generation (1-100)
+   - UUID generator
+   - Quality metrics
+
+4. **Deutsch-Jozsa Algorithm**
+   - Constant/Balanced function selector
+   - Query counter (1 quantum vs 2 classical)
+   - Result display
+   - Algorithm explanation
+
+5. **Applications**
+   - Optimization problem solver
+   - f(x) = (x-2)² + 1 minimization
+   - Quantum vs Classical comparison
+   - Real-world use cases
 
 ---
 
