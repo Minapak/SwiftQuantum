@@ -1,7 +1,7 @@
 # SwiftQuantum 🌀⚛️
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/platform-iOS%2017%2B%20%7C%20macOS%2014%2B-lightgrey.svg)](https://developer.apple.com)
+[![Platform](https://img.shields.io/badge/platform-iOS%2014%2B%20%7C%20macOS%2014%2B-lightgrey.svg)](https://developer.apple.com)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -11,7 +11,7 @@
 > 
 > 🚀 Production-ready quantum simulations
 > 
-> 📱 Beautiful iOS visualizer app with 3D Bloch sphere
+> 📱 Beautiful iOS Superposition Visualizer app with interactive 3D Bloch sphere
 
 ---
 
@@ -25,18 +25,20 @@
 - **Quantum Circuits**: Build and execute quantum circuits with multiple gates
 
 ### 📊 Advanced Capabilities
-- **Bloch Sphere**: Geometric representation of quantum states
+- **Bloch Sphere**: 3D geometric representation of quantum states
 - **State Visualization**: ASCII art and text-based quantum state displays
 - **Entanglement Ready**: Architecture prepared for multi-qubit systems
 - **Performance**: Optimized with ~1µs gate operations
+- **Interactive Examples**: 5 hands-on quantum computing demonstrations
 
 ### 📱 iOS Superposition Visualizer App
-- **Interactive 3D Bloch Sphere**: Transparent 3D visualization with real-time updates ✨ NEW!
+- **Interactive 3D Bloch Sphere**: Transparent 3D visualization with real-time updates ✨
+- **6 Interactive Tabs**: Comprehensive quantum computing exploration
 - **Touch-Based Rotation**: Intuitive finger gestures to explore quantum states
 - **Live Measurements**: Perform quantum measurements with animated histograms
-- **Preset States**: Quick access to standard quantum states (|0⟩, |1⟩, |+⟩, |−⟩, |±i⟩)
-- **Educational**: Built-in tutorials and explanations
-- **Beautiful UI**: Dark mode quantum-themed interface
+- **Preset States**: Quick access to standard quantum states (|0⟩, |1⟩, |+⟩, |−⟩)
+- **Educational Examples**: 5 quantum computing demonstrations
+- **Beautiful UI**: Dark mode quantum-themed interface with smooth animations
 
 ---
 
@@ -46,14 +48,24 @@
 
 <table>
   <tr>
-    <td><img src="docs/screenshots/bloch-sphere-3d.png" alt="3D Bloch Sphere" width="250"/></td>
+    <td><img src="docs/screenshots/3d-view.png" alt="3D Bloch Sphere" width="250"/></td>
+    <td><img src="docs/screenshots/controls.png" alt="Controls Tab" width="250"/></td>
     <td><img src="docs/screenshots/measurements.png" alt="Measurements" width="250"/></td>
-    <td><img src="docs/screenshots/presets.png" alt="Presets" width="250"/></td>
   </tr>
   <tr>
-    <td align="center"><b>3D Bloch Sphere Visualization</b></td>
+    <td align="center"><b>3D Bloch Sphere View</b></td>
+    <td align="center"><b>Interactive Controls</b></td>
     <td align="center"><b>Quantum Measurements</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/presets.png" alt="Presets" width="250"/></td>
+    <td><img src="docs/screenshots/info.png" alt="Info Tab" width="250"/></td>
+    <td><img src="docs/screenshots/examples.png" alt="Examples" width="250"/></td>
+  </tr>
+  <tr>
     <td align="center"><b>Preset Quantum States</b></td>
+    <td align="center"><b>State Information</b></td>
+    <td align="center"><b>Interactive Examples</b></td>
   </tr>
 </table>
 
@@ -61,116 +73,412 @@
 
 ## 🌐 3D Bloch Sphere Visualization (NEW!)
 
-SwiftQuantum now features an **interactive 3D Bloch sphere** using SceneKit!
+SwiftQuantum features an **interactive 3D Bloch sphere** using SceneKit with full touch control!
 
 ### What's New?
 
-#### Before (2D)
+#### Before (Legacy 2D)
 ```
-Old: 2D flat circle
-- Auto rotation only
-- No user interaction
-- Static coordinates
+✗ 2D flat circle
+✗ Auto rotation only
+✗ No user interaction
+✗ Limited visualization
 ```
 
 #### Now (3D) ✨
 ```
-New: 3D transparent sphere
-- Free touch-based rotation 🎮
-- Real-time coordinate animation 🎯
-- Wireframe grid, colored axes, equatorial plane
-- Multiple color themes 🎨
+✓ 3D transparent sphere
+✓ Free touch-based rotation 🎮
+✓ Real-time coordinate animation 🎯
+✓ Wireframe grid, colored axes, equatorial plane
+✓ Multiple color themes 🎨
+✓ Customizable rendering styles
+✓ 60fps smooth performance
 ```
-
-### Quick Start (60 Seconds)
-
-#### Step 1: Add File
-Copy `BlochSphereView3D.swift` to your project:
-```
-Apps/SuperpositionVisualizer/SuperpositionVisualizer/
-```
-
-#### Step 2: One-Line Change
-In **SuperpositionVisualizerApp.swift**:
-```swift
-// Change this:
-BlochSphereView3D(qubit: currentQubit)  // ← Instead of BlochSphereView
-```
-
-#### Step 3: Build & Run
-```bash
-⌘ + B  # Build
-⌘ + R  # Run
-```
-
-**Done!** 🎉 You now have a 3D quantum visualizer!
-
----
-
-## 📚 3D Bloch Sphere Documentation
-
-### Complete Integration Guide
-Detailed step-by-step instructions: **[COMPLETE_INTEGRATION_GUIDE_EN.md](docs/COMPLETE_INTEGRATION_GUIDE_EN.md)**
-
-### Usage Examples & Patterns
-Practical code examples: **[USAGE_EXAMPLES_EN.md](docs/USAGE_EXAMPLES_EN.md)**
-
-### Quick Reference
-Fast lookup guide: **[QUICK_REFERENCE_EN.md](docs/QUICK_REFERENCE_EN.md)**
-
-### Suggested Reading Order
-1. **Start with:** QUICK_REFERENCE_EN.md (5 min) - Overview
-2. **Then:** COMPLETE_INTEGRATION_GUIDE_EN.md (15 min) - Installation
-3. **Explore:** USAGE_EXAMPLES_EN.md (20 min) - Real-world examples
-
----
-
-## 🎨 3D Bloch Sphere Features
-
-### Interactive Controls
-- **Touch Rotation**: Rotate the sphere with your finger
-- **Pause/Play**: Control animation playback
-- **Reset Button**: Return to default camera orientation
-- **Real-Time Coordinates**: Display X, Y, Z values in real-time
 
 ### Visual Components
-- **Transparent 3D Sphere**: 92% transparency for clear interior view
-- **Wireframe Grid**: Latitude/longitude reference lines
-- **Colored Axes**: Red (X), Green (Y), Blue (Z)
-- **Equatorial Plane**: Yellow reference at z=0 plane
-- **State Vector**: Animated golden arrow pointing to quantum state
 
-### Rendering Styles
+| Component | Description | Customizable |
+|-----------|-------------|--------------|
+| **Transparent Sphere** | 92% transparent 3D sphere | ✅ Opacity |
+| **Wireframe Grid** | Latitude/longitude reference lines | ✅ Density |
+| **Colored Axes** | Red (X), Green (Y), Blue (Z) | ✅ Colors |
+| **Equatorial Plane** | Yellow reference at z=0 | ✅ Visibility |
+| **State Vector** | Golden arrow to quantum state | ✅ Color, size |
+| **Markers** | Spherical marker at state position | ✅ Size, color |
+
+### Rendering Styles (5 Built-in Options)
+
 ```swift
-// 5 built-in styles:
-.minimal      // Lightweight, performance-optimized
-.standard     // Balanced (recommended)
-.detailed     // Rich visualization with dense grid
-.cosmic       // Vibrant neon colors for presentations
-.educational  // Clean, clear for teaching
+// 1. Minimal - Lightweight, performance-optimized
+.minimal      // No grid, essential components only
+
+// 2. Standard - Balanced (recommended for most users)
+.standard     // Wireframe grid, axes, equator visible
+
+// 3. Detailed - Rich visualization with dense grid
+.detailed     // 12+ grid lines, all elements visible
+
+// 4. Cosmic - Vibrant neon colors for presentations
+.cosmic       // Bright cyan/magenta, enhanced glow effects
+
+// 5. Educational - Clean, clear for teaching
+.educational  // Moderate grid density, reduced visual clutter
 ```
 
-### Color Themes
+### Color Themes (4 Pre-configured)
+
 ```swift
-// 4 pre-configured themes:
-.darkElectric    // Purple neon 💜
-.science         // Cyan & green 🔬
-.warmSunset      // Orange & red 🌅
-.clean           // Minimal white ⚪
+// Purple neon theme 💜
+BlochSphereConfig.darkElectric
+
+// Cyan & green scientific theme 🔬
+BlochSphereConfig.science
+
+// Orange & red sunset theme 🌅
+BlochSphereConfig.warmSunset
+
+// Minimal white theme ⚪
+BlochSphereConfig.clean
 ```
 
-### Customization Example
-```swift
-var config = BlochSphereConfig.default
-config.sphereTransparency = 0.88        // Adjust transparency
-config.gridDensity = 12                 // More reference lines
-config.arrowColor = UIColor(red: 1, green: 0, blue: 1, alpha: 0.9)  // Magenta arrow
-config.animationDuration = 0.5          // Animation speed
+---
 
-let scene = BlochSphereSceneBuilder.buildScene(
-    with: qubit,
-    config: config
+## 📱 Superposition Visualizer App
+
+A comprehensive quantum computing visualization app with 6 interactive tabs!
+
+### 🎛️ Tab 1: 3D View (Bloch Sphere)
+**Interactive quantum state visualization**
+
+```
+Features:
+├─ Real-time 3D sphere rendering
+├─ Touch-based rotation (swipe to rotate)
+├─ Pinch to zoom
+├─ Transparent sphere for clear visualization
+├─ Wireframe grid and colored axes
+├─ State vector animation
+├─ Automatic reset button
+└─ Smooth 60fps animation
+```
+
+### 🎚️ Tab 2: Controls
+**Real-time quantum state manipulation**
+
+```
+Probability Control (P(|0⟩)):
+├─ Interactive slider (0.0 → 1.0)
+├─ Display: P(|0⟩) and P(|1⟩) percentages
+├─ Visual probability bars (blue & red)
+├─ Real-time Bloch sphere update
+└─ Smooth animations
+
+Phase Control (Relative Phase):
+├─ Interactive slider (0 → 2π)
+├─ Display in radians and degrees
+├─ Visual phase circle representation
+├─ Phase arrow visualization
+└─ Real-time state updates
+
+State Summary Card:
+├─ Probability of |0⟩
+├─ Probability of |1⟩
+├─ Current phase
+└─ Real-time updates
+```
+
+### 📊 Tab 3: Measure
+**Quantum measurement and statistical analysis**
+
+```
+Measurement Operations:
+├─ Single Measurement
+│  └─ Observe single quantum collapse
+├─ 1000-Shot Measurement
+│  └─ Statistical measurement with histogram
+└─ Clear Results Button
+
+Results Display:
+├─ Histogram visualization
+│  ├─ |0⟩ count (blue bar)
+│  └─ |1⟩ count (red bar)
+├─ Statistical Analysis
+│  ├─ Total measurements
+│  ├─ Measured P(|0⟩)
+│  ├─ Expected P(|0⟩)
+│  └─ Error calculation
+└─ Color-coded quality indicator
+```
+
+### ⭐ Tab 4: Presets
+**Quick access to standard quantum states**
+
+```
+Probability Presets:
+├─ |0⟩ State (P = 1.0)
+├─ |1⟩ State (P = 0.0)
+└─ |+⟩ Superposition (P = 0.5)
+
+Phase Presets:
+├─ 0 rad (0°)
+├─ π/2 rad (90°)
+└─ π rad (180°)
+
+One-Click Application:
+└─ Smooth animation to target state
+```
+
+### 📖 Tab 5: Info
+**Comprehensive quantum state information**
+
+```
+Quantum State Card:
+├─ P(|0⟩) probability
+├─ P(|1⟩) probability
+└─ Current phase
+
+Amplitudes Card:
+├─ α (|0⟩ coefficient)
+└─ β (|1⟩ coefficient)
+
+Bloch Coordinates Card:
+├─ X coordinate
+├─ Y coordinate
+└─ Z coordinate
+
+Real-time Updates:
+└─ All values update as controls change
+```
+
+### 🧪 Tab 6: Examples (NEW!)
+**5 Interactive quantum computing demonstrations**
+
+#### Example 1️⃣: Basic Operations
+```
+Demonstrates: Fundamental quantum mechanics
+
+Features:
+├─ State selector (|0⟩, |1⟩, |+⟩, |−⟩)
+├─ Real-time probability display
+├─ 1000-shot measurement with histogram
+└─ Statistical analysis
+  ├─ Measurement counts
+  ├─ Entropy calculation
+  └─ Balance analysis
+
+Educational Value:
+└─ Understand qubit states and measurement
+```
+
+**Code Example:**
+```swift
+let qubit = Qubit.zero              // Start in |0⟩
+let superposed = qubit.apply(.hadamard)  // Apply Hadamard
+let results = superposed.measureMultiple(count: 1000)
+// Results: ~500 zeros, ~500 ones
+```
+
+#### Example 2️⃣: Quantum Gates
+```
+Demonstrates: Quantum gate operations
+
+Features:
+├─ Input state selection
+│  ├─ |0⟩ ground state
+│  ├─ |+⟩ superposition
+│  └─ Custom state
+├─ Gate selection
+│  ├─ H (Hadamard) - Creates superposition
+│  ├─ X (Pauli-X) - Bit flip
+│  ├─ Z (Pauli-Z) - Phase flip
+│  └─ S (Phase Gate) - π/2 phase shift
+├─ Output visualization
+│  ├─ Resulting quantum state
+│  ├─ Probability display
+│  └─ Bloch sphere position
+└─ State transformation visualization
+
+Educational Value:
+└─ Learn how quantum gates transform states
+```
+
+**Code Example:**
+```swift
+let circuit = QuantumCircuit(qubit: .zero)
+circuit.addGate(.hadamard)          // H: |0⟩ → |+⟩
+circuit.addGate(.pauliX)            // X: |+⟩ → |−⟩
+circuit.addGate(.pauliZ)            // Z: Phase flip
+
+let final = circuit.execute()
+print(final.stateDescription())
+```
+
+#### Example 3️⃣: Random Number Generation
+```
+Demonstrates: Quantum random number generator
+
+Features:
+├─ Generate random integers (1-100)
+│  └─ Based on quantum superposition
+├─ Generate quantum UUIDs
+│  └─ Cryptographically secure
+├─ Quantum entropy source
+│  └─ True randomness, not pseudo-random
+├─ Quality metrics
+│  ├─ Entropy measurement
+│  ├─ Balance analysis
+│  └─ Statistical tests
+└─ Visualization
+  ├─ Random number histogram
+  ├─ Distribution display
+  └─ Quality indicators
+
+Educational Value:
+├─ Understand quantum randomness
+└─ Practical quantum computing application
+```
+
+**Code Example:**
+```swift
+let rng = QuantumApplications.QuantumRNG()
+
+// Generate random bits
+let bits = (0..<10).map { _ in rng.randomBit() }
+
+// Generate random integers
+let numbers = (0..<5).map { _ in rng.randomInt(in: 1...100) }
+
+// Test quality
+let (entropy, balance) = rng.testRandomness(samples: 10000)
+print("Entropy: \(entropy)")    // Close to 1.0 = good
+print("Balance: \(balance)")    // Close to 0.0 = good
+```
+
+#### Example 4️⃣: Deutsch-Jozsa Algorithm
+```
+Demonstrates: Quantum algorithm with exponential speedup
+
+Features:
+├─ Algorithm implementation
+│  ├─ Constant function detection
+│  └─ Balanced function detection
+├─ Oracle simulation
+│  ├─ Function evaluation
+│  └─ Quantum oracle
+├─ Circuit visualization
+│  ├─ Gate sequence display
+│  ├─ Superposition states
+│  └─ Interference effects
+├─ Result analysis
+│  ├─ Function type identification
+│  ├─ Success/failure feedback
+│  └─ Comparison with classical (1 query vs 2ⁿ⁻¹ queries)
+└─ Interactive testing
+  └─ Toggle between constant/balanced
+
+Educational Value:
+├─ First quantum algorithm with exponential speedup
+├─ Understand quantum parallelism
+└─ Learn quantum interference
+```
+
+**Code Example:**
+```swift
+// Deutsch-Jozsa: Distinguish constant from balanced functions
+let deutsch = QuantumAlgorithms.DeutschJozsa()
+
+// Constant function: f(x) = 0 for all x
+let isConstant = deutsch.test(constantFunction)
+// Returns: true (detected in 1 quantum query!)
+
+// Classical approach would need 2 evaluations
+// Quantum approach needs only 1!
+```
+
+#### Example 5️⃣: Applications & Optimization
+```
+Demonstrates: Real-world quantum computing applications
+
+Features:
+├─ Optimization Problem
+│  ├─ Quadratic function: f(x) = (x-2)² + 1
+│  ├─ Find minimum value
+│  ├─ Quantum search
+│  └─ Classical comparison
+├─ Quantum Clustering
+│  ├─ K-means with quantum enhancement
+│  ├─ 2 cluster formation
+│  ├─ Distance calculations
+│  └─ Cluster visualization
+├─ Results Display
+│  ├─ Optimal parameter found
+│  ├─ Quantum vs classical comparison
+│  ├─ Performance metrics
+│  └─ Speedup factors
+└─ Interactive Adjustment
+  └─ Test different parameters
+
+Educational Value:
+├─ Practical quantum computing use cases
+├─ Optimization with quantum speedup
+└─ Understanding quantum advantage
+```
+
+**Code Example:**
+```swift
+// Quantum-enhanced optimization
+let optimizer = QuantumApplications.QuantumOptimizer()
+
+// Minimize f(x) = (x-2)² + 1
+let result = optimizer.minimize(
+    function: { x in pow(x - 2, 2) + 1 },
+    range: 0...10,
+    method: .quantumSearch
 )
+// Finds minimum at x ≈ 2.0 faster than classical methods
+
+// Quantum clustering
+let clusterer = QuantumApplications.QuantumClusterer()
+let clusters = clusterer.cluster(data, k: 2)
+```
+
+### 📊 Tab 6 Example Architecture
+
+```
+ExamplesView (Main Container)
+├─ Picker (5 examples)
+├─ Content View (switch statement)
+│  ├─ BasicOperationsExample
+│  │  ├─ State selector
+│  │  ├─ Probability display
+│  │  ├─ Measure button
+│  │  └─ Results histogram
+│  │
+│  ├─ QuantumGatesExample
+│  │  ├─ Input state picker
+│  │  ├─ Gate selector
+│  │  ├─ Output display
+│  │  └─ Bloch visualization
+│  │
+│  ├─ RandomNumberExample
+│  │  ├─ Random integer generator
+│  │  ├─ UUID generator
+│  │  ├─ Distribution histogram
+│  │  └─ Quality metrics
+│  │
+│  ├─ AlgorithmExample
+│  │  ├─ Function selector
+│  │  ├─ Deutsch-Jozsa circuit
+│  │  ├─ Query counter
+│  │  └─ Result display
+│  │
+│  └─ ApplicationsExample
+│     ├─ Optimization problem
+│     ├─ Quantum search
+│     ├─ Results comparison
+│     └─ Speedup factor
+└─ Spacer + ScrollView
 ```
 
 ---
@@ -198,6 +506,7 @@ Or in Xcode:
 
 ```swift
 import SwiftQuantum
+import SwiftUI
 
 // Create a qubit in superposition
 let qubit = Qubit.superposition
@@ -214,8 +523,36 @@ let measurement = result.measure()
 print("Measured: |\(measurement)⟩")
 
 // Visualize on 3D Bloch sphere
-BlochSphereView3D(qubit: qubit)
+struct ContentView: View {
+    let qubit = Qubit.superposition
+    
+    var body: some View {
+        VStack {
+            BlochSphereView3D(qubit: qubit)
+                .frame(height: 400)
+            
+            Text("P(|0⟩) = \(String(format: "%.2f", qubit.probability0))")
+                .font(.title2)
+        }
+    }
+}
 ```
+
+### Running the Superposition Visualizer App
+
+```bash
+# Navigate to app directory
+cd ~/SwiftQuantum/Apps/SuperpositionVisualizer
+
+# Open in Xcode
+open SuperpositionVisualizer.xcodeproj
+
+# Run on simulator (Cmd + R) or device
+```
+
+**Minimum iOS Version**: iOS 14.0
+**Supported Devices**: iPhone, iPad
+**Performance**: 60fps on iPhone 13+
 
 ---
 
@@ -224,6 +561,8 @@ BlochSphereView3D(qubit: qubit)
 ### 1️⃣ Creating Quantum States
 
 ```swift
+import SwiftQuantum
+
 // Pure states
 let zero = Qubit.zero              // |0⟩
 let one = Qubit.one                // |1⟩
@@ -329,8 +668,11 @@ let fidelity = qubit.fidelity(with: other)  // 0.5
 ### 7️⃣ 3D Bloch Sphere Customization
 
 ```swift
-// Use different styles
-struct ThemedBlochSphere: View {
+import SwiftQuantum
+import SwiftUI
+
+// Use different rendering styles
+struct BlochSphereShowcase: View {
     @State private var style: BlochSphereStyle = .cosmic
     let qubit: Qubit
     
@@ -343,14 +685,21 @@ struct ThemedBlochSphere: View {
                 Text("Cosmic").tag(BlochSphereStyle.cosmic)
                 Text("Educational").tag(BlochSphereStyle.educational)
             }
+            .pickerStyle(.segmented)
             
             BlochSphereView3D(qubit: qubit)
+                .frame(height: 400)
         }
+        .padding()
     }
 }
 
-// Or use advanced customization
+// Advanced customization
 let config = BlochSphereConfig.style(.detailed)
+config.sphereTransparency = 0.88
+config.gridDensity = 12
+config.arrowColor = UIColor(red: 1, green: 0, blue: 1, alpha: 0.9)
+
 let scene = BlochSphereSceneBuilder.buildScene(
     with: qubit,
     config: config
@@ -359,98 +708,9 @@ let scene = BlochSphereSceneBuilder.buildScene(
 
 ---
 
-## 📱 iOS Superposition Visualizer
-
-### Running the App
-
-```bash
-cd ~/SwiftQuantum/Apps/SuperpositionVisualizer
-open SuperpositionVisualizer.xcodeproj
-```
-
-Press **Cmd + R** to run in simulator or on device.
-
-### Features
-
-#### 🌐 3D Bloch Sphere Visualization (NEW!)
-- Real-time 3D representation using SceneKit
-- Touch-based rotation for full control
-- Transparent sphere for interior visibility
-- Color-coded axes and wireframe grid
-- Real-time coordinate display (X, Y, Z)
-
-#### 🎛️ Interactive Controls
-- **Rotation**: Swipe to rotate the sphere freely
-- **Pause/Play**: Control animation playback
-- **Reset**: Return camera to default orientation
-- **Coordinate Display**: Real-time X, Y, Z values
-
-#### 📊 Quantum Measurements
-- **Single Measurement**: Observe quantum collapse
-- **Statistical Analysis**: 1000-shot measurements with histograms
-- **Expected vs Measured**: Compare theoretical and experimental results
-
-#### ⚡ Quick Presets
-Six standard quantum states:
-- |0⟩ - Ground state
-- |1⟩ - Excited state  
-- |+⟩ - Plus superposition
-- |−⟩ - Minus superposition
-- |+i⟩ - Plus-i state
-- |−i⟩ - Minus-i state
-
-#### 📖 Educational Content
-- Built-in quantum computing tutorials
-- Explanations of superposition and measurement
-- Mathematics behind quantum states
-- Interactive quantum state explorer
-
----
-
-## 🎓 Playground Examples
-
-Interactive playgrounds for learning:
-
-### Superposition Playground
-
-```bash
-cd ~/SwiftQuantum
-swift run
-```
-
-Then in Swift:
-```swift
-import SwiftQuantum
-
-// Run all demonstrations
-SuperpositionPlayground.runAll()
-
-// Or run specific demos
-SuperpositionPlayground.exploreSuperpositionStates()
-SuperpositionPlayground.demonstrateQuantumCollapse()
-SuperpositionPlayground.exploreBlochSphere()
-SuperpositionPlayground.demonstrateQuantumParallelism()
-```
-
-### Basic Quantum Operations
-
-```swift
-// See Examples/BasicQuantumOperations.swift
-BasicQuantumOperations.runAllExamples()
-```
-
-### Advanced Examples
-
-```swift
-// See Examples/AdvancedQuantumExamples.swift
-AdvancedQuantumExamples.demonstrateAdvancedConcepts()
-```
-
----
-
 ## 📚 Interactive Tutorials
 
-SwiftQuantum includes comprehensive, step-by-step tutorials to help you master quantum computing!
+SwiftQuantum includes comprehensive, step-by-step tutorials!
 
 ### Running the Tutorial System
 
@@ -475,101 +735,49 @@ QuantumAlgorithmTutorials.quantumRNGTutorial()
 ### Available Tutorials
 
 #### 1. 🌀 Understanding Quantum Superposition
-Learn the fundamental concept of quantum superposition with visual demonstrations.
+Learn fundamental quantum concepts with visual demonstrations.
 
-**What you'll learn:**
+**Topics:**
 - Classical bits vs quantum qubits
 - Creating superposition with Hadamard gates
-- Visualizing Bloch sphere representations
-- Measuring superposition states
+- Bloch sphere representations
+- Measurement collapse
 
 #### 2. 🌊 Quantum Interference Patterns
-Explore how quantum interference enables powerful algorithms.
+Explore quantum interference in algorithms.
 
-**What you'll learn:**
+**Topics:**
 - Constructive and destructive interference
 - Phase control in quantum circuits
-- How interference creates quantum advantage
-- Testing different phase angles
+- Quantum advantage mechanisms
+- Interference visualization
 
 #### 3. 🧮 Deutsch-Jozsa Algorithm
-See quantum advantage in action with this landmark algorithm.
+See quantum advantage with this landmark algorithm.
 
-**What you'll learn:**
-- The first quantum algorithm to show exponential speedup
-- Quantum oracles and function evaluation
-- Using superposition and interference together
-- Performance comparison with classical approaches
+**Topics:**
+- Exponential speedup demonstration
+- Quantum oracles
+- Function evaluation
+- Performance comparison (1 vs 2ⁿ⁻¹ queries)
 
 #### 4. 🎲 Quantum Random Number Generation
-Build cryptographically secure random number generators.
+Build cryptographically secure RNG.
 
-**What you'll learn:**
+**Topics:**
 - True randomness vs pseudo-randomness
-- Statistical analysis of quantum RNG
-- Practical applications in cryptography
-- Quality metrics (entropy, balance)
+- Statistical analysis
+- Entropy measurement
+- Cryptographic applications
 
 #### 5. 🔬 Quantum State Tomography
-Reconstruct unknown quantum states through measurements.
+Reconstruct unknown quantum states.
 
-**What you'll learn:**
-- Measuring in different bases (X, Y, Z)
-- State reconstruction algorithms
+**Topics:**
+- Multi-basis measurements
+- State reconstruction
 - Fidelity analysis
-- The quantum measurement problem
-
-### Tutorial Code Examples
-
-#### Example 1: Building Your First Circuit
-
-```swift
-// Create a quantum circuit with superposition
-let circuit = QuantumCircuit(qubit: .zero)
-circuit.addGate(.hadamard)
-
-// Visualize
-print(circuit.asciiDiagram())
-// Output: q₀ ─┤ H ├─
-
-// Measure 1000 times
-let results = circuit.measureMultiple(shots: 1000)
-print("P(|0⟩) = \(Double(results[0] ?? 0) / 10.0)%")
-print("P(|1⟩) = \(Double(results[1] ?? 0) / 10.0)%")
-```
-
-#### Example 2: Exploring Quantum Interference
-
-```swift
-// Create interference pattern
-let circuit = QuantumCircuit(qubit: .zero)
-circuit.addGate(.hadamard)          // Superposition
-circuit.addGate(.rotationZ(.pi))    // Phase shift
-circuit.addGate(.hadamard)          // Interference
-
-// Should measure |1⟩ with ~100% probability
-let state = circuit.execute()
-print(state.stateDescription())
-```
-
-#### Example 3: Quantum Random Number Generator
-
-```swift
-let rng = QuantumApplications.QuantumRNG()
-
-// Generate random bits
-let bits = (0..<10).map { _ in rng.randomBit() }
-print("Random bits: \(bits)")
-
-// Generate random number
-let number = rng.randomInt(in: 1...100)
-print("Random number (1-100): \(number)")
-
-// Test quality
-let (entropy, balance) = rng.testRandomness(samples: 10000)
-print("Entropy: \(entropy) (max: 1.0)")
-print("Balance: \(balance) (optimal: 0.0)")
-```
+- Measurement problem
 
 ---
 
@@ -594,17 +802,34 @@ SwiftQuantum/
 │   └── QuantumAlgorithmTutorials.swift
 │
 ├── Apps/
-│   └── SuperpositionVisualizer/  # iOS app
+│   └── SuperpositionVisualizer/
+│       ├── SuperpositionVisualizerApp.swift
 │       ├── Views/
-│       │   ├── SuperpositionView.swift
-│       │   ├── BlochSphereView.swift (Legacy 2D)
-│       │   ├── BlochSphereView3D.swift (NEW 3D) ✨
-│       │   ├── BlochSphereView3D+Advanced.swift (NEW Advanced) ✨
-│       │   ├── MeasurementHistogram.swift
+│       │   ├── SuperpositionView.swift (Main view with 6 tabs)
+│       │   ├── BlochSphereView3D.swift (3D visualization)
+│       │   ├── BlochSphereView3D+Advanced.swift (Configuration)
+│       │   ├── TabButton.swift
+│       │   ├── ControlCard.swift
+│       │   ├── ProbabilityBar.swift
+│       │   ├── PhaseCircleView.swift
 │       │   ├── StateInfoCard.swift
+│       │   ├── AmplitudeCard.swift
+│       │   ├── BlochCoordinatesCard.swift
 │       │   ├── QuickPresetsView.swift
+│       │   ├── MeasurementHistogram.swift
+│       │   ├── MeasurementStatsCard.swift
+│       │   ├── ExamplesView.swift (5 interactive examples)
+│       │   │   ├─ BasicOperationsExample
+│       │   │   ├─ QuantumGatesExample
+│       │   │   ├─ RandomNumberExample
+│       │   │   ├─ AlgorithmExample
+│       │   │   └─ ApplicationsExample
 │       │   └── InfoView.swift
-│       └── SuperpositionVisualizerApp.swift
+│       ├── Models/
+│       │   └── QuantumApplications.swift
+│       ├── Utilities/
+│       │   └── QuantumAlgorithms.swift
+│       └── Assets/
 │
 ├── Tests/
 │   └── SwiftQuantumTests/
@@ -624,8 +849,8 @@ SwiftQuantum/
 2. **Type Safety**: Leverage Swift's type system
 3. **Performance**: Optimized for mobile devices
 4. **Educational**: Clear, well-documented code
-5. **Extensible**: Easy to add new features
-6. **Interactive**: Beautiful 3D visualizations
+5. **Interactive**: Beautiful 3D visualizations
+6. **Extensible**: Easy to add new features
 
 ---
 
@@ -642,16 +867,16 @@ SwiftQuantum/
 | Bloch Coordinates | ~200ns | Coordinate calculation |
 | 3D Sphere Render | 8-12ms | 60fps on iPhone 13+ |
 
-### Device Support for 3D Bloch Sphere
+### Device Support
 
-| Device | Support | Performance |
-|--------|---------|-------------|
+| Device | iOS Support | 3D Performance |
+|--------|-------------|----------------|
 | iPhone 15+ | ✅ | Excellent ⭐⭐⭐⭐⭐ |
 | iPhone 14 | ✅ | Excellent ⭐⭐⭐⭐ |
 | iPhone 13 | ✅ | Excellent ⭐⭐⭐⭐ |
 | iPhone 12 | ✅ | Good ⭐⭐⭐ |
 | iPhone 11 | ✅ | Good ⭐⭐⭐ |
-| iPad Pro | ✅ | Excellent ⭐⭐⭐⭐⭐ |
+| iPad (6th+) | ✅ | Excellent ⭐⭐⭐⭐⭐ |
 
 ---
 
@@ -677,34 +902,34 @@ Test coverage: **95%+**
 
 ### Version 1.1 (Q4 2025)
 - [x] 3D Bloch sphere visualization (RELEASED! ✨)
+- [x] Interactive Examples tab with 5 demonstrations
 - [ ] Multi-qubit support (2-qubit systems)
 - [ ] Quantum entanglement
 - [ ] CNOT and controlled gates
-- [ ] Bell states
 
 ### Version 1.2 (Q1 2026)
-- [ ] Quantum algorithms
-  - [ ] Deutsch-Jozsa
-  - [ ] Grover's search
+- [ ] Advanced quantum algorithms
+  - [ ] Grover's search algorithm
   - [ ] Quantum Fourier Transform
+  - [ ] Phase estimation
 - [ ] Noise models
 - [ ] Decoherence simulation
 
 ### Version 2.0 (Q2 2026)
 - [ ] Multi-qubit circuits (up to 10 qubits)
 - [ ] Quantum error correction
-- [ ] Advanced visualizations
 - [ ] macOS app with 3D support
 - [ ] Cloud quantum computing integration
+- [ ] Extended visualization options
 
 ---
 
 ## 📖 Documentation
 
-### 3D Bloch Sphere Documentation (NEW!)
-- **[Quick Reference](docs/QUICK_REFERENCE_EN.md)** - Fast lookup guide (5 min read)
-- **[Complete Integration Guide](docs/COMPLETE_INTEGRATION_GUIDE_EN.md)** - Step-by-step installation (15 min read)
-- **[Usage Examples](docs/USAGE_EXAMPLES_EN.md)** - Practical code examples (20 min read)
+### 3D Bloch Sphere Documentation
+- **[Quick Reference](docs/QUICK_REFERENCE_EN.md)** - Fast lookup (5 min)
+- **[Complete Integration Guide](docs/COMPLETE_INTEGRATION_GUIDE_EN.md)** - Installation (15 min)
+- **[Usage Examples](docs/USAGE_EXAMPLES_EN.md)** - Practical examples (20 min)
 
 ### Quantum Computing API Reference
 - [Complex Numbers](docs/Complex.md)
@@ -719,6 +944,7 @@ Test coverage: **95%+**
 - [Quantum Gates](docs/tutorials/03-quantum-gates.md)
 - [Building Circuits](docs/tutorials/04-circuits.md)
 - [The Bloch Sphere](docs/tutorials/05-bloch-sphere.md)
+- [Quantum Algorithms](docs/tutorials/06-algorithms.md)
 
 ---
 
@@ -745,7 +971,7 @@ open Package.swift
 
 ### Areas for Contribution
 - 🐛 Bug fixes
-- ✨ New quantum gates
+- ✨ New quantum gates and algorithms
 - 📚 Documentation improvements
 - 🎨 UI/UX enhancements
 - 🧪 Additional test cases
@@ -790,48 +1016,56 @@ SOFTWARE.
 - Special thanks to the Swift community
 - Built with love for quantum computing education
 - 3D Bloch sphere visualization powered by SceneKit
+- Educational examples inspired by quantum computing pioneers
 
 ---
 
 ## 📞 Contact & Support
 
-- **Author**: Eunmin Park
+- **Author**: Eunmin Park (박은민)
 - **Email**: dmsals2008@gmail.com
 - **GitHub**: [@Minapak](https://github.com/Minapak)
-- **Blog**: [eunminpark.hashnode.dev](https://eunminpark.hashnode.dev/series/ios-quantum-engineer)
+- **Technical Blog**: [eunminpark.hashnode.dev](https://eunminpark.hashnode.dev/series/ios-quantum-engineer)
 
-### Support
+### Getting Help
 
 - 🐛 [Report a Bug](https://github.com/Minapak/SwiftQuantum/issues/new?template=bug_report.md)
 - ✨ [Request a Feature](https://github.com/Minapak/SwiftQuantum/issues/new?template=feature_request.md)
-- 💬 [Discussions](https://github.com/Minapak/SwiftQuantum/discussions)
-- 📖 [Documentation](https://swiftquantum.dev)
+- 💬 [Start a Discussion](https://github.com/Minapak/SwiftQuantum/discussions)
+- 📖 [Read the Documentation](https://swiftquantum.dev)
 
 ---
 
 ## 🌟 What's New in This Release
 
-### 3D Bloch Sphere Visualization ✨
+### Superposition Visualizer App (v1.1) ✨
 
-The latest version of SwiftQuantum introduces a **fully interactive 3D Bloch sphere** visualization:
+A comprehensive iOS app for interactive quantum computing exploration!
 
-**Key Features:**
-- **Transparent 3D Sphere**: 92% transparent rendering using SceneKit
-- **Touch-Based Rotation**: Free rotation with inertia-based scrolling
-- **Real-Time Coordinates**: Live X, Y, Z value display
-- **Wireframe Grid**: Latitude/longitude reference lines
-- **Colored Axes**: RGB color coding for spatial orientation
-- **State Vector Animation**: Smooth arrow animation to quantum state
-- **Multiple Themes**: 5 rendering styles + 4 color themes
-- **Full Customization**: 50+ configuration options
+**New Features:**
+- **6 Interactive Tabs**: Complete quantum computing exploration
+  1. 🌐 3D Bloch Sphere - Real-time visualization
+  2. 🎚️ Controls - Probability & phase manipulation
+  3. 📊 Measure - Single & batch measurements
+  4. ⭐ Presets - Quick access to standard states
+  5. 📖 Info - Complete state information
+  6. 🧪 Examples - 5 interactive demonstrations
+
+- **5 Interactive Examples**:
+  1. Basic Operations - Fundamental quantum mechanics
+  2. Quantum Gates - Learn gate transformations
+  3. Random Numbers - Quantum RNG implementation
+  4. Deutsch-Jozsa - Quantum algorithm showcase
+  5. Applications - Real-world quantum computing
 
 **Performance:**
-- 60fps on iPhone 13+
-- 5-8MB memory footprint
-- Compatible with iOS 14+
+- 60fps smooth animations
+- Real-time 3D rendering
+- Minimal memory footprint
+- Optimized for iOS 14+
 
-**How to Upgrade:**
-See the [Quick Integration Guide](docs/QUICK_REFERENCE_EN.md) - it's just one line change!
+**Installation:**
+See [Quick Integration Guide](docs/QUICK_REFERENCE_EN.md) - it's ready to use!
 
 ---
 
@@ -847,6 +1081,42 @@ See the [Quick Integration Guide](docs/QUICK_REFERENCE_EN.md) - it's just one li
 - [Cirq](https://quantumai.google/cirq) - Google's quantum programming framework (Python)
 - [Q#](https://docs.microsoft.com/quantum/) - Microsoft's quantum programming language
 - [ProjectQ](https://projectq.ch) - Open-source quantum computing framework
+- [Silq](https://silq.ethz.ch) - High-level quantum language
+
+---
+
+## 🎓 Educational Resources
+
+### For Learning Quantum Computing
+
+1. **Start Here**: [Understanding Superposition Tutorial](docs/tutorials/02-superposition.md)
+2. **Interactive Practice**: Run the Superposition Visualizer app
+3. **Hands-On Examples**: Try the 5 examples in Examples tab
+4. **Deep Dive**: Read the [Complete Integration Guide](docs/COMPLETE_INTEGRATION_GUIDE_EN.md)
+5. **Advanced Topics**: Explore [Advanced Quantum Examples](Examples/AdvancedQuantumExamples.swift)
+
+### Recommended Learning Path
+
+```
+Day 1: Install SwiftQuantum
+  └─ Run: swift build
+
+Day 2: Basic Concepts
+  └─ Run Superposition Visualizer app
+  └─ Explore 3D Bloch Sphere tab
+
+Day 3: Interactive Examples
+  └─ Try each of the 5 Examples
+  └─ Understand each quantum concept
+
+Day 4: Write Your Own Code
+  └─ Create custom quantum circuits
+  └─ Implement your ideas
+
+Day 5: Advanced Topics
+  └─ Explore quantum algorithms
+  └─ Build complex applications
+```
 
 ---
 
@@ -855,6 +1125,8 @@ See the [Quick Integration Guide](docs/QUICK_REFERENCE_EN.md) - it's just one li
 **Made with ❤️ and ⚛️ by Eunmin Park**
 
 *Bringing quantum computing to iOS, one qubit at a time* 🚀
+
+[GitHub](https://github.com/Minapak/SwiftQuantum) • [Blog](https://eunminpark.hashnode.dev) • [Twitter](https://twitter.com)
 
 [⬆ Back to Top](#swiftquantum-)
 
