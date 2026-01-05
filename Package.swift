@@ -1,21 +1,38 @@
 // swift-tools-version: 6.0
+// SwiftQuantum v2.0 - QuantumBridge Integration
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "SwiftQuantum",
+    platforms: [
+        .iOS(.v14),
+        .macOS(.v14)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
+        // Core quantum computing library
         .library(
             name: "SwiftQuantum",
             targets: ["SwiftQuantum"]),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
+        // Core library with algorithms, multi-qubit support, and bridge API
         .target(
-            name: "SwiftQuantum"),
+            name: "SwiftQuantum",
+            path: "Sources/SwiftQuantum",
+            sources: [
+                "Complex.swift",
+                "Qubit.swift",
+                "QuantumGates.swift",
+                "QuantumCircuit.swift",
+                "QubitVisualizer.swift",
+                "SwiftQuantum.swift",
+                "QuantumRegister.swift",
+                "Algorithms/QuantumAlgorithms.swift",
+                "Bridge/QuantumBridge.swift"
+            ]
+        ),
         .testTarget(
             name: "SwiftQuantumTests",
             dependencies: ["SwiftQuantum"]
