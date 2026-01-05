@@ -374,6 +374,97 @@ extension LearningLevel {
             estimatedDurationMinutes: 25,
             difficulty: .advanced,
             iconName: "sparkles"
+        ),
+
+        // MARK: v2.0 - QuantumBridge Algorithm Levels
+        LearningLevel(
+            id: 9,
+            number: 9,
+            name: "Bell States & Entanglement",
+            description: "Create maximally entangled qubit pairs - the foundation of quantum correlations",
+            track: .advanced,
+            learningObjectives: [
+                "Understand quantum entanglement",
+                "Create all four Bell states",
+                "Measure correlation coefficients",
+                "Violate Bell inequalities"
+            ],
+            concepts: ["Entanglement", "Bell State", "CNOT Gate", "Correlation", "Non-locality"],
+            estimatedDurationMinutes: 20,
+            difficulty: .advanced,
+            iconName: "link.circle.fill"
+        ),
+
+        LearningLevel(
+            id: 10,
+            number: 10,
+            name: "Grover's Search Algorithm",
+            description: "Search unstructured databases with quadratic speedup - O(√N) vs O(N)",
+            track: .advanced,
+            learningObjectives: [
+                "Understand oracle design",
+                "Implement amplitude amplification",
+                "Calculate optimal iterations",
+                "Achieve quantum search speedup"
+            ],
+            concepts: ["Grover", "Oracle", "Diffusion", "Amplitude Amplification", "Quadratic Speedup"],
+            estimatedDurationMinutes: 30,
+            difficulty: .advanced,
+            iconName: "magnifyingglass.circle.fill"
+        ),
+
+        LearningLevel(
+            id: 11,
+            number: 11,
+            name: "Simon's Algorithm",
+            description: "Find hidden periods with exponential quantum advantage",
+            track: .advanced,
+            learningObjectives: [
+                "Understand hidden subgroup problems",
+                "Implement Simon's oracle",
+                "Solve linear systems from measurements",
+                "Demonstrate exponential speedup"
+            ],
+            concepts: ["Simon", "Hidden Period", "Linear Algebra", "Exponential Speedup"],
+            estimatedDurationMinutes: 35,
+            difficulty: .advanced,
+            iconName: "waveform.circle.fill"
+        ),
+
+        LearningLevel(
+            id: 12,
+            number: 12,
+            name: "Multi-Qubit Systems",
+            description: "Master tensor products and multi-qubit operations with up to 20 qubits",
+            track: .advanced,
+            learningObjectives: [
+                "Understand tensor product states",
+                "Apply multi-qubit gates (CNOT, CZ, SWAP, Toffoli)",
+                "Create GHZ states",
+                "Analyze entanglement measures"
+            ],
+            concepts: ["Tensor Product", "Multi-Qubit", "GHZ State", "CNOT", "Toffoli", "SWAP"],
+            estimatedDurationMinutes: 25,
+            difficulty: .advanced,
+            iconName: "circle.hexagongrid.fill"
+        ),
+
+        LearningLevel(
+            id: 13,
+            number: 13,
+            name: "IBM Quantum Integration",
+            description: "Connect to real quantum hardware with QuantumBridge API",
+            track: .advanced,
+            learningObjectives: [
+                "Export circuits to QASM format",
+                "Understand error mitigation techniques",
+                "Configure IBM Quantum backends",
+                "Interpret hardware results"
+            ],
+            concepts: ["QASM", "IBM Quantum", "Error Mitigation", "Hardware", "Bridge API"],
+            estimatedDurationMinutes: 30,
+            difficulty: .advanced,
+            iconName: "cloud.fill"
         )
     ]
     
