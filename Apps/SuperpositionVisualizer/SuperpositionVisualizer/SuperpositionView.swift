@@ -135,11 +135,14 @@ struct SuperpositionView: View {
                             case 3:
                                 infoTab
                             case 4:
+                                QuantumBridgeConnectionView()
+                            case 5:
                                 ExamplesView()
                                     .environmentObject(stateManager)
-                            case 5:
-                                AdvancedExamplesView()
-                                    .environmentObject(stateManager)
+                            case 6:
+                                IndustrySolutionsView()
+                            case 7:
+                                QuantumAcademyView()
                             default:
                                 controlsTab
                             }
@@ -189,7 +192,7 @@ struct SuperpositionView: View {
     }
     
     // MARK: - Tab Selector
-    
+
     private var tabSelector: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
@@ -205,13 +208,19 @@ struct SuperpositionView: View {
                 TabButton(title: "Info", icon: "chart.bar.fill", isSelected: selectedTab == 3) {
                     withAnimation { selectedTab = 3 }
                 }
-                TabButton(title: "Examples", icon: "flask.fill", isSelected: selectedTab == 4) {
+                TabButton(title: "Bridge", icon: "link.circle.fill", isSelected: selectedTab == 4, isPremium: true) {
                     withAnimation { selectedTab = 4 }
                 }
-                TabButton(title: "Advanced", icon: "sparkles", isSelected: selectedTab == 5) {
+                TabButton(title: "Examples", icon: "flask.fill", isSelected: selectedTab == 5) {
                     withAnimation { selectedTab = 5 }
                 }
-                
+                TabButton(title: "Industry", icon: "building.2.fill", isSelected: selectedTab == 6, isPremium: true) {
+                    withAnimation { selectedTab = 6 }
+                }
+                TabButton(title: "Academy", icon: "graduationcap.fill", isSelected: selectedTab == 7, isPremium: true) {
+                    withAnimation { selectedTab = 7 }
+                }
+
                 Spacer()
                     .frame(width: 8)
             }
@@ -504,27 +513,41 @@ struct TabButton: View {
     let title: String
     let icon: String
     let isSelected: Bool
+    var isPremium: Bool = false
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 6) {
-                Image(systemName: icon)
-                    .font(.system(size: 16))
-                Text(title)
-                    .font(.caption2)
-                    .fontWeight(.medium)
+            ZStack(alignment: .topTrailing) {
+                VStack(spacing: 6) {
+                    Image(systemName: icon)
+                        .font(.system(size: 16))
+                    Text(title)
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                }
+                .foregroundColor(isSelected ? .cyan : .white.opacity(0.6))
+                .frame(minWidth: 65)
+                .padding(.vertical, 12)
+                .padding(.horizontal, 8)
+                .background(
+                    isSelected ?
+                    Color.cyan.opacity(0.2) :
+                    Color.white.opacity(0.05)
+                )
+                .cornerRadius(12)
+
+                // Premium badge
+                if isPremium {
+                    Image(systemName: "crown.fill")
+                        .font(.system(size: 8))
+                        .foregroundColor(.yellow)
+                        .padding(3)
+                        .background(Color.black.opacity(0.6))
+                        .clipShape(Circle())
+                        .offset(x: 4, y: -4)
+                }
             }
-            .foregroundColor(isSelected ? .cyan : .white.opacity(0.6))
-            .frame(minWidth: 65)
-            .padding(.vertical, 12)
-            .padding(.horizontal, 8)
-            .background(
-                isSelected ?
-                Color.cyan.opacity(0.2) :
-                Color.white.opacity(0.05)
-            )
-            .cornerRadius(12)
         }
     }
 }
