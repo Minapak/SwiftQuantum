@@ -98,13 +98,13 @@ struct InfoView: View {
                     .background(Color.white.opacity(0.3))
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    FeatureRow(
+                    InfoFeatureRow(
                         icon: "0.circle.fill",
                         text: "Classical Bit: Either 0 OR 1",
                         color: .gray
                     )
                     
-                    FeatureRow(
+                    InfoFeatureRow(
                         icon: "atom",
                         text: "Quantum Qubit: Both 0 AND 1 at once!",
                         color: .cyan
@@ -410,17 +410,17 @@ struct InfoCard<Content: View>: View {
 
 // MARK: - Supporting Views
 
-struct FeatureRow: View {
+struct InfoFeatureRow: View {
     let icon: String
     let text: String
     let color: Color
-    
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .foregroundColor(color)
                 .frame(width: 30)
-            
+
             Text(text)
                 .foregroundColor(.white.opacity(0.9))
         }
