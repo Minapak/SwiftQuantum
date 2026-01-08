@@ -180,11 +180,15 @@ struct MoreHubView: View {
                 .padding(.horizontal, 4)
 
             VStack(spacing: 0) {
+                settingsRow(icon: "globe", title: "Language", color: QuantumHorizonColors.quantumCyan)
+                Divider().background(Color.white.opacity(0.1))
                 settingsRow(icon: "bell.fill", title: "Notifications", color: .orange)
                 Divider().background(Color.white.opacity(0.1))
                 settingsRow(icon: "paintbrush.fill", title: "Appearance", color: QuantumHorizonColors.quantumPurple)
                 Divider().background(Color.white.opacity(0.1))
                 settingsRow(icon: "lock.fill", title: "Privacy", color: QuantumHorizonColors.quantumGreen)
+                Divider().background(Color.white.opacity(0.1))
+                settingsRow(icon: "arrow.counterclockwise", title: "Reset Tutorial", color: .orange)
                 Divider().background(Color.white.opacity(0.1))
                 settingsRow(icon: "questionmark.circle.fill", title: "Help & Support", color: QuantumHorizonColors.quantumCyan)
             }

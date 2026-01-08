@@ -92,12 +92,30 @@ struct PresetsHubView: View {
 
     // MARK: - Presets Grid
     private var presetsGrid: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible(), spacing: 14),
-            GridItem(.flexible(), spacing: 14)
-        ], spacing: 14) {
-            ForEach(filteredPresets) { preset in
-                PresetCard(preset: preset)
+        Group {
+            if filteredPresets.isEmpty {
+                if !searchText.isEmpty {
+                    NoResultsView(
+                        searchTerm: searchText,
+                        clearAction: { searchText = "" }
+                    )
+                } else {
+                    EmptyStateView(
+                        icon: "list.bullet.clipboard",
+                        title: "No Presets",
+                        message: "No presets available in this category.",
+                        accentColor: QuantumHorizonColors.quantumGreen
+                    )
+                }
+            } else {
+                LazyVGrid(columns: [
+                    GridItem(.flexible(), spacing: 14),
+                    GridItem(.flexible(), spacing: 14)
+                ], spacing: 14) {
+                    ForEach(filteredPresets) { preset in
+                        PresetCard(preset: preset)
+                    }
+                }
             }
         }
     }

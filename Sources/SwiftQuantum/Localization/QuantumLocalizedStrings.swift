@@ -35,7 +35,15 @@ public final class QuantumLocalization: @unchecked Sendable {
         self.currentLocale = Locale.current
 
         // Default to English if current locale is not supported
-        if !QuantumLocalization.supportedLanguages.contains(currentLocale.language.languageCode?.identifier ?? "") {
+        // Use languageCode for iOS 15 compatibility
+        let langCode: String?
+        if #available(iOS 16, macOS 13, *) {
+            langCode = currentLocale.language.languageCode?.identifier
+        } else {
+            langCode = currentLocale.languageCode
+        }
+
+        if !QuantumLocalization.supportedLanguages.contains(langCode ?? "") {
             self.currentLocale = Locale(identifier: "en")
         }
     }
