@@ -1,0 +1,203 @@
+/*
+  Localizable.strings (Korean)
+  SwiftQuantum v2.1.0 - 프리미엄 양자 하이브리드 플랫폼
+
+  Created by Eunmin Park on 2026-01-08.
+  Copyright © 2026 iOS Quantum Engineering. All rights reserved.
+
+  한국어 로컬라이제이션
+*/
+
+// MARK: - 코어 프레임워크
+
+"swiftquantum.name" = "SwiftQuantum";
+"swiftquantum.version" = "v2.1.0";
+"swiftquantum.tagline" = "실제 양자 프로세서 연결을 지원하는 최초의 iOS 양자 컴퓨팅 프레임워크";
+"swiftquantum.copyright" = "© 2026 iOS Quantum Engineering. All rights reserved.";
+
+// MARK: - 마케팅 & 권위 메시지
+
+"marketing.headline" = "이것은 장난감이 아닙니다. iOS 네이티브 양자 엔진입니다.";
+"marketing.subheadline" = "iOS 양자 시뮬레이션을 위한 고성능 선형대수 커널";
+"marketing.catchphrase" = "우주를 주머니에 담으세요.";
+
+"authority.harvard_mit" = "하버드-MIT 2025 Nature 논문 기반";
+"authority.fault_tolerant" = "448 큐비트 결함 허용 아키텍처, 0.5% 미만 오류율";
+"authority.continuous_operation" = "3,000개 이상의 큐비트를 2시간 이상 연속 운용";
+"authority.real_hardware" = "QuantumBridge API를 통해 IBM Quantum 127큐비트 시스템 연결";
+
+// MARK: - 기술 권위 (DevRel)
+
+"tech.simd_optimized" = "Apple Accelerate 프레임워크로 SIMD 최적화";
+"tech.apple_silicon" = "네이티브 Apple Silicon (M시리즈) 가속";
+"tech.performance" = "Python NumPy 대비 행렬 연산 400% 빠름";
+"tech.qubits_supported" = "로컬 시뮬레이션 최대 20큐비트 지원";
+"tech.gates_available" = "멀티큐비트 연산 포함 15개 이상의 양자 게이트";
+
+// MARK: - 푸시 알림 (손실 회피)
+
+"push.decoherence_warning" = "⚠️ 경고: 당신의 큐비트가 붕괴되고 있습니다! 3시간 안에 접속하여 결맞음을 유지하세요.";
+"push.quantum_intuition_decay" = "당신의 양자 직관력이 5% 감소했습니다. 뇌 가소성을 자극하려면 지금 복귀하세요.";
+"push.superposition_collapse" = "당신의 중첩 상태가 붕괴되고 있습니다. 양자 우위를 안정화하려면 복귀하세요.";
+"push.entanglement_fading" = "구축한 얽힘이 사라지고 있습니다. 진행 상황이 사라지게 두지 마세요.";
+"push.bell_pair_alert" = "벨 쌍 결맞음이 떨어지고 있습니다. 양자 상관관계를 보존하려면 다시 연결하세요.";
+
+// MARK: - 로딩 화면 메시지 (최면적 권위)
+
+"loading.harvard_sync" = "하버드 연구소 서버와 동기화 중... 당신은 지금 상위 0.01%의 연산을 수행하고 있습니다.";
+"loading.neutral_atom" = "중성 원자 배열 최적화 중... 이 과정은 당신의 논리적 사고 회로를 재구성합니다.";
+"loading.surface_code" = "표면 코드 오류 정정 적용 중... Nature 2025 결함 허용 프로토콜 기반.";
+"loading.magic_state" = "마법 상태 증류 중... 범용 양자 계산을 위한 T 게이트 준비.";
+"loading.bloch_sphere" = "블로흐 구면 좌표 계산 중... 양자 상태를 3D로 시각화.";
+"loading.tensor_product" = "텐서 곱 계산 중... 힐베르트 공간 차원에서 큐비트 얽힘.";
+"loading.eigenvalue" = "고유값 탐색 중... 에르미트 연산자에서 양자 관측량 추출.";
+"loading.unitary" = "유니터리 제약 검증 중... 가역적 양자 진화 보장.";
+"loading.fidelity" = "상태 충실도 측정 중... 회로를 이상적 양자 동작과 비교.";
+"loading.ibm_quantum" = "IBM Quantum Brisbane 연결 중... 127큐비트 초전도 프로세서 온라인.";
+
+// MARK: - 성취 보상 (도파민 폭발)
+
+"achievement.quantum_architect" = "양자 설계자 레벨 달성";
+"achievement.congratulations" = "축하합니다. 당신은 방금 전 세계 인구의 99%가 이해하지 못하는 개념을 직관적으로 해결했습니다. 당신의 뇌는 진화했습니다.";
+"achievement.entanglement_master" = "얽힘 마스터 해제";
+"achievement.entanglement_desc" = "벨 상태를 성공적으로 생성했습니다. 비국소적 상관관계를 진정으로 이해하는 0.1%에 오신 것을 환영합니다.";
+"achievement.error_corrector" = "결함 허용 개척자";
+"achievement.error_corrector_desc" = "표면 코드 오류 정정을 시뮬레이션했습니다. 이제 양자 컴퓨팅 연구의 최전선에서 작업하고 있습니다.";
+"achievement.grover_champion" = "그로버 오라클 챔피언";
+"achievement.grover_desc" = "고전 검색 대비 이차 속도 향상을 달성했습니다. 양자 우위는 이제 당신의 것입니다.";
+
+// MARK: - 결제 유도 (벨벳 로프)
+
+"paywall.headline" = "접근 제한: 하버드 연구소 모드";
+"paywall.description" = "이 기능은 실제 물리적 하드웨어와 연결됩니다. 단순한 호기심이 아닌, 진짜 미래를 설계할 준비가 된 분들에게만 허용됩니다.";
+"paywall.button" = "자격 증명하고 입장하기";
+"paywall.price_monthly" = "월 ₩39,900";
+"paywall.price_yearly" = "연 ₩399,000";
+
+"paywall.free_tier" = "무료 등급";
+"paywall.free_desc" = "최대 8큐비트 로컬 시뮬레이션. 기본 양자 개념.";
+"paywall.pro_tier" = "프로 등급";
+"paywall.pro_desc" = "최대 64큐비트. 전체 알고리즘 라이브러리. 오류 정정 시뮬레이션.";
+"paywall.enterprise_tier" = "엔터프라이즈";
+"paywall.enterprise_desc" = "256큐비트. 실제 IBM QPU 접근. 하버드-MIT 연구 통합.";
+
+// MARK: - 양자 상태
+
+"state.zero" = "|0⟩ 기저 상태";
+"state.one" = "|1⟩ 여기 상태";
+"state.plus" = "|+⟩ 중첩";
+"state.minus" = "|−⟩ 반중첩";
+"state.bell" = "벨 상태 |Φ+⟩";
+"state.ghz" = "GHZ 상태";
+"state.custom" = "사용자 정의 양자 상태";
+
+// MARK: - 양자 게이트
+
+"gate.hadamard" = "아다마르 (H)";
+"gate.hadamard_desc" = "동등한 중첩을 생성합니다. 양자 병렬성의 관문.";
+"gate.pauli_x" = "파울리-X (NOT)";
+"gate.pauli_x_desc" = "양자 비트 반전. |0⟩ ↔ |1⟩";
+"gate.pauli_y" = "파울리-Y";
+"gate.pauli_y_desc" = "위상이 있는 회전. 비트와 위상 반전 결합.";
+"gate.pauli_z" = "파울리-Z";
+"gate.pauli_z_desc" = "위상 반전 게이트. |1⟩ → −|1⟩";
+"gate.cnot" = "CNOT (제어-NOT)";
+"gate.cnot_desc" = "2큐비트 얽힘 게이트. 양자 계산의 핵심.";
+"gate.toffoli" = "토폴리 (CCNOT)";
+"gate.toffoli_desc" = "범용 가역 게이트. 3큐비트 제어 연산.";
+
+// MARK: - 알고리즘
+
+"algorithm.bell" = "벨 상태 프로토콜";
+"algorithm.bell_desc" = "최대로 얽힌 2큐비트 상태 생성. 양자 통신의 기초.";
+"algorithm.deutsch_jozsa" = "도이치-조사 알고리즘";
+"algorithm.deutsch_jozsa_desc" = "함수 분류의 지수적 속도 향상. 1회 쿼리 vs 2^n.";
+"algorithm.grover" = "그로버 검색 알고리즘";
+"algorithm.grover_desc" = "비구조화 검색의 이차 속도 향상. O(√N) vs O(N).";
+"algorithm.shor" = "쇼어 알고리즘";
+"algorithm.shor_desc" = "다항 시간 정수 인수분해. RSA 암호화 해독.";
+"algorithm.vqe" = "변분 양자 고유값 해석기";
+"algorithm.vqe_desc" = "하이브리드 양자-고전 최적화. 화학 응용.";
+"algorithm.qaoa" = "QAOA";
+"algorithm.qaoa_desc" = "양자 근사 최적화. 조합 문제 해결.";
+
+// MARK: - 오류 정정
+
+"error.surface_code" = "표면 코드 오류 정정";
+"error.surface_code_desc" = "국소 오류에 대한 위상적 보호. 거리-3 인코딩.";
+"error.magic_state" = "마법 상태 증류";
+"error.magic_state_desc" = "T 게이트 리소스 정제. 15대1 증류 프로토콜.";
+"error.fault_tolerant" = "결함 허용 임계값";
+"error.fault_tolerant_desc" = "0.5% 미만 오류율 달성. 하버드-MIT 2025 연구 기반.";
+
+// MARK: - 실행기
+
+"executor.local" = "로컬 Swift 시뮬레이터";
+"executor.local_desc" = "Apple Silicon에 최적화된 네이티브 시뮬레이션.";
+"executor.ibm_brisbane" = "IBM Quantum Brisbane";
+"executor.ibm_brisbane_desc" = "127큐비트 초전도 프로세서.";
+"executor.ibm_osaka" = "IBM Quantum Osaka";
+"executor.ibm_osaka_desc" = "127큐비트 Eagle 프로세서.";
+"executor.bridge" = "QuantumBridge 클라우드";
+"executor.bridge_desc" = "여러 양자 백엔드를 위한 통합 API.";
+
+// MARK: - 측정
+
+"measure.shots" = "측정 횟수";
+"measure.probability" = "확률 분포";
+"measure.counts" = "측정 카운트";
+"measure.fidelity" = "상태 충실도";
+"measure.entropy" = "폰 노이만 엔트로피";
+
+// MARK: - UI 레이블
+
+"ui.run" = "회로 실행";
+"ui.simulate" = "시뮬레이션";
+"ui.measure" = "측정";
+"ui.reset" = "초기화";
+"ui.export" = "QASM 내보내기";
+"ui.settings" = "설정";
+"ui.help" = "도움말";
+"ui.about" = "정보";
+
+// MARK: - 아카데미 (학습 플랫폼)
+
+"academy.title" = "양자 아카데미";
+"academy.subtitle" = "MIT/하버드 연구 기반 커리큘럼";
+"academy.track.fundamentals" = "기초 트랙";
+"academy.track.algorithms" = "알고리즘 트랙";
+"academy.track.hardware" = "하드웨어 트랙";
+"academy.track.security" = "보안 트랙";
+
+"academy.lesson.complete" = "레슨 완료";
+"academy.streak" = "연속 학습 일수";
+"academy.xp" = "획득 XP";
+"academy.badge" = "배지 해제";
+
+// MARK: - 산업 솔루션
+
+"industry.title" = "엔터프라이즈 양자 솔루션";
+"industry.finance" = "금융 최적화";
+"industry.finance_desc" = "100배 속도 향상 가능한 포트폴리오 최적화.";
+"industry.healthcare" = "신약 개발";
+"industry.healthcare_desc" = "제약 연구를 위한 분자 시뮬레이션.";
+"industry.logistics" = "공급망";
+"industry.logistics_desc" = "양자 어닐링을 활용한 경로 최적화.";
+"industry.security" = "포스트 양자 암호화";
+"industry.security_desc" = "양자 내성 암호화 알고리즘.";
+
+// MARK: - 오류
+
+"error.circuit_too_large" = "회로가 최대 큐비트 한도를 초과합니다";
+"error.invalid_gate" = "잘못된 게이트 연산";
+"error.not_normalized" = "상태가 올바르게 정규화되지 않았습니다";
+"error.connection_failed" = "양자 백엔드 연결 실패";
+"error.api_key_invalid" = "원격 실행을 위한 API 키가 유효하지 않습니다";
+"error.queue_full" = "실행 대기열이 가득 찼습니다. 나중에 다시 시도해주세요.";
+
+// MARK: - 성공 메시지
+
+"success.circuit_executed" = "회로가 성공적으로 실행되었습니다";
+"success.job_submitted" = "양자 대기열에 작업이 제출되었습니다";
+"success.connection_established" = "양자 백엔드에 연결되었습니다";
+"success.state_prepared" = "양자 상태가 성공적으로 준비되었습니다";

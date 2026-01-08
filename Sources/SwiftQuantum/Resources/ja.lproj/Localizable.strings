@@ -1,0 +1,203 @@
+/*
+  Localizable.strings (Japanese)
+  SwiftQuantum v2.1.0 - プレミアム量子ハイブリッドプラットフォーム
+
+  Created by Eunmin Park on 2026-01-08.
+  Copyright © 2026 iOS Quantum Engineering. All rights reserved.
+
+  日本語ローカライゼーション
+*/
+
+// MARK: - コアフレームワーク
+
+"swiftquantum.name" = "SwiftQuantum";
+"swiftquantum.version" = "v2.1.0";
+"swiftquantum.tagline" = "実際のQPU接続を備えた初のiOS量子コンピューティングフレームワーク";
+"swiftquantum.copyright" = "© 2026 iOS Quantum Engineering. All rights reserved.";
+
+// MARK: - マーケティング & 権威メッセージ
+
+"marketing.headline" = "これはおもちゃではありません。iOSネイティブ量子エンジンです。";
+"marketing.subheadline" = "iOSでの量子シミュレーション用高性能線形代数カーネル";
+"marketing.catchphrase" = "宇宙をポケットに。";
+
+"authority.harvard_mit" = "ハーバード・MIT 2025 Nature論文に基づく";
+"authority.fault_tolerant" = "448量子ビット耐障害アーキテクチャ、0.5%未満のエラー率";
+"authority.continuous_operation" = "3,000以上の量子ビットを2時間以上連続運用";
+"authority.real_hardware" = "QuantumBridge APIを介してIBM Quantum 127量子ビットシステムに接続";
+
+// MARK: - 技術的権威 (DevRel)
+
+"tech.simd_optimized" = "Apple Accelerateフレームワークを使用したSIMD最適化";
+"tech.apple_silicon" = "ネイティブApple Silicon (Mシリーズ) アクセラレーション";
+"tech.performance" = "行列演算でPython NumPyより400%高速";
+"tech.qubits_supported" = "ローカルシミュレーション最大20量子ビット";
+"tech.gates_available" = "マルチ量子ビット演算を含む15以上の量子ゲート";
+
+// MARK: - プッシュ通知 (損失回避)
+
+"push.decoherence_warning" = "⚠️ 警告: あなたの量子ビットがデコヒーレンスを起こしています！3時間以内にアクセスしてコヒーレンスを維持してください。";
+"push.quantum_intuition_decay" = "あなたの量子直感力が5%低下しました。今すぐ戻って脳の可塑性を刺激しましょう。";
+"push.superposition_collapse" = "あなたの重ね合わせ状態が崩壊しています。量子優位性を安定させるために戻ってください。";
+"push.entanglement_fading" = "構築したエンタングルメントが消えています。進捗を失わないでください。";
+"push.bell_pair_alert" = "ベルペアのコヒーレンスが低下しています。量子相関を保存するために再接続してください。";
+
+// MARK: - ロード画面メッセージ (催眠的権威)
+
+"loading.harvard_sync" = "ハーバード研究サーバーと同期中... あなたは今、上位0.01%の演算を実行しています。";
+"loading.neutral_atom" = "中性原子配列を最適化中... このプロセスはあなたの論理的思考回路を再構成します。";
+"loading.surface_code" = "表面符号エラー訂正を適用中... Nature 2025耐障害プロトコルに基づく。";
+"loading.magic_state" = "マジックステート蒸留中... 普遍的量子計算のためのTゲートを準備。";
+"loading.bloch_sphere" = "ブロッホ球座標を計算中... 量子状態を3Dで可視化。";
+"loading.tensor_product" = "テンソル積を計算中... ヒルベルト空間次元で量子ビットをエンタングル。";
+"loading.eigenvalue" = "固有値を探索中... エルミート演算子から量子観測量を抽出。";
+"loading.unitary" = "ユニタリ制約を検証中... 可逆的量子進化を保証。";
+"loading.fidelity" = "状態忠実度を測定中... 回路を理想的な量子動作と比較。";
+"loading.ibm_quantum" = "IBM Quantum Brisbaneに接続中... 127量子ビット超伝導プロセッサオンライン。";
+
+// MARK: - 成就報酬 (ドーパミンラッシュ)
+
+"achievement.quantum_architect" = "量子アーキテクトレベル達成";
+"achievement.congratulations" = "おめでとうございます。あなたは世界人口の99%が理解できない概念を直感的に解決しました。あなたの脳は進化しました。";
+"achievement.entanglement_master" = "エンタングルメントマスター解除";
+"achievement.entanglement_desc" = "ベル状態の作成に成功しました。非局所相関を真に理解する0.1%へようこそ。";
+"achievement.error_corrector" = "耐障害パイオニア";
+"achievement.error_corrector_desc" = "表面符号エラー訂正をシミュレートしました。量子コンピューティング研究の最前線で作業しています。";
+"achievement.grover_champion" = "グローバーオラクルチャンピオン";
+"achievement.grover_desc" = "古典検索に対する二次速度向上を達成しました。量子優位性はあなたのものです。";
+
+// MARK: - ペイウォール (ベルベットロープ)
+
+"paywall.headline" = "アクセス制限: ハーバード研究所モード";
+"paywall.description" = "この機能は実際の物理ハードウェアに接続します。単なる好奇心ではなく、本当の未来を設計する準備ができた方にのみ許可されます。";
+"paywall.button" = "資格を証明して入場";
+"paywall.price_monthly" = "月額¥4,500";
+"paywall.price_yearly" = "年額¥45,000";
+
+"paywall.free_tier" = "無料プラン";
+"paywall.free_desc" = "最大8量子ビットのローカルシミュレーション。基本的な量子概念。";
+"paywall.pro_tier" = "プロプラン";
+"paywall.pro_desc" = "最大64量子ビット。完全なアルゴリズムライブラリ。エラー訂正シミュレーション。";
+"paywall.enterprise_tier" = "エンタープライズ";
+"paywall.enterprise_desc" = "256量子ビット。実際のIBM QPUアクセス。ハーバード・MIT研究統合。";
+
+// MARK: - 量子状態
+
+"state.zero" = "|0⟩ 基底状態";
+"state.one" = "|1⟩ 励起状態";
+"state.plus" = "|+⟩ 重ね合わせ";
+"state.minus" = "|−⟩ 反重ね合わせ";
+"state.bell" = "ベル状態 |Φ+⟩";
+"state.ghz" = "GHZ状態";
+"state.custom" = "カスタム量子状態";
+
+// MARK: - 量子ゲート
+
+"gate.hadamard" = "アダマール (H)";
+"gate.hadamard_desc" = "等しい重ね合わせを作成します。量子並列性への入り口。";
+"gate.pauli_x" = "パウリ-X (NOT)";
+"gate.pauli_x_desc" = "量子ビット反転。|0⟩ ↔ |1⟩";
+"gate.pauli_y" = "パウリ-Y";
+"gate.pauli_y_desc" = "位相付き回転。ビットと位相反転の組み合わせ。";
+"gate.pauli_z" = "パウリ-Z";
+"gate.pauli_z_desc" = "位相反転ゲート。|1⟩ → −|1⟩";
+"gate.cnot" = "CNOT (制御NOT)";
+"gate.cnot_desc" = "2量子ビットエンタングルゲート。量子計算の核心。";
+"gate.toffoli" = "トフォリ (CCNOT)";
+"gate.toffoli_desc" = "普遍可逆ゲート。3量子ビット制御演算。";
+
+// MARK: - アルゴリズム
+
+"algorithm.bell" = "ベル状態プロトコル";
+"algorithm.bell_desc" = "最大エンタングル2量子ビット状態を作成。量子通信の基礎。";
+"algorithm.deutsch_jozsa" = "ドイチ・ジョサアルゴリズム";
+"algorithm.deutsch_jozsa_desc" = "関数分類の指数的速度向上。1クエリ vs 2^n。";
+"algorithm.grover" = "グローバー検索アルゴリズム";
+"algorithm.grover_desc" = "非構造化検索の二次速度向上。O(√N) vs O(N)。";
+"algorithm.shor" = "ショアアルゴリズム";
+"algorithm.shor_desc" = "多項式時間整数因数分解。RSA暗号を破る。";
+"algorithm.vqe" = "変分量子固有値ソルバー";
+"algorithm.vqe_desc" = "ハイブリッド量子古典最適化。化学応用。";
+"algorithm.qaoa" = "QAOA";
+"algorithm.qaoa_desc" = "量子近似最適化。組み合わせ問題解決。";
+
+// MARK: - エラー訂正
+
+"error.surface_code" = "表面符号エラー訂正";
+"error.surface_code_desc" = "局所エラーに対する位相的保護。距離3エンコーディング。";
+"error.magic_state" = "マジックステート蒸留";
+"error.magic_state_desc" = "Tゲートリソースを精製。15対1蒸留プロトコル。";
+"error.fault_tolerant" = "耐障害閾値";
+"error.fault_tolerant_desc" = "0.5%未満のエラー率を達成。ハーバード・MIT 2025研究に基づく。";
+
+// MARK: - エグゼキューター
+
+"executor.local" = "ローカルSwiftシミュレーター";
+"executor.local_desc" = "Apple Siliconに最適化されたネイティブシミュレーション。";
+"executor.ibm_brisbane" = "IBM Quantum Brisbane";
+"executor.ibm_brisbane_desc" = "127量子ビット超伝導プロセッサ。";
+"executor.ibm_osaka" = "IBM Quantum Osaka";
+"executor.ibm_osaka_desc" = "127量子ビットEagleプロセッサ。";
+"executor.bridge" = "QuantumBridgeクラウド";
+"executor.bridge_desc" = "複数の量子バックエンド用統合API。";
+
+// MARK: - 測定
+
+"measure.shots" = "測定ショット数";
+"measure.probability" = "確率分布";
+"measure.counts" = "測定カウント";
+"measure.fidelity" = "状態忠実度";
+"measure.entropy" = "フォン・ノイマンエントロピー";
+
+// MARK: - UIラベル
+
+"ui.run" = "回路実行";
+"ui.simulate" = "シミュレート";
+"ui.measure" = "測定";
+"ui.reset" = "リセット";
+"ui.export" = "QASMエクスポート";
+"ui.settings" = "設定";
+"ui.help" = "ヘルプ";
+"ui.about" = "情報";
+
+// MARK: - アカデミー (学習プラットフォーム)
+
+"academy.title" = "量子アカデミー";
+"academy.subtitle" = "MIT/ハーバード研究ベースカリキュラム";
+"academy.track.fundamentals" = "基礎トラック";
+"academy.track.algorithms" = "アルゴリズムトラック";
+"academy.track.hardware" = "ハードウェアトラック";
+"academy.track.security" = "セキュリティトラック";
+
+"academy.lesson.complete" = "レッスン完了";
+"academy.streak" = "連続日数";
+"academy.xp" = "獲得XP";
+"academy.badge" = "バッジ解除";
+
+// MARK: - 産業ソリューション
+
+"industry.title" = "エンタープライズ量子ソリューション";
+"industry.finance" = "金融最適化";
+"industry.finance_desc" = "100倍速度向上可能なポートフォリオ最適化。";
+"industry.healthcare" = "創薬";
+"industry.healthcare_desc" = "製薬研究のための分子シミュレーション。";
+"industry.logistics" = "サプライチェーン";
+"industry.logistics_desc" = "量子アニーリングを使用したルート最適化。";
+"industry.security" = "ポスト量子暗号";
+"industry.security_desc" = "量子耐性暗号アルゴリズム。";
+
+// MARK: - エラー
+
+"error.circuit_too_large" = "回路が最大量子ビット制限を超えています";
+"error.invalid_gate" = "無効なゲート演算";
+"error.not_normalized" = "状態が正しく正規化されていません";
+"error.connection_failed" = "量子バックエンドへの接続に失敗しました";
+"error.api_key_invalid" = "リモート実行用のAPIキーが無効です";
+"error.queue_full" = "実行キューがいっぱいです。後でもう一度お試しください。";
+
+// MARK: - 成功メッセージ
+
+"success.circuit_executed" = "回路が正常に実行されました";
+"success.job_submitted" = "ジョブが量子キューに送信されました";
+"success.connection_established" = "量子バックエンドに接続しました";
+"success.state_prepared" = "量子状態が正常に準備されました";

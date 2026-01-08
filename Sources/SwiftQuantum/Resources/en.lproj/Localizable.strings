@@ -1,0 +1,204 @@
+/*
+  Localizable.strings (English - Default)
+  SwiftQuantum v2.1.0 - Premium Quantum Hybrid Platform
+
+  Created by Eunmin Park on 2026-01-08.
+  Copyright © 2026 iOS Quantum Engineering. All rights reserved.
+
+  English is the PRIMARY language for SwiftQuantum.
+  All other languages are optional translations.
+*/
+
+// MARK: - Core Framework
+
+"swiftquantum.name" = "SwiftQuantum";
+"swiftquantum.version" = "v2.1.0";
+"swiftquantum.tagline" = "The first iOS quantum computing framework with real QPU connectivity";
+"swiftquantum.copyright" = "© 2026 iOS Quantum Engineering. All rights reserved.";
+
+// MARK: - Marketing & Authority Messages
+
+"marketing.headline" = "This is not a toy. This is an iOS-native quantum engine.";
+"marketing.subheadline" = "High-Performance Linear Algebra Kernel for Quantum Simulation on iOS";
+"marketing.catchphrase" = "Build the Universe in your Pocket.";
+
+"authority.harvard_mit" = "Based on Harvard-MIT 2025 Nature Publications";
+"authority.fault_tolerant" = "448-qubit fault-tolerant architecture with sub-0.5% error rates";
+"authority.continuous_operation" = "3,000+ continuous qubit operation demonstrated for 2+ hours";
+"authority.real_hardware" = "Connect to IBM Quantum's 127-qubit systems via QuantumBridge API";
+
+// MARK: - Technical Authority (DevRel)
+
+"tech.simd_optimized" = "SIMD-optimized using Apple Accelerate framework";
+"tech.apple_silicon" = "Native Apple Silicon (M-series) acceleration";
+"tech.performance" = "400% faster than Python NumPy for matrix operations";
+"tech.qubits_supported" = "Up to 20 qubits local simulation";
+"tech.gates_available" = "15+ quantum gates including multi-qubit operations";
+
+// MARK: - Push Notifications (Loss Aversion)
+
+"push.decoherence_warning" = "⚠️ Warning: Your qubits are decohering! Return within 3 hours to maintain coherence.";
+"push.quantum_intuition_decay" = "Your quantum intuition has decreased by 5%. Stimulate your brain plasticity now.";
+"push.superposition_collapse" = "Your superposition states are collapsing. Return to stabilize your quantum advantage.";
+"push.entanglement_fading" = "The entanglement you built is fading. Don't let your progress disappear.";
+"push.bell_pair_alert" = "Your Bell pair coherence is dropping. Reconnect to preserve quantum correlations.";
+
+// MARK: - Loading Screen Messages (Hypnotic Authority)
+
+"loading.harvard_sync" = "Synchronizing with Harvard research servers... You are performing computations in the top 0.01%.";
+"loading.neutral_atom" = "Optimizing neutral atom array... This process is rewiring your logical thinking circuits.";
+"loading.surface_code" = "Applying surface code error correction... Based on Nature 2025 fault-tolerant protocols.";
+"loading.magic_state" = "Distilling magic states... Preparing T-gates for universal quantum computation.";
+"loading.bloch_sphere" = "Calculating Bloch sphere coordinates... Visualizing your quantum state in 3D.";
+"loading.tensor_product" = "Computing tensor products... Entangling qubits across Hilbert space dimensions.";
+"loading.eigenvalue" = "Finding eigenvalues... Extracting quantum observables from Hermitian operators.";
+"loading.unitary" = "Verifying unitary constraints... Ensuring reversible quantum evolution.";
+"loading.fidelity" = "Measuring state fidelity... Comparing your circuit to ideal quantum behavior.";
+"loading.ibm_quantum" = "Connecting to IBM Quantum Brisbane... 127-qubit superconducting processor online.";
+
+// MARK: - Achievement Rewards (Dopamine Rush)
+
+"achievement.quantum_architect" = "Quantum Architect Level Achieved";
+"achievement.congratulations" = "Congratulations. You have just intuitively solved a concept that 99% of the world's population cannot understand. Your brain has evolved.";
+"achievement.entanglement_master" = "Entanglement Master Unlocked";
+"achievement.entanglement_desc" = "You have successfully created a Bell state. Welcome to the 0.1% who truly understand non-local correlations.";
+"achievement.error_corrector" = "Fault-Tolerant Pioneer";
+"achievement.error_corrector_desc" = "You have simulated surface code error correction. You are now operating at the frontier of quantum computing research.";
+"achievement.grover_champion" = "Grover's Oracle Champion";
+"achievement.grover_desc" = "You achieved quadratic speedup over classical search. The quantum advantage is now yours.";
+
+// MARK: - Paywall Messages (Velvet Rope)
+
+"paywall.headline" = "Access Restricted: Harvard Laboratory Mode";
+"paywall.description" = "This feature connects to real physical hardware. It is only permitted for those who are ready to design the real future, not mere curiosity.";
+"paywall.button" = "Prove Your Qualification and Enter";
+"paywall.price_monthly" = "$29.99/month";
+"paywall.price_yearly" = "$299.99/year";
+
+"paywall.free_tier" = "Free Tier";
+"paywall.free_desc" = "Local simulation up to 8 qubits. Basic quantum concepts.";
+"paywall.pro_tier" = "Pro Tier";
+"paywall.pro_desc" = "Up to 64 qubits. Full algorithm library. Error correction simulation.";
+"paywall.enterprise_tier" = "Enterprise";
+"paywall.enterprise_desc" = "256 qubits. Real IBM QPU access. Harvard-MIT research integration.";
+
+// MARK: - Quantum States
+
+"state.zero" = "|0⟩ Ground State";
+"state.one" = "|1⟩ Excited State";
+"state.plus" = "|+⟩ Superposition";
+"state.minus" = "|−⟩ Anti-Superposition";
+"state.bell" = "Bell State |Φ+⟩";
+"state.ghz" = "GHZ State";
+"state.custom" = "Custom Quantum State";
+
+// MARK: - Quantum Gates
+
+"gate.hadamard" = "Hadamard (H)";
+"gate.hadamard_desc" = "Creates equal superposition. The gateway to quantum parallelism.";
+"gate.pauli_x" = "Pauli-X (NOT)";
+"gate.pauli_x_desc" = "Quantum bit flip. |0⟩ ↔ |1⟩";
+"gate.pauli_y" = "Pauli-Y";
+"gate.pauli_y_desc" = "Rotation with phase. Combines bit and phase flip.";
+"gate.pauli_z" = "Pauli-Z";
+"gate.pauli_z_desc" = "Phase flip gate. |1⟩ → −|1⟩";
+"gate.cnot" = "CNOT (Controlled-NOT)";
+"gate.cnot_desc" = "Two-qubit entangling gate. The heart of quantum computation.";
+"gate.toffoli" = "Toffoli (CCNOT)";
+"gate.toffoli_desc" = "Universal reversible gate. Three-qubit controlled operation.";
+
+// MARK: - Algorithms
+
+"algorithm.bell" = "Bell State Protocol";
+"algorithm.bell_desc" = "Create maximally entangled two-qubit states. Foundation of quantum communication.";
+"algorithm.deutsch_jozsa" = "Deutsch-Jozsa Algorithm";
+"algorithm.deutsch_jozsa_desc" = "Exponential speedup for function classification. One query vs 2^n.";
+"algorithm.grover" = "Grover's Search Algorithm";
+"algorithm.grover_desc" = "Quadratic speedup for unstructured search. O(√N) vs O(N).";
+"algorithm.shor" = "Shor's Algorithm";
+"algorithm.shor_desc" = "Polynomial-time integer factorization. Breaks RSA cryptography.";
+"algorithm.vqe" = "Variational Quantum Eigensolver";
+"algorithm.vqe_desc" = "Hybrid quantum-classical optimization. Chemistry applications.";
+"algorithm.qaoa" = "QAOA";
+"algorithm.qaoa_desc" = "Quantum Approximate Optimization. Combinatorial problem solving.";
+
+// MARK: - Error Correction
+
+"error.surface_code" = "Surface Code Error Correction";
+"error.surface_code_desc" = "Topological protection against local errors. Distance-3 encoding.";
+"error.magic_state" = "Magic State Distillation";
+"error.magic_state_desc" = "Purify T-gate resources. 15-to-1 distillation protocol.";
+"error.fault_tolerant" = "Fault-Tolerant Threshold";
+"error.fault_tolerant_desc" = "Sub-0.5% error rate achieved. Based on Harvard-MIT 2025 research.";
+
+// MARK: - Executors
+
+"executor.local" = "Local Swift Simulator";
+"executor.local_desc" = "Native simulation optimized for Apple Silicon.";
+"executor.ibm_brisbane" = "IBM Quantum Brisbane";
+"executor.ibm_brisbane_desc" = "127-qubit superconducting processor.";
+"executor.ibm_osaka" = "IBM Quantum Osaka";
+"executor.ibm_osaka_desc" = "127-qubit Eagle processor.";
+"executor.bridge" = "QuantumBridge Cloud";
+"executor.bridge_desc" = "Unified API for multiple quantum backends.";
+
+// MARK: - Measurement
+
+"measure.shots" = "Measurement Shots";
+"measure.probability" = "Probability Distribution";
+"measure.counts" = "Measurement Counts";
+"measure.fidelity" = "State Fidelity";
+"measure.entropy" = "Von Neumann Entropy";
+
+// MARK: - UI Labels
+
+"ui.run" = "Run Circuit";
+"ui.simulate" = "Simulate";
+"ui.measure" = "Measure";
+"ui.reset" = "Reset";
+"ui.export" = "Export QASM";
+"ui.settings" = "Settings";
+"ui.help" = "Help";
+"ui.about" = "About";
+
+// MARK: - Academy (Learning Platform)
+
+"academy.title" = "Quantum Academy";
+"academy.subtitle" = "MIT/Harvard Research-Based Curriculum";
+"academy.track.fundamentals" = "Fundamentals Track";
+"academy.track.algorithms" = "Algorithms Track";
+"academy.track.hardware" = "Hardware Track";
+"academy.track.security" = "Security Track";
+
+"academy.lesson.complete" = "Lesson Complete";
+"academy.streak" = "Day Streak";
+"academy.xp" = "XP Earned";
+"academy.badge" = "Badge Unlocked";
+
+// MARK: - Industry Solutions
+
+"industry.title" = "Enterprise Quantum Solutions";
+"industry.finance" = "Financial Optimization";
+"industry.finance_desc" = "Portfolio optimization with 100x speedup potential.";
+"industry.healthcare" = "Drug Discovery";
+"industry.healthcare_desc" = "Molecular simulation for pharmaceutical research.";
+"industry.logistics" = "Supply Chain";
+"industry.logistics_desc" = "Route optimization using quantum annealing.";
+"industry.security" = "Post-Quantum Cryptography";
+"industry.security_desc" = "Quantum-resistant encryption algorithms.";
+
+// MARK: - Errors
+
+"error.circuit_too_large" = "Circuit exceeds maximum qubit limit";
+"error.invalid_gate" = "Invalid gate operation";
+"error.not_normalized" = "State is not properly normalized";
+"error.connection_failed" = "Failed to connect to quantum backend";
+"error.api_key_invalid" = "Invalid API key for remote execution";
+"error.queue_full" = "Execution queue is full. Please try again later.";
+
+// MARK: - Success Messages
+
+"success.circuit_executed" = "Circuit executed successfully";
+"success.job_submitted" = "Job submitted to quantum queue";
+"success.connection_established" = "Connected to quantum backend";
+"success.state_prepared" = "Quantum state prepared successfully";

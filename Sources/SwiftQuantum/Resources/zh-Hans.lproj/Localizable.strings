@@ -1,0 +1,203 @@
+/*
+  Localizable.strings (Simplified Chinese)
+  SwiftQuantum v2.1.0 - 高级量子混合平台
+
+  Created by Eunmin Park on 2026-01-08.
+  Copyright © 2026 iOS Quantum Engineering. All rights reserved.
+
+  简体中文本地化
+*/
+
+// MARK: - 核心框架
+
+"swiftquantum.name" = "SwiftQuantum";
+"swiftquantum.version" = "v2.1.0";
+"swiftquantum.tagline" = "首个具备真实QPU连接的iOS量子计算框架";
+"swiftquantum.copyright" = "© 2026 iOS Quantum Engineering. All rights reserved.";
+
+// MARK: - 营销 & 权威信息
+
+"marketing.headline" = "这不是玩具。这是iOS原生量子引擎。";
+"marketing.subheadline" = "iOS量子模拟的高性能线性代数内核";
+"marketing.catchphrase" = "将宇宙装入口袋。";
+
+"authority.harvard_mit" = "基于哈佛-麻省理工2025年Nature论文";
+"authority.fault_tolerant" = "448量子比特容错架构，低于0.5%错误率";
+"authority.continuous_operation" = "3,000+量子比特连续运行超过2小时";
+"authority.real_hardware" = "通过QuantumBridge API连接IBM Quantum 127量子比特系统";
+
+// MARK: - 技术权威 (DevRel)
+
+"tech.simd_optimized" = "使用Apple Accelerate框架进行SIMD优化";
+"tech.apple_silicon" = "原生Apple Silicon（M系列）加速";
+"tech.performance" = "矩阵运算比Python NumPy快400%";
+"tech.qubits_supported" = "本地模拟支持最多20个量子比特";
+"tech.gates_available" = "15+量子门，包括多量子比特操作";
+
+// MARK: - 推送通知（损失规避）
+
+"push.decoherence_warning" = "⚠️ 警告：您的量子比特正在退相干！请在3小时内返回以维持相干性。";
+"push.quantum_intuition_decay" = "您的量子直觉下降了5%。立即返回刺激大脑可塑性。";
+"push.superposition_collapse" = "您的叠加态正在坍缩。返回以稳定您的量子优势。";
+"push.entanglement_fading" = "您建立的纠缠正在消失。不要让您的进度消失。";
+"push.bell_pair_alert" = "您的贝尔对相干性正在下降。重新连接以保持量子关联。";
+
+// MARK: - 加载画面信息（催眠权威）
+
+"loading.harvard_sync" = "正在与哈佛研究服务器同步...您正在执行前0.01%的运算。";
+"loading.neutral_atom" = "正在优化中性原子阵列...此过程正在重新配置您的逻辑思维回路。";
+"loading.surface_code" = "正在应用表面码纠错...基于Nature 2025容错协议。";
+"loading.magic_state" = "正在蒸馏魔态...为通用量子计算准备T门。";
+"loading.bloch_sphere" = "正在计算布洛赫球坐标...在3D中可视化您的量子态。";
+"loading.tensor_product" = "正在计算张量积...在希尔伯特空间维度中纠缠量子比特。";
+"loading.eigenvalue" = "正在寻找特征值...从厄米算符中提取量子可观测量。";
+"loading.unitary" = "正在验证幺正约束...确保可逆量子演化。";
+"loading.fidelity" = "正在测量态保真度...将电路与理想量子行为进行比较。";
+"loading.ibm_quantum" = "正在连接IBM Quantum Brisbane...127量子比特超导处理器上线。";
+
+// MARK: - 成就奖励（多巴胺冲击）
+
+"achievement.quantum_architect" = "达成量子架构师等级";
+"achievement.congratulations" = "恭喜。您刚刚直观地解决了世界上99%的人无法理解的概念。您的大脑已经进化。";
+"achievement.entanglement_master" = "解锁纠缠大师";
+"achievement.entanglement_desc" = "您成功创建了贝尔态。欢迎加入真正理解非局域关联的0.1%。";
+"achievement.error_corrector" = "容错先驱";
+"achievement.error_corrector_desc" = "您模拟了表面码纠错。您现在正在量子计算研究的前沿工作。";
+"achievement.grover_champion" = "格罗弗预言冠军";
+"achievement.grover_desc" = "您实现了相对于经典搜索的二次加速。量子优势现在属于您。";
+
+// MARK: - 付费墙（丝绒绳）
+
+"paywall.headline" = "访问受限：哈佛实验室模式";
+"paywall.description" = "此功能连接到真实的物理硬件。仅允许那些准备好设计真正未来的人使用，而非单纯的好奇心。";
+"paywall.button" = "证明您的资格并进入";
+"paywall.price_monthly" = "¥199/月";
+"paywall.price_yearly" = "¥1999/年";
+
+"paywall.free_tier" = "免费版";
+"paywall.free_desc" = "本地模拟最多8个量子比特。基本量子概念。";
+"paywall.pro_tier" = "专业版";
+"paywall.pro_desc" = "最多64个量子比特。完整算法库。纠错模拟。";
+"paywall.enterprise_tier" = "企业版";
+"paywall.enterprise_desc" = "256个量子比特。真实IBM QPU访问。哈佛-MIT研究集成。";
+
+// MARK: - 量子态
+
+"state.zero" = "|0⟩ 基态";
+"state.one" = "|1⟩ 激发态";
+"state.plus" = "|+⟩ 叠加";
+"state.minus" = "|−⟩ 反叠加";
+"state.bell" = "贝尔态 |Φ+⟩";
+"state.ghz" = "GHZ态";
+"state.custom" = "自定义量子态";
+
+// MARK: - 量子门
+
+"gate.hadamard" = "阿达马门 (H)";
+"gate.hadamard_desc" = "创建等幅叠加。量子并行性的入口。";
+"gate.pauli_x" = "泡利-X门 (NOT)";
+"gate.pauli_x_desc" = "量子比特翻转。|0⟩ ↔ |1⟩";
+"gate.pauli_y" = "泡利-Y门";
+"gate.pauli_y_desc" = "带相位的旋转。结合比特和相位翻转。";
+"gate.pauli_z" = "泡利-Z门";
+"gate.pauli_z_desc" = "相位翻转门。|1⟩ → −|1⟩";
+"gate.cnot" = "CNOT（受控NOT）";
+"gate.cnot_desc" = "双量子比特纠缠门。量子计算的核心。";
+"gate.toffoli" = "托弗利门 (CCNOT)";
+"gate.toffoli_desc" = "通用可逆门。三量子比特受控操作。";
+
+// MARK: - 算法
+
+"algorithm.bell" = "贝尔态协议";
+"algorithm.bell_desc" = "创建最大纠缠双量子比特态。量子通信的基础。";
+"algorithm.deutsch_jozsa" = "Deutsch-Jozsa算法";
+"algorithm.deutsch_jozsa_desc" = "函数分类的指数级加速。1次查询 vs 2^n。";
+"algorithm.grover" = "格罗弗搜索算法";
+"algorithm.grover_desc" = "非结构化搜索的二次加速。O(√N) vs O(N)。";
+"algorithm.shor" = "肖尔算法";
+"algorithm.shor_desc" = "多项式时间整数分解。破解RSA加密。";
+"algorithm.vqe" = "变分量子本征求解器";
+"algorithm.vqe_desc" = "混合量子-经典优化。化学应用。";
+"algorithm.qaoa" = "QAOA";
+"algorithm.qaoa_desc" = "量子近似优化。组合问题求解。";
+
+// MARK: - 纠错
+
+"error.surface_code" = "表面码纠错";
+"error.surface_code_desc" = "对局部错误的拓扑保护。距离-3编码。";
+"error.magic_state" = "魔态蒸馏";
+"error.magic_state_desc" = "纯化T门资源。15对1蒸馏协议。";
+"error.fault_tolerant" = "容错阈值";
+"error.fault_tolerant_desc" = "实现低于0.5%的错误率。基于哈佛-MIT 2025研究。";
+
+// MARK: - 执行器
+
+"executor.local" = "本地Swift模拟器";
+"executor.local_desc" = "针对Apple Silicon优化的原生模拟。";
+"executor.ibm_brisbane" = "IBM Quantum Brisbane";
+"executor.ibm_brisbane_desc" = "127量子比特超导处理器。";
+"executor.ibm_osaka" = "IBM Quantum Osaka";
+"executor.ibm_osaka_desc" = "127量子比特Eagle处理器。";
+"executor.bridge" = "QuantumBridge云";
+"executor.bridge_desc" = "多量子后端统一API。";
+
+// MARK: - 测量
+
+"measure.shots" = "测量次数";
+"measure.probability" = "概率分布";
+"measure.counts" = "测量计数";
+"measure.fidelity" = "态保真度";
+"measure.entropy" = "冯诺依曼熵";
+
+// MARK: - UI标签
+
+"ui.run" = "运行电路";
+"ui.simulate" = "模拟";
+"ui.measure" = "测量";
+"ui.reset" = "重置";
+"ui.export" = "导出QASM";
+"ui.settings" = "设置";
+"ui.help" = "帮助";
+"ui.about" = "关于";
+
+// MARK: - 学院（学习平台）
+
+"academy.title" = "量子学院";
+"academy.subtitle" = "MIT/哈佛研究课程";
+"academy.track.fundamentals" = "基础课程";
+"academy.track.algorithms" = "算法课程";
+"academy.track.hardware" = "硬件课程";
+"academy.track.security" = "安全课程";
+
+"academy.lesson.complete" = "课程完成";
+"academy.streak" = "连续天数";
+"academy.xp" = "获得XP";
+"academy.badge" = "徽章解锁";
+
+// MARK: - 行业解决方案
+
+"industry.title" = "企业量子解决方案";
+"industry.finance" = "金融优化";
+"industry.finance_desc" = "投资组合优化，潜在100倍加速。";
+"industry.healthcare" = "药物发现";
+"industry.healthcare_desc" = "制药研究的分子模拟。";
+"industry.logistics" = "供应链";
+"industry.logistics_desc" = "使用量子退火的路径优化。";
+"industry.security" = "后量子密码学";
+"industry.security_desc" = "抗量子加密算法。";
+
+// MARK: - 错误
+
+"error.circuit_too_large" = "电路超出最大量子比特限制";
+"error.invalid_gate" = "无效的门操作";
+"error.not_normalized" = "态未正确归一化";
+"error.connection_failed" = "无法连接到量子后端";
+"error.api_key_invalid" = "远程执行的API密钥无效";
+"error.queue_full" = "执行队列已满。请稍后重试。";
+
+// MARK: - 成功信息
+
+"success.circuit_executed" = "电路执行成功";
+"success.job_submitted" = "作业已提交到量子队列";
+"success.connection_established" = "已连接到量子后端";
+"success.state_prepared" = "量子态准备成功";

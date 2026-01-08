@@ -376,7 +376,7 @@ public enum QuantumExecutorError: Error, LocalizedError {
 // MARK: - Local Quantum Executor (Swift Simulator)
 
 /// Local quantum executor using SwiftQuantum's built-in simulator
-public final class LocalQuantumExecutor: QuantumExecutor {
+public final class LocalQuantumExecutor: QuantumExecutor, @unchecked Sendable {
 
     public let executorType: ExecutorType = .localSimulator
     public let name: String = "SwiftQuantum Local Simulator"
@@ -384,10 +384,10 @@ public final class LocalQuantumExecutor: QuantumExecutor {
     public let maxQubits: Int = 20
 
     /// Enable simulated error correction (based on Harvard-MIT research)
-    public var simulateErrorCorrection: Bool
+    public let simulateErrorCorrection: Bool
 
     /// Simulated gate error rate
-    public var simulatedErrorRate: Double
+    public let simulatedErrorRate: Double
 
     public init(simulateErrorCorrection: Bool = false, simulatedErrorRate: Double = 0.001) {
         self.simulateErrorCorrection = simulateErrorCorrection
@@ -478,7 +478,7 @@ public final class LocalQuantumExecutor: QuantumExecutor {
 // MARK: - QuantumBridge Remote Executor
 
 /// Remote quantum executor using QuantumBridge API for IBM Quantum
-public final class QuantumBridgeExecutor: QuantumExecutor {
+public final class QuantumBridgeExecutor: QuantumExecutor, @unchecked Sendable {
 
     public let executorType: ExecutorType
     public let name: String
@@ -486,7 +486,7 @@ public final class QuantumBridgeExecutor: QuantumExecutor {
     public let maxQubits: Int
 
     /// API key for authentication
-    private var apiKey: String?
+    private let apiKey: String?
 
     /// Base URL for QuantumBridge API
     private let baseURL: String
@@ -512,10 +512,7 @@ public final class QuantumBridgeExecutor: QuantumExecutor {
         self.name = "QuantumBridge - \(executorType.rawValue)"
     }
 
-    /// Sets the API key for authentication
-    public func setApiKey(_ key: String) {
-        self.apiKey = key
-    }
+    /// Note: API key is set at initialization
 
     public func execute(circuit: BridgeCircuitBuilder, shots: Int) async throws -> ExecutionResult {
         guard isAvailable else {
@@ -716,14 +713,16 @@ public final class QuantumExecutorManager: ObservableObject {
     }
 
     /// Executes a circuit on the selected executor
-    public func execute(circuit: BridgeCircuitBuilder, shots: Int = 1000) async throws -> ExecutionResult {
-        return try await currentExecutor.execute(circuit: circuit, shots: shots)
+    public nonisolated func execute(circuit: BridgeCircuitBuilder, shots: Int = 1000) async throws -> ExecutionResult {
+        let executor = await MainActor.run { currentExecutor }
+        return try await executor.execute(circuit: circuit, shots: shots)
     }
 
     /// Submits a job to the selected executor
-    public func submitJob(circuit: BridgeCircuitBuilder, shots: Int = 1000) async throws -> QuantumJob {
-        let job = try await currentExecutor.submitJob(circuit: circuit, shots: shots)
-        activeJobs.append(job)
+    public nonisolated func submitJob(circuit: BridgeCircuitBuilder, shots: Int = 1000) async throws -> QuantumJob {
+        let executor = await MainActor.run { currentExecutor }
+        let job = try await executor.submitJob(circuit: circuit, shots: shots)
+        await MainActor.run { activeJobs.append(job) }
         return job
     }
 
