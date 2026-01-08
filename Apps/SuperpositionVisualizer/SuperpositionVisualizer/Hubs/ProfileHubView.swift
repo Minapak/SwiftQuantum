@@ -6,9 +6,11 @@ import SwiftUI
 struct ProfileHubView: View {
     @StateObject private var viewModel = ProfileHubViewModel()
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showCelebration = false
     @State private var showSettings = false
     @State private var showPremiumSheet = false
+    @State private var showLanguageSheet = false
 
     var body: some View {
         ScrollView {
@@ -38,6 +40,9 @@ struct ProfileHubView: View {
         )
         .sheet(isPresented: $showPremiumSheet) {
             ProfilePremiumSheet()
+        }
+        .sheet(isPresented: $showLanguageSheet) {
+            LanguageSelectionSheet()
         }
     }
 
@@ -358,12 +363,17 @@ struct ProfileHubView: View {
                 .buttonStyle(PlainButtonStyle())
 
                 Button(action: {
-                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Language", status: .comingSoon)
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Language", status: .success)
+                    showLanguageSheet = true
                 }) {
-                    SettingsRow(icon: "globe", title: "Language", color: .blue) {
-                        Text(viewModel.language)
-                            .font(.system(size: 14))
-                            .foregroundColor(.white.opacity(0.5))
+                    SettingsRow(icon: "globe", title: localization.string(for: .language), color: .blue) {
+                        HStack(spacing: 6) {
+                            Text(localization.currentLanguage.flag)
+                                .font(.system(size: 14))
+                            Text(localization.currentLanguage.displayName)
+                                .font(.system(size: 14))
+                                .foregroundColor(.white.opacity(0.7))
+                        }
                         Image(systemName: "chevron.right")
                             .font(.system(size: 12))
                             .foregroundColor(.white.opacity(0.3))
