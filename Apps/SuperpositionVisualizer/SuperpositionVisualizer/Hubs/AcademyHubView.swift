@@ -135,6 +135,11 @@ struct AcademyHubView: View {
                         isSelected: selectedLevel?.id == level.id
                     )
                     .onTapGesture {
+                        DeveloperModeManager.shared.log(
+                            screen: "Academy",
+                            element: "Level: \(level.title)",
+                            status: level.status == .locked ? .comingSoon : .success
+                        )
                         selectLevel(level)
                     }
                 }
@@ -251,7 +256,10 @@ struct AcademyHubView: View {
 
                     Spacer()
 
-                    Button(action: closeLevelDetail) {
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Academy", element: "Level Detail: Close", status: .success)
+                        closeLevelDetail()
+                    }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.title2)
                             .foregroundColor(.white.opacity(0.5))
@@ -313,6 +321,11 @@ struct AcademyHubView: View {
 
                 // Action Button
                 Button(action: {
+                    DeveloperModeManager.shared.log(
+                        screen: "Academy",
+                        element: "Level: \(level.title) - \(level.status == .completed ? "Review" : "Start")",
+                        status: .success
+                    )
                     startLevel(level)
                 }) {
                     HStack {

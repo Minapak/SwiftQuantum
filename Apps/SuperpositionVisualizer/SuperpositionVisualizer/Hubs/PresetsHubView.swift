@@ -36,7 +36,10 @@ struct PresetsHubView: View {
                 .autocorrectionDisabled()
 
             if !searchText.isEmpty {
-                Button(action: { searchText = "" }) {
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Presets", element: "Clear Search", status: .success)
+                    searchText = ""
+                }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.white.opacity(0.5))
                 }
@@ -68,6 +71,7 @@ struct PresetsHubView: View {
         let isSelected = selectedCategory == category
 
         return Button(action: {
+            DeveloperModeManager.shared.log(screen: "Presets", element: "Category: \(category.title)", status: .success)
             withAnimation(.spring(response: 0.3)) {
                 selectedCategory = category
             }
@@ -200,6 +204,7 @@ struct PresetCard: View {
         Button(action: {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
+            DeveloperModeManager.shared.log(screen: "Presets", element: "Preset: \(preset.name)", status: .success)
             // Apply preset action
         }) {
             VStack(alignment: .leading, spacing: 12) {

@@ -106,6 +106,9 @@ struct IndustryHubView: View {
                         isSelected: selectedIndustry?.id == industry.id
                     )
                     .onTapGesture {
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+                        DeveloperModeManager.shared.log(screen: "Industry", element: "Solution: \(industry.name)", status: .success)
                         withAnimation(.spring()) {
                             selectedIndustry = industry
                         }
@@ -165,7 +168,9 @@ struct IndustryHubView: View {
                         Spacer()
 
                         // Calculate button
-                        Button(action: {}) {
+                        Button(action: {
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Calculate ROI Button", status: .comingSoon)
+                        }) {
                             HStack(spacing: 6) {
                                 Image(systemName: "function")
                                 Text("Calculate for your data")
@@ -561,7 +566,9 @@ struct HorizonPricingPlanCard: View {
             }
 
             // CTA Button
-            Button(action: {}) {
+            Button(action: {
+                DeveloperModeManager.shared.log(screen: "Industry", element: "Pricing: \(plan.name) Get Started", status: .comingSoon)
+            }) {
                 Text("Get Started")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
@@ -745,7 +752,10 @@ struct PricingDetailSheet: View {
                 // Close button
                 HStack {
                     Spacer()
-                    Button(action: { dismiss() }) {
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Pricing Detail", element: "Close Button", status: .success)
+                        dismiss()
+                    }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.title2)
                             .foregroundColor(.white.opacity(0.5))

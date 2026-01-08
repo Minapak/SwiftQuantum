@@ -102,12 +102,17 @@ struct FactoryHubView: View {
 
                     // Connect/Disconnect button
                     Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
                         if viewModel.isConnected {
+                            DeveloperModeManager.shared.log(screen: "Bridge", element: "Disconnect Button", status: .success)
                             viewModel.disconnect()
                         } else {
                             if viewModel.isPremium {
+                                DeveloperModeManager.shared.log(screen: "Bridge", element: "Connect Button (API Key)", status: .success)
                                 showApiKeySheet = true
                             } else {
+                                DeveloperModeManager.shared.log(screen: "Bridge", element: "Connect Button (Premium Required)", status: .comingSoon)
                                 showPremiumSheet = true
                             }
                         }
@@ -229,11 +234,15 @@ struct FactoryHubView: View {
                             isPremiumUser: viewModel.isPremium
                         )
                         .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .light)
+                            impact.impactOccurred()
                             if viewModel.isPremium || !backend.isPremium {
+                                DeveloperModeManager.shared.log(screen: "Bridge", element: "Backend: \(backend.displayName)", status: .success)
                                 withAnimation(.spring()) {
                                     viewModel.selectBackend(backend)
                                 }
                             } else {
+                                DeveloperModeManager.shared.log(screen: "Bridge", element: "Backend: \(backend.displayName) (Premium)", status: .comingSoon)
                                 showPremiumSheet = true
                             }
                         }
@@ -395,6 +404,7 @@ struct FactoryHubView: View {
 
     private func completeDeployment() {
         isLongPressing = false
+        DeveloperModeManager.shared.log(screen: "Bridge", element: "Deploy Circuit (Long Press)", status: .success)
         viewModel.deployCircuit()
 
         // Show error correction animation
@@ -449,8 +459,10 @@ struct FactoryHubView: View {
                     isPremium: !viewModel.isPremium
                 ) {
                     if viewModel.isPremium {
+                        DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: Bell State", status: .success)
                         viewModel.runBellState()
                     } else {
+                        DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: Bell State (Premium)", status: .comingSoon)
                         showPremiumSheet = true
                     }
                 }
@@ -462,8 +474,10 @@ struct FactoryHubView: View {
                     isPremium: !viewModel.isPremium
                 ) {
                     if viewModel.isPremium {
+                        DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: GHZ State", status: .success)
                         viewModel.runGHZState()
                     } else {
+                        DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: GHZ State (Premium)", status: .comingSoon)
                         showPremiumSheet = true
                     }
                 }
@@ -474,6 +488,7 @@ struct FactoryHubView: View {
                     gradient: LinearGradient(colors: [.green, .mint], startPoint: .topLeading, endPoint: .bottomTrailing),
                     isPremium: false
                 ) {
+                    DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: Export QASM", status: .success)
                     viewModel.exportQASM()
                 }
 
@@ -484,8 +499,10 @@ struct FactoryHubView: View {
                     isPremium: !viewModel.isPremium
                 ) {
                     if viewModel.isPremium {
+                        DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: Continuous Mode", status: .success)
                         viewModel.toggleContinuousMode()
                     } else {
+                        DeveloperModeManager.shared.log(screen: "Bridge", element: "Quick Action: Continuous Mode (Premium)", status: .comingSoon)
                         showPremiumSheet = true
                     }
                 }
@@ -700,7 +717,10 @@ struct ActiveJobCard: View {
                 .foregroundColor(job.statusColor)
 
             if job.status == "Queued" || job.status == "Running" {
-                Button(action: onCancel) {
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Bridge", element: "Cancel Job: \(job.name)", status: .success)
+                    onCancel()
+                }) {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 20))
                         .foregroundColor(.red.opacity(0.6))
@@ -896,6 +916,7 @@ struct FactoryApiKeySheet: View {
 
                 // Connect Button
                 Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Bridge API Key", element: "Connect with API Key", status: .success)
                     viewModel.connect(apiKey: apiKey)
                     dismiss()
                 }) {
@@ -929,7 +950,10 @@ struct FactoryPremiumSheet: View {
                 // Close button
                 HStack {
                     Spacer()
-                    Button(action: { dismiss() }) {
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Premium Sheet", element: "Close Button", status: .success)
+                        dismiss()
+                    }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.title2)
                             .foregroundColor(.white.opacity(0.5))
@@ -962,7 +986,10 @@ struct FactoryPremiumSheet: View {
                 .glassmorphism(intensity: 0.08, cornerRadius: 16)
 
                 // Upgrade button
-                Button(action: { dismiss() }) {
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Premium Sheet", element: "Upgrade Button", status: .comingSoon)
+                    dismiss()
+                }) {
                     Text("Upgrade - $9.99/month")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.black)

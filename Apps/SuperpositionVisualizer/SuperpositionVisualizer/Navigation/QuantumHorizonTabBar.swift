@@ -119,6 +119,7 @@ struct TabBarButton: View {
         Button(action: {
             let impactFeedback = UIImpactFeedbackGenerator(style: .light)
             impactFeedback.impactOccurred()
+            DeveloperModeManager.shared.log(screen: "TabBar", element: "Tab: \(hub.title)", status: .success)
             action()
         }) {
             VStack(spacing: 6) {

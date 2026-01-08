@@ -257,6 +257,7 @@ struct LabHubView: View {
         Button(action: {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
+            DeveloperModeManager.shared.log(screen: "Lab", element: "Gate: \(label)", status: .success)
             action()
         }) {
             VStack(spacing: 6) {
@@ -375,6 +376,7 @@ struct LabHubView: View {
         Button(action: {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
+            DeveloperModeManager.shared.log(screen: "Lab", element: "Measure: \(title)", status: .success)
             action()
         }) {
             VStack(spacing: 10) {
@@ -490,6 +492,7 @@ struct LabHubView: View {
     // MARK: - Reset Button
     private var resetButton: some View {
         Button(action: {
+            DeveloperModeManager.shared.log(screen: "Lab", element: "Reset All Button", status: .success)
             withAnimation(.spring()) {
                 stateManager.reset()
                 measurementResults = [0: 0, 1: 0]
