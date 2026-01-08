@@ -6,9 +6,11 @@ import SwiftUI
 
 struct AcademyHubView: View {
     @StateObject private var viewModel = AcademyViewModel()
+    @ObservedObject var premiumManager = PremiumManager.shared
     @Namespace private var animation
     @State private var selectedLevel: LearningLevel?
     @State private var showLevelDetail = false
+    @State private var showPremiumSheet = false
 
     var body: some View {
         ZStack {
@@ -23,6 +25,19 @@ struct AcademyHubView: View {
             // AI Agent Message Bubble
             if viewModel.showAgentMessage {
                 agentMessageBubble
+            }
+        }
+        .sheet(isPresented: $showPremiumSheet) {
+            AcademyPremiumSheet()
+        }
+        .onChange(of: premiumManager.isPremium) { _, newValue in
+            if newValue {
+                viewModel.unlockAllLevels()
+            }
+        }
+        .onAppear {
+            if premiumManager.isPremium {
+                viewModel.unlockAllLevels()
             }
         }
     }
@@ -132,15 +147,26 @@ struct AcademyHubView: View {
                     LearningNodeView(
                         level: level,
                         index: index + 1,
-                        isSelected: selectedLevel?.id == level.id
+                        isSelected: selectedLevel?.id == level.id,
+                        isPremiumUser: premiumManager.isPremium
                     )
                     .onTapGesture {
-                        DeveloperModeManager.shared.log(
-                            screen: "Academy",
-                            element: "Level: \(level.title)",
-                            status: level.status == .locked ? .comingSoon : .success
-                        )
-                        selectLevel(level)
+                        // If level is locked and user is not premium, show premium sheet
+                        if level.status == .locked && !premiumManager.isPremium {
+                            DeveloperModeManager.shared.log(
+                                screen: "Academy",
+                                element: "Level: \(level.title) (Premium Required)",
+                                status: .comingSoon
+                            )
+                            showPremiumSheet = true
+                        } else {
+                            DeveloperModeManager.shared.log(
+                                screen: "Academy",
+                                element: "Level: \(level.title)",
+                                status: .success
+                            )
+                            selectLevel(level)
+                        }
                     }
                 }
             }
@@ -400,7 +426,8 @@ struct AcademyHubView: View {
 
     // MARK: - Actions
     private func selectLevel(_ level: LearningLevel) {
-        guard level.status != .locked else { return }
+        // Allow selection for premium users even if locked (will be unlocked)
+        guard level.status != .locked || premiumManager.isPremium else { return }
 
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
             selectedLevel = level
@@ -429,8 +456,17 @@ struct LearningNodeView: View {
     let level: LearningLevel
     let index: Int
     let isSelected: Bool
+    var isPremiumUser: Bool = false
 
     @State private var brightness: Double = 1.0
+
+    // Computed property to determine actual status (unlocked for premium)
+    var effectiveStatus: LevelStatus {
+        if isPremiumUser && level.status == .locked {
+            return .current  // Show as available for premium users
+        }
+        return level.status
+    }
 
     var body: some View {
         HStack(spacing: 16) {
@@ -438,20 +474,20 @@ struct LearningNodeView: View {
             ZStack {
                 // Outer glow ring
                 Circle()
-                    .stroke(level.color.opacity(level.status == .completed ? 0.5 : 0.2), lineWidth: 2)
+                    .stroke(level.color.opacity(effectiveStatus == .completed ? 0.5 : 0.2), lineWidth: 2)
                     .frame(width: 72, height: 72)
 
                 // Inner circle
                 Circle()
-                    .fill(level.color.opacity(level.status == .completed ? 0.3 : 0.1))
+                    .fill(level.color.opacity(effectiveStatus == .completed ? 0.3 : 0.1))
                     .frame(width: 64, height: 64)
 
                 // Icon or number
-                if level.status == .completed {
+                if effectiveStatus == .completed {
                     Image(systemName: "checkmark")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(level.color)
-                } else if level.status == .current {
+                } else if effectiveStatus == .current || (isPremiumUser && level.status == .locked) {
                     Text("\(index)")
                         .font(QuantumHorizonTypography.sectionTitle(24))
                         .foregroundColor(level.color)
@@ -461,15 +497,15 @@ struct LearningNodeView: View {
                         .foregroundColor(.white.opacity(0.3))
                 }
 
-                // Orbiting electrons (for current level)
-                if level.status == .current {
+                // Orbiting electrons (for current level or unlocked premium levels)
+                if effectiveStatus == .current || (isPremiumUser && level.status == .locked) {
                     OrbitingElectron(color: level.color, radius: 36, duration: 3)
                     OrbitingElectron(color: level.color, radius: 36, duration: 3, offset: .pi)
                 }
             }
             .brightness(brightness)
             .onAppear {
-                if level.status == .current {
+                if effectiveStatus == .current || (isPremiumUser && level.status == .locked) {
                     withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
                         brightness = 1.2
                     }
@@ -481,9 +517,9 @@ struct LearningNodeView: View {
                 HStack {
                     Text(level.title)
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(level.status == .locked ? .white.opacity(0.4) : .white)
+                        .foregroundColor(effectiveStatus == .locked ? .white.opacity(0.4) : .white)
 
-                    if level.status == .current {
+                    if effectiveStatus == .current && level.status == .current {
                         Text("CURRENT")
                             .font(.system(size: 9, weight: .bold))
                             .foregroundColor(.black)
@@ -491,6 +527,21 @@ struct LearningNodeView: View {
                             .padding(.vertical, 2)
                             .background(level.color)
                             .clipShape(Capsule())
+                    }
+
+                    // Premium unlock badge
+                    if isPremiumUser && level.status == .locked {
+                        HStack(spacing: 2) {
+                            Image(systemName: "crown.fill")
+                                .font(.system(size: 8))
+                            Text("UNLOCKED")
+                                .font(.system(size: 9, weight: .bold))
+                        }
+                        .foregroundColor(.black)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(QuantumHorizonColors.quantumGold)
+                        .clipShape(Capsule())
                     }
                 }
 
@@ -516,7 +567,7 @@ struct LearningNodeView: View {
             // Arrow
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .medium))
-                .foregroundColor(level.status == .locked ? .clear : .white.opacity(0.4))
+                .foregroundColor(effectiveStatus == .locked ? .clear : .white.opacity(0.4))
         }
         .padding(16)
         .glassmorphism(intensity: isSelected ? 0.15 : 0.08, cornerRadius: 20)
@@ -784,6 +835,124 @@ class AcademyViewModel: ObservableObject {
                     self.showAgentMessage = false
                 }
             }
+        }
+    }
+
+    /// Unlock all levels for premium users
+    func unlockAllLevels() {
+        for index in learningPath.indices {
+            if learningPath[index].status == .locked {
+                // Keep the original status but the UI will show as unlocked via isPremiumUser
+                // This allows tracking which levels were originally locked
+            }
+        }
+
+        // Show premium celebration message
+        agentMessage = "All 12+ courses unlocked! You now have full access to the Quantum Academy including Grover's Algorithm, Error Correction, and Shor's Algorithm."
+        withAnimation(.spring()) {
+            showAgentMessage = true
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            withAnimation(.spring()) {
+                self.showAgentMessage = false
+            }
+        }
+    }
+}
+
+// MARK: - Academy Premium Sheet
+struct AcademyPremiumSheet: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @State private var showSuccessView = false
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            if showSuccessView {
+                UpgradeSuccessView(isPresented: $showSuccessView)
+                    .transition(.opacity)
+                    .onDisappear {
+                        dismiss()
+                    }
+            } else {
+                VStack(spacing: 24) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            DeveloperModeManager.shared.log(screen: "Academy Premium", element: "Close Button", status: .success)
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Graduation cap icon
+                    Image(systemName: "graduationcap.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(QuantumHorizonColors.goldCelebration)
+
+                    Text("Quantum Academy Premium")
+                        .font(QuantumHorizonTypography.sectionTitle(24))
+                        .foregroundColor(.white)
+
+                    Text("Unlock all 12+ courses and master quantum computing")
+                        .font(QuantumHorizonTypography.body(14))
+                        .foregroundColor(.white.opacity(0.6))
+                        .multilineTextAlignment(.center)
+
+                    // Features list
+                    VStack(alignment: .leading, spacing: 12) {
+                        premiumFeatureRow("Grover's Algorithm - Quantum Search")
+                        premiumFeatureRow("Error Correction & Fault Tolerance")
+                        premiumFeatureRow("Shor's Algorithm - Breaking RSA")
+                        premiumFeatureRow("Quantum Machine Learning")
+                        premiumFeatureRow("MIT/Harvard-style Curriculum")
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.08, cornerRadius: 16)
+
+                    // Upgrade button
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Academy Premium", element: "Upgrade Button - ACTIVATED", status: .success)
+                        premiumManager.upgradeToPremium()
+                        withAnimation {
+                            showSuccessView = true
+                        }
+                    }) {
+                        Text("Upgrade - $9.99/month")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(QuantumHorizonColors.goldCelebration)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Text("7-day free trial included")
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.4))
+
+                    Spacer()
+                }
+                .padding(24)
+            }
+        }
+    }
+
+    private func premiumFeatureRow(_ text: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(QuantumHorizonColors.quantumGold)
+
+            Text(text)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.white.opacity(0.8))
         }
     }
 }

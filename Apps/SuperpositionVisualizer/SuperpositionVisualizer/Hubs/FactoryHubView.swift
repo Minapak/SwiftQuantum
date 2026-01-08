@@ -815,12 +815,16 @@ struct ErrorCorrectionBar: View {
 @MainActor
 class FactoryHubViewModel: ObservableObject {
     @Published var isConnected = false
-    @Published var isPremium = false
     @Published var isContinuousModeActive = false
     @Published var selectedBackend: QuantumBackend
     @Published var availableBackends: [QuantumBackend] = []
     @Published var queueStatus = QueueStatusInfo(pendingJobs: 0, runningJobs: 0, averageWaitTime: 0)
     @Published var activeJobs: [QuantumJobInfo] = []
+
+    // Use global PremiumManager
+    var isPremium: Bool {
+        PremiumManager.shared.isPremium
+    }
 
     init() {
         selectedBackend = QuantumBackend(
@@ -846,7 +850,7 @@ class FactoryHubViewModel: ObservableObject {
 
     func connect(apiKey: String) {
         isConnected = true
-        isPremium = true
+        // Premium is now managed by PremiumManager
         queueStatus = QueueStatusInfo(
             pendingJobs: Int.random(in: 10...50),
             runningJobs: Int.random(in: 1...5),
@@ -941,71 +945,84 @@ struct FactoryApiKeySheet: View {
 // MARK: - Factory Premium Sheet
 struct FactoryPremiumSheet: View {
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @State private var showSuccessView = false
 
     var body: some View {
         ZStack {
             QuantumHorizonBackground()
 
-            VStack(spacing: 24) {
-                // Close button
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        DeveloperModeManager.shared.log(screen: "Premium Sheet", element: "Close Button", status: .success)
+            if showSuccessView {
+                UpgradeSuccessView(isPresented: $showSuccessView)
+                    .transition(.opacity)
+                    .onDisappear {
                         dismiss()
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(.white.opacity(0.5))
                     }
+            } else {
+                VStack(spacing: 24) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            DeveloperModeManager.shared.log(screen: "Premium Sheet", element: "Close Button", status: .success)
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Crown icon
+                    Image(systemName: "crown.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(QuantumHorizonColors.goldCelebration)
+
+                    Text("Unlock Factory Premium")
+                        .font(QuantumHorizonTypography.sectionTitle(24))
+                        .foregroundColor(.white)
+
+                    Text("Access real quantum hardware and advanced deployment features")
+                        .font(QuantumHorizonTypography.body(14))
+                        .foregroundColor(.white.opacity(0.6))
+                        .multilineTextAlignment(.center)
+
+                    // Features list
+                    VStack(alignment: .leading, spacing: 12) {
+                        premiumFeatureRow("IBM Quantum hardware access")
+                        premiumFeatureRow("127-qubit systems")
+                        premiumFeatureRow("Priority queue placement")
+                        premiumFeatureRow("Advanced error mitigation")
+                        premiumFeatureRow("Continuous operation mode")
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.08, cornerRadius: 16)
+
+                    // Upgrade button - Now activates premium!
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Premium Sheet", element: "Upgrade Button - ACTIVATED", status: .success)
+                        premiumManager.upgradeToPremium()
+                        withAnimation {
+                            showSuccessView = true
+                        }
+                    }) {
+                        Text("Upgrade - $9.99/month")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(QuantumHorizonColors.goldCelebration)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Text("7-day free trial included")
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.4))
+
+                    Spacer()
                 }
-
-                // Crown icon
-                Image(systemName: "crown.fill")
-                    .font(.system(size: 64))
-                    .foregroundStyle(QuantumHorizonColors.goldCelebration)
-
-                Text("Unlock Factory Premium")
-                    .font(QuantumHorizonTypography.sectionTitle(24))
-                    .foregroundColor(.white)
-
-                Text("Access real quantum hardware and advanced deployment features")
-                    .font(QuantumHorizonTypography.body(14))
-                    .foregroundColor(.white.opacity(0.6))
-                    .multilineTextAlignment(.center)
-
-                // Features list
-                VStack(alignment: .leading, spacing: 12) {
-                    premiumFeatureRow("IBM Quantum hardware access")
-                    premiumFeatureRow("127-qubit systems")
-                    premiumFeatureRow("Priority queue placement")
-                    premiumFeatureRow("Advanced error mitigation")
-                    premiumFeatureRow("Continuous operation mode")
-                }
-                .padding()
-                .glassmorphism(intensity: 0.08, cornerRadius: 16)
-
-                // Upgrade button
-                Button(action: {
-                    DeveloperModeManager.shared.log(screen: "Premium Sheet", element: "Upgrade Button", status: .comingSoon)
-                    dismiss()
-                }) {
-                    Text("Upgrade - $9.99/month")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(QuantumHorizonColors.goldCelebration)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
-
-                Text("7-day free trial included")
-                    .font(.system(size: 12))
-                    .foregroundColor(.white.opacity(0.4))
-
-                Spacer()
+                .padding(24)
             }
-            .padding(24)
         }
     }
 

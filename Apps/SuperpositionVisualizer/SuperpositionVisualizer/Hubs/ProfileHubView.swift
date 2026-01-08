@@ -5,8 +5,10 @@ import SwiftUI
 
 struct ProfileHubView: View {
     @StateObject private var viewModel = ProfileHubViewModel()
+    @ObservedObject var premiumManager = PremiumManager.shared
     @State private var showCelebration = false
     @State private var showSettings = false
+    @State private var showPremiumSheet = false
 
     var body: some View {
         ScrollView {
@@ -34,6 +36,9 @@ struct ProfileHubView: View {
         .overlay(
             GoldParticleView(isActive: $showCelebration)
         )
+        .sheet(isPresented: $showPremiumSheet) {
+            ProfilePremiumSheet()
+        }
     }
 
     // MARK: - Profile Header
@@ -85,16 +90,45 @@ struct ProfileHubView: View {
                         .background(QuantumHorizonColors.quantumGold)
                         .clipShape(Capsule())
                         .offset(y: 38)
+
+                    // Premium crown badge
+                    if premiumManager.isPremium {
+                        Image(systemName: "crown.fill")
+                            .font(.system(size: 14))
+                            .foregroundColor(.yellow)
+                            .padding(4)
+                            .background(Color.black.opacity(0.8))
+                            .clipShape(Circle())
+                            .offset(x: 28, y: -28)
+                    }
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(viewModel.username)
-                        .font(QuantumHorizonTypography.sectionTitle(24))
-                        .foregroundColor(.white)
+                    HStack(spacing: 8) {
+                        Text(viewModel.username)
+                            .font(QuantumHorizonTypography.sectionTitle(24))
+                            .foregroundColor(.white)
 
-                    Text(viewModel.title)
+                        if premiumManager.isPremium {
+                            Text("PREMIUM")
+                                .font(.system(size: 9, weight: .bold, design: .monospaced))
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(
+                                    LinearGradient(
+                                        colors: [.yellow, .orange],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .clipShape(Capsule())
+                        }
+                    }
+
+                    Text(premiumManager.isPremium ? "Premium Quantum Explorer" : viewModel.title)
                         .font(QuantumHorizonTypography.body(14))
-                        .foregroundColor(QuantumHorizonColors.quantumPurple)
+                        .foregroundColor(premiumManager.isPremium ? QuantumHorizonColors.quantumGold : QuantumHorizonColors.quantumPurple)
 
                     // Member since
                     HStack(spacing: 4) {
@@ -352,15 +386,30 @@ struct ProfileHubView: View {
                 .buttonStyle(PlainButtonStyle())
 
                 Button(action: {
-                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Premium Status", status: .comingSoon)
+                    if premiumManager.isPremium {
+                        // Toggle off premium (for testing)
+                        DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Premium Status - Toggle OFF", status: .success)
+                        premiumManager.togglePremium()
+                    } else {
+                        // Show premium sheet to upgrade
+                        DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Premium Status - Upgrade", status: .success)
+                        showPremiumSheet = true
+                    }
                 }) {
                     SettingsRow(icon: "crown.fill", title: "Premium Status", color: QuantumHorizonColors.quantumGold) {
-                        Text(viewModel.isPremium ? "Active" : "Free")
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(viewModel.isPremium ? QuantumHorizonColors.quantumGold : .white.opacity(0.5))
-                        Image(systemName: "chevron.right")
+                        HStack(spacing: 6) {
+                            if premiumManager.isPremium {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(QuantumHorizonColors.quantumGreen)
+                            }
+                            Text(premiumManager.isPremium ? "Active" : "Free")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(premiumManager.isPremium ? QuantumHorizonColors.quantumGold : .white.opacity(0.5))
+                        }
+                        Image(systemName: premiumManager.isPremium ? "xmark.circle" : "chevron.right")
                             .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.3))
+                            .foregroundColor(premiumManager.isPremium ? .red.opacity(0.6) : .white.opacity(0.3))
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -521,6 +570,103 @@ struct Achievement: Identifiable {
     let isUnlocked: Bool
 }
 
+// MARK: - Profile Premium Sheet
+struct ProfilePremiumSheet: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @State private var showSuccessView = false
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            if showSuccessView {
+                UpgradeSuccessView(isPresented: $showSuccessView)
+                    .transition(.opacity)
+                    .onDisappear {
+                        dismiss()
+                    }
+            } else {
+                VStack(spacing: 24) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            DeveloperModeManager.shared.log(screen: "Profile Premium", element: "Close Button", status: .success)
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Crown icon
+                    Image(systemName: "crown.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(QuantumHorizonColors.goldCelebration)
+
+                    Text("Upgrade to Premium")
+                        .font(QuantumHorizonTypography.sectionTitle(24))
+                        .foregroundColor(.white)
+
+                    Text("Unlock all premium features and become a Quantum Legend")
+                        .font(QuantumHorizonTypography.body(14))
+                        .foregroundColor(.white.opacity(0.6))
+                        .multilineTextAlignment(.center)
+
+                    // Features list
+                    VStack(alignment: .leading, spacing: 12) {
+                        premiumFeatureRow("QuantumBridge QPU Connection")
+                        premiumFeatureRow("All 12+ Academy Courses")
+                        premiumFeatureRow("Industry Solutions Access")
+                        premiumFeatureRow("Error Correction Simulation")
+                        premiumFeatureRow("Premium Badge & Title")
+                        premiumFeatureRow("Priority Support")
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.08, cornerRadius: 16)
+
+                    // Upgrade button
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Profile Premium", element: "Upgrade Button - ACTIVATED", status: .success)
+                        premiumManager.upgradeToPremium()
+                        withAnimation {
+                            showSuccessView = true
+                        }
+                    }) {
+                        Text("Upgrade - $9.99/month")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(QuantumHorizonColors.goldCelebration)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Text("7-day free trial included")
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.4))
+
+                    Spacer()
+                }
+                .padding(24)
+            }
+        }
+    }
+
+    private func premiumFeatureRow(_ text: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(QuantumHorizonColors.quantumGold)
+
+            Text(text)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.white.opacity(0.8))
+        }
+    }
+}
+
 // MARK: - Profile Hub ViewModel
 @MainActor
 class ProfileHubViewModel: ObservableObject {
@@ -555,7 +701,7 @@ class ProfileHubViewModel: ObservableObject {
     @Published var darkModeEnabled = true
     @Published var language = "English"
     @Published var apiKeyConfigured = false
-    @Published var isPremium = false
+    // isPremium now managed by PremiumManager.shared
 
     init() {
         setupAchievements()
