@@ -7,9 +7,11 @@ import SwiftUI
 
 struct IndustryHubView: View {
     @StateObject private var viewModel = IndustryHubViewModel()
+    @ObservedObject var premiumManager = PremiumManager.shared
     @State private var selectedIndustry: HorizonIndustrySolution?
     @State private var showPricingSheet = false
     @State private var showCaseStudy = false
+    @State private var showPremiumSheet = false
 
     var body: some View {
         ScrollView {
@@ -36,6 +38,9 @@ struct IndustryHubView: View {
         }
         .sheet(isPresented: $showPricingSheet) {
             PricingDetailSheet()
+        }
+        .sheet(isPresented: $showPremiumSheet) {
+            IndustryPremiumSheet()
         }
     }
 
@@ -103,14 +108,20 @@ struct IndustryHubView: View {
                 ForEach(viewModel.industries) { industry in
                     HorizonIndustrySolutionCard(
                         industry: industry,
-                        isSelected: selectedIndustry?.id == industry.id
+                        isSelected: selectedIndustry?.id == industry.id,
+                        isPremiumUser: premiumManager.isPremium
                     )
                     .onTapGesture {
                         let impact = UIImpactFeedbackGenerator(style: .light)
                         impact.impactOccurred()
-                        DeveloperModeManager.shared.log(screen: "Industry", element: "Solution: \(industry.name)", status: .success)
-                        withAnimation(.spring()) {
-                            selectedIndustry = industry
+                        if !industry.isPremium || premiumManager.isPremium {
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Solution: \(industry.name)", status: .success)
+                            withAnimation(.spring()) {
+                                selectedIndustry = industry
+                            }
+                        } else {
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Solution: \(industry.name) (Premium)", status: .comingSoon)
+                            showPremiumSheet = true
                         }
                     }
                 }
@@ -380,6 +391,7 @@ struct IsometricCube: View {
 struct HorizonIndustrySolutionCard: View {
     let industry: HorizonIndustrySolution
     let isSelected: Bool
+    var isPremiumUser: Bool = false
 
     var body: some View {
         VStack(spacing: 14) {
@@ -399,8 +411,16 @@ struct HorizonIndustrySolutionCard: View {
                         )
                     )
 
-                // Premium badge
-                if industry.isPremium {
+                // Premium badge (shows lock if not premium user, crown if premium user)
+                if industry.isPremium && !isPremiumUser {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(.orange)
+                        .padding(4)
+                        .background(Color.black.opacity(0.8))
+                        .clipShape(Circle())
+                        .offset(x: 22, y: -22)
+                } else if industry.isPremium && isPremiumUser {
                     Image(systemName: "crown.fill")
                         .font(.system(size: 10))
                         .foregroundStyle(QuantumHorizonColors.goldCelebration)
@@ -439,6 +459,7 @@ struct HorizonIndustrySolutionCard: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(isSelected ? industry.color : Color.clear, lineWidth: 2)
         )
+        .opacity(industry.isPremium && !isPremiumUser ? 0.7 : 1.0)
     }
 }
 
@@ -771,6 +792,102 @@ struct PricingDetailSheet: View {
 
                 Spacer()
             }
+        }
+    }
+}
+
+// MARK: - Industry Premium Sheet
+struct IndustryPremiumSheet: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @State private var showSuccessView = false
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            if showSuccessView {
+                UpgradeSuccessView(isPresented: $showSuccessView)
+                    .transition(.opacity)
+                    .onDisappear {
+                        dismiss()
+                    }
+            } else {
+                VStack(spacing: 24) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            DeveloperModeManager.shared.log(screen: "Industry Premium", element: "Close Button", status: .success)
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Crown icon
+                    Image(systemName: "building.2.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(QuantumHorizonColors.goldCelebration)
+
+                    Text("Enterprise Solutions Premium")
+                        .font(QuantumHorizonTypography.sectionTitle(24))
+                        .foregroundColor(.white)
+
+                    Text("Unlock all industry solutions and quantum-powered business optimization")
+                        .font(QuantumHorizonTypography.body(14))
+                        .foregroundColor(.white.opacity(0.6))
+                        .multilineTextAlignment(.center)
+
+                    // Features list
+                    VStack(alignment: .leading, spacing: 12) {
+                        premiumFeatureRow("Finance: Portfolio & Risk Analysis")
+                        premiumFeatureRow("Healthcare: Drug Discovery")
+                        premiumFeatureRow("Energy: Grid Optimization")
+                        premiumFeatureRow("AI & ML: Quantum Learning")
+                        premiumFeatureRow("ROI Calculator & Analytics")
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.08, cornerRadius: 16)
+
+                    // Upgrade button
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Industry Premium", element: "Upgrade Button - ACTIVATED", status: .success)
+                        premiumManager.upgradeToPremium()
+                        withAnimation {
+                            showSuccessView = true
+                        }
+                    }) {
+                        Text("Upgrade - $9.99/month")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(QuantumHorizonColors.goldCelebration)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Text("7-day free trial included")
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.4))
+
+                    Spacer()
+                }
+                .padding(24)
+            }
+        }
+    }
+
+    private func premiumFeatureRow(_ text: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(QuantumHorizonColors.quantumGold)
+
+            Text(text)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.white.opacity(0.8))
         }
     }
 }
