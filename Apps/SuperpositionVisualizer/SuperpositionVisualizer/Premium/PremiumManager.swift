@@ -4,20 +4,15 @@
 //
 //  Created by SwiftQuantum on 2026/01/08.
 //  Global Premium State Manager for v2.1.1
+//  StoreKit 2 Integration for Production
 //
 
 import SwiftUI
 import Combine
-
-// MARK: - Admin Credentials (Development/Testing Only)
-struct AdminCredentials {
-    static let email = "admin@swiftquantum.io"
-    static let password = "QuantumAdmin2026!"
-    static let username = "SwiftQuantum Admin"
-}
+import StoreKit
 
 /// Global Premium Manager - Singleton for managing premium subscription state
-/// Used across all views to unlock premium features when upgrade button is pressed
+/// Integrates with StoreKit 2 for App Store subscriptions
 @MainActor
 class PremiumManager: ObservableObject {
 
@@ -29,10 +24,8 @@ class PremiumManager: ObservableObject {
     /// Main premium state - when true, all premium features are unlocked
     @Published var isPremium: Bool = false {
         didSet {
-            // Save to UserDefaults for persistence
             UserDefaults.standard.set(isPremium, forKey: "SwiftQuantum_isPremium")
 
-            // Log status change
             if isPremium {
                 DeveloperModeManager.shared.log(
                     screen: "Premium",
@@ -52,18 +45,20 @@ class PremiumManager: ObservableObject {
     /// Subscription tier
     @Published var subscriptionTier: SubscriptionTier = .free
 
-    /// Subscription expiry date (for display purposes)
+    /// Subscription expiry date
     @Published var expiryDate: Date? = nil
 
-    /// Admin mode flag - bypasses all subscription checks
-    @Published var isAdmin: Bool = false {
-        didSet {
-            UserDefaults.standard.set(isAdmin, forKey: "SwiftQuantum_isAdmin")
-        }
-    }
+    /// Available products from App Store
+    @Published var products: [Product] = []
 
-    // MARK: - UserDefaults Keys
-    private let isAdminKey = "SwiftQuantum_isAdmin"
+    /// Loading state
+    @Published var isLoading: Bool = false
+
+    /// Error message
+    @Published var errorMessage: String? = nil
+
+    // MARK: - Private Properties
+    private var updateListenerTask: Task<Void, Error>? = nil
 
     // MARK: - Subscription Tiers
 
@@ -71,14 +66,12 @@ class PremiumManager: ObservableObject {
         case free = "Free"
         case pro = "Pro"
         case premium = "Premium"
-        case enterprise = "Enterprise"
 
         var price: String {
             switch self {
             case .free: return "$0"
             case .pro: return "$4.99/month"
             case .premium: return "$9.99/month"
-            case .enterprise: return "Contact Sales"
             }
         }
 
@@ -87,7 +80,6 @@ class PremiumManager: ObservableObject {
             case .free: return "$0"
             case .pro: return "$39.99/year"
             case .premium: return "$79.99/year"
-            case .enterprise: return "Contact Sales"
             }
         }
 
@@ -96,7 +88,6 @@ class PremiumManager: ObservableObject {
             case .free: return ""
             case .pro: return "com.swiftquantum.pro.monthly"
             case .premium: return "com.swiftquantum.premium.monthly"
-            case .enterprise: return ""
             }
         }
 
@@ -105,7 +96,6 @@ class PremiumManager: ObservableObject {
             case .free: return ""
             case .pro: return "com.swiftquantum.pro.yearly"
             case .premium: return "com.swiftquantum.premium.yearly"
-            case .enterprise: return ""
             }
         }
 
@@ -134,169 +124,290 @@ class PremiumManager: ObservableObject {
                     "Industry Solutions Access",
                     "Priority Support"
                 ]
-            case .enterprise:
-                return [
-                    "Everything in Premium",
-                    "Unlimited Team Members",
-                    "Custom QPU Allocation",
-                    "Dedicated Support",
-                    "SLA Guarantee"
-                ]
             }
         }
     }
+
+    // MARK: - Product IDs
+    static let productIDs: Set<String> = [
+        "com.swiftquantum.pro.monthly",
+        "com.swiftquantum.pro.yearly",
+        "com.swiftquantum.premium.monthly",
+        "com.swiftquantum.premium.yearly"
+    ]
 
     // MARK: - Initialization
 
     private init() {
-        // Load saved admin status
-        isAdmin = UserDefaults.standard.bool(forKey: isAdminKey)
+        // Start listening for transaction updates
+        updateListenerTask = listenForTransactions()
 
-        // Load saved premium status
-        isPremium = UserDefaults.standard.bool(forKey: "SwiftQuantum_isPremium")
-
-        if isAdmin {
-            // Admin always has full premium access
-            isPremium = true
-            subscriptionTier = .enterprise
-            expiryDate = Calendar.current.date(byAdding: .year, value: 73, to: Date()) // 2099
-        } else if isPremium {
-            subscriptionTier = .premium
-            // Set expiry to 1 year from now for demo
-            expiryDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())
+        // Check current subscription status
+        Task {
+            await loadProducts()
+            await updateSubscriptionStatus()
         }
     }
 
-    // MARK: - Premium Actions
-
-    /// Upgrade to premium - Called when user taps upgrade button
-    func upgradeToPremium() {
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-            isPremium = true
-            subscriptionTier = .premium
-            expiryDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())
-        }
-
-        // Haptic feedback
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
-
-        DeveloperModeManager.shared.log(
-            screen: "Premium",
-            element: "Upgrade Button - Premium Activated",
-            status: .success
-        )
+    deinit {
+        updateListenerTask?.cancel()
     }
 
-    /// Downgrade to free (for testing/toggle purposes)
-    func downgradeToFree() {
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-            isPremium = false
-            subscriptionTier = .free
-            expiryDate = nil
-        }
+    // MARK: - StoreKit 2 Methods
 
-        DeveloperModeManager.shared.log(
-            screen: "Premium",
-            element: "Downgrade - Free Tier",
-            status: .success
-        )
-    }
+    /// Load products from App Store
+    func loadProducts() async {
+        isLoading = true
+        errorMessage = nil
 
-    /// Toggle premium status (for dev mode testing)
-    func togglePremium() {
-        if isPremium {
-            downgradeToFree()
-        } else {
-            upgradeToPremium()
-        }
-    }
-
-    // MARK: - Admin Login
-
-    /// Validate admin credentials and login
-    /// - Parameters:
-    ///   - email: Admin email
-    ///   - password: Admin password
-    /// - Returns: true if login successful
-    func loginAsAdmin(email: String, password: String) -> Bool {
-        if email == AdminCredentials.email && password == AdminCredentials.password {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                isAdmin = true
-                isPremium = true
-                subscriptionTier = .enterprise
-                expiryDate = Calendar.current.date(byAdding: .year, value: 73, to: Date()) // 2099
-            }
-
-            // Haptic feedback
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
-            impact.impactOccurred()
+        do {
+            let storeProducts = try await Product.products(for: Self.productIDs)
+            products = storeProducts.sorted { $0.price < $1.price }
+            isLoading = false
 
             DeveloperModeManager.shared.log(
                 screen: "Premium",
-                element: "Admin Login - Full Access Enabled",
+                element: "Products loaded: \(products.count)",
                 status: .success
             )
+        } catch {
+            isLoading = false
+            errorMessage = "Failed to load products: \(error.localizedDescription)"
 
-            print("✅ Admin login successful - Full premium access enabled")
-            return true
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Product load failed: \(error.localizedDescription)",
+                status: .failed
+            )
         }
-
-        DeveloperModeManager.shared.log(
-            screen: "Premium",
-            element: "Admin Login Failed - Invalid Credentials",
-            status: .failed
-        )
-
-        return false
     }
 
-    /// Logout from admin mode
-    func logoutAdmin() {
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-            isAdmin = false
-            isPremium = false
-            subscriptionTier = .free
-            expiryDate = nil
+    /// Purchase a subscription product
+    func purchase(_ product: Product) async -> Bool {
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            let result = try await product.purchase()
+
+            switch result {
+            case .success(let verification):
+                let transaction = try checkVerified(verification)
+                await updateSubscriptionStatus()
+                await transaction.finish()
+
+                isLoading = false
+
+                // Haptic feedback
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+
+                DeveloperModeManager.shared.log(
+                    screen: "Premium",
+                    element: "Purchase successful: \(product.id)",
+                    status: .success
+                )
+
+                return true
+
+            case .userCancelled:
+                isLoading = false
+                DeveloperModeManager.shared.log(
+                    screen: "Premium",
+                    element: "Purchase cancelled by user",
+                    status: .noAction
+                )
+                return false
+
+            case .pending:
+                isLoading = false
+                errorMessage = "Purchase is pending approval"
+                DeveloperModeManager.shared.log(
+                    screen: "Premium",
+                    element: "Purchase pending",
+                    status: .comingSoon
+                )
+                return false
+
+            @unknown default:
+                isLoading = false
+                return false
+            }
+        } catch {
+            isLoading = false
+            errorMessage = "Purchase failed: \(error.localizedDescription)"
+
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Purchase failed: \(error.localizedDescription)",
+                status: .failed
+            )
+
+            return false
+        }
+    }
+
+    /// Restore purchases
+    func restorePurchases() async {
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            try await AppStore.sync()
+            await updateSubscriptionStatus()
+            isLoading = false
+
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Purchases restored",
+                status: .success
+            )
+        } catch {
+            isLoading = false
+            errorMessage = "Restore failed: \(error.localizedDescription)"
+
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Restore failed: \(error.localizedDescription)",
+                status: .failed
+            )
+        }
+    }
+
+    /// Update subscription status based on current entitlements
+    func updateSubscriptionStatus() async {
+        var hasActiveSubscription = false
+        var currentTier: SubscriptionTier = .free
+        var expiry: Date? = nil
+
+        for await result in Transaction.currentEntitlements {
+            do {
+                let transaction = try checkVerified(result)
+
+                if Self.productIDs.contains(transaction.productID) {
+                    hasActiveSubscription = true
+
+                    // Determine tier from product ID
+                    if transaction.productID.contains("premium") {
+                        currentTier = .premium
+                    } else if transaction.productID.contains("pro") {
+                        if currentTier != .premium {
+                            currentTier = .pro
+                        }
+                    }
+
+                    // Get expiry date
+                    if let expirationDate = transaction.expirationDate {
+                        if expiry == nil || expirationDate > expiry! {
+                            expiry = expirationDate
+                        }
+                    }
+                }
+            } catch {
+                // Verification failed, skip this transaction
+                continue
+            }
         }
 
-        UserDefaults.standard.set(false, forKey: isAdminKey)
-        UserDefaults.standard.set(false, forKey: "SwiftQuantum_isPremium")
+        // Update published properties
+        isPremium = hasActiveSubscription && (currentTier == .pro || currentTier == .premium)
+        subscriptionTier = currentTier
+        expiryDate = expiry
+    }
 
-        DeveloperModeManager.shared.log(
-            screen: "Premium",
-            element: "Admin Logout",
-            status: .success
-        )
+    /// Listen for transaction updates
+    private func listenForTransactions() -> Task<Void, Error> {
+        return Task.detached {
+            for await result in Transaction.updates {
+                do {
+                    let transaction = try await self.checkVerified(result)
+                    await self.updateSubscriptionStatus()
+                    await transaction.finish()
+                } catch {
+                    // Handle verification failure
+                }
+            }
+        }
+    }
 
-        print("✅ Admin logged out")
+    /// Verify transaction
+    private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+        switch result {
+        case .unverified:
+            throw StoreError.failedVerification
+        case .verified(let safe):
+            return safe
+        }
     }
 
     // MARK: - Feature Checks
 
-    /// Check if QuantumBridge is available
+    /// Check if QuantumBridge is available (Premium only)
     var canUseQuantumBridge: Bool {
-        isPremium
+        subscriptionTier == .premium
     }
 
-    /// Check if Error Correction is available
+    /// Check if Error Correction is available (Premium only)
     var canUseErrorCorrection: Bool {
-        isPremium
+        subscriptionTier == .premium
     }
 
-    /// Check if all Academy courses are unlocked
+    /// Check if all Academy courses are unlocked (Pro or Premium)
     var hasFullAcademyAccess: Bool {
         isPremium
     }
 
-    /// Check if Industry solutions are accessible
+    /// Check if Industry solutions are accessible (Premium only)
     var hasIndustryAccess: Bool {
-        isPremium
+        subscriptionTier == .premium
     }
 
     /// Get number of unlocked Academy levels
     var unlockedAcademyLevels: Int {
-        isPremium ? 20 : 8  // Free users get levels 1-8, Premium get all
+        switch subscriptionTier {
+        case .free: return 2
+        case .pro: return 12
+        case .premium: return 20
+        }
+    }
+
+    // MARK: - Store Error
+    enum StoreError: Error {
+        case failedVerification
+    }
+
+    // MARK: - Legacy Compatibility Methods (for existing UI)
+
+    /// Show subscription view - called when user taps upgrade button
+    @Published var showSubscriptionView: Bool = false
+
+    /// Upgrade to premium - opens subscription view
+    func upgradeToPremium() {
+        showSubscriptionView = true
+
+        DeveloperModeManager.shared.log(
+            screen: "Premium",
+            element: "Upgrade Button - Opening Subscription View",
+            status: .success
+        )
+    }
+
+    /// Toggle premium status (for dev mode testing only)
+    func togglePremium() {
+        showSubscriptionView = true
+    }
+
+    /// Downgrade to free (manual reset for testing)
+    func downgradeToFree() {
+        isPremium = false
+        subscriptionTier = .free
+        expiryDate = nil
+
+        DeveloperModeManager.shared.log(
+            screen: "Premium",
+            element: "Manual Downgrade - Free Tier",
+            status: .success
+        )
     }
 }
 
@@ -310,7 +421,7 @@ struct PremiumBadge: View {
             HStack(spacing: 4) {
                 Image(systemName: "crown.fill")
                     .font(.system(size: 10))
-                Text("PREMIUM")
+                Text(premiumManager.subscriptionTier.rawValue.uppercased())
                     .font(.system(size: 9, weight: .bold, design: .monospaced))
             }
             .foregroundColor(.yellow)
@@ -352,7 +463,7 @@ struct PremiumRequiredOverlay: View {
             Button(action: onUpgrade) {
                 HStack {
                     Image(systemName: "crown.fill")
-                    Text("Upgrade - $9.99/month")
+                    Text("Upgrade to Premium")
                 }
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.black)
@@ -375,6 +486,166 @@ struct PremiumRequiredOverlay: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                )
+        )
+    }
+}
+
+// MARK: - Subscription View
+
+struct SubscriptionView: View {
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header
+                    VStack(spacing: 8) {
+                        Image(systemName: "crown.fill")
+                            .font(.system(size: 50))
+                            .foregroundColor(.yellow)
+
+                        Text("Unlock SwiftQuantum")
+                            .font(.title.bold())
+                            .foregroundColor(.white)
+
+                        Text("Choose the plan that's right for you")
+                            .font(.subheadline)
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                    .padding(.top, 20)
+
+                    // Products
+                    if premiumManager.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .yellow))
+                            .padding()
+                    } else if let error = premiumManager.errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .padding()
+                    } else {
+                        ForEach(premiumManager.products, id: \.id) { product in
+                            ProductCard(product: product)
+                        }
+                    }
+
+                    // Restore Purchases
+                    Button(action: {
+                        Task {
+                            await premiumManager.restorePurchases()
+                        }
+                    }) {
+                        Text("Restore Purchases")
+                            .font(.subheadline)
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                    .padding(.top, 8)
+
+                    // Terms
+                    Text("Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current period.")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.5))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .padding()
+            }
+            .background(Color.black.ignoresSafeArea())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                    .foregroundColor(.yellow)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Product Card
+
+struct ProductCard: View {
+    let product: Product
+    @ObservedObject var premiumManager = PremiumManager.shared
+
+    var isPro: Bool {
+        product.id.contains("pro")
+    }
+
+    var isYearly: Bool {
+        product.id.contains("yearly")
+    }
+
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(isPro ? "Pro" : "Premium")
+                            .font(.headline)
+                            .foregroundColor(.white)
+
+                        if isYearly {
+                            Text("SAVE 33%")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.green)
+                                .clipShape(Capsule())
+                        }
+                    }
+
+                    Text(isYearly ? "Yearly" : "Monthly")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing) {
+                    Text(product.displayPrice)
+                        .font(.title2.bold())
+                        .foregroundColor(.yellow)
+
+                    Text(isYearly ? "/year" : "/month")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+
+            Button(action: {
+                Task {
+                    await premiumManager.purchase(product)
+                }
+            }) {
+                Text("Subscribe")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(
+                        LinearGradient(
+                            colors: [.yellow, .orange],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(isPro ? Color.blue.opacity(0.5) : Color.yellow.opacity(0.5), lineWidth: 1)
                 )
         )
     }
