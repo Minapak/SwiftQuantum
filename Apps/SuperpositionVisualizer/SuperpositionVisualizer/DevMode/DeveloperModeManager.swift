@@ -13,7 +13,7 @@ import SwiftUI
 class DeveloperModeManager: ObservableObject {
     static let shared = DeveloperModeManager()
 
-    @Published var isEnabled: Bool = true  // 개발 모드 활성화
+    @Published var isEnabled: Bool = false  // 개발 모드 비활성화 (Production)
     @Published var tapLogs: [TapLogEntry] = []
     @Published var showLogOverlay: Bool = false
 

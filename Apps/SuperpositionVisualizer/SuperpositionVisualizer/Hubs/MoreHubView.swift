@@ -313,81 +313,8 @@ struct MoreHubView: View {
 }
 
 // MARK: - Language Selection Sheet
-struct LanguageSelectionSheet: View {
-    @Environment(\.dismiss) private var dismiss
-    @AppStorage("selectedLanguage") private var selectedLanguage = "en"
-
-    private let languages = [
-        ("en", "English", "🇺🇸"),
-        ("ko", "한국어", "🇰🇷"),
-        ("ja", "日本語", "🇯🇵"),
-        ("zh-Hans", "简体中文", "🇨🇳")
-    ]
-
-    var body: some View {
-        NavigationView {
-            ZStack {
-                QuantumHorizonBackground()
-                    .ignoresSafeArea()
-
-                ScrollView {
-                    VStack(spacing: 12) {
-                        ForEach(languages, id: \.0) { code, name, flag in
-                            languageRow(code: code, name: name, flag: flag)
-                        }
-                    }
-                    .padding(20)
-                }
-            }
-            .navigationTitle("Language")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        DeveloperModeManager.shared.log(screen: "Language", element: "Done Button", status: .success)
-                        dismiss()
-                    }
-                    .foregroundColor(QuantumHorizonColors.quantumCyan)
-                }
-            }
-        }
-        .preferredColorScheme(.dark)
-    }
-
-    private func languageRow(code: String, name: String, flag: String) -> some View {
-        Button(action: {
-            DeveloperModeManager.shared.log(screen: "Language", element: "Select: \(name)", status: .success)
-            selectedLanguage = code
-        }) {
-            HStack(spacing: 16) {
-                Text(flag)
-                    .font(.system(size: 28))
-
-                Text(name)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(.white)
-
-                Spacer()
-
-                if selectedLanguage == code {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 22))
-                        .foregroundColor(QuantumHorizonColors.quantumCyan)
-                }
-            }
-            .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(selectedLanguage == code ? QuantumHorizonColors.quantumCyan.opacity(0.15) : Color.white.opacity(0.05))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(selectedLanguage == code ? QuantumHorizonColors.quantumCyan.opacity(0.5) : Color.white.opacity(0.1), lineWidth: 1)
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
+// Note: LanguageSelectionSheet is now defined in LocalizationManager.swift
+// to avoid duplicate definitions. Use LocalizationManager for all language-related functionality.
 
 // MARK: - Academy Detail View (Sheet)
 struct AcademyDetailView: View {

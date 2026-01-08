@@ -16,14 +16,33 @@ struct OnboardingStep: Identifiable {
     let description: String
     let icon: String
     let accentColor: Color
+    let isLanguageStep: Bool
+
+    init(title: String, subtitle: String, description: String, icon: String, accentColor: Color, isLanguageStep: Bool = false) {
+        self.title = title
+        self.subtitle = subtitle
+        self.description = description
+        self.icon = icon
+        self.accentColor = accentColor
+        self.isLanguageStep = isLanguageStep
+    }
 }
 
 // MARK: - Onboarding View
 struct OnboardingView: View {
     @Binding var isPresented: Bool
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var currentStep = 0
 
     private let steps: [OnboardingStep] = [
+        OnboardingStep(
+            title: "Select Your",
+            subtitle: "Language",
+            description: "Choose your preferred language. You can change it anytime in Settings.",
+            icon: "globe",
+            accentColor: QuantumHorizonColors.quantumGreen,
+            isLanguageStep: true
+        ),
         OnboardingStep(
             title: "Welcome to",
             subtitle: "SwiftQuantum",
@@ -100,27 +119,80 @@ struct OnboardingView: View {
 
     // MARK: - Icon Section
     private var iconSection: some View {
-        ZStack {
-            // Glow effect
-            Circle()
-                .fill(steps[currentStep].accentColor.opacity(0.15))
-                .frame(width: 160, height: 160)
-                .blur(radius: 20)
+        Group {
+            if steps[currentStep].isLanguageStep {
+                languageSelectionGrid
+            } else {
+                ZStack {
+                    // Glow effect
+                    Circle()
+                        .fill(steps[currentStep].accentColor.opacity(0.15))
+                        .frame(width: 160, height: 160)
+                        .blur(radius: 20)
 
-            // Main circle
-            Circle()
-                .fill(steps[currentStep].accentColor.opacity(0.1))
-                .frame(width: 120, height: 120)
+                    // Main circle
+                    Circle()
+                        .fill(steps[currentStep].accentColor.opacity(0.1))
+                        .frame(width: 120, height: 120)
 
-            Circle()
-                .stroke(steps[currentStep].accentColor.opacity(0.4), lineWidth: 2)
-                .frame(width: 120, height: 120)
+                    Circle()
+                        .stroke(steps[currentStep].accentColor.opacity(0.4), lineWidth: 2)
+                        .frame(width: 120, height: 120)
 
-            Image(systemName: steps[currentStep].icon)
-                .font(.system(size: 48, weight: .light))
-                .foregroundColor(steps[currentStep].accentColor)
+                    Image(systemName: steps[currentStep].icon)
+                        .font(.system(size: 48, weight: .light))
+                        .foregroundColor(steps[currentStep].accentColor)
+                }
+            }
         }
         .animation(.easeInOut(duration: 0.3), value: currentStep)
+    }
+
+    // MARK: - Language Selection Grid
+    private var languageSelectionGrid: some View {
+        VStack(spacing: 12) {
+            ForEach(AppLanguage.allCases) { language in
+                Button(action: {
+                    withAnimation(.spring(response: 0.3)) {
+                        localization.setLanguage(language)
+                    }
+                    DeveloperModeManager.shared.log(screen: "Onboarding", element: "Language: \(language.displayName)", status: .success)
+                }) {
+                    HStack(spacing: 14) {
+                        Text(language.flag)
+                            .font(.system(size: 24))
+
+                        Text(language.displayName)
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundColor(.white)
+
+                        Spacer()
+
+                        if localization.currentLanguage == language {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 22))
+                                .foregroundColor(QuantumHorizonColors.quantumGreen)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 14)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(localization.currentLanguage == language ?
+                                  Color.white.opacity(0.12) :
+                                  Color.white.opacity(0.05))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .stroke(localization.currentLanguage == language ?
+                                            QuantumHorizonColors.quantumGreen.opacity(0.5) :
+                                            Color.clear, lineWidth: 1.5)
+                            )
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .padding(.horizontal, 8)
     }
 
     // MARK: - Text Section
