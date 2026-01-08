@@ -3,25 +3,31 @@ import SceneKit
 import SwiftQuantum
 
 // MARK: - Lab Hub - "The Core"
-// Controls + Measure + Info 통합 - 벤토 그리드 기반 단일 화면
+// Simplified Apple HIG Compliant Design
+// Clean, focused interface for quantum state manipulation
 
 struct LabHubView: View {
     @ObservedObject var stateManager: QuantumStateManager
     @State private var measurementResults: [Int: Int] = [0: 0, 1: 0]
     @State private var lastMeasurementResult: Int?
     @State private var showCelebration = false
+    @State private var selectedMode = 0  // 0: Control, 1: Measure
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
-                // 상단: 3D Bloch Sphere (40% 영역)
+            VStack(spacing: 20) {
+                // Main Visualization: 3D Bloch Sphere
                 blochSphereSection
 
-                // 게이트 컨트롤 (가로 스크롤)
-                gateControlStrip
+                // Simplified Mode Selector
+                modeSelector
 
-                // 벤토 그리드 영역
-                bentoGridSection
+                // Context-aware Content based on selected mode
+                if selectedMode == 0 {
+                    controlSection
+                } else {
+                    measureSection
+                }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 120)
@@ -31,7 +37,42 @@ struct LabHubView: View {
         )
     }
 
-    // MARK: - Bloch Sphere Section (상단 40%)
+    // MARK: - Mode Selector (Apple HIG Style)
+    private var modeSelector: some View {
+        HStack(spacing: 0) {
+            modeButton(title: "Control", icon: "slider.horizontal.3", index: 0)
+            modeButton(title: "Measure", icon: "waveform.path.ecg", index: 1)
+        }
+        .padding(4)
+        .background(Color.white.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func modeButton(title: String, icon: String, index: Int) -> some View {
+        Button(action: {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                selectedMode = index
+            }
+        }) {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.system(size: 14, weight: .medium))
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+            }
+            .foregroundColor(selectedMode == index ? .white : .white.opacity(0.5))
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(
+                selectedMode == index ?
+                AnyShapeStyle(QuantumHorizonColors.quantumCyan.opacity(0.3)) :
+                AnyShapeStyle(Color.clear)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+    }
+
+    // MARK: - Bloch Sphere Section
     private var blochSphereSection: some View {
         ZStack {
             // Ambient glow
@@ -52,7 +93,7 @@ struct LabHubView: View {
 
             // 3D Bloch Sphere
             BlochSphereView3D(qubit: stateManager.qubit)
-                .frame(height: 280)
+                .frame(height: 260)
                 .shadow(color: QuantumHorizonColors.quantumCyan.opacity(0.3), radius: 20, x: 0, y: 10)
 
             // Coordinates overlay
@@ -61,7 +102,7 @@ struct LabHubView: View {
                 coordinatesBar
             }
         }
-        .frame(height: 300)
+        .frame(height: 280)
     }
 
     private var coordinatesBar: some View {
@@ -88,73 +129,17 @@ struct LabHubView: View {
         }
     }
 
-    // MARK: - Gate Control Strip (가로 스크롤)
-    private var gateControlStrip: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
-                gateButton("H", label: "Hadamard", color: QuantumHorizonColors.quantumGold) {
-                    stateManager.applyHadamard()
-                }
-                gateButton("X", label: "Pauli-X", color: .red) {
-                    stateManager.applyPauliX()
-                }
-                gateButton("Y", label: "Pauli-Y", color: .green) {
-                    stateManager.applyPauliY()
-                }
-                gateButton("Z", label: "Pauli-Z", color: .blue) {
-                    stateManager.applyPauliZ()
-                }
-                gateButton("φ", label: "Phase", color: QuantumHorizonColors.quantumPurple) {
-                    // Phase gate
-                }
-            }
-            .padding(.horizontal, 4)
-        }
-    }
-
-    private func gateButton(_ symbol: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
-        Button(action: {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            action()
-        }) {
-            VStack(spacing: 6) {
-                Text(symbol)
-                    .font(.system(size: 20, weight: .bold, design: .monospaced))
-                    .foregroundColor(color)
-                    .frame(width: 44, height: 44)
-                    .background(color.opacity(0.15))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(color.opacity(0.4), lineWidth: 1)
-                    )
-
-                Text(label)
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundColor(.white.opacity(0.6))
-            }
-        }
-        .buttonStyle(SpringButtonStyle())
-    }
-
-    // MARK: - Bento Grid Section
-    private var bentoGridSection: some View {
-        VStack(spacing: 14) {
-            // Row 1: Probability Control (wide)
+    // MARK: - Control Section (Simplified)
+    private var controlSection: some View {
+        VStack(spacing: 16) {
+            // Probability Control Card
             probabilityCard
 
-            // Row 2: Measurement + Qubit Info
-            HStack(spacing: 14) {
-                measurementCard
-                qubitInfoCard
-            }
+            // Gate Buttons - Clean Grid
+            gateGridCard
 
-            // Row 3: Results + Reset
-            HStack(spacing: 14) {
-                resultsCard
-                resetCard
-            }
+            // State Info
+            stateInfoCard
         }
     }
 
@@ -164,19 +149,23 @@ struct LabHubView: View {
             HStack {
                 Image(systemName: "slider.horizontal.3")
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
-                Text("Probability Control")
+                Text("Probability")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
                 Spacer()
+                Text("|0⟩")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
             }
 
             HStack(spacing: 16) {
-                // Big percentage display
+                // Percentage display
                 Text(String(format: "%.0f%%", stateManager.probability0 * 100))
-                    .font(.system(size: 40, weight: .bold, design: .monospaced))
+                    .font(.system(size: 36, weight: .bold, design: .monospaced))
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
+                    .frame(width: 100)
 
-                VStack(spacing: 8) {
+                VStack(spacing: 10) {
                     // Slider
                     Slider(value: Binding(
                         get: { stateManager.probability0 },
@@ -184,7 +173,7 @@ struct LabHubView: View {
                     ), in: 0...1)
                     .tint(QuantumHorizonColors.quantumCyan)
 
-                    // Probability bars
+                    // Visual probability bars
                     HStack(spacing: 8) {
                         probBar("|0⟩", value: stateManager.probability0, color: QuantumHorizonColors.quantumCyan)
                         probBar("|1⟩", value: 1 - stateManager.probability0, color: QuantumHorizonColors.quantumPink)
@@ -218,103 +207,119 @@ struct LabHubView: View {
             }
             .frame(height: 6)
 
-            Text(String(format: "%.1f%%", value * 100))
+            Text(String(format: "%.0f%%", value * 100))
                 .font(.system(size: 9))
                 .foregroundColor(.white.opacity(0.5))
         }
     }
 
-    // MARK: - Measurement Card
-    private var measurementCard: some View {
-        VStack(spacing: 12) {
+    // MARK: - Gate Grid Card (Simplified 2x2)
+    private var gateGridCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Image(systemName: "waveform.path.ecg")
-                    .foregroundColor(QuantumHorizonColors.quantumPurple)
-                Text("Measure")
-                    .font(.system(size: 13, weight: .semibold))
+                Image(systemName: "cube.transparent")
+                    .foregroundColor(QuantumHorizonColors.quantumGold)
+                Text("Quantum Gates")
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
-                Spacer()
             }
 
-            VStack(spacing: 10) {
-                // Single measurement
-                Button(action: performSingleMeasurement) {
-                    HStack {
-                        Image(systemName: "scope")
-                        Text("Single")
-                    }
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(QuantumHorizonColors.quantumPurple.opacity(0.3))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
+            ], spacing: 12) {
+                gateButton("H", label: "Hadamard", color: QuantumHorizonColors.quantumGold) {
+                    stateManager.applyHadamard()
                 }
-
-                // Statistical measurement
-                Button(action: performStatisticalMeasurement) {
-                    HStack {
-                        Image(systemName: "chart.bar.fill")
-                        Text("1000x")
-                    }
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(
-                        LinearGradient(
-                            colors: [QuantumHorizonColors.quantumPurple, QuantumHorizonColors.quantumPink],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                gateButton("X", label: "Pauli-X", color: .red) {
+                    stateManager.applyPauliX()
+                }
+                gateButton("Y", label: "Pauli-Y", color: .green) {
+                    stateManager.applyPauliY()
+                }
+                gateButton("Z", label: "Pauli-Z", color: .blue) {
+                    stateManager.applyPauliZ()
                 }
             }
         }
-        .padding(14)
+        .padding(16)
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.white.opacity(0.1), lineWidth: 1)
         )
     }
 
-    // MARK: - Qubit Info Card
-    private var qubitInfoCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Image(systemName: "info.circle.fill")
-                    .foregroundColor(QuantumHorizonColors.quantumGreen)
-                Text("State")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
-                Spacer()
-            }
+    private func gateButton(_ symbol: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            action()
+        }) {
+            VStack(spacing: 6) {
+                Text(symbol)
+                    .font(.system(size: 22, weight: .bold, design: .monospaced))
+                    .foregroundColor(color)
+                    .frame(width: 50, height: 50)
+                    .background(color.opacity(0.15))
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
 
-            VStack(alignment: .leading, spacing: 6) {
-                // State notation
-                Text("|ψ⟩ = \(stateNotation)")
-                    .font(.system(size: 11, weight: .medium, design: .monospaced))
-                    .foregroundColor(QuantumHorizonColors.quantumGreen)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.7)
-
-                Divider().background(Color.white.opacity(0.1))
-
-                HStack {
-                    statItem("Entropy", value: String(format: "%.2f", entropy))
-                    Spacer()
-                    statItem("Purity", value: "1.00")
-                }
+                Text(label)
+                    .font(.system(size: 9, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
             }
         }
-        .padding(14)
+        .buttonStyle(SpringButtonStyle())
+    }
+
+    // MARK: - State Info Card
+    private var stateInfoCard: some View {
+        HStack(spacing: 16) {
+            // State notation
+            VStack(alignment: .leading, spacing: 4) {
+                Text("State")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
+
+                Text("|ψ⟩ = \(stateNotation)")
+                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                    .foregroundColor(QuantumHorizonColors.quantumGreen)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+
+            Spacer()
+
+            // Entropy
+            VStack(alignment: .trailing, spacing: 4) {
+                Text("Entropy")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
+
+                Text(String(format: "%.2f", entropy))
+                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+            }
+
+            // Purity
+            VStack(alignment: .trailing, spacing: 4) {
+                Text("Purity")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
+
+                Text("1.00")
+                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+            }
+        }
+        .padding(16)
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: 16)
                 .stroke(Color.white.opacity(0.1), lineWidth: 1)
         )
     }
@@ -334,107 +339,173 @@ struct LabHubView: View {
         return -p0 * log2(p0) - p1 * log2(p1)
     }
 
-    private func statItem(_ label: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(label)
-                .font(.system(size: 9))
-                .foregroundColor(.white.opacity(0.5))
-            Text(value)
-                .font(.system(size: 13, weight: .bold, design: .monospaced))
-                .foregroundColor(.white)
+    // MARK: - Measure Section (Simplified)
+    private var measureSection: some View {
+        VStack(spacing: 16) {
+            // Measurement Buttons
+            HStack(spacing: 14) {
+                measureButton(
+                    title: "Single",
+                    subtitle: "Collapse state",
+                    icon: "scope",
+                    color: QuantumHorizonColors.quantumPurple
+                ) {
+                    performSingleMeasurement()
+                }
+
+                measureButton(
+                    title: "1000x",
+                    subtitle: "Statistics",
+                    icon: "chart.bar.fill",
+                    color: QuantumHorizonColors.quantumCyan
+                ) {
+                    performStatisticalMeasurement()
+                }
+            }
+
+            // Results Card
+            resultsCard
+
+            // Reset Button
+            resetButton
         }
+    }
+
+    private func measureButton(title: String, subtitle: String, icon: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            action()
+        }) {
+            VStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.system(size: 28, weight: .medium))
+                    .foregroundColor(color)
+
+                VStack(spacing: 2) {
+                    Text(title)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.white)
+
+                    Text(subtitle)
+                        .font(.system(size: 11))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 24)
+            .background(color.opacity(0.15))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(color.opacity(0.3), lineWidth: 1)
+            )
+        }
+        .buttonStyle(SpringButtonStyle())
     }
 
     // MARK: - Results Card
     private var resultsCard: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 12) {
             HStack {
                 Image(systemName: "chart.bar.xaxis")
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
                 Text("Results")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
                 Spacer()
+
+                let total = (measurementResults[0] ?? 0) + (measurementResults[1] ?? 0)
+                if total > 0 {
+                    Text("\(total) measurements")
+                        .font(.system(size: 11))
+                        .foregroundColor(.white.opacity(0.5))
+                }
             }
 
             let total = (measurementResults[0] ?? 0) + (measurementResults[1] ?? 0)
 
-            HStack(spacing: 16) {
-                resultItem("|0⟩", count: measurementResults[0] ?? 0, total: total, color: QuantumHorizonColors.quantumCyan)
-                resultItem("|1⟩", count: measurementResults[1] ?? 0, total: total, color: QuantumHorizonColors.quantumPink)
+            if total == 0 {
+                // Empty state
+                VStack(spacing: 8) {
+                    Image(systemName: "waveform.path.ecg")
+                        .font(.system(size: 32))
+                        .foregroundColor(.white.opacity(0.2))
+
+                    Text("No measurements yet")
+                        .font(.system(size: 13))
+                        .foregroundColor(.white.opacity(0.4))
+
+                    Text("Tap Single or 1000x to measure")
+                        .font(.system(size: 11))
+                        .foregroundColor(.white.opacity(0.3))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+            } else {
+                HStack(spacing: 20) {
+                    resultItem("|0⟩", count: measurementResults[0] ?? 0, total: total, color: QuantumHorizonColors.quantumCyan)
+                    resultItem("|1⟩", count: measurementResults[1] ?? 0, total: total, color: QuantumHorizonColors.quantumPink)
+                }
             }
         }
-        .padding(14)
+        .padding(16)
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.white.opacity(0.1), lineWidth: 1)
         )
     }
 
     private func resultItem(_ label: String, count: Int, total: Int, color: Color) -> some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 6) {
             Text(label)
-                .font(.system(size: 11, weight: .bold, design: .monospaced))
+                .font(.system(size: 13, weight: .bold, design: .monospaced))
                 .foregroundColor(color)
+
             Text("\(count)")
-                .font(.system(size: 18, weight: .bold, design: .monospaced))
+                .font(.system(size: 28, weight: .bold, design: .monospaced))
                 .foregroundColor(.white)
-            if total > 0 {
-                Text(String(format: "%.1f%%", Double(count) / Double(total) * 100))
-                    .font(.system(size: 9))
-                    .foregroundColor(.white.opacity(0.5))
+
+            Text(String(format: "%.1f%%", Double(count) / Double(total) * 100))
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.white.opacity(0.6))
+
+            // Visual bar
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color.white.opacity(0.1))
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(color)
+                        .frame(width: geo.size.width * (Double(count) / Double(total)))
+                }
             }
+            .frame(height: 6)
         }
         .frame(maxWidth: .infinity)
     }
 
-    // MARK: - Reset Card
-    private var resetCard: some View {
-        VStack(spacing: 10) {
-            HStack {
+    // MARK: - Reset Button
+    private var resetButton: some View {
+        Button(action: {
+            withAnimation(.spring()) {
+                stateManager.reset()
+                measurementResults = [0: 0, 1: 0]
+            }
+        }) {
+            HStack(spacing: 8) {
                 Image(systemName: "arrow.counterclockwise")
-                    .foregroundColor(.orange)
-                Text("Reset")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
-                Spacer()
+                Text("Reset All")
             }
-
-            VStack(spacing: 8) {
-                Button(action: {
-                    stateManager.reset()
-                }) {
-                    Text("Reset Qubit")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                        .background(Color.orange.opacity(0.3))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                Button(action: {
-                    measurementResults = [0: 0, 1: 0]
-                }) {
-                    Text("Clear Stats")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.white.opacity(0.7))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                        .background(Color.white.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-            }
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.white.opacity(0.7))
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .background(Color.white.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
-        .padding(14)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 18))
-        .overlay(
-            RoundedRectangle(cornerRadius: 18)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-        )
     }
 
     // MARK: - Actions

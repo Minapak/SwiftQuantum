@@ -1,8 +1,8 @@
 import SwiftUI
 
 // MARK: - Q-Agent Floating Assistant
-// 모든 화면 우측 하단에 떠 있는 AI 가이드
-// 사용자가 헤매면 조언을 제공
+// AI-powered quantum computing guide that appears on all screens
+// Provides contextual help and tips based on user activity
 
 struct QAgentView: View {
     @StateObject private var agent = QAgentViewModel()
@@ -223,13 +223,14 @@ class QAgentViewModel: ObservableObject {
     @Published var isActive = false
     @Published var hasNewMessage = false
 
+    // Default language is English - all hints in English
     private var contextualHints: [String] = [
-        "현재 설계된 회로는 노이즈가 많으니 Bridge 모드 사용을 추천합니다.",
-        "Hadamard 게이트를 적용하면 완벽한 중첩 상태를 만들 수 있어요!",
-        "측정 결과가 기대치와 다르다면 Error Correction을 확인해보세요.",
-        "팁: Phase를 조절하면 Bloch Sphere에서 적도면 회전을 볼 수 있어요.",
-        "Level 8을 완료하면 Grover's Algorithm을 배울 수 있어요!",
-        "IBM Brisbane에 연결하면 실제 127큐빗 양자 컴퓨터를 사용할 수 있습니다."
+        "Your current circuit has some noise. Consider using Bridge mode for better results.",
+        "Apply a Hadamard gate to create a perfect superposition state!",
+        "If measurement results differ from expectations, check Error Correction settings.",
+        "Tip: Adjust the Phase to see equatorial rotation on the Bloch Sphere.",
+        "Complete Level 8 to unlock Grover's Search Algorithm!",
+        "Connect to IBM Brisbane to use an actual 127-qubit quantum computer."
     ]
 
     func startObserving() {
@@ -258,8 +259,8 @@ class QAgentViewModel: ObservableObject {
     func requestHelp() {
         isActive = true
 
-        // Provide contextual help based on current state
-        currentMessage = "안녕하세요! 양자 실험에 도움이 필요하시면 말씀해주세요. 현재 상태를 분석해드릴게요."
+        // Provide contextual help based on current state (English default)
+        currentMessage = "Hello! Need help with quantum experiments? I can analyze your current state and provide tips."
         suggestedActions = [
             QAgentAction(title: "Circuit Tips") { [weak self] in
                 self?.showCircuitTips()
@@ -271,12 +272,12 @@ class QAgentViewModel: ObservableObject {
     }
 
     func showCircuitTips() {
-        currentMessage = "현재 회로 최적화 팁:\n• 게이트 수를 줄여 노이즈를 최소화하세요\n• 중첩 상태에서 측정 전 위상을 확인하세요\n• 실제 하드웨어에서는 에러 보정이 필수입니다"
+        currentMessage = "Circuit Optimization Tips:\n• Reduce gate count to minimize noise\n• Verify phase before measurement in superposition\n• Error correction is essential for real hardware"
         suggestedActions = []
     }
 
     func showLearningPath() {
-        currentMessage = "다음 학습 추천: Level 8 'Quantum Algorithms'를 완료하면 Grover의 검색 알고리즘을 배울 수 있어요. 이 과정은 연봉 가치를 15% 높일 수 있습니다!"
+        currentMessage = "Recommended: Complete Level 8 'Quantum Algorithms' to learn Grover's Search. This knowledge can increase your market value by 15%!"
         suggestedActions = []
     }
 
@@ -290,13 +291,13 @@ class QAgentViewModel: ObservableObject {
     func showHubSpecificHint(hub: QuantumHub) {
         switch hub {
         case .lab:
-            currentMessage = "실험실에서는 Bloch Sphere를 통해 큐빗 상태를 시각화할 수 있어요. 슬라이더로 확률과 위상을 조절해보세요!"
+            currentMessage = "In the Lab, visualize qubit states on the Bloch Sphere. Use sliders to adjust probability and phase!"
         case .presets:
-            currentMessage = "미리 설정된 양자 상태들을 탐험해보세요. |+⟩, |-⟩, |i⟩ 등 다양한 중첩 상태를 즉시 로드할 수 있어요!"
+            currentMessage = "Explore preset quantum states. Instantly load |+⟩, |-⟩, |i⟩ and other superposition states!"
         case .bridge:
-            currentMessage = "Bridge에서는 실제 양자 컴퓨터에 회로를 배포할 수 있어요. IBM Brisbane은 현재 온라인 상태입니다."
+            currentMessage = "Deploy circuits to real quantum computers via Bridge. IBM Brisbane is currently online."
         case .more:
-            currentMessage = "Academy에서 학습하고, Industry 솔루션을 탐험하고, 프로필에서 진도를 확인하세요!"
+            currentMessage = "Learn in Academy, explore Industry solutions, and track your progress in Profile!"
         }
         hasNewMessage = true
         isActive = true

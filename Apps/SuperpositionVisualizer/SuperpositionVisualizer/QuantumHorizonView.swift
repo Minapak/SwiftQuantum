@@ -2,12 +2,14 @@ import SwiftUI
 
 // MARK: - Quantum Horizon Main View
 // 2026 Modern UI/UX: Glassmorphism + Bento Grid + Miami Gradients
-// 5개 허브로 통합된 새로운 네비게이션 구조
+// 4-Hub Navigation with Apple HIG Compliant Design
 
 struct QuantumHorizonView: View {
     @StateObject private var stateManager = QuantumStateManager()
+    @StateObject private var firstLaunchManager = FirstLaunchManager()
     @State private var selectedHub: QuantumHub = .lab
     @State private var showCelebration = false
+    @State private var showOnboarding = false
 
     var body: some View {
         ZStack {
@@ -48,6 +50,17 @@ struct QuantumHorizonView: View {
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedHub)
         .preferredColorScheme(.dark)
+        .onAppear {
+            if firstLaunchManager.shouldShowOnboarding {
+                showOnboarding = true
+            }
+        }
+        .fullScreenCover(isPresented: $showOnboarding) {
+            OnboardingView(isPresented: $showOnboarding)
+                .onDisappear {
+                    firstLaunchManager.completeOnboarding()
+                }
+        }
     }
 
     // MARK: - Hub Content (4-Hub Consolidation)
