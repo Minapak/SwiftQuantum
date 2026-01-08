@@ -109,7 +109,10 @@ struct ProfileHubView: View {
                 Spacer()
 
                 // Edit button
-                Button(action: { showSettings = true }) {
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings Button", status: .success)
+                    showSettings = true
+                }) {
                     Image(systemName: "gearshape.fill")
                         .font(.system(size: 20))
                         .foregroundColor(.white.opacity(0.6))
@@ -231,6 +234,11 @@ struct ProfileHubView: View {
                     ForEach(viewModel.achievements) { achievement in
                         AchievementBadge(achievement: achievement)
                             .onTapGesture {
+                                DeveloperModeManager.shared.log(
+                                    screen: "Profile",
+                                    element: "Achievement: \(achievement.name)",
+                                    status: achievement.isUnlocked ? .success : .comingSoon
+                                )
                                 if achievement.isUnlocked {
                                     showCelebration = true
                                 }
@@ -293,42 +301,69 @@ struct ProfileHubView: View {
                 .foregroundColor(.white)
 
             VStack(spacing: 2) {
-                SettingsRow(icon: "bell.fill", title: "Notifications", color: .red) {
-                    Toggle("", isOn: $viewModel.notificationsEnabled)
-                        .tint(QuantumHorizonColors.quantumPurple)
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Notifications Toggle", status: .success)
+                    viewModel.notificationsEnabled.toggle()
+                }) {
+                    SettingsRow(icon: "bell.fill", title: "Notifications", color: .red) {
+                        Toggle("", isOn: $viewModel.notificationsEnabled)
+                            .tint(QuantumHorizonColors.quantumPurple)
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
 
-                SettingsRow(icon: "moon.fill", title: "Dark Mode", color: .purple) {
-                    Toggle("", isOn: $viewModel.darkModeEnabled)
-                        .tint(QuantumHorizonColors.quantumPurple)
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Dark Mode Toggle", status: .success)
+                    viewModel.darkModeEnabled.toggle()
+                }) {
+                    SettingsRow(icon: "moon.fill", title: "Dark Mode", color: .purple) {
+                        Toggle("", isOn: $viewModel.darkModeEnabled)
+                            .tint(QuantumHorizonColors.quantumPurple)
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
 
-                SettingsRow(icon: "globe", title: "Language", color: .blue) {
-                    Text(viewModel.language)
-                        .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(0.5))
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .foregroundColor(.white.opacity(0.3))
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Language", status: .comingSoon)
+                }) {
+                    SettingsRow(icon: "globe", title: "Language", color: .blue) {
+                        Text(viewModel.language)
+                            .font(.system(size: 14))
+                            .foregroundColor(.white.opacity(0.5))
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.3))
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
 
-                SettingsRow(icon: "key.fill", title: "IBM Quantum API", color: QuantumHorizonColors.quantumCyan) {
-                    Text(viewModel.apiKeyConfigured ? "Configured" : "Not set")
-                        .font(.system(size: 14))
-                        .foregroundColor(viewModel.apiKeyConfigured ? QuantumHorizonColors.quantumGreen : .white.opacity(0.5))
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .foregroundColor(.white.opacity(0.3))
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: IBM Quantum API", status: .comingSoon)
+                }) {
+                    SettingsRow(icon: "key.fill", title: "IBM Quantum API", color: QuantumHorizonColors.quantumCyan) {
+                        Text(viewModel.apiKeyConfigured ? "Configured" : "Not set")
+                            .font(.system(size: 14))
+                            .foregroundColor(viewModel.apiKeyConfigured ? QuantumHorizonColors.quantumGreen : .white.opacity(0.5))
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.3))
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
 
-                SettingsRow(icon: "crown.fill", title: "Premium Status", color: QuantumHorizonColors.quantumGold) {
-                    Text(viewModel.isPremium ? "Active" : "Free")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(viewModel.isPremium ? QuantumHorizonColors.quantumGold : .white.opacity(0.5))
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .foregroundColor(.white.opacity(0.3))
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Premium Status", status: .comingSoon)
+                }) {
+                    SettingsRow(icon: "crown.fill", title: "Premium Status", color: QuantumHorizonColors.quantumGold) {
+                        Text(viewModel.isPremium ? "Active" : "Free")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(viewModel.isPremium ? QuantumHorizonColors.quantumGold : .white.opacity(0.5))
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.3))
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
             }
             .glassmorphism(intensity: 0.06, cornerRadius: 16)
         }

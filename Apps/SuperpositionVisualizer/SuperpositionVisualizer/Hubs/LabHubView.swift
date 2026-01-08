@@ -50,6 +50,7 @@ struct LabHubView: View {
 
     private func modeButton(title: String, icon: String, index: Int) -> some View {
         Button(action: {
+            DeveloperModeManager.shared.log(screen: "Lab", element: "Mode: \(title)", status: .success)
             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                 selectedMode = index
             }
@@ -169,7 +170,10 @@ struct LabHubView: View {
                     // Slider
                     Slider(value: Binding(
                         get: { stateManager.probability0 },
-                        set: { stateManager.updateState(probability0: $0, phase: stateManager.phase) }
+                        set: { newValue in
+                            stateManager.updateState(probability0: newValue, phase: stateManager.phase)
+                            DeveloperModeManager.shared.log(screen: "Lab", element: "Probability Slider: \(Int(newValue * 100))%", status: .success)
+                        }
                     ), in: 0...1)
                     .tint(QuantumHorizonColors.quantumCyan)
 
