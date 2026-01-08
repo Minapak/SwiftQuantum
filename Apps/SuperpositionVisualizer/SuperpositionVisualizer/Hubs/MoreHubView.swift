@@ -28,6 +28,7 @@ struct MoreHubView: View {
                         color: QuantumHorizonColors.quantumCyan,
                         badge: "5 Lessons"
                     ) {
+                        DeveloperModeManager.shared.log(screen: "More", element: "Academy Card", status: .success)
                         showAcademy = true
                     }
 
@@ -38,6 +39,7 @@ struct MoreHubView: View {
                         color: QuantumHorizonColors.quantumPurple,
                         badge: "Premium"
                     ) {
+                        DeveloperModeManager.shared.log(screen: "More", element: "Industry Card", status: .success)
                         showIndustry = true
                     }
 
@@ -48,6 +50,7 @@ struct MoreHubView: View {
                         color: QuantumHorizonColors.quantumGold,
                         badge: nil
                     ) {
+                        DeveloperModeManager.shared.log(screen: "More", element: "Profile Card", status: .success)
                         showProfile = true
                     }
                 }
@@ -198,14 +201,14 @@ struct MoreHubView: View {
 
             VStack(spacing: 0) {
                 // Language - Working
-                settingsRowButton(icon: "globe", title: "Language", color: QuantumHorizonColors.quantumCyan, showValue: "English") {
+                settingsRowButton(icon: "globe", title: "Language", color: QuantumHorizonColors.quantumCyan, showValue: "English", isComingSoon: false) {
                     showLanguageSheet = true
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
                 // Notifications - Coming Soon
-                settingsRowButton(icon: "bell.fill", title: "Notifications", color: .orange) {
+                settingsRowButton(icon: "bell.fill", title: "Notifications", color: .orange, isComingSoon: true) {
                     comingSoonFeature = "Notifications"
                     showComingSoon = true
                 }
@@ -213,7 +216,7 @@ struct MoreHubView: View {
                 Divider().background(Color.white.opacity(0.1))
 
                 // Appearance - Coming Soon
-                settingsRowButton(icon: "paintbrush.fill", title: "Appearance", color: QuantumHorizonColors.quantumPurple) {
+                settingsRowButton(icon: "paintbrush.fill", title: "Appearance", color: QuantumHorizonColors.quantumPurple, isComingSoon: true) {
                     comingSoonFeature = "Appearance settings"
                     showComingSoon = true
                 }
@@ -221,7 +224,7 @@ struct MoreHubView: View {
                 Divider().background(Color.white.opacity(0.1))
 
                 // Privacy - Coming Soon
-                settingsRowButton(icon: "lock.fill", title: "Privacy", color: QuantumHorizonColors.quantumGreen) {
+                settingsRowButton(icon: "lock.fill", title: "Privacy", color: QuantumHorizonColors.quantumGreen, isComingSoon: true) {
                     comingSoonFeature = "Privacy settings"
                     showComingSoon = true
                 }
@@ -229,14 +232,14 @@ struct MoreHubView: View {
                 Divider().background(Color.white.opacity(0.1))
 
                 // Reset Tutorial - Working
-                settingsRowButton(icon: "arrow.counterclockwise", title: "Reset Tutorial", color: .orange) {
+                settingsRowButton(icon: "arrow.counterclockwise", title: "Reset Tutorial", color: .orange, isComingSoon: false) {
                     showResetConfirm = true
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
                 // Help & Support - Coming Soon
-                settingsRowButton(icon: "questionmark.circle.fill", title: "Help & Support", color: QuantumHorizonColors.quantumCyan) {
+                settingsRowButton(icon: "questionmark.circle.fill", title: "Help & Support", color: QuantumHorizonColors.quantumCyan, isComingSoon: true) {
                     comingSoonFeature = "Help & Support"
                     showComingSoon = true
                 }
@@ -250,10 +253,15 @@ struct MoreHubView: View {
         }
     }
 
-    private func settingsRowButton(icon: String, title: String, color: Color, showValue: String? = nil, action: @escaping () -> Void) -> some View {
+    private func settingsRowButton(icon: String, title: String, color: Color, showValue: String? = nil, isComingSoon: Bool = false, action: @escaping () -> Void) -> some View {
         Button(action: {
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
+            DeveloperModeManager.shared.log(
+                screen: "More",
+                element: "Settings: \(title)",
+                status: isComingSoon ? .comingSoon : .success
+            )
             action()
         }) {
             HStack(spacing: 12) {
@@ -335,8 +343,11 @@ struct LanguageSelectionSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") { dismiss() }
-                        .foregroundColor(QuantumHorizonColors.quantumCyan)
+                    Button("Done") {
+                        DeveloperModeManager.shared.log(screen: "Language", element: "Done Button", status: .success)
+                        dismiss()
+                    }
+                    .foregroundColor(QuantumHorizonColors.quantumCyan)
                 }
             }
         }
@@ -345,6 +356,7 @@ struct LanguageSelectionSheet: View {
 
     private func languageRow(code: String, name: String, flag: String) -> some View {
         Button(action: {
+            DeveloperModeManager.shared.log(screen: "Language", element: "Select: \(name)", status: .success)
             selectedLanguage = code
         }) {
             HStack(spacing: 16) {
@@ -393,8 +405,11 @@ struct AcademyDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") { dismiss() }
-                        .foregroundColor(QuantumHorizonColors.quantumCyan)
+                    Button("Done") {
+                        DeveloperModeManager.shared.log(screen: "Academy", element: "Done Button", status: .success)
+                        dismiss()
+                    }
+                    .foregroundColor(QuantumHorizonColors.quantumCyan)
                 }
             }
         }
@@ -418,8 +433,11 @@ struct IndustryDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") { dismiss() }
-                        .foregroundColor(QuantumHorizonColors.quantumPurple)
+                    Button("Done") {
+                        DeveloperModeManager.shared.log(screen: "Industry", element: "Done Button", status: .success)
+                        dismiss()
+                    }
+                    .foregroundColor(QuantumHorizonColors.quantumPurple)
                 }
             }
         }
@@ -443,8 +461,11 @@ struct ProfileDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") { dismiss() }
-                        .foregroundColor(QuantumHorizonColors.quantumGold)
+                    Button("Done") {
+                        DeveloperModeManager.shared.log(screen: "Profile", element: "Done Button", status: .success)
+                        dismiss()
+                    }
+                    .foregroundColor(QuantumHorizonColors.quantumGold)
                 }
             }
         }

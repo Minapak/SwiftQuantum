@@ -64,7 +64,10 @@ struct OnboardingView: View {
                 // Skip button
                 HStack {
                     Spacer()
-                    Button(action: { completeOnboarding() }) {
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Onboarding", element: "Skip Button", status: .success)
+                        completeOnboarding()
+                    }) {
                         Text("Skip")
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(.white.opacity(0.6))
@@ -161,7 +164,10 @@ struct OnboardingView: View {
             // Buttons
             HStack(spacing: 16) {
                 if currentStep > 0 {
-                    Button(action: previousStep) {
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Onboarding", element: "Previous Button (Step \(currentStep + 1))", status: .success)
+                        previousStep()
+                    }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white.opacity(0.7))
@@ -175,8 +181,10 @@ struct OnboardingView: View {
 
                 Button(action: {
                     if currentStep < steps.count - 1 {
+                        DeveloperModeManager.shared.log(screen: "Onboarding", element: "Next Button (Step \(currentStep + 1))", status: .success)
                         nextStep()
                     } else {
+                        DeveloperModeManager.shared.log(screen: "Onboarding", element: "Get Started Button", status: .success)
                         completeOnboarding()
                     }
                 }) {

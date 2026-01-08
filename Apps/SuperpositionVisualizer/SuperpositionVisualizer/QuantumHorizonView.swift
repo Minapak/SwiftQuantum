@@ -7,6 +7,7 @@ import SwiftUI
 struct QuantumHorizonView: View {
     @StateObject private var stateManager = QuantumStateManager()
     @StateObject private var firstLaunchManager = FirstLaunchManager()
+    @StateObject private var devMode = DeveloperModeManager.shared
     @State private var selectedHub: QuantumHub = .lab
     @State private var showCelebration = false
     @State private var showOnboarding = false
@@ -47,6 +48,9 @@ struct QuantumHorizonView: View {
 
             // Global Celebration Effect
             GoldParticleView(isActive: $showCelebration)
+
+            // Developer Mode Badge (QA/QC Testing)
+            DeveloperModeBadge()
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedHub)
         .preferredColorScheme(.dark)
@@ -60,6 +64,9 @@ struct QuantumHorizonView: View {
                 .onDisappear {
                     firstLaunchManager.completeOnboarding()
                 }
+        }
+        .fullScreenCover(isPresented: $devMode.showLogOverlay) {
+            DeveloperLogOverlay()
         }
     }
 
