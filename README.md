@@ -1,4 +1,4 @@
-# SwiftQuantum v2.1.0 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.1.1 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2017%2B%20%7C%20macOS%2014%2B-lightgrey.svg)](https://developer.apple.com)
@@ -17,6 +17,48 @@
 > **Premium Learning Platform**: MIT/Harvard-style Quantum Academy with subscription-based courses
 >
 > **Enterprise Solutions**: B2B industry applications for finance, healthcare, and logistics
+
+---
+
+## What's New in v2.1.1 (2026 Developer Mode Release)
+
+### Developer Mode QA/QC System
+
+Complete interaction logging system for quality assurance and testing:
+
+```swift
+// Developer Mode Badge (Top-Right Corner)
+// - Pulsing red indicator with tap count
+// - Full-screen log overlay with statistics
+// - Real-time interaction tracking
+
+DeveloperModeManager.shared.log(
+    screen: "Lab",
+    element: "Gate: Hadamard",
+    status: .success  // ✅ success, ❌ failed, ⏳ comingSoon, ⚠️ noAction
+)
+```
+
+#### Logged Interactions by Screen
+
+| Screen | Logged Elements | Status Types |
+|--------|-----------------|--------------|
+| **Lab** | Mode Selector, Probability Slider, Gate Buttons (H/X/Y/Z), Measure Buttons, Reset | ✅ Success |
+| **Presets** | Category Filter, Preset Cards, Search Clear | ✅ Success |
+| **Bridge** | Connect/Disconnect, Backend Selection, Deploy (Long Press), Quick Actions, Job Cancel | ✅/⏳ Premium |
+| **Academy** | Level Selection, Start/Review Buttons, Close Detail | ✅/⏳ Locked |
+| **Industry** | Solution Cards, ROI Calculate, Pricing Plans | ✅/⏳ Coming Soon |
+| **Profile** | Settings Button, Achievements, All Settings Toggles | ✅/⏳ Coming Soon |
+| **More** | Academy/Industry/Profile Cards, Language, Reset Tutorial | ✅/⏳ Coming Soon |
+| **TabBar** | All 4 Tab Navigations (Lab, Presets, Bridge, More) | ✅ Success |
+
+#### Developer Log Overlay Features
+
+- **Real-time Statistics**: Success/Failed/Coming Soon/No Action counts
+- **Timestamped Logs**: HH:mm:ss.SSS precision
+- **Screen Identification**: Color-coded screen labels
+- **Export Capability**: Generate text report of all interactions
+- **Clear Function**: Reset log history
 
 ---
 
@@ -169,7 +211,7 @@ print("Counts: \(result.counts)")  // {"00": 498, "11": 502}
 ## Architecture
 
 ```
-SwiftQuantum v2.1.0/
+SwiftQuantum v2.1.1/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -183,17 +225,25 @@ SwiftQuantum v2.1.0/
 │   │
 │   └── Bridge/
 │       ├── QuantumBridge.swift        # QASM export, IBM config
-│       └── QuantumExecutor.swift      # NEW: Hybrid execution protocol
+│       └── QuantumExecutor.swift      # Hybrid execution protocol
 │
 ├── Apps/
 │   ├── SwiftQuantumV2/                # Main app (5 tabs)
 │   │
-│   └── SuperpositionVisualizer/       # Premium visualizer (8 tabs)
-│       ├── SuperpositionView.swift    # Main view with tab selector
-│       ├── ErrorCorrectionView.swift  # NEW: Fault-tolerant viz
-│       ├── QuantumBridgeConnectionView.swift  # NEW: QPU connection
-│       ├── QuantumAcademyView.swift   # NEW: Learning platform
-│       └── IndustrySolutionsView.swift # NEW: B2B solutions
+│   └── SuperpositionVisualizer/       # Premium visualizer (4-Hub Navigation)
+│       ├── QuantumHorizonView.swift   # Main view with 4-hub navigation
+│       ├── DevMode/
+│       │   └── DeveloperModeManager.swift  # NEW: QA/QC logging system
+│       ├── Hubs/
+│       │   ├── LabHubView.swift       # Control + Measure + Info
+│       │   ├── PresetsHubView.swift   # Presets + Examples
+│       │   ├── FactoryHubView.swift   # Bridge (QPU connection)
+│       │   ├── MoreHubView.swift      # Academy + Industry + Profile
+│       │   ├── AcademyHubView.swift   # Learning platform
+│       │   ├── IndustryHubView.swift  # B2B solutions
+│       │   └── ProfileHubView.swift   # User profile & settings
+│       └── Navigation/
+│           └── QuantumHorizonTabBar.swift  # 4-tab floating bar
 │
 └── Tests/
 ```
@@ -248,7 +298,14 @@ Optimized for App Store discovery:
 
 ## Roadmap
 
-### Version 2.1.0 (Current - January 2026)
+### Version 2.1.1 (Current - January 2026)
+- [x] Developer Mode QA/QC system with full interaction logging
+- [x] DEV badge repositioned to top-right corner with pulsing animation
+- [x] Comprehensive button tap logging across all screens
+- [x] Premium feature interaction tracking (Coming Soon indicators)
+- [x] Log overlay with real-time statistics and export capability
+
+### Version 2.1.0 (January 2026)
 - [x] QuantumExecutor protocol for hybrid execution
 - [x] Fault-tolerant simulation based on Harvard-MIT research
 - [x] Premium 8-tab UI structure

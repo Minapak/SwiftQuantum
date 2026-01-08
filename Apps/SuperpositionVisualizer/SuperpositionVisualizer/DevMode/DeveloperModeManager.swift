@@ -75,15 +75,19 @@ class DeveloperModeManager: ObservableObject {
 // MARK: - Developer Mode Badge
 struct DeveloperModeBadge: View {
     @ObservedObject var devMode = DeveloperModeManager.shared
+    @State private var isPulsing = false
 
     var body: some View {
         if devMode.isEnabled {
             VStack {
                 HStack {
+                    Spacer()
+
                     Button(action: {
                         withAnimation(.spring()) {
                             devMode.showLogOverlay.toggle()
                         }
+                        devMode.log(screen: "DevMode", element: "Badge Tapped - Open Log", status: .success)
                     }) {
                         HStack(spacing: 6) {
                             Circle()
@@ -93,11 +97,11 @@ struct DeveloperModeBadge: View {
                                     Circle()
                                         .fill(Color.red)
                                         .frame(width: 8, height: 8)
-                                        .scaleEffect(1.5)
-                                        .opacity(0.3)
+                                        .scaleEffect(isPulsing ? 2.0 : 1.5)
+                                        .opacity(isPulsing ? 0.1 : 0.3)
                                 )
 
-                            Text("DEV MODE")
+                            Text("DEV")
                                 .font(.system(size: 10, weight: .bold, design: .monospaced))
                                 .foregroundColor(.white)
 
@@ -109,14 +113,18 @@ struct DeveloperModeBadge: View {
                         .padding(.vertical, 6)
                         .background(Color.red.opacity(0.9))
                         .clipShape(Capsule())
+                        .shadow(color: Color.red.opacity(0.5), radius: 8, x: 0, y: 4)
                     }
-
-                    Spacer()
                 }
-                .padding(.leading, 16)
+                .padding(.trailing, 16)
                 .padding(.top, 50)
 
                 Spacer()
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                    isPulsing = true
+                }
             }
         }
     }
