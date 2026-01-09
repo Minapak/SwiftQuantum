@@ -21,11 +21,6 @@ struct AcademyHubView: View {
             if let level = selectedLevel, showLevelDetail {
                 levelDetailPopup(level: level)
             }
-
-            // AI Agent Message Bubble
-            if viewModel.showAgentMessage {
-                agentMessageBubble
-            }
         }
         .sheet(isPresented: $showPremiumSheet) {
             AcademyPremiumSheet()
@@ -378,51 +373,6 @@ struct AcademyHubView: View {
         }
     }
 
-    // MARK: - Agent Message Bubble
-    private var agentMessageBubble: some View {
-        VStack {
-            Spacer()
-
-            HStack(alignment: .bottom, spacing: 12) {
-                // Agent Avatar
-                ZStack {
-                    Circle()
-                        .fill(QuantumHorizonColors.quantumPurple.opacity(0.2))
-                        .frame(width: 44, height: 44)
-
-                    Image(systemName: "brain.head.profile")
-                        .font(.system(size: 20))
-                        .foregroundColor(QuantumHorizonColors.quantumPurple)
-                }
-
-                // Message Bubble
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Q-Agent")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(QuantumHorizonColors.quantumPurple)
-
-                    Text(viewModel.agentMessage)
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.white.opacity(0.9))
-                        .lineLimit(3)
-                }
-                .padding(14)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.white.opacity(0.08))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(QuantumHorizonColors.quantumPurple.opacity(0.3), lineWidth: 1)
-                        )
-                )
-
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 140)
-            .transition(.move(edge: .bottom).combined(with: .opacity))
-        }
-    }
 
     // MARK: - Actions
     private func selectLevel(_ level: LearningLevel) {
@@ -447,7 +397,22 @@ struct AcademyHubView: View {
 
     private func startLevel(_ level: LearningLevel) {
         closeLevelDetail()
-        // Navigate to learning content
+        // Open QuantumAcademy app
+        openQuantumAcademyApp()
+    }
+
+    private func openQuantumAcademyApp() {
+        // Try to open QuantumAcademy app via URL scheme
+        if let url = URL(string: "quantumacademy://") {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                // Fallback to App Store if app is not installed
+                if let appStoreURL = URL(string: "https://apps.apple.com/app/quantumacademy/id123456789") {
+                    UIApplication.shared.open(appStoreURL)
+                }
+            }
+        }
     }
 }
 
@@ -698,14 +663,10 @@ class AcademyViewModel: ObservableObject {
     @Published var streakDays = 12
     @Published var totalLearningTime = 340 // minutes
 
-    @Published var showAgentMessage = false
-    @Published var agentMessage = ""
-
     @Published var learningPath: [LearningLevel] = []
 
     init() {
         setupLearningPath()
-        showAgentHint()
     }
 
     private func setupLearningPath() {
@@ -823,41 +784,9 @@ class AcademyViewModel: ObservableObject {
         ]
     }
 
-    private func showAgentHint() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.agentMessage = "You're making great progress! Complete Level 8 to unlock Grover's Algorithm and boost your quantum skills by 15%."
-            withAnimation(.spring()) {
-                self.showAgentMessage = true
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                withAnimation(.spring()) {
-                    self.showAgentMessage = false
-                }
-            }
-        }
-    }
-
     /// Unlock all levels for premium users
     func unlockAllLevels() {
-        for index in learningPath.indices {
-            if learningPath[index].status == .locked {
-                // Keep the original status but the UI will show as unlocked via isPremiumUser
-                // This allows tracking which levels were originally locked
-            }
-        }
-
-        // Show premium celebration message
-        agentMessage = "All 12+ courses unlocked! You now have full access to the Quantum Academy including Grover's Algorithm, Error Correction, and Shor's Algorithm."
-        withAnimation(.spring()) {
-            showAgentMessage = true
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            withAnimation(.spring()) {
-                self.showAgentMessage = false
-            }
-        }
+        // Premium users have access to all levels via isPremiumUser flag in UI
     }
 }
 

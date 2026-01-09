@@ -122,6 +122,22 @@ struct OnboardingView: View {
         Group {
             if steps[currentStep].isLanguageStep {
                 languageSelectionGrid
+            } else if steps[currentStep].subtitle == "SwiftQuantum" {
+                // Welcome step - show App Logo
+                ZStack {
+                    // Glow effect
+                    Circle()
+                        .fill(steps[currentStep].accentColor.opacity(0.15))
+                        .frame(width: 180, height: 180)
+                        .blur(radius: 25)
+
+                    Image("AppLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 140, height: 140)
+                        .clipShape(RoundedRectangle(cornerRadius: 28))
+                        .shadow(color: steps[currentStep].accentColor.opacity(0.5), radius: 15)
+                }
             } else {
                 ZStack {
                     // Glow effect

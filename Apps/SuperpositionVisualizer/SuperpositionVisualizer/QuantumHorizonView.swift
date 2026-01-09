@@ -11,6 +11,7 @@ struct QuantumHorizonView: View {
     @State private var selectedHub: QuantumHub = .lab
     @State private var showCelebration = false
     @State private var showOnboarding = false
+    @State private var showSplash = true
 
     var body: some View {
         ZStack {
@@ -35,28 +36,31 @@ struct QuantumHorizonView: View {
                 QuantumHorizonTabBar(selectedHub: $selectedHub)
             }
 
-            // Q-Agent Floating Assistant
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    QAgentView()
-                        .padding(.trailing, 20)
-                        .padding(.bottom, 100)
-                }
-            }
-
             // Global Celebration Effect
             GoldParticleView(isActive: $showCelebration)
 
             // Developer Mode Badge (QA/QC Testing)
             DeveloperModeBadge()
+
+            // Splash Screen
+            if showSplash {
+                SplashScreenView()
+                    .transition(.opacity)
+                    .zIndex(100)
+            }
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedHub)
         .preferredColorScheme(.dark)
         .onAppear {
-            if firstLaunchManager.shouldShowOnboarding {
-                showOnboarding = true
+            // Show splash for 2 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                withAnimation(.easeOut(duration: 0.5)) {
+                    showSplash = false
+                }
+                // Check if onboarding should be shown after splash
+                if firstLaunchManager.shouldShowOnboarding {
+                    showOnboarding = true
+                }
             }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
