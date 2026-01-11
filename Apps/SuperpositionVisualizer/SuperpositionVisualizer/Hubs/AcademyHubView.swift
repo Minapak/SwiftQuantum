@@ -397,18 +397,18 @@ struct AcademyHubView: View {
 
     private func startLevel(_ level: LearningLevel) {
         closeLevelDetail()
-        // Open QuantumAcademy app
-        openQuantumAcademyApp()
+        // Open QuantumNative app
+        openQuantumNativeApp()
     }
 
-    private func openQuantumAcademyApp() {
-        // Try to open QuantumAcademy app via URL scheme
-        if let url = URL(string: "quantumacademy://") {
+    private func openQuantumNativeApp() {
+        // Try to open QuantumNative app via URL scheme
+        if let url = URL(string: "quantumnative://") {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
             } else {
                 // Fallback to App Store if app is not installed
-                if let appStoreURL = URL(string: "https://apps.apple.com/app/quantumacademy/id123456789") {
+                if let appStoreURL = URL(string: "https://apps.apple.com/app/quantumnative/id123456789") {
                     UIApplication.shared.open(appStoreURL)
                 }
             }

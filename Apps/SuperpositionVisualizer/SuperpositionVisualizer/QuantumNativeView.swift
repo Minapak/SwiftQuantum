@@ -1,20 +1,20 @@
 //
-//  QuantumAcademyView.swift
+//  QuantumNativeView.swift
 //  SuperpositionVisualizer - SwiftQuantum v2.1.0
 //
 //  Created by Eunmin Park on 2026-01-06.
 //  Copyright (c) 2026 iOS Quantum Engineering. All rights reserved.
 //
-//  Quantum Academy - MIT/Harvard-style Learning Experience
+//  Quantum Native - MIT/Harvard-style Learning Experience
 //  Premium subscription feature with psychological engagement techniques
 //
 
 import SwiftUI
 
-// MARK: - Quantum Academy Main View
+// MARK: - Quantum Native Main View
 
-struct QuantumAcademyView: View {
-    @StateObject private var viewModel = QuantumAcademyViewModel()
+struct QuantumNativeView: View {
+    @StateObject private var viewModel = QuantumNativeViewModel()
     @State private var showSubscriptionSheet = false
     @State private var selectedCourse: QuantumCourse?
 
@@ -80,7 +80,7 @@ struct QuantumAcademyView: View {
                     .foregroundColor(QuantumPremiumColors.cyberneticBlue)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Quantum Academy")
+                    Text("Quantum Native")
                         .font(.system(size: 24, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
 
@@ -576,7 +576,7 @@ struct FeatureRow: View {
 // MARK: - Subscription Sheet View
 
 struct SubscriptionSheetView: View {
-    @ObservedObject var viewModel: QuantumAcademyViewModel
+    @ObservedObject var viewModel: QuantumNativeViewModel
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -600,7 +600,7 @@ struct SubscriptionSheetView: View {
                         .font(.system(size: 50))
                         .foregroundColor(.yellow)
 
-                    Text("Quantum Academy Pro")
+                    Text("Quantum Native Pro")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -731,7 +731,7 @@ struct SubscriptionPlanCard: View {
 
 struct CourseDetailView: View {
     let course: QuantumCourse
-    @ObservedObject var viewModel: QuantumAcademyViewModel
+    @ObservedObject var viewModel: QuantumNativeViewModel
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -828,7 +828,7 @@ struct ModuleRow: View {
 // MARK: - View Model
 
 @MainActor
-class QuantumAcademyViewModel: ObservableObject {
+class QuantumNativeViewModel: ObservableObject {
     @Published var isSubscribed = false
     @Published var completedCourses = 2
     @Published var totalCourses = 12
@@ -946,9 +946,9 @@ struct CourseModule: Identifiable {
 
 // MARK: - Preview
 
-struct QuantumAcademyView_Previews: PreviewProvider {
+struct QuantumNativeView_Previews: PreviewProvider {
     static var previews: some View {
-        QuantumAcademyView()
+        QuantumNativeView()
             .preferredColorScheme(.dark)
     }
 }
