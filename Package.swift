@@ -52,7 +52,10 @@ let package = Package(
                 "Bridge/QuantumBridge.swift",
                 "Bridge/QuantumExecutor.swift",
                 // Localization
-                "Localization/QuantumLocalizedStrings.swift"
+                "Localization/QuantumLocalizedStrings.swift",
+                // Serialization (DTO for network communication)
+                "Serialization/GateDTO.swift",
+                "Serialization/QuantumCircuitDTO.swift"
             ],
             resources: [
                 .process("Resources")
