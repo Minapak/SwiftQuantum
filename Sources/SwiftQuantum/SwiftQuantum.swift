@@ -46,7 +46,7 @@ import Foundation
 //
 // Repository: https://github.com/Minapak/SwiftQuantum
 // QuantumBridge: https://github.com/Minapak/QuantumBridge
-// SwiftQuantumLearning: https://github.com/Minapak/SwiftQuantumLearning
+// QuantumNative: https://github.com/Minapak/QuantumNative
 
 /// SwiftQuantum Version Information
 public struct SwiftQuantumVersion {

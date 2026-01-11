@@ -142,7 +142,7 @@ struct SuperpositionView: View {
                             case 6:
                                 IndustrySolutionsView()
                             case 7:
-                                QuantumAcademyView()
+                                QuantumNativeView()
                             default:
                                 controlsTab
                             }
