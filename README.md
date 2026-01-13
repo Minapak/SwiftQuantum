@@ -1,12 +1,13 @@
-# SwiftQuantum v2.1.1 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.0 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/platform-iOS%2017%2B%20%7C%20macOS%2014%2B-lightgrey.svg)](https://developer.apple.com)
+[![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![QuantumBridge](https://img.shields.io/badge/QuantumBridge-2.0-blueviolet.svg)](https://github.com/Minapak/QuantumBridge)
 [![Quantum-Hybrid](https://img.shields.io/badge/Quantum--Hybrid-2026-00ff88.svg)](#)
 [![Agentic AI](https://img.shields.io/badge/Agentic%20AI-Ready-ff6b6b.svg)](#)
+[![Localization](https://img.shields.io/badge/Languages-EN%20%7C%20KO%20%7C%20JA%20%7C%20ZH%20%7C%20DE-blue.svg)](#)
 
 **The first iOS quantum computing framework with real QPU connectivity** - featuring QuantumBridge integration, fault-tolerant simulation, and Harvard-MIT research-based educational content!
 
@@ -17,6 +18,80 @@
 > **Premium Learning Platform**: MIT/Harvard-style Quantum Academy with subscription-based courses
 >
 > **Enterprise Solutions**: B2B industry applications for finance, healthcare, and logistics
+
+---
+
+## What's New in v2.2.0 (2026 Premium Backend Release)
+
+### Backend Integration & StoreKit 2
+
+Complete iOS-to-Backend subscription flow with Apple App Store Server API v2:
+
+```swift
+// APIClient.swift - Backend communication
+let result = try await APIClient.shared.verifyTransaction(transactionId: "...")
+
+// PremiumManager.swift - Automatic backend verification after purchase
+case .success(let verification):
+    let transaction = try checkVerified(verification)
+    await verifyWithBackend(transactionId: String(transaction.id))  // NEW
+    await transaction.finish()
+```
+
+#### Subscription Flow
+
+```
+1️⃣ iOS StoreKit 2 Purchase
+    └── Transaction object received
+
+2️⃣ iOS → Backend Verification
+    └── POST /api/v1/payment/verify/transaction
+
+3️⃣ Backend → Apple Server API
+    └── JWT authentication (ES256)
+    └── Transaction validation
+
+4️⃣ Backend → Database
+    └── User subscription activated
+
+5️⃣ Backend → iOS Response
+    └── UI updated with premium badge
+```
+
+### Content Access Control
+
+```swift
+// ContentAccessManager.swift
+@ObservedObject var accessManager = ContentAccessManager.shared
+
+// Check level access
+if accessManager.canAccessLevel(5) { ... }
+
+// Check feature access
+if accessManager.canAccessQuantumBridge { ... }
+
+// View modifier for premium content
+SomeView()
+    .premiumContent(feature: "quantum_bridge")
+```
+
+### PaywallView
+
+Professional subscription UI with:
+- Feature comparison (Pro vs Premium)
+- Product selection with yearly savings badge
+- Purchase and restore functionality
+- Legal terms and privacy links
+
+### Multi-Language Support (5 Languages)
+
+| Language | Code | Status |
+|----------|------|--------|
+| 🇺🇸 English | `en` | ✅ Default |
+| 🇰🇷 Korean | `ko` | ✅ |
+| 🇯🇵 Japanese | `ja` | ✅ |
+| 🇨🇳 Chinese (Simplified) | `zh-Hans` | ✅ |
+| 🇩🇪 German | `de` | ✅ NEW |
 
 ---
 
@@ -211,7 +286,7 @@ print("Counts: \(result.counts)")  // {"00": 498, "11": 502}
 ## Architecture
 
 ```
-SwiftQuantum v2.1.1/
+SwiftQuantum v2.2.0/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -223,17 +298,27 @@ SwiftQuantum v2.1.1/
 │   ├── Algorithms/
 │   │   └── QuantumAlgorithms.swift    # Bell, Grover, DJ, Simon
 │   │
-│   └── Bridge/
-│       ├── QuantumBridge.swift        # QASM export, IBM config
-│       └── QuantumExecutor.swift      # Hybrid execution protocol
+│   ├── Bridge/
+│   │   ├── QuantumBridge.swift        # QASM export, IBM config
+│   │   └── QuantumExecutor.swift      # Hybrid execution protocol
+│   │
+│   └── Resources/                     # Localization
+│       ├── en.lproj/                  # English (Default)
+│       ├── ko.lproj/                  # Korean
+│       ├── ja.lproj/                  # Japanese
+│       ├── zh-Hans.lproj/             # Chinese (Simplified)
+│       └── de.lproj/                  # German (NEW)
 │
 ├── Apps/
-│   ├── SwiftQuantumV2/                # Main app (5 tabs)
-│   │
 │   └── SuperpositionVisualizer/       # Premium visualizer (4-Hub Navigation)
 │       ├── QuantumHorizonView.swift   # Main view with 4-hub navigation
 │       ├── DevMode/
-│       │   └── DeveloperModeManager.swift  # NEW: QA/QC logging system
+│       │   └── DeveloperModeManager.swift  # QA/QC logging system
+│       ├── Premium/                   # NEW: Subscription system
+│       │   ├── APIClient.swift        # Backend API communication
+│       │   ├── PremiumManager.swift   # StoreKit 2 + backend verify
+│       │   ├── ContentAccessManager.swift  # Content locking
+│       │   └── PaywallView.swift      # Subscription UI
 │       ├── Hubs/
 │       │   ├── LabHubView.swift       # Control + Measure + Info
 │       │   ├── PresetsHubView.swift   # Presets + Examples
@@ -298,7 +383,16 @@ Optimized for App Store discovery:
 
 ## Roadmap
 
-### Version 2.1.1 (Current - January 2026)
+### Version 2.2.0 (Current - January 2026)
+- [x] Backend integration with Apple App Store Server API v2
+- [x] APIClient.swift for iOS-to-Backend communication
+- [x] ContentAccessManager.swift for premium content locking
+- [x] PaywallView.swift for professional subscription UI
+- [x] PremiumManager backend verification after StoreKit purchase
+- [x] German localization (de.lproj) - 5 languages total
+- [x] Bundle ID updated to com.eunminpark.swiftquantum
+
+### Version 2.1.1 (January 2026)
 - [x] Developer Mode QA/QC system with full interaction logging
 - [x] DEV badge repositioned to top-right corner with pulsing animation
 - [x] Comprehensive button tap logging across all screens
