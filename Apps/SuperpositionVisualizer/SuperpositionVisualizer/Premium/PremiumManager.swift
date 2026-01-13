@@ -193,6 +193,10 @@ class PremiumManager: ObservableObject {
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
+
+                // Verify with backend server
+                await verifyWithBackend(transactionId: String(transaction.id))
+
                 await updateSubscriptionStatus()
                 await transaction.finish()
 
@@ -408,6 +412,67 @@ class PremiumManager: ObservableObject {
             element: "Manual Downgrade - Free Tier",
             status: .success
         )
+    }
+
+    // MARK: - Backend Integration
+
+    /// Verify transaction with backend server
+    private func verifyWithBackend(transactionId: String) async {
+        do {
+            let result = try await APIClient.shared.verifyTransaction(transactionId: transactionId)
+
+            if result.success {
+                DeveloperModeManager.shared.log(
+                    screen: "Premium",
+                    element: "Backend verification successful",
+                    status: .success
+                )
+            } else {
+                DeveloperModeManager.shared.log(
+                    screen: "Premium",
+                    element: "Backend verification failed: \(result.error ?? "Unknown")",
+                    status: .failed
+                )
+            }
+        } catch {
+            // Network error - still allow local purchase
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Backend verification skipped (offline): \(error.localizedDescription)",
+                status: .comingSoon
+            )
+        }
+    }
+
+    /// Sync subscription status with backend
+    func syncWithBackend() async {
+        do {
+            let response = try await APIClient.shared.getSubscriptionStatus()
+
+            // Update local state if backend shows active subscription
+            if response.isActive {
+                if response.subscriptionType == "premium" {
+                    subscriptionTier = .premium
+                    isPremium = true
+                } else if response.subscriptionType == "pro" {
+                    subscriptionTier = .pro
+                    isPremium = true
+                }
+                expiryDate = response.expiresAt
+            }
+
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Backend sync completed: \(response.subscriptionType)",
+                status: .success
+            )
+        } catch {
+            DeveloperModeManager.shared.log(
+                screen: "Premium",
+                element: "Backend sync failed: \(error.localizedDescription)",
+                status: .failed
+            )
+        }
     }
 }
 
