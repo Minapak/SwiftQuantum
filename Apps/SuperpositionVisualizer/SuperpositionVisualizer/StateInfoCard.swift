@@ -282,7 +282,6 @@ struct CoordinateRow: View {
                         .fill(Color.white.opacity(0.1))
                     
                     // Value bar (centered at 0)
-                    let normalizedValue = (value + 1) / 2 // Convert from [-1, 1] to [0, 1]
                     let barWidth = abs(value) * geometry.size.width / 2
                     let xOffset = value >= 0 ? geometry.size.width / 2 : geometry.size.width / 2 - barWidth
                     

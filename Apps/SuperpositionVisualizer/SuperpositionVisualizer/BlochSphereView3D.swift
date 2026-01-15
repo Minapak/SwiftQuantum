@@ -125,10 +125,10 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
         
         /// IMPORTANT: Setup a timer to continuously update state vector
         /// This ensures the state vector is always in sync with the qubit state
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+        let _ = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
             updateStateVector(sceneView: sceneView, qubit: qubit)
         }
-        
+
         /// Store timer reference in a way that keeps it alive
         sceneView.accessibilityHint = UUID().uuidString
         
@@ -239,8 +239,6 @@ struct SceneKitViewRepresentable: UIViewRepresentable {
     /// Create wireframe sphere using torus shapes
     /// Represents latitude and longitude lines
     private func addWireframeSphere(to scene: SCNScene) {
-        let radius = 1.0
-        
         // MARK: Latitude Circles
         
         /// Create 9 horizontal rings (latitude circles)
