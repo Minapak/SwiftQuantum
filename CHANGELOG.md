@@ -1,10 +1,246 @@
-cat > CHANGELOG.md << 'EOF'
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [2.2.1] - 2026-01-15
+
+### Added
+- **Product Landing Page**: Professional product website (`Website/index.html`)
+  - Hero section with app preview and feature highlights
+  - Pricing section with subscription tier comparison
+  - Research foundation section highlighting Harvard-MIT publications
+  - Responsive design for mobile and desktop
+
+- **Support Center**: Comprehensive support portal (`Website/support.html`)
+  - FAQ section with common questions and answers
+  - Contact form for user inquiries
+  - Documentation links and resources
+
+- **AWS Production Infrastructure**
+  - Complete AWS setup guide with ECS/Fargate deployment
+  - Production-ready configuration documentation
+  - Environment variable management for secure deployment
+
+- **App Icons & Launch Screen**
+  - Complete iOS app icon set (all required sizes from 20x20 to 1024x1024)
+  - macOS app icon set (16x16 to 512x512@2x)
+  - Custom splash screen with brand logo
+  - LaunchScreen.storyboard with animated splash
+
+- **Real-time Language Switching**
+  - Instant language switching without app restart
+  - LocalizationManager for dynamic locale updates
+  - Localized onboarding experience
+
+### Changed
+- **Project Structure Cleanup**
+  - Removed deprecated files (CONTRIBUTING.md, README_KO.md, README_TUTORIAL_SECTION.md)
+  - Consolidated view files into organized directories
+  - Cleaned up CI configuration files
+
+### Fixed
+- Resolved duplicate `FeatureRow` struct declarations
+- Fixed Xcode warnings for unused variables
+- Fixed unassigned asset catalog issues
+
+---
+
+## [2.2.0] - 2026-01-13
+
+### Added
+- **Backend Integration with Apple App Store Server API v2**
+  - `APIClient.swift`: Complete backend API communication layer
+  - JWT-based authentication with Apple's servers
+  - Transaction verification flow from iOS to backend
+
+- **StoreKit 2 Premium System**
+  - `PremiumManager.swift`: Full StoreKit 2 integration with backend verification
+  - Automatic transaction verification after purchase
+  - Subscription status persistence and restoration
+
+- **Content Access Management**
+  - `ContentAccessManager.swift`: Granular content locking system
+  - Level-based access control for academy content
+  - Feature-based access for QuantumBridge and Industry solutions
+  - `.premiumContent()` SwiftUI view modifier
+
+- **PaywallView**: Professional subscription UI
+  - Feature comparison between Pro and Premium tiers
+  - Product selection with yearly savings badge
+  - Purchase and restore functionality
+  - Legal terms and privacy policy links
+
+- **German Localization (de.lproj)**
+  - Full translation for all UI strings
+  - Now supporting 5 languages: EN, KO, JA, ZH-Hans, DE
+
+- **Qiskit-Compatible DTO Layer**
+  - `GateDTO.swift`: Data transfer object for quantum gates
+  - `QuantumCircuitDTO.swift`: Serializable circuit representation
+  - Network communication compatibility with backend services
+
+### Changed
+- **Bundle ID Update**: Changed to `com.eunminpark.swiftquantum`
+- **App Rebranding**: QuantumAcademy → QuantumNative
+  - Updated URL scheme from `quantumacademy://` to `quantumnative://`
+  - Renamed all related classes and view files
+
+---
+
+## [2.1.1] - 2026-01-08
+
+### Added
+- **Developer Mode QA/QC System**
+  - `DeveloperModeManager.swift`: Complete interaction logging system
+  - Pulsing red DEV badge in top-right corner with tap count
+  - Full-screen log overlay with real-time statistics
+  - Timestamped logs with HH:mm:ss.SSS precision
+
+- **Comprehensive Button Tap Logging**
+  - Lab: Mode Selector, Probability Slider, Gate Buttons (H/X/Y/Z), Measure, Reset
+  - Presets: Category Filter, Preset Cards, Search Clear
+  - Bridge: Connect/Disconnect, Backend Selection, Deploy, Quick Actions, Job Cancel
+  - Academy: Level Selection, Start/Review Buttons, Close Detail
+  - Industry: Solution Cards, ROI Calculate, Pricing Plans
+  - Profile: Settings Button, Achievements, All Settings Toggles
+  - More: Academy/Industry/Profile Cards, Language, Reset Tutorial
+  - TabBar: All 4 Tab Navigations
+
+- **Log Overlay Features**
+  - Real-time statistics: Success/Failed/Coming Soon/No Action counts
+  - Color-coded screen labels
+  - Export capability for text reports
+  - Clear function to reset log history
+
+- **Enterprise Quantum Engine Upgrade**
+  - Enhanced `QuantumExecutor.swift` with improved error handling
+  - Optimized `LinearAlgebra.swift` with Accelerate framework
+  - Updated `NoiseModel.swift` with Harvard-MIT 2025 parameters
+  - `QuantumCircuitBuilder.swift` DSL improvements
+
+### Changed
+- **UX Enhancement**: English set as default language
+- **Settings & Onboarding UX**: Improved user flow
+- **Localization Updates**: Enhanced strings for EN, KO, JA, ZH-Hans
+
+---
+
+## [2.1.0] - 2026-01-06
+
+### Added
+- **QuantumExecutor Protocol** - Hybrid Execution System
+  - `LocalQuantumExecutor`: Local simulation with optional error correction
+  - `QuantumBridgeExecutor`: Real quantum hardware via IBM Quantum API
+  - Unified interface for seamless switching between local and cloud execution
+  - Fidelity metrics and error correction info in results
+
+- **Fault-Tolerant Simulation** (Harvard-MIT 2025 Research)
+  - Surface code error correction based on Nature 2025 publications
+  - 448-qubit fault-tolerant architecture simulation
+  - Sub-0.5% logical error rate modeling
+  - Magic state distillation support
+
+- **Premium 8-Tab UI Structure**
+  | Tab | Name | Premium |
+  |-----|------|---------|
+  | 1 | Controls | Free |
+  | 2 | Measure | Free |
+  | 3 | Presets | Free |
+  | 4 | Info | Free |
+  | 5 | Bridge | Premium |
+  | 6 | Examples | Free |
+  | 7 | Industry | Premium |
+  | 8 | Academy | Premium |
+
+- **4-Hub Navigation** (Apple HIG Consolidation)
+  - `LabHubView.swift`: Control + Measure + Info
+  - `PresetsHubView.swift`: Presets + Examples
+  - `FactoryHubView.swift`: Bridge (QPU connection)
+  - `MoreHubView.swift`: Academy + Industry + Profile
+  - `QuantumHorizonTabBar.swift`: Floating 4-tab navigation
+
+- **Quantum Academy Subscription Platform**
+  - MIT/Harvard research-based curriculum
+  - Tracks: Fundamentals (Free), Algorithms, Hardware, Security (Premium)
+  - Progress gamification: Streaks, XP, achievement badges
+  - Level-based content unlocking
+
+- **Industry Solutions B2B Module**
+  - Portfolio Optimization (Finance): 100x speedup
+  - Drug Discovery (Healthcare): 1000x speedup
+  - Supply Chain Routing (Logistics): 50x speedup
+  - Fraud Detection (Finance): 10x speedup
+  - ROI calculator and pricing plans
+
+- **Error Correction Visualization**
+  - `ErrorCorrectionView.swift`: Visual representation of surface codes
+  - Code distance and logical error rate display
+  - Real-time fidelity metrics
+
+- **QAgent View Component**
+  - `QAgentView.swift`: Agentic AI ready component
+  - Quantum-hybrid workflow integration
+
+- **Design System**
+  - `QuantumHorizonTheme.swift`: Consistent theming across app
+
+### Changed
+- **README Update**: Complete documentation overhaul for v2.0+
+
+---
+
+## [2.0.0] - 2026-01-05
+
+### Added
+- **QuantumBridge Integration**
+  - `QuantumBridge.swift`: QASM 2.0 export capability
+  - IBM Quantum configuration and API connectivity
+  - Bridge circuit builder for hardware-compatible circuits
+  - Job submission and result retrieval
+
+- **QuantumBridgeConnectionView**
+  - Real-time connection status display
+  - Backend selection (IBM Brisbane, etc.)
+  - Job queue monitoring
+  - Circuit deployment interface
+
+### Changed
+- **Project Reorganization**
+  - Replaced SwiftQuantumLearning with SwiftQuantumV2
+  - New modular architecture for better maintainability
+
+### Removed
+- Deprecated SwiftQuantumLearning project
+
+---
+
+## [1.2.0] - 2025-12-29
+
+### Added
+- **Quantum Explorer UI Redesign**
+  - Enhanced visualization with modern SwiftUI components
+  - Improved Bloch sphere 3D rendering
+  - New preset state cards with category filtering
+
+- **Korean Localization for README** (`README_KO.md`)
+
+- **New Screenshots**
+  - Controls screenshot
+  - 3D view screenshot
+  - Info panel screenshot
+  - Examples screenshot
+
+### Changed
+- **BlochSphereView3D**: Updated with advanced rendering features
+- **README**: Enhanced layout with better content organization
+- **Platform Support**: Revised documentation for iOS 18+ and macOS 15+
+
+---
 
 ## [1.1.0] - 2025-09-30
 
@@ -16,14 +252,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Preset quantum states (|0⟩, |1⟩, |+⟩, |−⟩, |±i⟩)
   - Educational info section with quantum computing basics
   - Dark mode quantum-themed UI
-  
+
 - **QubitVisualizer**: Comprehensive visualization tools for quantum states
   - Bloch sphere ASCII visualization
   - Measurement histogram generation
   - State vector Dirac notation display
   - State comparison and fidelity calculation
   - Extension methods for easy visualization
-  
+
 - **SuperpositionPlayground**: Interactive learning playground
   - Explore different superposition states
   - Custom superposition creator
@@ -31,13 +267,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Bloch sphere explorer
   - Quantum parallelism demo
   - State comparison tools
-  
+
 - **App Icon**: Custom designed icon featuring:
-  - Personal identity (사주 오행 + 태몽)
   - Bloch sphere representation
-  - Water element flow (37.5% 水)
-  - Wood growth pattern (25% 木)
-  - Technical grid and quantum visualization
   - All iOS required sizes (1024x1024 to 20x20)
 
 ### Changed
@@ -48,29 +280,85 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added screenshots section
   - Added performance benchmarks
   - Added roadmap
-  
+
 ### Documentation
 - Added tutorial series links
 - Added blog post references
 - Added contributing guidelines
 - Added architecture documentation
 
+---
+
 ## [1.0.0] - 2025-09-28
 
 ### Added
-- Initial release of SwiftQuantum
-- Complex number arithmetic
-- Single-qubit quantum states
-- Quantum gates (Pauli-X, Y, Z, Hadamard, Phase, T)
-- Quantum circuits
-- Measurement operations
-- Bloch sphere calculations
-- Comprehensive test suite
-- Basic documentation
+- **Initial Release of SwiftQuantum**
+- **Complex Number Arithmetic**
+  - `Complex.swift`: Full complex number support
+  - Addition, subtraction, multiplication, division
+  - Conjugate, magnitude, phase operations
 
+- **Single-Qubit Quantum States**
+  - `Qubit.swift`: Quantum state representation
+  - State vector with alpha and beta amplitudes
+  - Normalization and validation
+
+- **Quantum Gates**
+  - `QuantumGates.swift`: Standard gate library
+  - Pauli-X, Y, Z gates
+  - Hadamard gate
+  - Phase gate (S)
+  - T gate (π/8)
+  - Rotation gates (Rx, Ry, Rz)
+
+- **Quantum Circuits**
+  - `QuantumCircuit.swift`: Circuit composition
+  - Sequential gate application
+  - Circuit visualization
+
+- **Measurement Operations**
+  - Probabilistic collapse simulation
+  - Statistical measurement with configurable shots
+  - Measurement result histograms
+
+- **Bloch Sphere Calculations**
+  - Spherical coordinate conversion
+  - Theta and phi angle extraction
+  - Visualization coordinates
+
+- **Multi-Qubit Support**
+  - `QuantumRegister.swift`: Up to 20 qubits
+  - CNOT gate (controlled-NOT)
+  - Toffoli gate (CCNOT)
+  - SWAP gate
+  - Tensor product operations
+
+- **Quantum Algorithms**
+  - `QuantumAlgorithms.swift`: Standard algorithms
+  - Bell state preparation
+  - GHZ state generation
+  - Grover's search algorithm
+  - Deutsch-Jozsa algorithm
+  - Simon's algorithm
+  - Quantum Fourier Transform
+
+- **Comprehensive Test Suite**
+  - Unit tests for all core components
+  - Gate verification tests
+  - Algorithm correctness tests
+
+- **Basic Documentation**
+  - README with quick start guide
+  - API documentation comments
+  - Example code snippets
+
+---
+
+[2.2.1]: https://github.com/Minapak/SwiftQuantum/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/Minapak/SwiftQuantum/compare/v2.1.1...v2.2.0
+[2.1.1]: https://github.com/Minapak/SwiftQuantum/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/Minapak/SwiftQuantum/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Minapak/SwiftQuantum/releases/tag/v1.0.0
-EOF
-
-git add CHANGELOG.md
-git commit -m "docs: Add CHANGELOG for version 1.1.0"
