@@ -8,20 +8,20 @@
 
 import SwiftUI
 
-// MARK: - Onboarding Model
-struct OnboardingStep: Identifiable {
+// MARK: - Onboarding Step Keys (for localization)
+struct OnboardingStepData: Identifiable {
     let id = UUID()
-    let title: String
-    let subtitle: String
-    let description: String
+    let titleKey: LocalizedStringKey
+    let subtitleKey: LocalizedStringKey
+    let descriptionKey: LocalizedStringKey
     let icon: String
     let accentColor: Color
     let isLanguageStep: Bool
 
-    init(title: String, subtitle: String, description: String, icon: String, accentColor: Color, isLanguageStep: Bool = false) {
-        self.title = title
-        self.subtitle = subtitle
-        self.description = description
+    init(titleKey: LocalizedStringKey, subtitleKey: LocalizedStringKey, descriptionKey: LocalizedStringKey, icon: String, accentColor: Color, isLanguageStep: Bool = false) {
+        self.titleKey = titleKey
+        self.subtitleKey = subtitleKey
+        self.descriptionKey = descriptionKey
         self.icon = icon
         self.accentColor = accentColor
         self.isLanguageStep = isLanguageStep
@@ -34,40 +34,40 @@ struct OnboardingView: View {
     @ObservedObject var localization = LocalizationManager.shared
     @State private var currentStep = 0
 
-    private let steps: [OnboardingStep] = [
-        OnboardingStep(
-            title: "Select Your",
-            subtitle: "Language",
-            description: "Choose your preferred language. You can change it anytime in Settings.",
+    private let steps: [OnboardingStepData] = [
+        OnboardingStepData(
+            titleKey: .onboardingSelectYour,
+            subtitleKey: .onboardingLanguage,
+            descriptionKey: .onboardingLanguageDesc,
             icon: "globe",
             accentColor: QuantumHorizonColors.quantumGreen,
             isLanguageStep: true
         ),
-        OnboardingStep(
-            title: "Welcome to",
-            subtitle: "SwiftQuantum",
-            description: "Explore quantum computing with interactive visualizations and real hardware connections.",
+        OnboardingStepData(
+            titleKey: .onboardingWelcomeTo,
+            subtitleKey: .onboardingSwiftQuantum,
+            descriptionKey: .onboardingWelcomeDesc,
             icon: "atom",
             accentColor: QuantumHorizonColors.quantumCyan
         ),
-        OnboardingStep(
-            title: "Experiment in",
-            subtitle: "Lab",
-            description: "Manipulate qubits on the Bloch Sphere. Apply gates like Hadamard (H) and measure results.",
+        OnboardingStepData(
+            titleKey: .onboardingExperimentIn,
+            subtitleKey: .lab,
+            descriptionKey: .onboardingLabDesc,
             icon: "atom",
             accentColor: QuantumHorizonColors.quantumCyan
         ),
-        OnboardingStep(
-            title: "Load",
-            subtitle: "Presets",
-            description: "Explore famous quantum states like Bell pairs and GHZ states with one tap.",
+        OnboardingStepData(
+            titleKey: .onboardingLoad,
+            subtitleKey: .presets,
+            descriptionKey: .onboardingPresetsDesc,
             icon: "list.bullet.clipboard",
             accentColor: QuantumHorizonColors.quantumGreen
         ),
-        OnboardingStep(
-            title: "Connect via",
-            subtitle: "Bridge",
-            description: "Deploy circuits to real IBM Quantum computers with 127+ qubits.",
+        OnboardingStepData(
+            titleKey: .onboardingConnectVia,
+            subtitleKey: .onboardingBridge,
+            descriptionKey: .onboardingBridgeDesc,
             icon: "network",
             accentColor: QuantumHorizonColors.quantumPurple
         )
@@ -87,7 +87,7 @@ struct OnboardingView: View {
                         DeveloperModeManager.shared.log(screen: "Onboarding", element: "Skip Button", status: .success)
                         completeOnboarding()
                     }) {
-                        Text("Skip")
+                        Text(localization.string(for: .skip))
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(.white.opacity(0.6))
                             .padding(.horizontal, 20)
@@ -122,7 +122,7 @@ struct OnboardingView: View {
         Group {
             if steps[currentStep].isLanguageStep {
                 languageSelectionGrid
-            } else if steps[currentStep].subtitle == "SwiftQuantum" {
+            } else if steps[currentStep].subtitleKey == .onboardingSwiftQuantum {
                 // Welcome step - show App Logo
                 ZStack {
                     // Glow effect
@@ -216,17 +216,17 @@ struct OnboardingView: View {
         VStack(spacing: 16) {
             // Title
             VStack(spacing: 4) {
-                Text(steps[currentStep].title)
+                Text(localization.string(for: steps[currentStep].titleKey))
                     .font(.system(size: 18, weight: .regular))
                     .foregroundColor(.white.opacity(0.7))
 
-                Text(steps[currentStep].subtitle)
+                Text(localization.string(for: steps[currentStep].subtitleKey))
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(.white)
             }
 
             // Description
-            Text(steps[currentStep].description)
+            Text(localization.string(for: steps[currentStep].descriptionKey))
                 .font(.system(size: 16))
                 .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -234,6 +234,7 @@ struct OnboardingView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .animation(.easeInOut(duration: 0.3), value: currentStep)
+        .animation(.easeInOut(duration: 0.2), value: localization.currentLanguage)
     }
 
     // MARK: - Bottom Controls
@@ -277,7 +278,7 @@ struct OnboardingView: View {
                     }
                 }) {
                     HStack(spacing: 8) {
-                        Text(currentStep < steps.count - 1 ? "Next" : "Get Started")
+                        Text(currentStep < steps.count - 1 ? localization.string(for: .next) : localization.string(for: .getStarted))
                             .font(.system(size: 16, weight: .semibold))
                         Image(systemName: currentStep < steps.count - 1 ? "chevron.right" : "arrow.right")
                             .font(.system(size: 14, weight: .semibold))

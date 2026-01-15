@@ -133,6 +133,21 @@ enum LocalizedStringKey: String {
     case getStarted = "onboarding.getStarted"
     case selectLanguage = "onboarding.selectLanguage"
 
+    // Onboarding Steps
+    case onboardingSelectYour = "onboarding.selectYour"
+    case onboardingLanguage = "onboarding.language"
+    case onboardingLanguageDesc = "onboarding.languageDesc"
+    case onboardingWelcomeTo = "onboarding.welcomeTo"
+    case onboardingSwiftQuantum = "onboarding.swiftQuantum"
+    case onboardingWelcomeDesc = "onboarding.welcomeDesc"
+    case onboardingExperimentIn = "onboarding.experimentIn"
+    case onboardingLabDesc = "onboarding.labDesc"
+    case onboardingLoad = "onboarding.load"
+    case onboardingPresetsDesc = "onboarding.presetsDesc"
+    case onboardingConnectVia = "onboarding.connectVia"
+    case onboardingBridge = "onboarding.bridge"
+    case onboardingBridgeDesc = "onboarding.bridgeDesc"
+
     // Common
     case done = "common.done"
     case cancel = "common.cancel"
@@ -163,6 +178,19 @@ enum LocalizedStringKey: String {
         case .next: return "Next"
         case .getStarted: return "Get Started"
         case .selectLanguage: return "Select Language"
+        case .onboardingSelectYour: return "Select Your"
+        case .onboardingLanguage: return "Language"
+        case .onboardingLanguageDesc: return "Choose your preferred language. You can change it anytime in Settings."
+        case .onboardingWelcomeTo: return "Welcome to"
+        case .onboardingSwiftQuantum: return "SwiftQuantum"
+        case .onboardingWelcomeDesc: return "Explore quantum computing with interactive visualizations and real hardware connections."
+        case .onboardingExperimentIn: return "Experiment in"
+        case .onboardingLabDesc: return "Manipulate qubits on the Bloch Sphere. Apply gates like Hadamard (H) and measure results."
+        case .onboardingLoad: return "Load"
+        case .onboardingPresetsDesc: return "Explore famous quantum states like Bell pairs and GHZ states with one tap."
+        case .onboardingConnectVia: return "Connect via"
+        case .onboardingBridge: return "Bridge"
+        case .onboardingBridgeDesc: return "Deploy circuits to real IBM Quantum computers with 127+ qubits."
         case .done: return "Done"
         case .cancel: return "Cancel"
         case .save: return "Save"
@@ -195,6 +223,19 @@ private let englishStrings: [LocalizedStringKey: String] = [
     .next: "Next",
     .getStarted: "Get Started",
     .selectLanguage: "Select Language",
+    .onboardingSelectYour: "Select Your",
+    .onboardingLanguage: "Language",
+    .onboardingLanguageDesc: "Choose your preferred language. You can change it anytime in Settings.",
+    .onboardingWelcomeTo: "Welcome to",
+    .onboardingSwiftQuantum: "SwiftQuantum",
+    .onboardingWelcomeDesc: "Explore quantum computing with interactive visualizations and real hardware connections.",
+    .onboardingExperimentIn: "Experiment in",
+    .onboardingLabDesc: "Manipulate qubits on the Bloch Sphere. Apply gates like Hadamard (H) and measure results.",
+    .onboardingLoad: "Load",
+    .onboardingPresetsDesc: "Explore famous quantum states like Bell pairs and GHZ states with one tap.",
+    .onboardingConnectVia: "Connect via",
+    .onboardingBridge: "Bridge",
+    .onboardingBridgeDesc: "Deploy circuits to real IBM Quantum computers with 127+ qubits.",
     .done: "Done",
     .cancel: "Cancel",
     .save: "Save",
@@ -225,6 +266,19 @@ private let koreanStrings: [LocalizedStringKey: String] = [
     .next: "다음",
     .getStarted: "시작하기",
     .selectLanguage: "언어 선택",
+    .onboardingSelectYour: "선택하세요",
+    .onboardingLanguage: "언어",
+    .onboardingLanguageDesc: "원하는 언어를 선택하세요. 설정에서 언제든지 변경할 수 있습니다.",
+    .onboardingWelcomeTo: "환영합니다",
+    .onboardingSwiftQuantum: "SwiftQuantum",
+    .onboardingWelcomeDesc: "인터랙티브 시각화와 실제 하드웨어 연결로 양자 컴퓨팅을 탐험하세요.",
+    .onboardingExperimentIn: "실험하세요",
+    .onboardingLabDesc: "블로흐 구면에서 큐빗을 조작하세요. 하다마드(H) 게이트를 적용하고 결과를 측정하세요.",
+    .onboardingLoad: "불러오기",
+    .onboardingPresetsDesc: "벨 상태, GHZ 상태 등 유명한 양자 상태를 한 번의 탭으로 탐험하세요.",
+    .onboardingConnectVia: "연결하기",
+    .onboardingBridge: "브릿지",
+    .onboardingBridgeDesc: "127+ 큐빗의 실제 IBM 양자 컴퓨터에 회로를 배포하세요.",
     .done: "완료",
     .cancel: "취소",
     .save: "저장",
@@ -255,6 +309,19 @@ private let japaneseStrings: [LocalizedStringKey: String] = [
     .next: "次へ",
     .getStarted: "始める",
     .selectLanguage: "言語を選択",
+    .onboardingSelectYour: "選択してください",
+    .onboardingLanguage: "言語",
+    .onboardingLanguageDesc: "ご希望の言語を選択してください。設定でいつでも変更できます。",
+    .onboardingWelcomeTo: "ようこそ",
+    .onboardingSwiftQuantum: "SwiftQuantum",
+    .onboardingWelcomeDesc: "インタラクティブな可視化と実際のハードウェア接続で量子コンピューティングを探索しましょう。",
+    .onboardingExperimentIn: "実験する",
+    .onboardingLabDesc: "ブロッホ球面でキュービットを操作しましょう。アダマール(H)ゲートを適用して結果を測定します。",
+    .onboardingLoad: "読み込む",
+    .onboardingPresetsDesc: "ベル状態やGHZ状態などの有名な量子状態をワンタップで探索できます。",
+    .onboardingConnectVia: "接続する",
+    .onboardingBridge: "ブリッジ",
+    .onboardingBridgeDesc: "127以上のキュービットを持つ実際のIBM量子コンピューターに回路をデプロイしましょう。",
     .done: "完了",
     .cancel: "キャンセル",
     .save: "保存",
@@ -285,6 +352,19 @@ private let chineseStrings: [LocalizedStringKey: String] = [
     .next: "下一步",
     .getStarted: "开始使用",
     .selectLanguage: "选择语言",
+    .onboardingSelectYour: "请选择",
+    .onboardingLanguage: "语言",
+    .onboardingLanguageDesc: "选择您喜欢的语言。您可以随时在设置中更改。",
+    .onboardingWelcomeTo: "欢迎使用",
+    .onboardingSwiftQuantum: "SwiftQuantum",
+    .onboardingWelcomeDesc: "通过交互式可视化和真实硬件连接探索量子计算。",
+    .onboardingExperimentIn: "实验于",
+    .onboardingLabDesc: "在布洛赫球上操作量子比特。应用哈达玛(H)门并测量结果。",
+    .onboardingLoad: "加载",
+    .onboardingPresetsDesc: "一键探索贝尔态和GHZ态等著名量子态。",
+    .onboardingConnectVia: "连接到",
+    .onboardingBridge: "桥接",
+    .onboardingBridgeDesc: "将电路部署到具有127+量子比特的真实IBM量子计算机。",
     .done: "完成",
     .cancel: "取消",
     .save: "保存",
@@ -315,6 +395,19 @@ private let germanStrings: [LocalizedStringKey: String] = [
     .next: "Weiter",
     .getStarted: "Los geht's",
     .selectLanguage: "Sprache auswählen",
+    .onboardingSelectYour: "Wählen Sie Ihre",
+    .onboardingLanguage: "Sprache",
+    .onboardingLanguageDesc: "Wählen Sie Ihre bevorzugte Sprache. Sie können sie jederzeit in den Einstellungen ändern.",
+    .onboardingWelcomeTo: "Willkommen bei",
+    .onboardingSwiftQuantum: "SwiftQuantum",
+    .onboardingWelcomeDesc: "Erkunden Sie Quantencomputing mit interaktiven Visualisierungen und echten Hardware-Verbindungen.",
+    .onboardingExperimentIn: "Experimentieren im",
+    .onboardingLabDesc: "Manipulieren Sie Qubits auf der Bloch-Kugel. Wenden Sie Gates wie Hadamard (H) an und messen Sie Ergebnisse.",
+    .onboardingLoad: "Laden",
+    .onboardingPresetsDesc: "Entdecken Sie berühmte Quantenzustände wie Bell-Paare und GHZ-Zustände mit einem Tippen.",
+    .onboardingConnectVia: "Verbinden über",
+    .onboardingBridge: "Bridge",
+    .onboardingBridgeDesc: "Deployen Sie Schaltkreise auf echten IBM Quantencomputern mit 127+ Qubits.",
     .done: "Fertig",
     .cancel: "Abbrechen",
     .save: "Speichern",
