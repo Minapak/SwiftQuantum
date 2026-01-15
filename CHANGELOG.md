@@ -7,46 +7,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.2.1] - 2026-01-15
+## [2.2.1] - 2026-01-16
 
 ### Added
-- **Product Landing Page**: Professional product website (`Website/index.html`)
+- **Real-time Language Switching**
+  - Instant UI update without app restart
+  - `LocalizationManager` with `@MainActor` localized properties
+  - Fixed MainActor isolation issues in `QuantumHub` enum
+
+- **Backend Integration for More Tab**
+  - `UserStatsManager` for fetching user statistics from backend
+  - `SafariWebView` for in-app web settings pages
+  - Settings items (Notifications, Appearance, Privacy, Help) → web URLs
+  - Quick Stats connected to backend with UserDefaults fallback
+
+- **Dynamic Content (Hardcoded Values Removed)**
+  - Academy badge: `"5 Lessons"` → `"\(lessonsCompleted) Done"` (dynamic)
+  - Version info: `"2.1.1"` → `Bundle.main.infoDictionary` (dynamic)
+  - Profile stats: Hardcoded → Backend API + cache fallback
+
+- **Deep Linking**
+  - Academy card → QuantumNative app via `quantumnative://academy`
+  - Fallback to in-app Academy sheet if app not installed
+
+- **Product Landing Page** (`Website/index.html`)
   - Hero section with app preview and feature highlights
   - Pricing section with subscription tier comparison
   - Research foundation section highlighting Harvard-MIT publications
   - Responsive design for mobile and desktop
 
-- **Support Center**: Comprehensive support portal (`Website/support.html`)
+- **Support Center** (`Website/support.html`)
   - FAQ section with common questions and answers
   - Contact form for user inquiries
   - Documentation links and resources
 
-- **AWS Production Infrastructure**
-  - Complete AWS setup guide with ECS/Fargate deployment
-  - Production-ready configuration documentation
-  - Environment variable management for secure deployment
-
-- **App Icons & Launch Screen**
-  - Complete iOS app icon set (all required sizes from 20x20 to 1024x1024)
-  - macOS app icon set (16x16 to 512x512@2x)
+- **App Assets**
+  - Complete iOS app icon set (all required sizes)
+  - macOS app icon set
   - Custom splash screen with brand logo
   - LaunchScreen.storyboard with animated splash
 
-- **Real-time Language Switching**
-  - Instant language switching without app restart
-  - LocalizationManager for dynamic locale updates
-  - Localized onboarding experience
-
 ### Changed
-- **Project Structure Cleanup**
-  - Removed deprecated files (CONTRIBUTING.md, README_KO.md, README_TUTORIAL_SECTION.md)
+- **Localization System**
+  - Added `@MainActor localizedTitle` and `localizedDescription` to `QuantumHub`
+  - Added new `LocalizedStringKey` entries for Lab UI (Control, Measure, Probability, etc.)
+  - Updated all 5 language dictionaries with new keys
+
+- **Project Structure**
+  - Removed deprecated files
   - Consolidated view files into organized directories
   - Cleaned up CI configuration files
 
 ### Fixed
-- Resolved duplicate `FeatureRow` struct declarations
-- Fixed Xcode warnings for unused variables
-- Fixed unassigned asset catalog issues
+- MainActor isolation error when accessing `LocalizationManager` from enum
+- Tab bar showing English instead of localized language
+- Duplicate `FeatureRow` struct declarations
+- Xcode warnings for unused variables
+- Unassigned asset catalog issues
 
 ---
 
@@ -85,9 +102,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Network communication compatibility with backend services
 
 ### Changed
-- **Bundle ID Update**: Changed to `com.eunminpark.swiftquantum`
+- **Bundle ID Update**: Changed to production bundle ID
 - **App Rebranding**: QuantumAcademy → QuantumNative
-  - Updated URL scheme from `quantumacademy://` to `quantumnative://`
+  - Updated URL scheme
   - Renamed all related classes and view files
 
 ---
@@ -182,13 +199,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Code distance and logical error rate display
   - Real-time fidelity metrics
 
-- **QAgent View Component**
-  - `QAgentView.swift`: Agentic AI ready component
-  - Quantum-hybrid workflow integration
-
-- **Design System**
-  - `QuantumHorizonTheme.swift`: Consistent theming across app
-
 ### Changed
 - **README Update**: Complete documentation overhaul for v2.0+
 
@@ -227,7 +237,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved Bloch sphere 3D rendering
   - New preset state cards with category filtering
 
-- **Korean Localization for README** (`README_KO.md`)
+- **Korean Localization for README**
 
 - **New Screenshots**
   - Controls screenshot
@@ -258,34 +268,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Measurement histogram generation
   - State vector Dirac notation display
   - State comparison and fidelity calculation
-  - Extension methods for easy visualization
 
 - **SuperpositionPlayground**: Interactive learning playground
-  - Explore different superposition states
-  - Custom superposition creator
-  - Quantum collapse demonstration
-  - Bloch sphere explorer
-  - Quantum parallelism demo
-  - State comparison tools
 
-- **App Icon**: Custom designed icon featuring:
-  - Bloch sphere representation
-  - All iOS required sizes (1024x1024 to 20x20)
+- **App Icon**: Custom designed icon with all iOS required sizes
 
 ### Changed
 - **README.md**: Complete documentation overhaul
   - Added iOS app documentation
   - Added comprehensive examples
   - Added API reference links
-  - Added screenshots section
   - Added performance benchmarks
   - Added roadmap
-
-### Documentation
-- Added tutorial series links
-- Added blog post references
-- Added contributing guidelines
-- Added architecture documentation
 
 ---
 
@@ -321,11 +315,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Statistical measurement with configurable shots
   - Measurement result histograms
 
-- **Bloch Sphere Calculations**
-  - Spherical coordinate conversion
-  - Theta and phi angle extraction
-  - Visualization coordinates
-
 - **Multi-Qubit Support**
   - `QuantumRegister.swift`: Up to 20 qubits
   - CNOT gate (controlled-NOT)
@@ -347,18 +336,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Gate verification tests
   - Algorithm correctness tests
 
-- **Basic Documentation**
-  - README with quick start guide
-  - API documentation comments
-  - Example code snippets
-
 ---
 
-[2.2.1]: https://github.com/Minapak/SwiftQuantum/compare/v2.2.0...v2.2.1
-[2.2.0]: https://github.com/Minapak/SwiftQuantum/compare/v2.1.1...v2.2.0
-[2.1.1]: https://github.com/Minapak/SwiftQuantum/compare/v2.1.0...v2.1.1
-[2.1.0]: https://github.com/Minapak/SwiftQuantum/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.2.0...v2.0.0
-[1.2.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/Minapak/SwiftQuantum/releases/tag/v1.0.0
+[2.2.1]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.1.1...v2.2.0
+[2.1.1]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/releases/tag/v1.0.0

@@ -1,8 +1,89 @@
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode
 /.build
 /Packages
 xcuserdata/
 DerivedData/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# Swift Package Manager
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+*.xcworkspace
+
+# Sensitive Files - NEVER COMMIT
+.env
+.env.*
+*.p8
+*.pem
+*.key
+credentials.json
+secrets.json
+GoogleService-Info.plist
+AuthKey_*.p8
+
+# API Keys and Secrets
+**/Secrets/
+**/Private/
+
+# Backend Config (if co-located)
+backend/.env
+backend/config/production.py
+
+# AWS
+.aws/
+aws-credentials.json
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test outputs
+coverage/
+.nyc_output/
+test-results/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Screenshots (keep folder but ignore large files)
+AppStoreAssets/Screenshots/**/*.png
+!AppStoreAssets/Screenshots/.gitkeep
+
+# Documentation builds
+docs/_build/
+
+# Misc
 .netrc
+*.bak
+*.backup

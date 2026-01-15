@@ -1,10 +1,10 @@
-# SwiftQuantum v2.2.0 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.1 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![QuantumBridge](https://img.shields.io/badge/QuantumBridge-2.0-blueviolet.svg)](https://github.com/Minapak/QuantumBridge)
+[![QuantumBridge](https://img.shields.io/badge/QuantumBridge-2.0-blueviolet.svg)](https://github.com/user/QuantumBridge)
 [![Quantum-Hybrid](https://img.shields.io/badge/Quantum--Hybrid-2026-00ff88.svg)](#)
 [![Agentic AI](https://img.shields.io/badge/Agentic%20AI-Ready-ff6b6b.svg)](#)
 [![Localization](https://img.shields.io/badge/Languages-EN%20%7C%20KO%20%7C%20JA%20%7C%20ZH%20%7C%20DE-blue.svg)](#)
@@ -21,9 +21,47 @@
 
 ---
 
-## What's New in v2.2.0 (2026 Premium Backend Release)
+## What's New in v2.2.1 (2026 Production Release)
 
-### Backend Integration & StoreKit 2
+### Backend Integration & Real-time Localization
+
+Complete iOS-to-Backend integration with dynamic language switching:
+
+```swift
+// Real-time language switching
+LocalizationManager.shared.setLanguage("ko")  // Instant UI update
+
+// Backend API integration
+let stats = try await APIClient.shared.get("/api/v1/users/stats")
+
+// Dynamic content from backend
+Text("Version \(AppInfo.version)")  // From Bundle.main
+Text("\(statsManager.lessonsCompleted) Done")  // From backend
+```
+
+#### Key Updates
+
+- **Real-time Language Switching**: Instant UI update without app restart
+- **Backend Stats Integration**: User stats from API with UserDefaults fallback
+- **Dynamic Content**: Removed hardcoded values, connected to real backend
+- **Safari WebView Settings**: Settings pages open via in-app Safari
+- **Deep Linking**: Academy opens QuantumNative app via URL scheme
+
+### Multi-Language Support (5 Languages)
+
+| Language | Code | Status |
+|----------|------|--------|
+| English | `en` | Default |
+| Korean | `ko` | Full |
+| Japanese | `ja` | Full |
+| Chinese (Simplified) | `zh-Hans` | Full |
+| German | `de` | Full |
+
+---
+
+## What's New in v2.2.0 (Backend Release)
+
+### StoreKit 2 + Backend Verification
 
 Complete iOS-to-Backend subscription flow with Apple App Store Server API v2:
 
@@ -34,28 +72,28 @@ let result = try await APIClient.shared.verifyTransaction(transactionId: "...")
 // PremiumManager.swift - Automatic backend verification after purchase
 case .success(let verification):
     let transaction = try checkVerified(verification)
-    await verifyWithBackend(transactionId: String(transaction.id))  // NEW
+    await verifyWithBackend(transactionId: String(transaction.id))
     await transaction.finish()
 ```
 
 #### Subscription Flow
 
 ```
-1️⃣ iOS StoreKit 2 Purchase
-    └── Transaction object received
+1. iOS StoreKit 2 Purchase
+   └── Transaction object received
 
-2️⃣ iOS → Backend Verification
-    └── POST /api/v1/payment/verify/transaction
+2. iOS → Backend Verification
+   └── POST /api/v1/payment/verify/transaction
 
-3️⃣ Backend → Apple Server API
-    └── JWT authentication (ES256)
-    └── Transaction validation
+3. Backend → Apple Server API
+   └── JWT authentication (ES256)
+   └── Transaction validation
 
-4️⃣ Backend → Database
-    └── User subscription activated
+4. Backend → Database
+   └── User subscription activated
 
-5️⃣ Backend → iOS Response
-    └── UI updated with premium badge
+5. Backend → iOS Response
+   └── UI updated with premium badge
 ```
 
 ### Content Access Control
@@ -75,159 +113,6 @@ SomeView()
     .premiumContent(feature: "quantum_bridge")
 ```
 
-### PaywallView
-
-Professional subscription UI with:
-- Feature comparison (Pro vs Premium)
-- Product selection with yearly savings badge
-- Purchase and restore functionality
-- Legal terms and privacy links
-
-### Multi-Language Support (5 Languages)
-
-| Language | Code | Status |
-|----------|------|--------|
-| 🇺🇸 English | `en` | ✅ Default |
-| 🇰🇷 Korean | `ko` | ✅ |
-| 🇯🇵 Japanese | `ja` | ✅ |
-| 🇨🇳 Chinese (Simplified) | `zh-Hans` | ✅ |
-| 🇩🇪 German | `de` | ✅ NEW |
-
----
-
-## What's New in v2.1.1 (2026 Developer Mode Release)
-
-### Developer Mode QA/QC System
-
-Complete interaction logging system for quality assurance and testing:
-
-```swift
-// Developer Mode Badge (Top-Right Corner)
-// - Pulsing red indicator with tap count
-// - Full-screen log overlay with statistics
-// - Real-time interaction tracking
-
-DeveloperModeManager.shared.log(
-    screen: "Lab",
-    element: "Gate: Hadamard",
-    status: .success  // ✅ success, ❌ failed, ⏳ comingSoon, ⚠️ noAction
-)
-```
-
-#### Logged Interactions by Screen
-
-| Screen | Logged Elements | Status Types |
-|--------|-----------------|--------------|
-| **Lab** | Mode Selector, Probability Slider, Gate Buttons (H/X/Y/Z), Measure Buttons, Reset | ✅ Success |
-| **Presets** | Category Filter, Preset Cards, Search Clear | ✅ Success |
-| **Bridge** | Connect/Disconnect, Backend Selection, Deploy (Long Press), Quick Actions, Job Cancel | ✅/⏳ Premium |
-| **Academy** | Level Selection, Start/Review Buttons, Close Detail | ✅/⏳ Locked |
-| **Industry** | Solution Cards, ROI Calculate, Pricing Plans | ✅/⏳ Coming Soon |
-| **Profile** | Settings Button, Achievements, All Settings Toggles | ✅/⏳ Coming Soon |
-| **More** | Academy/Industry/Profile Cards, Language, Reset Tutorial | ✅/⏳ Coming Soon |
-| **TabBar** | All 4 Tab Navigations (Lab, Presets, Bridge, More) | ✅ Success |
-
-#### Developer Log Overlay Features
-
-- **Real-time Statistics**: Success/Failed/Coming Soon/No Action counts
-- **Timestamped Logs**: HH:mm:ss.SSS precision
-- **Screen Identification**: Color-coded screen labels
-- **Export Capability**: Generate text report of all interactions
-- **Clear Function**: Reset log history
-
----
-
-## What's New in v2.1.0 (2026 Premium Release)
-
-### QuantumExecutor Protocol - Hybrid Execution
-
-```swift
-// Seamless switching between local simulation and real quantum hardware
-let localExecutor = LocalQuantumExecutor(simulateErrorCorrection: true)
-let bridgeExecutor = QuantumBridgeExecutor(executorType: .ibmBrisbane, apiKey: "YOUR_KEY")
-
-// Same interface for both
-let result = try await executor.execute(circuit: circuit, shots: 1000)
-print("Fidelity: \(result.fidelity)")  // 99.7% with error correction
-```
-
-### Fault-Tolerant Simulation (Harvard-MIT 2025 Research)
-
-Based on groundbreaking research published in Nature (November 2025):
-- **448-qubit fault-tolerant architecture** with sub-0.5% logical error rates
-- **3,000+ continuous qubit operation** demonstrated for 2+ hours
-- **Magic state distillation** for universal quantum computation
-
-```swift
-let executor = LocalQuantumExecutor(simulateErrorCorrection: true)
-// Simulates surface code error correction based on Harvard-MIT research
-let result = try await executor.execute(circuit: circuit, shots: 1000)
-print("Error Correction Info: \(result.errorCorrectionInfo!)")
-// Code Distance: 3, Logical Error Rate: 0.5%, Fidelity: 99.5%
-```
-
-### Premium Tab Structure (8 Tabs)
-
-| Tab | Name | Description | Premium |
-|-----|------|-------------|---------|
-| 1 | Controls | Quantum state manipulation | Free |
-| 2 | Measure | Statistical measurement | Free |
-| 3 | Presets | Common quantum states | Free |
-| 4 | Info | State information | Free |
-| 5 | **Bridge** | QuantumBridge QPU connection | **Premium** |
-| 6 | Examples | Basic quantum examples | Free |
-| 7 | **Industry** | B2B enterprise solutions | **Premium** |
-| 8 | **Academy** | MIT/Harvard learning courses | **Premium** |
-
-### Quantum Academy (Subscription)
-
-MIT/Harvard research-based curriculum with psychological engagement:
-
-- **Authority Principle**: Curriculum modeled after MIT OpenCourseWare
-- **Loss Aversion**: Post-quantum security warnings to drive engagement
-- **Progress Gamification**: Streaks, XP, and achievement badges
-
-```
-Tracks:
-- Fundamentals (Free): Qubits, Superposition, Entanglement
-- Algorithms (Premium): Grover, Shor, VQE, QAOA
-- Hardware (Premium): Error Correction, Fault Tolerance
-- Security (Premium): Post-Quantum Cryptography
-```
-
-### Industry Solutions (B2B)
-
-Enterprise-ready quantum applications:
-
-| Solution | Industry | Speedup | Implementation |
-|----------|----------|---------|----------------|
-| Portfolio Optimization | Finance | 100x | 4 weeks |
-| Drug Discovery | Healthcare | 1000x | 8 weeks |
-| Supply Chain Routing | Logistics | 50x | 6 weeks |
-| Fraud Detection | Finance | 10x | 3 weeks |
-
----
-
-## Research Foundation
-
-### Harvard-MIT Nature 2025 Publications
-
-SwiftQuantum v2.1.0 is built on cutting-edge quantum computing research:
-
-1. **"Fault-tolerant quantum computation with 448 neutral atom qubits"** (Nature, Nov 2025)
-   - First demonstration of fault-tolerant threshold below 0.5%
-   - Authors: M. Lukin, D. Bluvstein, M. Greiner, V. Vuletic (Harvard/MIT)
-
-2. **"Continuous operation of a coherent 3,000-qubit system"** (Nature, Sep 2025)
-   - 2+ hours of continuous quantum operation
-   - 50 million atom replacements for coherence maintenance
-
-3. **"Magic state distillation on neutral atom quantum computers"** (Nature, Jul 2025)
-   - First logical-level magic state distillation
-   - Essential for universal fault-tolerant quantum computation
-
-**Marketing Message**: *"SwiftQuantum brings the same fault-tolerant algorithms demonstrated by MIT/Harvard researchers to your iOS device - the only mobile quantum simulation platform based on Nature 2025 publications."*
-
 ---
 
 ## Quick Start
@@ -237,7 +122,7 @@ SwiftQuantum v2.1.0 is built on cutting-edge quantum computing research:
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/Minapak/SwiftQuantum.git", from: "2.1.0")
+    .package(url: "https://github.com/YOUR_USERNAME/SwiftQuantum.git", from: "2.2.1")
 ]
 ```
 
@@ -268,7 +153,7 @@ import SwiftQuantum
 // Create executor for IBM Quantum
 let executor = QuantumBridgeExecutor(
     executorType: .ibmBrisbane,
-    apiKey: "YOUR_IBM_QUANTUM_API_KEY"
+    apiKey: "YOUR_IBM_QUANTUM_API_KEY"  // Get from IBM Quantum
 )
 
 // Build circuit
@@ -286,7 +171,7 @@ print("Counts: \(result.counts)")  // {"00": 498, "11": 502}
 ## Architecture
 
 ```
-SwiftQuantum v2.2.0/
+SwiftQuantum v2.2.1/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -307,14 +192,14 @@ SwiftQuantum v2.2.0/
 │       ├── ko.lproj/                  # Korean
 │       ├── ja.lproj/                  # Japanese
 │       ├── zh-Hans.lproj/             # Chinese (Simplified)
-│       └── de.lproj/                  # German (NEW)
+│       └── de.lproj/                  # German
 │
 ├── Apps/
 │   └── SuperpositionVisualizer/       # Premium visualizer (4-Hub Navigation)
 │       ├── QuantumHorizonView.swift   # Main view with 4-hub navigation
 │       ├── DevMode/
 │       │   └── DeveloperModeManager.swift  # QA/QC logging system
-│       ├── Premium/                   # NEW: Subscription system
+│       ├── Premium/                   # Subscription system
 │       │   ├── APIClient.swift        # Backend API communication
 │       │   ├── PremiumManager.swift   # StoreKit 2 + backend verify
 │       │   ├── ContentAccessManager.swift  # Content locking
@@ -323,12 +208,13 @@ SwiftQuantum v2.2.0/
 │       │   ├── LabHubView.swift       # Control + Measure + Info
 │       │   ├── PresetsHubView.swift   # Presets + Examples
 │       │   ├── FactoryHubView.swift   # Bridge (QPU connection)
-│       │   ├── MoreHubView.swift      # Academy + Industry + Profile
-│       │   ├── AcademyHubView.swift   # Learning platform
-│       │   ├── IndustryHubView.swift  # B2B solutions
-│       │   └── ProfileHubView.swift   # User profile & settings
+│       │   └── MoreHubView.swift      # Academy + Industry + Profile
 │       └── Navigation/
 │           └── QuantumHorizonTabBar.swift  # 4-tab floating bar
+│
+├── Website/                           # Product website
+│   ├── index.html                     # Landing page
+│   └── support.html                   # Support center
 │
 └── Tests/
 ```
@@ -339,23 +225,33 @@ SwiftQuantum v2.2.0/
 
 ### Subscription Tiers
 
-| Feature | Free | Premium ($9.99/mo) |
-|---------|------|-------------------|
-| Local Simulation | 20 qubits | 20 qubits |
-| Quantum Gates | All 15+ | All 15+ |
-| Basic Examples | Yes | Yes |
-| QuantumBridge Connection | No | **Yes** |
-| Error Correction Simulation | No | **Yes** |
-| Quantum Academy Courses | 2 free | **All 12+** |
-| Industry Solutions | View only | **Full access** |
-| Priority Support | No | **Yes** |
+| Feature | Free | Pro ($4.99/mo) | Premium ($9.99/mo) |
+|---------|------|----------------|-------------------|
+| Local Simulation | 20 qubits | 40 qubits | 40 qubits |
+| Quantum Gates | All 15+ | All 15+ | All 15+ |
+| Basic Examples | Yes | Yes | Yes |
+| QuantumBridge Connection | No | Yes | **Yes** |
+| Error Correction Simulation | No | No | **Yes** |
+| Quantum Academy Courses | 2 free | All 12+ | **All 12+** |
+| Industry Solutions | View only | Partial | **Full access** |
+| Priority Support | No | Email | **Priority** |
 
-### ASO 2026 Keywords
+---
 
-Optimized for App Store discovery:
-- **Primary**: Quantum Computing, Quantum Simulator, iOS Quantum
-- **Secondary**: Quantum-Hybrid, Agentic AI, Post-Quantum Security
-- **Long-tail**: Learn Quantum Computing, IBM Quantum iOS, Fault-Tolerant Quantum
+## Research Foundation
+
+### Harvard-MIT Nature 2025 Publications
+
+SwiftQuantum is built on cutting-edge quantum computing research:
+
+1. **"Fault-tolerant quantum computation with 448 neutral atom qubits"** (Nature, Nov 2025)
+   - First demonstration of fault-tolerant threshold below 0.5%
+
+2. **"Continuous operation of a coherent 3,000-qubit system"** (Nature, Sep 2025)
+   - 2+ hours of continuous quantum operation
+
+3. **"Magic state distillation on neutral atom quantum computers"** (Nature, Jul 2025)
+   - Essential for universal fault-tolerant quantum computation
 
 ---
 
@@ -383,31 +279,15 @@ Optimized for App Store discovery:
 
 ## Roadmap
 
-### Version 2.2.0 (Current - January 2026)
-- [x] Backend integration with Apple App Store Server API v2
-- [x] APIClient.swift for iOS-to-Backend communication
-- [x] ContentAccessManager.swift for premium content locking
-- [x] PaywallView.swift for professional subscription UI
-- [x] PremiumManager backend verification after StoreKit purchase
-- [x] German localization (de.lproj) - 5 languages total
-- [x] Bundle ID updated to com.eunminpark.swiftquantum
+### Version 2.2.1 (Current - January 2026)
+- [x] Real-time language switching without app restart
+- [x] Backend integration for user stats and settings
+- [x] Remove hardcoded values, dynamic content
+- [x] Safari WebView for settings pages
+- [x] Deep linking to QuantumNative app
+- [x] Comprehensive test documentation
 
-### Version 2.1.1 (January 2026)
-- [x] Developer Mode QA/QC system with full interaction logging
-- [x] DEV badge repositioned to top-right corner with pulsing animation
-- [x] Comprehensive button tap logging across all screens
-- [x] Premium feature interaction tracking (Coming Soon indicators)
-- [x] Log overlay with real-time statistics and export capability
-
-### Version 2.1.0 (January 2026)
-- [x] QuantumExecutor protocol for hybrid execution
-- [x] Fault-tolerant simulation based on Harvard-MIT research
-- [x] Premium 8-tab UI structure
-- [x] Quantum Academy subscription platform
-- [x] Industry Solutions B2B module
-- [x] Error Correction visualization
-
-### Version 2.2.0 (Planned - Q2 2026)
+### Version 2.3.0 (Planned - Q2 2026)
 - [ ] Real IBM Quantum job submission
 - [ ] Quantum Fourier Transform (QFT)
 - [ ] Shor's Algorithm implementation
@@ -424,11 +304,11 @@ Optimized for App Store discovery:
 
 ## Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions are welcome! Please read the contribution guidelines.
 
 ```bash
 # Clone
-git clone https://github.com/Minapak/SwiftQuantum.git
+git clone https://github.com/YOUR_USERNAME/SwiftQuantum.git
 cd SwiftQuantum
 
 # Build
@@ -443,6 +323,32 @@ open Package.swift
 
 ---
 
+## Environment Setup
+
+### Required Environment Variables
+
+Create a `.env` file (not committed to git):
+
+```bash
+# Backend API
+API_BASE_URL=https://api.your-domain.com
+BRIDGE_BASE_URL=https://bridge.your-domain.com
+
+# IBM Quantum (Optional)
+IBM_QUANTUM_API_KEY=your_ibm_quantum_api_key
+
+# Apple App Store (Backend only)
+APP_STORE_KEY_ID=your_key_id
+APP_STORE_ISSUER_ID=your_issuer_id
+APP_STORE_PRIVATE_KEY_PATH=/path/to/private/key.p8
+```
+
+### Backend Setup
+
+See `SwiftQuantumBackend` repository for backend deployment instructions.
+
+---
+
 ## License
 
 MIT License - See [LICENSE](LICENSE)
@@ -451,16 +357,9 @@ MIT License - See [LICENSE](LICENSE)
 
 ## Contact & Support
 
-- **Author**: Eunmin Park
-- **Email**: dmsals2008@gmail.com
-- **GitHub**: [@Minapak](https://github.com/Minapak)
-- **Blog**: [eunminpark.hashnode.dev](https://eunminpark.hashnode.dev/series/ios-quantum-engineer)
-
-### Resources
-
-- [Report Bug](https://github.com/Minapak/SwiftQuantum/issues/new?template=bug_report.md)
-- [Request Feature](https://github.com/Minapak/SwiftQuantum/issues/new?template=feature_request.md)
-- [Discussions](https://github.com/Minapak/SwiftQuantum/discussions)
+- **GitHub Issues**: [Report Bug](https://github.com/YOUR_USERNAME/SwiftQuantum/issues/new?template=bug_report.md)
+- **Feature Request**: [Request Feature](https://github.com/YOUR_USERNAME/SwiftQuantum/issues/new?template=feature_request.md)
+- **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/SwiftQuantum/discussions)
 
 ---
 
@@ -475,10 +374,8 @@ MIT License - See [LICENSE](LICENSE)
 
 <div align="center">
 
-**Made with quantum entanglement by Eunmin Park**
+**SwiftQuantum - The future of quantum computing on iOS**
 
-*The future of quantum computing on iOS - powered by Harvard-MIT research*
-
-[GitHub](https://github.com/Minapak/SwiftQuantum) | [QuantumBridge](https://github.com/Minapak/QuantumBridge) | [Blog](https://eunminpark.hashnode.dev)
+*Powered by Harvard-MIT research*
 
 </div>
