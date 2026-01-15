@@ -553,7 +553,7 @@ struct ProgressStatCard: View {
 
 // MARK: - Feature Row
 
-struct FeatureRow: View {
+private struct FeatureRow: View {
     let text: String
     let icon: String
 

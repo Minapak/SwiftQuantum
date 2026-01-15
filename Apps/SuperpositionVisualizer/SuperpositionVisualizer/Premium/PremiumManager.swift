@@ -763,10 +763,10 @@ struct UpgradeSuccessView: View {
                 .animation(.easeOut(duration: 0.5).delay(0.4), value: showText)
 
                 VStack(alignment: .leading, spacing: 12) {
-                    FeatureRow(icon: "bolt.fill", text: "QuantumBridge QPU Connection")
-                    FeatureRow(icon: "checkmark.shield.fill", text: "Error Correction Simulation")
-                    FeatureRow(icon: "graduationcap.fill", text: "All Academy Courses")
-                    FeatureRow(icon: "building.2.fill", text: "Industry Solutions")
+                    UpgradeFeatureRow(icon: "bolt.fill", text: "QuantumBridge QPU Connection")
+                    UpgradeFeatureRow(icon: "checkmark.shield.fill", text: "Error Correction Simulation")
+                    UpgradeFeatureRow(icon: "graduationcap.fill", text: "All Academy Courses")
+                    UpgradeFeatureRow(icon: "building.2.fill", text: "Industry Solutions")
                 }
                 .opacity(showText ? 1 : 0)
                 .animation(.easeOut(duration: 0.5).delay(0.6), value: showText)
@@ -802,7 +802,7 @@ struct UpgradeSuccessView: View {
         }
     }
 
-    struct FeatureRow: View {
+    private struct UpgradeFeatureRow: View {
         let icon: String
         let text: String
 
