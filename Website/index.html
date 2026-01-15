@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftQuantum - Privacy Policy</title>
+    <style>
+        :root {
+            --primary-color: #66D9FF;
+            --secondary-color: #00D9A0;
+            --bg-dark: #0a0a1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f0f2a 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(102, 217, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .policy-section {
+            display: none;
+        }
+
+        .policy-section.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(102, 217, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 1.4em;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.1em;
+            margin: 20px 0 10px;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        ul {
+            color: var(--text-secondary);
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .effective-date {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, rgba(102, 217, 255, 0.1), rgba(0, 217, 160, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(102, 217, 255, 0.2);
+            margin-top: 40px;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .app-badge {
+            margin-top: 20px;
+        }
+
+        .app-badge img {
+            height: 50px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">SwiftQuantum</div>
+            <p class="tagline">Quantum Computing on iOS</p>
+        </header>
+
+        <div class="language-selector">
+            <button class="lang-btn active" onclick="showLanguage('en')">English</button>
+            <button class="lang-btn" onclick="showLanguage('ko')">한국어</button>
+            <button class="lang-btn" onclick="showLanguage('ja')">日本語</button>
+            <button class="lang-btn" onclick="showLanguage('zh')">中文</button>
+            <button class="lang-btn" onclick="showLanguage('de')">Deutsch</button>
+            <button class="lang-btn" onclick="showLanguage('fr')">Français</button>
+            <button class="lang-btn" onclick="showLanguage('es')">Español</button>
+        </div>
+
+        <!-- English -->
+        <div id="en" class="policy-section active">
+            <p class="effective-date">Effective Date: January 15, 2026</p>
+
+            <div class="card">
+                <h1>Privacy Policy</h1>
+                <p>iOS Quantum Engineering ("we", "our", or "us") operates the SwiftQuantum mobile application. This Privacy Policy explains how we collect, use, and protect your information when you use our app.</p>
+            </div>
+
+            <div class="card">
+                <h2>1. Information We Collect</h2>
+
+                <h3>1.1 Information You Provide</h3>
+                <ul>
+                    <li><strong>Account Information:</strong> Email address when you create an account</li>
+                    <li><strong>Purchase Information:</strong> Transaction data processed through Apple's App Store</li>
+                    <li><strong>User Content:</strong> Quantum circuits and simulations you create</li>
+                </ul>
+
+                <h3>1.2 Automatically Collected Information</h3>
+                <ul>
+                    <li><strong>Device Information:</strong> Device type, iOS version, unique device identifiers</li>
+                    <li><strong>Usage Data:</strong> Features used, session duration, app performance metrics</li>
+                    <li><strong>Analytics:</strong> Anonymous usage statistics to improve our services</li>
+                </ul>
+
+                <h3>1.3 Information We Do NOT Collect</h3>
+                <ul>
+                    <li>Location data</li>
+                    <li>Contact lists</li>
+                    <li>Photos or media files</li>
+                    <li>Health or fitness data</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. How We Use Your Information</h2>
+                <ul>
+                    <li>Provide and maintain our quantum computing services</li>
+                    <li>Process your subscription payments through Apple</li>
+                    <li>Send important updates about the app</li>
+                    <li>Improve and optimize our services</li>
+                    <li>Provide customer support</li>
+                    <li>Comply with legal obligations</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. Data Sharing and Disclosure</h2>
+                <p>We do NOT sell, trade, or rent your personal information to third parties.</p>
+                <p>We may share information only in these circumstances:</p>
+                <ul>
+                    <li><strong>Service Providers:</strong> AWS for cloud hosting (data encrypted in transit and at rest)</li>
+                    <li><strong>Apple:</strong> For payment processing through the App Store</li>
+                    <li><strong>Legal Requirements:</strong> When required by law or to protect our rights</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. Data Security</h2>
+                <p>We implement industry-standard security measures:</p>
+                <ul>
+                    <li>SSL/TLS encryption for all data transmission</li>
+                    <li>Encrypted database storage (AES-256)</li>
+                    <li>Regular security audits</li>
+                    <li>Access controls and authentication</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. Data Retention</h2>
+                <ul>
+                    <li><strong>Account Data:</strong> Retained while your account is active</li>
+                    <li><strong>Usage Data:</strong> Retained for 12 months</li>
+                    <li><strong>Transaction Records:</strong> Retained for 7 years for legal compliance</li>
+                </ul>
+                <p>You can request deletion of your data at any time by contacting us.</p>
+            </div>
+
+            <div class="card">
+                <h2>6. Your Rights</h2>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access your personal data</li>
+                    <li>Correct inaccurate data</li>
+                    <li>Delete your data</li>
+                    <li>Export your data</li>
+                    <li>Opt-out of marketing communications</li>
+                    <li>Withdraw consent at any time</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. Children's Privacy</h2>
+                <p>SwiftQuantum is rated 4+ and is suitable for all ages. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child, please contact us immediately.</p>
+            </div>
+
+            <div class="card">
+                <h2>8. International Data Transfers</h2>
+                <p>Your data may be processed in:</p>
+                <ul>
+                    <li>South Korea (AWS ap-northeast-2 region)</li>
+                    <li>United States (for certain AWS services)</li>
+                </ul>
+                <p>We ensure appropriate safeguards are in place for international transfers.</p>
+            </div>
+
+            <div class="card">
+                <h2>9. Changes to This Policy</h2>
+                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes through the app or via email. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+            </div>
+
+            <div class="card">
+                <h2>10. Contact Us</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>Email: <a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>Website: <a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Korean -->
+        <div id="ko" class="policy-section">
+            <p class="effective-date">시행일: 2026년 1월 15일</p>
+
+            <div class="card">
+                <h1>개인정보 처리방침</h1>
+                <p>iOS Quantum Engineering(이하 "회사")은 SwiftQuantum 모바일 애플리케이션을 운영합니다. 본 개인정보 처리방침은 귀하가 앱을 사용할 때 회사가 어떻게 정보를 수집, 사용, 보호하는지 설명합니다.</p>
+            </div>
+
+            <div class="card">
+                <h2>1. 수집하는 개인정보</h2>
+
+                <h3>1.1 이용자가 제공하는 정보</h3>
+                <ul>
+                    <li><strong>계정 정보:</strong> 계정 생성 시 이메일 주소</li>
+                    <li><strong>결제 정보:</strong> Apple App Store를 통해 처리되는 거래 데이터</li>
+                    <li><strong>사용자 콘텐츠:</strong> 생성한 양자 회로 및 시뮬레이션</li>
+                </ul>
+
+                <h3>1.2 자동으로 수집되는 정보</h3>
+                <ul>
+                    <li><strong>기기 정보:</strong> 기기 유형, iOS 버전, 고유 기기 식별자</li>
+                    <li><strong>이용 데이터:</strong> 사용 기능, 세션 시간, 앱 성능 지표</li>
+                    <li><strong>분석 데이터:</strong> 서비스 개선을 위한 익명 사용 통계</li>
+                </ul>
+
+                <h3>1.3 수집하지 않는 정보</h3>
+                <ul>
+                    <li>위치 데이터</li>
+                    <li>연락처 목록</li>
+                    <li>사진 또는 미디어 파일</li>
+                    <li>건강 또는 피트니스 데이터</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. 개인정보의 이용 목적</h2>
+                <ul>
+                    <li>양자 컴퓨팅 서비스 제공 및 유지</li>
+                    <li>Apple을 통한 구독 결제 처리</li>
+                    <li>앱 관련 중요 업데이트 전송</li>
+                    <li>서비스 개선 및 최적화</li>
+                    <li>고객 지원 제공</li>
+                    <li>법적 의무 준수</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. 개인정보의 제3자 제공</h2>
+                <p>회사는 이용자의 개인정보를 제3자에게 판매, 거래 또는 임대하지 않습니다.</p>
+                <p>다음의 경우에만 정보를 공유할 수 있습니다:</p>
+                <ul>
+                    <li><strong>서비스 제공업체:</strong> 클라우드 호스팅을 위한 AWS (전송 및 저장 시 데이터 암호화)</li>
+                    <li><strong>Apple:</strong> App Store를 통한 결제 처리</li>
+                    <li><strong>법적 요구:</strong> 법률에 의해 요구되거나 권리 보호를 위해 필요한 경우</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. 개인정보의 안전성 확보 조치</h2>
+                <p>회사는 업계 표준 보안 조치를 시행합니다:</p>
+                <ul>
+                    <li>모든 데이터 전송에 SSL/TLS 암호화</li>
+                    <li>암호화된 데이터베이스 저장 (AES-256)</li>
+                    <li>정기적인 보안 감사</li>
+                    <li>접근 제어 및 인증</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. 개인정보의 보유 및 이용 기간</h2>
+                <ul>
+                    <li><strong>계정 데이터:</strong> 계정이 활성 상태인 동안 보유</li>
+                    <li><strong>이용 데이터:</strong> 12개월간 보유</li>
+                    <li><strong>거래 기록:</strong> 법적 준수를 위해 7년간 보유</li>
+                </ul>
+                <p>언제든지 회사에 연락하여 데이터 삭제를 요청할 수 있습니다.</p>
+            </div>
+
+            <div class="card">
+                <h2>6. 정보주체의 권리</h2>
+                <p>귀하는 다음과 같은 권리를 가집니다:</p>
+                <ul>
+                    <li>개인정보 열람권</li>
+                    <li>부정확한 데이터 정정권</li>
+                    <li>개인정보 삭제권</li>
+                    <li>개인정보 이동권</li>
+                    <li>마케팅 수신 거부권</li>
+                    <li>동의 철회권</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. 아동의 개인정보 보호</h2>
+                <p>SwiftQuantum은 4세 이상 이용 가능으로 등급이 지정되어 있으며 모든 연령에 적합합니다. 회사는 13세 미만 아동의 개인정보를 고의로 수집하지 않습니다. 아동의 정보가 수집되었다고 생각되시면 즉시 연락해 주십시오.</p>
+            </div>
+
+            <div class="card">
+                <h2>8. 개인정보의 국외 이전</h2>
+                <p>귀하의 데이터는 다음 지역에서 처리될 수 있습니다:</p>
+                <ul>
+                    <li>대한민국 (AWS ap-northeast-2 리전)</li>
+                    <li>미국 (특정 AWS 서비스)</li>
+                </ul>
+                <p>회사는 국제 이전에 적절한 보호 조치를 마련합니다.</p>
+            </div>
+
+            <div class="card">
+                <h2>9. 개인정보 처리방침의 변경</h2>
+                <p>회사는 수시로 본 개인정보 처리방침을 업데이트할 수 있습니다. 중요한 변경 사항은 앱 또는 이메일을 통해 알려드립니다. 변경 후 앱을 계속 사용하면 업데이트된 방침에 동의한 것으로 간주됩니다.</p>
+            </div>
+
+            <div class="card">
+                <h2>10. 개인정보 보호책임자</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>이메일: <a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>웹사이트: <a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Japanese -->
+        <div id="ja" class="policy-section">
+            <p class="effective-date">施行日：2026年1月15日</p>
+
+            <div class="card">
+                <h1>プライバシーポリシー</h1>
+                <p>iOS Quantum Engineering（以下「当社」）は、SwiftQuantumモバイルアプリケーションを運営しています。本プライバシーポリシーは、お客様が当アプリをご利用になる際の情報の収集、使用、保護について説明します。</p>
+            </div>
+
+            <div class="card">
+                <h2>1. 収集する情報</h2>
+
+                <h3>1.1 お客様が提供する情報</h3>
+                <ul>
+                    <li><strong>アカウント情報：</strong>アカウント作成時のメールアドレス</li>
+                    <li><strong>購入情報：</strong>Apple App Storeを通じて処理される取引データ</li>
+                    <li><strong>ユーザーコンテンツ：</strong>作成した量子回路およびシミュレーション</li>
+                </ul>
+
+                <h3>1.2 自動的に収集される情報</h3>
+                <ul>
+                    <li><strong>デバイス情報：</strong>デバイスの種類、iOSバージョン、固有デバイス識別子</li>
+                    <li><strong>利用データ：</strong>使用機能、セッション時間、アプリパフォーマンス指標</li>
+                    <li><strong>分析データ：</strong>サービス改善のための匿名使用統計</li>
+                </ul>
+
+                <h3>1.3 収集しない情報</h3>
+                <ul>
+                    <li>位置データ</li>
+                    <li>連絡先リスト</li>
+                    <li>写真またはメディアファイル</li>
+                    <li>健康またはフィットネスデータ</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. 情報の利用目的</h2>
+                <ul>
+                    <li>量子コンピューティングサービスの提供および維持</li>
+                    <li>Appleを通じたサブスクリプション決済の処理</li>
+                    <li>アプリに関する重要な更新の送信</li>
+                    <li>サービスの改善および最適化</li>
+                    <li>カスタマーサポートの提供</li>
+                    <li>法的義務の遵守</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. 情報の共有と開示</h2>
+                <p>当社はお客様の個人情報を第三者に販売、取引、または賃貸しません。</p>
+                <p>以下の場合にのみ情報を共有することがあります：</p>
+                <ul>
+                    <li><strong>サービスプロバイダー：</strong>クラウドホスティングのためのAWS（転送中および保存時のデータ暗号化）</li>
+                    <li><strong>Apple：</strong>App Storeを通じた決済処理</li>
+                    <li><strong>法的要件：</strong>法律で要求される場合または権利保護のために必要な場合</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. データセキュリティ</h2>
+                <p>当社は業界標準のセキュリティ対策を実施しています：</p>
+                <ul>
+                    <li>すべてのデータ転送にSSL/TLS暗号化</li>
+                    <li>暗号化されたデータベースストレージ（AES-256）</li>
+                    <li>定期的なセキュリティ監査</li>
+                    <li>アクセス制御と認証</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. データ保持</h2>
+                <ul>
+                    <li><strong>アカウントデータ：</strong>アカウントがアクティブな間保持</li>
+                    <li><strong>利用データ：</strong>12ヶ月間保持</li>
+                    <li><strong>取引記録：</strong>法的遵守のため7年間保持</li>
+                </ul>
+                <p>いつでも当社に連絡してデータの削除を要求できます。</p>
+            </div>
+
+            <div class="card">
+                <h2>6. お客様の権利</h2>
+                <p>お客様には以下の権利があります：</p>
+                <ul>
+                    <li>個人データへのアクセス</li>
+                    <li>不正確なデータの訂正</li>
+                    <li>データの削除</li>
+                    <li>データのエクスポート</li>
+                    <li>マーケティング通信のオプトアウト</li>
+                    <li>いつでも同意を撤回</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. 子どものプライバシー</h2>
+                <p>SwiftQuantumは4歳以上対象で、すべての年齢に適しています。当社は13歳未満の子どもから故意に個人情報を収集しません。子どもの情報が収集されたと思われる場合は、直ちにご連絡ください。</p>
+            </div>
+
+            <div class="card">
+                <h2>8. 国際データ転送</h2>
+                <p>お客様のデータは以下の地域で処理される場合があります：</p>
+                <ul>
+                    <li>韓国（AWS ap-northeast-2リージョン）</li>
+                    <li>米国（特定のAWSサービス）</li>
+                </ul>
+                <p>当社は国際転送に適切な保護措置を講じています。</p>
+            </div>
+
+            <div class="card">
+                <h2>9. 本ポリシーの変更</h2>
+                <p>当社は随時本プライバシーポリシーを更新することがあります。重要な変更についてはアプリまたはメールでお知らせします。変更後もアプリを継続して使用することで、更新されたポリシーに同意したものとみなされます。</p>
+            </div>
+
+            <div class="card">
+                <h2>10. お問い合わせ</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>メール：<a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>ウェブサイト：<a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chinese -->
+        <div id="zh" class="policy-section">
+            <p class="effective-date">生效日期：2026年1月15日</p>
+
+            <div class="card">
+                <h1>隐私政策</h1>
+                <p>iOS Quantum Engineering（以下简称"我们"）运营SwiftQuantum移动应用程序。本隐私政策说明了您使用我们的应用程序时，我们如何收集、使用和保护您的信息。</p>
+            </div>
+
+            <div class="card">
+                <h2>1. 我们收集的信息</h2>
+
+                <h3>1.1 您提供的信息</h3>
+                <ul>
+                    <li><strong>账户信息：</strong>创建账户时的电子邮件地址</li>
+                    <li><strong>购买信息：</strong>通过Apple App Store处理的交易数据</li>
+                    <li><strong>用户内容：</strong>您创建的量子电路和模拟</li>
+                </ul>
+
+                <h3>1.2 自动收集的信息</h3>
+                <ul>
+                    <li><strong>设备信息：</strong>设备类型、iOS版本、唯一设备标识符</li>
+                    <li><strong>使用数据：</strong>使用的功能、会话时长、应用性能指标</li>
+                    <li><strong>分析数据：</strong>用于改进服务的匿名使用统计</li>
+                </ul>
+
+                <h3>1.3 我们不收集的信息</h3>
+                <ul>
+                    <li>位置数据</li>
+                    <li>联系人列表</li>
+                    <li>照片或媒体文件</li>
+                    <li>健康或健身数据</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. 信息使用目的</h2>
+                <ul>
+                    <li>提供和维护量子计算服务</li>
+                    <li>通过Apple处理订阅付款</li>
+                    <li>发送有关应用程序的重要更新</li>
+                    <li>改进和优化服务</li>
+                    <li>提供客户支持</li>
+                    <li>遵守法律义务</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. 信息共享和披露</h2>
+                <p>我们不会向第三方出售、交易或出租您的个人信息。</p>
+                <p>我们仅在以下情况下共享信息：</p>
+                <ul>
+                    <li><strong>服务提供商：</strong>用于云托管的AWS（传输和存储时数据加密）</li>
+                    <li><strong>Apple：</strong>通过App Store进行支付处理</li>
+                    <li><strong>法律要求：</strong>法律要求或保护我们权利所必需时</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. 数据安全</h2>
+                <p>我们实施行业标准安全措施：</p>
+                <ul>
+                    <li>所有数据传输采用SSL/TLS加密</li>
+                    <li>加密数据库存储（AES-256）</li>
+                    <li>定期安全审计</li>
+                    <li>访问控制和身份验证</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. 数据保留</h2>
+                <ul>
+                    <li><strong>账户数据：</strong>账户活跃期间保留</li>
+                    <li><strong>使用数据：</strong>保留12个月</li>
+                    <li><strong>交易记录：</strong>为符合法律规定保留7年</li>
+                </ul>
+                <p>您可以随时联系我们请求删除数据。</p>
+            </div>
+
+            <div class="card">
+                <h2>6. 您的权利</h2>
+                <p>您有权：</p>
+                <ul>
+                    <li>访问您的个人数据</li>
+                    <li>更正不准确的数据</li>
+                    <li>删除您的数据</li>
+                    <li>导出您的数据</li>
+                    <li>选择退出营销通信</li>
+                    <li>随时撤回同意</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. 儿童隐私</h2>
+                <p>SwiftQuantum评级为4+，适合所有年龄段。我们不会故意收集13岁以下儿童的个人信息。如果您认为我们收集了儿童的信息，请立即联系我们。</p>
+            </div>
+
+            <div class="card">
+                <h2>8. 国际数据传输</h2>
+                <p>您的数据可能在以下地区处理：</p>
+                <ul>
+                    <li>韩国（AWS ap-northeast-2区域）</li>
+                    <li>美国（某些AWS服务）</li>
+                </ul>
+                <p>我们确保国际传输有适当的保障措施。</p>
+            </div>
+
+            <div class="card">
+                <h2>9. 政策变更</h2>
+                <p>我们可能会不时更新本隐私政策。重大变更将通过应用程序或电子邮件通知您。变更后继续使用应用程序即表示接受更新后的政策。</p>
+            </div>
+
+            <div class="card">
+                <h2>10. 联系我们</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>电子邮件：<a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>网站：<a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- German -->
+        <div id="de" class="policy-section">
+            <p class="effective-date">Gültig ab: 15. Januar 2026</p>
+
+            <div class="card">
+                <h1>Datenschutzerklärung</h1>
+                <p>iOS Quantum Engineering ("wir", "unser" oder "uns") betreibt die mobile Anwendung SwiftQuantum. Diese Datenschutzerklärung erläutert, wie wir Ihre Informationen erfassen, verwenden und schützen, wenn Sie unsere App nutzen.</p>
+            </div>
+
+            <div class="card">
+                <h2>1. Informationen, die wir erfassen</h2>
+
+                <h3>1.1 Von Ihnen bereitgestellte Informationen</h3>
+                <ul>
+                    <li><strong>Kontoinformationen:</strong> E-Mail-Adresse bei der Kontoerstellung</li>
+                    <li><strong>Kaufinformationen:</strong> Transaktionsdaten, die über den Apple App Store verarbeitet werden</li>
+                    <li><strong>Benutzerinhalte:</strong> Von Ihnen erstellte Quantenschaltkreise und Simulationen</li>
+                </ul>
+
+                <h3>1.2 Automatisch erfasste Informationen</h3>
+                <ul>
+                    <li><strong>Geräteinformationen:</strong> Gerätetyp, iOS-Version, eindeutige Gerätekennungen</li>
+                    <li><strong>Nutzungsdaten:</strong> Verwendete Funktionen, Sitzungsdauer, App-Leistungsmetriken</li>
+                    <li><strong>Analysedaten:</strong> Anonyme Nutzungsstatistiken zur Verbesserung unserer Dienste</li>
+                </ul>
+
+                <h3>1.3 Informationen, die wir NICHT erfassen</h3>
+                <ul>
+                    <li>Standortdaten</li>
+                    <li>Kontaktlisten</li>
+                    <li>Fotos oder Mediendateien</li>
+                    <li>Gesundheits- oder Fitnessdaten</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. Verwendung Ihrer Informationen</h2>
+                <ul>
+                    <li>Bereitstellung und Wartung unserer Quantencomputing-Dienste</li>
+                    <li>Verarbeitung Ihrer Abonnementzahlungen über Apple</li>
+                    <li>Senden wichtiger Updates zur App</li>
+                    <li>Verbesserung und Optimierung unserer Dienste</li>
+                    <li>Bereitstellung von Kundensupport</li>
+                    <li>Einhaltung gesetzlicher Verpflichtungen</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. Datenweitergabe und Offenlegung</h2>
+                <p>Wir verkaufen, handeln oder vermieten Ihre persönlichen Daten NICHT an Dritte.</p>
+                <p>Wir können Informationen nur unter folgenden Umständen weitergeben:</p>
+                <ul>
+                    <li><strong>Dienstleister:</strong> AWS für Cloud-Hosting (Datenverschlüsselung bei Übertragung und Speicherung)</li>
+                    <li><strong>Apple:</strong> Für die Zahlungsabwicklung über den App Store</li>
+                    <li><strong>Gesetzliche Anforderungen:</strong> Wenn gesetzlich vorgeschrieben oder zum Schutz unserer Rechte erforderlich</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. Datensicherheit</h2>
+                <p>Wir implementieren branchenübliche Sicherheitsmaßnahmen:</p>
+                <ul>
+                    <li>SSL/TLS-Verschlüsselung für alle Datenübertragungen</li>
+                    <li>Verschlüsselte Datenbankspeicherung (AES-256)</li>
+                    <li>Regelmäßige Sicherheitsaudits</li>
+                    <li>Zugriffskontrollen und Authentifizierung</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. Datenspeicherung</h2>
+                <ul>
+                    <li><strong>Kontodaten:</strong> Werden aufbewahrt, solange Ihr Konto aktiv ist</li>
+                    <li><strong>Nutzungsdaten:</strong> 12 Monate aufbewahrt</li>
+                    <li><strong>Transaktionsdaten:</strong> 7 Jahre zur Erfüllung gesetzlicher Vorschriften</li>
+                </ul>
+                <p>Sie können jederzeit die Löschung Ihrer Daten beantragen.</p>
+            </div>
+
+            <div class="card">
+                <h2>6. Ihre Rechte (DSGVO)</h2>
+                <p>Sie haben das Recht auf:</p>
+                <ul>
+                    <li>Auskunft über Ihre personenbezogenen Daten</li>
+                    <li>Berichtigung unrichtiger Daten</li>
+                    <li>Löschung Ihrer Daten ("Recht auf Vergessenwerden")</li>
+                    <li>Datenübertragbarkeit</li>
+                    <li>Widerspruch gegen Marketingmitteilungen</li>
+                    <li>Widerruf Ihrer Einwilligung jederzeit</li>
+                    <li>Beschwerde bei einer Aufsichtsbehörde</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. Datenschutz von Kindern</h2>
+                <p>SwiftQuantum ist ab 4 Jahren freigegeben und für alle Altersgruppen geeignet. Wir erfassen wissentlich keine personenbezogenen Daten von Kindern unter 13 Jahren. Wenn Sie glauben, dass wir Daten eines Kindes erfasst haben, kontaktieren Sie uns bitte umgehend.</p>
+            </div>
+
+            <div class="card">
+                <h2>8. Internationale Datenübertragungen</h2>
+                <p>Ihre Daten können verarbeitet werden in:</p>
+                <ul>
+                    <li>Südkorea (AWS ap-northeast-2 Region)</li>
+                    <li>USA (für bestimmte AWS-Dienste)</li>
+                </ul>
+                <p>Wir stellen angemessene Garantien für internationale Übertragungen sicher.</p>
+            </div>
+
+            <div class="card">
+                <h2>9. Änderungen dieser Richtlinie</h2>
+                <p>Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Wesentliche Änderungen werden über die App oder per E-Mail mitgeteilt. Die fortgesetzte Nutzung der App nach Änderungen gilt als Zustimmung zur aktualisierten Richtlinie.</p>
+            </div>
+
+            <div class="card">
+                <h2>10. Kontakt</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>E-Mail: <a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>Website: <a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- French -->
+        <div id="fr" class="policy-section">
+            <p class="effective-date">Date d'entrée en vigueur : 15 janvier 2026</p>
+
+            <div class="card">
+                <h1>Politique de Confidentialité</h1>
+                <p>iOS Quantum Engineering ("nous", "notre" ou "nos") exploite l'application mobile SwiftQuantum. Cette Politique de Confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre application.</p>
+            </div>
+
+            <div class="card">
+                <h2>1. Informations que nous collectons</h2>
+
+                <h3>1.1 Informations que vous fournissez</h3>
+                <ul>
+                    <li><strong>Informations de compte :</strong> Adresse e-mail lors de la création du compte</li>
+                    <li><strong>Informations d'achat :</strong> Données de transaction traitées via l'App Store d'Apple</li>
+                    <li><strong>Contenu utilisateur :</strong> Circuits quantiques et simulations que vous créez</li>
+                </ul>
+
+                <h3>1.2 Informations collectées automatiquement</h3>
+                <ul>
+                    <li><strong>Informations sur l'appareil :</strong> Type d'appareil, version iOS, identifiants uniques</li>
+                    <li><strong>Données d'utilisation :</strong> Fonctionnalités utilisées, durée des sessions, métriques de performance</li>
+                    <li><strong>Données analytiques :</strong> Statistiques d'utilisation anonymes pour améliorer nos services</li>
+                </ul>
+
+                <h3>1.3 Informations que nous ne collectons PAS</h3>
+                <ul>
+                    <li>Données de localisation</li>
+                    <li>Listes de contacts</li>
+                    <li>Photos ou fichiers multimédias</li>
+                    <li>Données de santé ou de fitness</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. Utilisation de vos informations</h2>
+                <ul>
+                    <li>Fournir et maintenir nos services de calcul quantique</li>
+                    <li>Traiter vos paiements d'abonnement via Apple</li>
+                    <li>Envoyer des mises à jour importantes sur l'application</li>
+                    <li>Améliorer et optimiser nos services</li>
+                    <li>Fournir un support client</li>
+                    <li>Se conformer aux obligations légales</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. Partage et divulgation des données</h2>
+                <p>Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers.</p>
+                <p>Nous pouvons partager des informations uniquement dans ces circonstances :</p>
+                <ul>
+                    <li><strong>Prestataires de services :</strong> AWS pour l'hébergement cloud (données chiffrées en transit et au repos)</li>
+                    <li><strong>Apple :</strong> Pour le traitement des paiements via l'App Store</li>
+                    <li><strong>Exigences légales :</strong> Lorsque la loi l'exige ou pour protéger nos droits</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. Sécurité des données</h2>
+                <p>Nous mettons en œuvre des mesures de sécurité conformes aux standards de l'industrie :</p>
+                <ul>
+                    <li>Chiffrement SSL/TLS pour toutes les transmissions de données</li>
+                    <li>Stockage de base de données chiffré (AES-256)</li>
+                    <li>Audits de sécurité réguliers</li>
+                    <li>Contrôles d'accès et authentification</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. Conservation des données</h2>
+                <ul>
+                    <li><strong>Données de compte :</strong> Conservées tant que votre compte est actif</li>
+                    <li><strong>Données d'utilisation :</strong> Conservées pendant 12 mois</li>
+                    <li><strong>Enregistrements de transactions :</strong> Conservés 7 ans pour conformité légale</li>
+                </ul>
+                <p>Vous pouvez demander la suppression de vos données à tout moment.</p>
+            </div>
+
+            <div class="card">
+                <h2>6. Vos droits (RGPD)</h2>
+                <p>Vous avez le droit de :</p>
+                <ul>
+                    <li>Accéder à vos données personnelles</li>
+                    <li>Corriger les données inexactes</li>
+                    <li>Supprimer vos données ("droit à l'oubli")</li>
+                    <li>Exporter vos données (portabilité)</li>
+                    <li>Vous opposer aux communications marketing</li>
+                    <li>Retirer votre consentement à tout moment</li>
+                    <li>Déposer une plainte auprès d'une autorité de contrôle</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. Confidentialité des enfants</h2>
+                <p>SwiftQuantum est classé 4+ et convient à tous les âges. Nous ne collectons pas sciemment d'informations personnelles d'enfants de moins de 13 ans. Si vous pensez que nous avons collecté des informations d'un enfant, veuillez nous contacter immédiatement.</p>
+            </div>
+
+            <div class="card">
+                <h2>8. Transferts internationaux de données</h2>
+                <p>Vos données peuvent être traitées en :</p>
+                <ul>
+                    <li>Corée du Sud (région AWS ap-northeast-2)</li>
+                    <li>États-Unis (pour certains services AWS)</li>
+                </ul>
+                <p>Nous assurons des garanties appropriées pour les transferts internationaux.</p>
+            </div>
+
+            <div class="card">
+                <h2>9. Modifications de cette politique</h2>
+                <p>Nous pouvons mettre à jour cette Politique de Confidentialité de temps en temps. Les modifications importantes seront notifiées via l'application ou par e-mail. L'utilisation continue de l'application après les modifications constitue une acceptation de la politique mise à jour.</p>
+            </div>
+
+            <div class="card">
+                <h2>10. Nous contacter</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>E-mail : <a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>Site web : <a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spanish -->
+        <div id="es" class="policy-section">
+            <p class="effective-date">Fecha de vigencia: 15 de enero de 2026</p>
+
+            <div class="card">
+                <h1>Política de Privacidad</h1>
+                <p>iOS Quantum Engineering ("nosotros", "nuestro" o "nos") opera la aplicación móvil SwiftQuantum. Esta Política de Privacidad explica cómo recopilamos, usamos y protegemos su información cuando utiliza nuestra aplicación.</p>
+            </div>
+
+            <div class="card">
+                <h2>1. Información que recopilamos</h2>
+
+                <h3>1.1 Información que usted proporciona</h3>
+                <ul>
+                    <li><strong>Información de cuenta:</strong> Dirección de correo electrónico al crear una cuenta</li>
+                    <li><strong>Información de compra:</strong> Datos de transacción procesados a través de la App Store de Apple</li>
+                    <li><strong>Contenido del usuario:</strong> Circuitos cuánticos y simulaciones que crea</li>
+                </ul>
+
+                <h3>1.2 Información recopilada automáticamente</h3>
+                <ul>
+                    <li><strong>Información del dispositivo:</strong> Tipo de dispositivo, versión de iOS, identificadores únicos</li>
+                    <li><strong>Datos de uso:</strong> Funciones utilizadas, duración de sesión, métricas de rendimiento</li>
+                    <li><strong>Datos analíticos:</strong> Estadísticas de uso anónimas para mejorar nuestros servicios</li>
+                </ul>
+
+                <h3>1.3 Información que NO recopilamos</h3>
+                <ul>
+                    <li>Datos de ubicación</li>
+                    <li>Listas de contactos</li>
+                    <li>Fotos o archivos multimedia</li>
+                    <li>Datos de salud o fitness</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. Uso de su información</h2>
+                <ul>
+                    <li>Proporcionar y mantener nuestros servicios de computación cuántica</li>
+                    <li>Procesar sus pagos de suscripción a través de Apple</li>
+                    <li>Enviar actualizaciones importantes sobre la aplicación</li>
+                    <li>Mejorar y optimizar nuestros servicios</li>
+                    <li>Proporcionar soporte al cliente</li>
+                    <li>Cumplir con obligaciones legales</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. Compartir y divulgación de datos</h2>
+                <p>NO vendemos, intercambiamos ni alquilamos su información personal a terceros.</p>
+                <p>Solo podemos compartir información en estas circunstancias:</p>
+                <ul>
+                    <li><strong>Proveedores de servicios:</strong> AWS para alojamiento en la nube (datos cifrados en tránsito y en reposo)</li>
+                    <li><strong>Apple:</strong> Para procesamiento de pagos a través de la App Store</li>
+                    <li><strong>Requisitos legales:</strong> Cuando lo exija la ley o para proteger nuestros derechos</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. Seguridad de datos</h2>
+                <p>Implementamos medidas de seguridad estándar de la industria:</p>
+                <ul>
+                    <li>Cifrado SSL/TLS para toda transmisión de datos</li>
+                    <li>Almacenamiento de base de datos cifrado (AES-256)</li>
+                    <li>Auditorías de seguridad regulares</li>
+                    <li>Controles de acceso y autenticación</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>5. Retención de datos</h2>
+                <ul>
+                    <li><strong>Datos de cuenta:</strong> Retenidos mientras su cuenta esté activa</li>
+                    <li><strong>Datos de uso:</strong> Retenidos por 12 meses</li>
+                    <li><strong>Registros de transacciones:</strong> Retenidos por 7 años por cumplimiento legal</li>
+                </ul>
+                <p>Puede solicitar la eliminación de sus datos en cualquier momento.</p>
+            </div>
+
+            <div class="card">
+                <h2>6. Sus derechos</h2>
+                <p>Usted tiene derecho a:</p>
+                <ul>
+                    <li>Acceder a sus datos personales</li>
+                    <li>Corregir datos inexactos</li>
+                    <li>Eliminar sus datos</li>
+                    <li>Exportar sus datos</li>
+                    <li>Optar por no recibir comunicaciones de marketing</li>
+                    <li>Retirar su consentimiento en cualquier momento</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>7. Privacidad de los niños</h2>
+                <p>SwiftQuantum está clasificado 4+ y es adecuado para todas las edades. No recopilamos conscientemente información personal de niños menores de 13 años. Si cree que hemos recopilado información de un niño, contáctenos inmediatamente.</p>
+            </div>
+
+            <div class="card">
+                <h2>8. Transferencias internacionales de datos</h2>
+                <p>Sus datos pueden ser procesados en:</p>
+                <ul>
+                    <li>Corea del Sur (región AWS ap-northeast-2)</li>
+                    <li>Estados Unidos (para ciertos servicios de AWS)</li>
+                </ul>
+                <p>Aseguramos salvaguardas apropiadas para transferencias internacionales.</p>
+            </div>
+
+            <div class="card">
+                <h2>9. Cambios a esta política</h2>
+                <p>Podemos actualizar esta Política de Privacidad de vez en cuando. Los cambios significativos serán notificados a través de la aplicación o por correo electrónico. El uso continuo de la aplicación después de los cambios constituye la aceptación de la política actualizada.</p>
+            </div>
+
+            <div class="card">
+                <h2>10. Contáctenos</h2>
+                <div class="contact-info">
+                    <p><strong>iOS Quantum Engineering</strong></p>
+                    <p>Correo electrónico: <a href="mailto:privacy@swiftquantum.tech">privacy@swiftquantum.tech</a></p>
+                    <p>Sitio web: <a href="https://swiftquantum.tech">https://swiftquantum.tech</a></p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 iOS Quantum Engineering. All rights reserved.</p>
+            <p>SwiftQuantum - Quantum Computing on iOS</p>
+            <div class="app-badge">
+                <a href="https://apps.apple.com/app/swiftquantum" target="_blank">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store">
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function showLanguage(lang) {
+            // Hide all sections
+            document.querySelectorAll('.policy-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(lang).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

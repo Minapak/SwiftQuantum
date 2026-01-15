@@ -16,8 +16,10 @@ actor APIClient {
 
     #if DEBUG
     private let baseURL = "http://localhost:8000"  // Local development
+    private let bridgeURL = "http://localhost:8001"  // Local QuantumBridge
     #else
-    private let baseURL = "https://api.swiftquantum.app"  // Production
+    private let baseURL = "https://api.swiftquantum.tech"  // Production (HTTPS)
+    private let bridgeURL = "https://bridge.swiftquantum.tech"  // Production QuantumBridge
     #endif
 
     private var authToken: String? {
@@ -240,4 +242,152 @@ extension APIClient {
     func iOSRestorePurchases() async throws -> iOSRestoreResult {
         return try await post("/api/v1/payment/ios/restore")
     }
+}
+
+// MARK: - QuantumBridge API Extension
+
+extension APIClient {
+
+    /// Generic request to QuantumBridge
+    func bridgeRequest<T: Decodable>(
+        _ endpoint: String,
+        method: String = "GET",
+        body: Encodable? = nil
+    ) async throws -> T {
+        guard let url = URL(string: bridgeURL + endpoint) else {
+            throw APIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 60  // Longer timeout for quantum computations
+
+        if let body = body {
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            request.httpBody = try encoder.encode(body)
+        }
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw APIError.httpError(statusCode: httpResponse.statusCode)
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return try decoder.decode(T.self, from: data)
+    }
+
+    /// Check QuantumBridge health
+    func bridgeHealthCheck() async throws -> BridgeHealthResponse {
+        return try await bridgeRequest("/health")
+    }
+
+    /// Run Bell State on QuantumBridge
+    func runBellState(stateType: String = "phi_plus", shots: Int = 1024) async throws -> BellStateResponse {
+        let request = BellStateRequest(stateType: stateType, shots: shots)
+        return try await bridgeRequest("/bell-state", method: "POST", body: request)
+    }
+
+    /// Run custom quantum circuit
+    func runQuantumCircuit(qasm: String, shots: Int = 1024) async throws -> CircuitResponse {
+        let request = CircuitRequest(qasm: qasm, shots: shots)
+        return try await bridgeRequest("/run-circuit", method: "POST", body: request)
+    }
+
+    /// Run Grover's algorithm
+    func runGrover(numQubits: Int, markedStates: [Int], shots: Int = 1024) async throws -> GroverResponse {
+        let request = GroverRequest(numQubits: numQubits, markedStates: markedStates, shots: shots)
+        return try await bridgeRequest("/grover", method: "POST", body: request)
+    }
+
+    /// Run Deutsch-Jozsa algorithm
+    func runDeutschJozsa(numQubits: Int, oracleType: String, shots: Int = 1024) async throws -> DeutschJozsaResponse {
+        let request = DeutschJozsaRequest(numQubits: numQubits, oracleType: oracleType, shots: shots)
+        return try await bridgeRequest("/deutsch-jozsa", method: "POST", body: request)
+    }
+}
+
+// MARK: - QuantumBridge Request/Response Models
+
+struct BridgeHealthResponse: Decodable {
+    let status: String
+    let service: String
+    let version: String
+    let qiskitAvailable: Bool
+    let algorithmsAvailable: Bool
+}
+
+struct BellStateRequest: Encodable {
+    let stateType: String
+    let shots: Int
+}
+
+struct BellStateResponse: Decodable {
+    let status: String
+    let jobId: String
+    let result: BellStateResult
+    let evidenceHash: String
+    let executionTime: Double
+}
+
+struct BellStateResult: Decodable {
+    let counts: [String: Int]
+    let stateType: String
+}
+
+struct CircuitRequest: Encodable {
+    let qasm: String
+    let shots: Int
+}
+
+struct CircuitResponse: Decodable {
+    let status: String
+    let jobId: String
+    let counts: [String: Int]
+    let executionTime: Double
+}
+
+struct GroverRequest: Encodable {
+    let numQubits: Int
+    let markedStates: [Int]
+    let shots: Int
+}
+
+struct GroverResponse: Decodable {
+    let status: String
+    let jobId: String
+    let result: GroverResult
+    let executionTime: Double
+}
+
+struct GroverResult: Decodable {
+    let counts: [String: Int]
+    let markedStates: [Int]
+    let iterations: Int
+}
+
+struct DeutschJozsaRequest: Encodable {
+    let numQubits: Int
+    let oracleType: String
+    let shots: Int
+}
+
+struct DeutschJozsaResponse: Decodable {
+    let status: String
+    let jobId: String
+    let result: DeutschJozsaResult
+    let executionTime: Double
+}
+
+struct DeutschJozsaResult: Decodable {
+    let counts: [String: Int]
+    let oracleType: String
+    let isConstant: Bool
 }
