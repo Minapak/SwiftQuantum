@@ -9,10 +9,22 @@ enum QuantumHub: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .lab: return "Lab"
-        case .presets: return "Presets"
-        case .bridge: return "Bridge"
-        case .more: return "More"
+        case .lab: return LocalizedStringKey.lab.defaultValue
+        case .presets: return LocalizedStringKey.presets.defaultValue
+        case .bridge: return LocalizedStringKey.onboardingBridge.defaultValue
+        case .more: return LocalizedStringKey.more.defaultValue
+        }
+    }
+
+    // Localized title for SwiftUI views (use this in View contexts)
+    @MainActor
+    var localizedTitle: String {
+        let localization = LocalizationManager.shared
+        switch self {
+        case .lab: return localization.string(for: .lab)
+        case .presets: return localization.string(for: .presets)
+        case .bridge: return localization.string(for: .onboardingBridge)
+        case .more: return localization.string(for: .more)
         }
     }
 
@@ -36,10 +48,22 @@ enum QuantumHub: Int, CaseIterable {
 
     var description: String {
         switch self {
-        case .lab: return "Quantum Experiments"
-        case .presets: return "Saved States"
-        case .bridge: return "QPU Connection"
-        case .more: return "Academy & More"
+        case .lab: return LocalizedStringKey.labDescription.defaultValue
+        case .presets: return LocalizedStringKey.presetsDescription.defaultValue
+        case .bridge: return LocalizedStringKey.bridgeDescription.defaultValue
+        case .more: return LocalizedStringKey.moreDescription.defaultValue
+        }
+    }
+
+    // Localized description for SwiftUI views
+    @MainActor
+    var localizedDescription: String {
+        let localization = LocalizationManager.shared
+        switch self {
+        case .lab: return localization.string(for: .labDescription)
+        case .presets: return localization.string(for: .presetsDescription)
+        case .bridge: return localization.string(for: .bridgeDescription)
+        case .more: return localization.string(for: .moreDescription)
         }
     }
 }
@@ -144,7 +168,7 @@ struct TabBarButton: View {
                 }
                 .frame(height: 32)
 
-                Text(hub.title)
+                Text(hub.localizedTitle)
                     .font(.system(size: 11, weight: isSelected ? .semibold : .regular))
                     .foregroundStyle(isSelected ? sunsetGradient : LinearGradient(colors: [.white.opacity(0.5)], startPoint: .top, endPoint: .bottom))
             }
@@ -238,11 +262,11 @@ struct HubHeader: View {
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(hub.title)
+                Text(hub.localizedTitle)
                     .font(QuantumHorizonTypography.sectionTitle(24))
                     .foregroundColor(.white)
 
-                Text(hub.description)
+                Text(hub.localizedDescription)
                     .font(QuantumHorizonTypography.caption(13))
                     .foregroundColor(.white.opacity(0.5))
             }

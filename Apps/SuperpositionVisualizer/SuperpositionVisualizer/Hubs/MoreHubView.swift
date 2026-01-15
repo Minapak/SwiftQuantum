@@ -1,4 +1,5 @@
 import SwiftUI
+import SafariServices
 
 // MARK: - More Hub - "Ecosystem"
 // Academy + Industry + Profile + Settings
@@ -11,7 +12,24 @@ struct MoreHubView: View {
     @State private var showComingSoon = false
     @State private var comingSoonFeature = ""
     @State private var showResetConfirm = false
+    @State private var showWebView = false
+    @State private var webViewURL: URL?
     @StateObject private var firstLaunchManager = FirstLaunchManager()
+    @StateObject private var statsManager = UserStatsManager()
+
+    // Backend webapp base URL
+    #if DEBUG
+    private let webAppBaseURL = "http://localhost:3000"
+    #else
+    private let webAppBaseURL = "https://swiftquantum.tech"
+    #endif
+
+    private func openWebApp(path: String) {
+        if let url = URL(string: webAppBaseURL + path) {
+            webViewURL = url
+            showWebView = true
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -22,18 +40,26 @@ struct MoreHubView: View {
                 // Navigation Cards
                 VStack(spacing: 12) {
                     moreNavigationCard(
-                        title: "Academy",
+                        title: LocalizationManager.shared.string(for: .academy),
                         subtitle: "Learn Quantum Computing",
                         icon: "graduationcap.fill",
                         color: QuantumHorizonColors.quantumCyan,
-                        badge: "5 Lessons"
+                        badge: statsManager.lessonsCompleted > 0 ? "\(statsManager.lessonsCompleted) Done" : nil
                     ) {
                         DeveloperModeManager.shared.log(screen: "More", element: "Academy Card", status: .success)
-                        showAcademy = true
+                        // Open QuantumNative app via deep link
+                        if let url = URL(string: "quantumnative://academy") {
+                            if UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            } else {
+                                // Fallback to in-app Academy if QuantumNative not installed
+                                showAcademy = true
+                            }
+                        }
                     }
 
                     moreNavigationCard(
-                        title: "Industry",
+                        title: LocalizationManager.shared.string(for: .industry),
                         subtitle: "Enterprise Solutions",
                         icon: "building.2.fill",
                         color: QuantumHorizonColors.quantumPurple,
@@ -44,7 +70,7 @@ struct MoreHubView: View {
                     }
 
                     moreNavigationCard(
-                        title: "Profile",
+                        title: LocalizationManager.shared.string(for: .profile),
                         subtitle: "Your Quantum Journey",
                         icon: "person.circle.fill",
                         color: QuantumHorizonColors.quantumGold,
@@ -89,24 +115,32 @@ struct MoreHubView: View {
         } message: {
             Text("This will show the onboarding tutorial again when you restart the app.")
         }
+        .sheet(isPresented: $showWebView) {
+            if let url = webViewURL {
+                SafariWebView(url: url)
+            }
+        }
+        .task {
+            await statsManager.loadStats()
+        }
     }
 
     // MARK: - Quick Stats Card
     private var quickStatsCard: some View {
         HStack(spacing: 0) {
-            quickStatItem(value: "12", label: "Lessons", color: QuantumHorizonColors.quantumCyan)
+            quickStatItem(value: "\(statsManager.lessonsCompleted)", label: "Lessons", color: QuantumHorizonColors.quantumCyan)
 
             Divider()
                 .background(Color.white.opacity(0.1))
                 .frame(height: 40)
 
-            quickStatItem(value: "847", label: "XP Points", color: QuantumHorizonColors.quantumGold)
+            quickStatItem(value: "\(statsManager.xpPoints)", label: "XP Points", color: QuantumHorizonColors.quantumGold)
 
             Divider()
                 .background(Color.white.opacity(0.1))
                 .frame(height: 40)
 
-            quickStatItem(value: "Level 5", label: "Rank", color: QuantumHorizonColors.quantumPurple)
+            quickStatItem(value: "Level \(statsManager.level)", label: "Rank", color: QuantumHorizonColors.quantumPurple)
         }
         .padding(.vertical, 16)
         .background(.ultraThinMaterial)
@@ -193,40 +227,38 @@ struct MoreHubView: View {
 
     // MARK: - Settings Section
     private var settingsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Settings")
+        let localization = LocalizationManager.shared
+        return VStack(alignment: .leading, spacing: 12) {
+            Text(localization.string(for: .settings))
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(.white.opacity(0.5))
                 .padding(.horizontal, 4)
 
             VStack(spacing: 0) {
                 // Language - Working
-                settingsRowButton(icon: "globe", title: "Language", color: QuantumHorizonColors.quantumCyan, showValue: "English", isComingSoon: false) {
+                settingsRowButton(icon: "globe", title: localization.string(for: .language), color: QuantumHorizonColors.quantumCyan, showValue: localization.currentLanguage.displayName, isComingSoon: false) {
                     showLanguageSheet = true
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
-                // Notifications - Coming Soon
-                settingsRowButton(icon: "bell.fill", title: "Notifications", color: .orange, isComingSoon: true) {
-                    comingSoonFeature = "Notifications"
-                    showComingSoon = true
+                // Notifications - Opens Web Settings
+                settingsRowButton(icon: "bell.fill", title: localization.string(for: .notifications), color: .orange, isComingSoon: false) {
+                    openWebApp(path: "/settings/notifications")
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
-                // Appearance - Coming Soon
-                settingsRowButton(icon: "paintbrush.fill", title: "Appearance", color: QuantumHorizonColors.quantumPurple, isComingSoon: true) {
-                    comingSoonFeature = "Appearance settings"
-                    showComingSoon = true
+                // Appearance - Opens Web Settings
+                settingsRowButton(icon: "paintbrush.fill", title: "Appearance", color: QuantumHorizonColors.quantumPurple, isComingSoon: false) {
+                    openWebApp(path: "/settings/appearance")
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
-                // Privacy - Coming Soon
-                settingsRowButton(icon: "lock.fill", title: "Privacy", color: QuantumHorizonColors.quantumGreen, isComingSoon: true) {
-                    comingSoonFeature = "Privacy settings"
-                    showComingSoon = true
+                // Privacy - Opens Privacy Policy
+                settingsRowButton(icon: "lock.fill", title: "Privacy", color: QuantumHorizonColors.quantumGreen, isComingSoon: false) {
+                    openWebApp(path: "/privacy")
                 }
 
                 Divider().background(Color.white.opacity(0.1))
@@ -238,10 +270,9 @@ struct MoreHubView: View {
 
                 Divider().background(Color.white.opacity(0.1))
 
-                // Help & Support - Coming Soon
-                settingsRowButton(icon: "questionmark.circle.fill", title: "Help & Support", color: QuantumHorizonColors.quantumCyan, isComingSoon: true) {
-                    comingSoonFeature = "Help & Support"
-                    showComingSoon = true
+                // Help & Support - Opens Support Page
+                settingsRowButton(icon: "questionmark.circle.fill", title: "Help & Support", color: QuantumHorizonColors.quantumCyan, isComingSoon: false) {
+                    openWebApp(path: "/support")
                 }
             }
             .background(.ultraThinMaterial)
@@ -303,12 +334,23 @@ struct MoreHubView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white.opacity(0.7))
 
-            Text("Version 2.1.1")
+            Text("Version \(AppInfo.version)")
                 .font(.system(size: 11))
                 .foregroundColor(.white.opacity(0.4))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
+    }
+}
+
+// MARK: - App Info Helper
+enum AppInfo {
+    static var version: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.2.0"
+    }
+
+    static var build: String {
+        Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
 }
 
@@ -399,6 +441,108 @@ struct ProfileDetailView: View {
         .preferredColorScheme(.dark)
     }
 }
+
+// MARK: - Safari WebView for Settings
+struct SafariWebView: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        let config = SFSafariViewController.Configuration()
+        config.entersReaderIfAvailable = false
+        config.barCollapsingEnabled = true
+
+        let controller = SFSafariViewController(url: url, configuration: config)
+        controller.preferredControlTintColor = UIColor(QuantumHorizonColors.quantumCyan)
+        controller.preferredBarTintColor = UIColor.black
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {}
+}
+
+// MARK: - User Stats Manager (Backend Connected)
+@MainActor
+class UserStatsManager: ObservableObject {
+    @Published var lessonsCompleted: Int = 0
+    @Published var xpPoints: Int = 0
+    @Published var level: Int = 1
+    @Published var streak: Int = 0
+    @Published var isLoading: Bool = false
+    @Published var error: String?
+
+    func loadStats() async {
+        isLoading = true
+        error = nil
+
+        do {
+            let stats: UserStatsResponse = try await APIClient.shared.get("/api/v1/users/stats")
+            lessonsCompleted = stats.lessonsCompleted
+            xpPoints = stats.xpPoints
+            level = stats.level
+            streak = stats.streak
+        } catch {
+            // Use cached/default values on error
+            self.error = error.localizedDescription
+
+            // Load from UserDefaults as fallback
+            lessonsCompleted = UserDefaults.standard.integer(forKey: "SwiftQuantum_LessonsCompleted")
+            xpPoints = UserDefaults.standard.integer(forKey: "SwiftQuantum_XPPoints")
+            level = max(1, UserDefaults.standard.integer(forKey: "SwiftQuantum_Level"))
+            streak = UserDefaults.standard.integer(forKey: "SwiftQuantum_Streak")
+        }
+
+        isLoading = false
+    }
+
+    func addXP(_ points: Int) async {
+        xpPoints += points
+        UserDefaults.standard.set(xpPoints, forKey: "SwiftQuantum_XPPoints")
+
+        // Calculate level (every 500 XP = 1 level)
+        level = max(1, xpPoints / 500 + 1)
+        UserDefaults.standard.set(level, forKey: "SwiftQuantum_Level")
+
+        // Sync with backend
+        do {
+            let _: EmptyResponse = try await APIClient.shared.post("/api/v1/users/xp", body: AddXPRequest(points: points))
+        } catch {
+            // Local update succeeded, backend sync can retry later
+        }
+    }
+
+    func completeLesson(_ lessonId: String) async {
+        lessonsCompleted += 1
+        UserDefaults.standard.set(lessonsCompleted, forKey: "SwiftQuantum_LessonsCompleted")
+
+        // Add XP for completing lesson
+        await addXP(100)
+
+        // Sync with backend
+        do {
+            let _: EmptyResponse = try await APIClient.shared.post("/api/v1/users/lessons/complete", body: CompleteLessonRequest(lessonId: lessonId))
+        } catch {
+            // Local update succeeded
+        }
+    }
+}
+
+// MARK: - API Models for Stats
+struct UserStatsResponse: Decodable {
+    let lessonsCompleted: Int
+    let xpPoints: Int
+    let level: Int
+    let streak: Int
+}
+
+struct AddXPRequest: Encodable {
+    let points: Int
+}
+
+struct CompleteLessonRequest: Encodable {
+    let lessonId: String
+}
+
+struct EmptyResponse: Decodable {}
 
 // MARK: - Preview
 #Preview {

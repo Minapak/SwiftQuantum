@@ -39,9 +39,10 @@ struct LabHubView: View {
 
     // MARK: - Mode Selector (Apple HIG Style)
     private var modeSelector: some View {
-        HStack(spacing: 0) {
-            modeButton(title: "Control", icon: "slider.horizontal.3", index: 0)
-            modeButton(title: "Measure", icon: "waveform.path.ecg", index: 1)
+        let localization = LocalizationManager.shared
+        return HStack(spacing: 0) {
+            modeButton(title: localization.string(for: .control), icon: "slider.horizontal.3", index: 0)
+            modeButton(title: localization.string(for: .measure), icon: "waveform.path.ecg", index: 1)
         }
         .padding(4)
         .background(Color.white.opacity(0.08))
@@ -146,11 +147,12 @@ struct LabHubView: View {
 
     // MARK: - Probability Card
     private var probabilityCard: some View {
-        VStack(spacing: 14) {
+        let localization = LocalizationManager.shared
+        return VStack(spacing: 14) {
             HStack {
                 Image(systemName: "slider.horizontal.3")
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
-                Text("Probability")
+                Text(localization.string(for: .probability))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
                 Spacer()
@@ -219,11 +221,12 @@ struct LabHubView: View {
 
     // MARK: - Gate Grid Card (Simplified 2x2)
     private var gateGridCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        let localization = LocalizationManager.shared
+        return VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: "cube.transparent")
                     .foregroundColor(QuantumHorizonColors.quantumGold)
-                Text("Quantum Gates")
+                Text(localization.string(for: .quantumGates))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
             }
@@ -234,16 +237,16 @@ struct LabHubView: View {
                 GridItem(.flexible(), spacing: 12),
                 GridItem(.flexible(), spacing: 12)
             ], spacing: 12) {
-                gateButton("H", label: "Hadamard", color: QuantumHorizonColors.quantumGold) {
+                gateButton("H", label: localization.string(for: .hadamard), color: QuantumHorizonColors.quantumGold) {
                     stateManager.applyHadamard()
                 }
-                gateButton("X", label: "Pauli-X", color: .red) {
+                gateButton("X", label: localization.string(for: .pauliX), color: .red) {
                     stateManager.applyPauliX()
                 }
-                gateButton("Y", label: "Pauli-Y", color: .green) {
+                gateButton("Y", label: localization.string(for: .pauliY), color: .green) {
                     stateManager.applyPauliY()
                 }
-                gateButton("Z", label: "Pauli-Z", color: .blue) {
+                gateButton("Z", label: localization.string(for: .pauliZ), color: .blue) {
                     stateManager.applyPauliZ()
                 }
             }

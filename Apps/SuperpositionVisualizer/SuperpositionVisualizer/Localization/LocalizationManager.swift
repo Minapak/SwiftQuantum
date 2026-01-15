@@ -109,6 +109,23 @@ enum LocalizedStringKey: String {
     case academy = "nav.academy"
     case industry = "nav.industry"
     case profile = "nav.profile"
+    case more = "nav.more"
+
+    // Tab Descriptions
+    case labDescription = "nav.lab.description"
+    case presetsDescription = "nav.presets.description"
+    case bridgeDescription = "nav.bridge.description"
+    case moreDescription = "nav.more.description"
+
+    // Lab UI
+    case control = "lab.control"
+    case measure = "lab.measure"
+    case probability = "lab.probability"
+    case quantumGates = "lab.quantumGates"
+    case hadamard = "lab.hadamard"
+    case pauliX = "lab.pauliX"
+    case pauliY = "lab.pauliY"
+    case pauliZ = "lab.pauliZ"
 
     // Profile
     case settings = "profile.settings"
@@ -161,6 +178,19 @@ enum LocalizedStringKey: String {
         case .academy: return "Academy"
         case .industry: return "Industry"
         case .profile: return "Profile"
+        case .more: return "More"
+        case .labDescription: return "Quantum Experiments"
+        case .presetsDescription: return "Saved States"
+        case .bridgeDescription: return "QPU Connection"
+        case .moreDescription: return "Academy & More"
+        case .control: return "Control"
+        case .measure: return "Measure"
+        case .probability: return "Probability"
+        case .quantumGates: return "Quantum Gates"
+        case .hadamard: return "Hadamard"
+        case .pauliX: return "Pauli-X"
+        case .pauliY: return "Pauli-Y"
+        case .pauliZ: return "Pauli-Z"
         case .settings: return "Settings"
         case .language: return "Language"
         case .notifications: return "Notifications"
@@ -206,6 +236,19 @@ private let englishStrings: [LocalizedStringKey: String] = [
     .academy: "Academy",
     .industry: "Industry",
     .profile: "Profile",
+    .more: "More",
+    .labDescription: "Quantum Experiments",
+    .presetsDescription: "Saved States",
+    .bridgeDescription: "QPU Connection",
+    .moreDescription: "Academy & More",
+    .control: "Control",
+    .measure: "Measure",
+    .probability: "Probability",
+    .quantumGates: "Quantum Gates",
+    .hadamard: "Hadamard",
+    .pauliX: "Pauli-X",
+    .pauliY: "Pauli-Y",
+    .pauliZ: "Pauli-Z",
     .settings: "Settings",
     .language: "Language",
     .notifications: "Notifications",
@@ -249,6 +292,19 @@ private let koreanStrings: [LocalizedStringKey: String] = [
     .academy: "아카데미",
     .industry: "산업",
     .profile: "프로필",
+    .more: "더보기",
+    .labDescription: "양자 실험",
+    .presetsDescription: "저장된 상태",
+    .bridgeDescription: "QPU 연결",
+    .moreDescription: "아카데미 & 더보기",
+    .control: "제어",
+    .measure: "측정",
+    .probability: "확률",
+    .quantumGates: "양자 게이트",
+    .hadamard: "하다마드",
+    .pauliX: "Pauli-X",
+    .pauliY: "Pauli-Y",
+    .pauliZ: "Pauli-Z",
     .settings: "설정",
     .language: "언어",
     .notifications: "알림",
@@ -292,6 +348,19 @@ private let japaneseStrings: [LocalizedStringKey: String] = [
     .academy: "アカデミー",
     .industry: "産業",
     .profile: "プロフィール",
+    .more: "その他",
+    .labDescription: "量子実験",
+    .presetsDescription: "保存された状態",
+    .bridgeDescription: "QPU接続",
+    .moreDescription: "アカデミー＆その他",
+    .control: "制御",
+    .measure: "測定",
+    .probability: "確率",
+    .quantumGates: "量子ゲート",
+    .hadamard: "アダマール",
+    .pauliX: "Pauli-X",
+    .pauliY: "Pauli-Y",
+    .pauliZ: "Pauli-Z",
     .settings: "設定",
     .language: "言語",
     .notifications: "通知",
@@ -335,6 +404,19 @@ private let chineseStrings: [LocalizedStringKey: String] = [
     .academy: "学院",
     .industry: "行业",
     .profile: "个人资料",
+    .more: "更多",
+    .labDescription: "量子实验",
+    .presetsDescription: "已保存状态",
+    .bridgeDescription: "QPU连接",
+    .moreDescription: "学院和更多",
+    .control: "控制",
+    .measure: "测量",
+    .probability: "概率",
+    .quantumGates: "量子门",
+    .hadamard: "哈达玛",
+    .pauliX: "Pauli-X",
+    .pauliY: "Pauli-Y",
+    .pauliZ: "Pauli-Z",
     .settings: "设置",
     .language: "语言",
     .notifications: "通知",
@@ -378,6 +460,19 @@ private let germanStrings: [LocalizedStringKey: String] = [
     .academy: "Akademie",
     .industry: "Industrie",
     .profile: "Profil",
+    .more: "Mehr",
+    .labDescription: "Quantenexperimente",
+    .presetsDescription: "Gespeicherte Zustände",
+    .bridgeDescription: "QPU-Verbindung",
+    .moreDescription: "Akademie & Mehr",
+    .control: "Steuerung",
+    .measure: "Messen",
+    .probability: "Wahrscheinlichkeit",
+    .quantumGates: "Quantengatter",
+    .hadamard: "Hadamard",
+    .pauliX: "Pauli-X",
+    .pauliY: "Pauli-Y",
+    .pauliZ: "Pauli-Z",
     .settings: "Einstellungen",
     .language: "Sprache",
     .notifications: "Benachrichtigungen",

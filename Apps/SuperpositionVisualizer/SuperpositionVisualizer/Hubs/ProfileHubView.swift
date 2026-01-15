@@ -684,22 +684,22 @@ class ProfileHubViewModel: ObservableObject {
     @Published var username = "Quantum Pioneer"
     @Published var userInitials = "QP"
     @Published var title = "Quantum Explorer"
-    @Published var level = 8
-    @Published var memberSince = "Jan 2025"
+    @Published var level = 1
+    @Published var memberSince = "Jan 2026"
 
     // Global Contribution Index
-    @Published var gciScore = 2847
-    @Published var worldRank = 1247
-    @Published var topPercentile = 12
-    @Published var experimentsRun = 342
-    @Published var lessonsCompleted = 28
-    @Published var qpuMinutes = 156
+    @Published var gciScore = 0
+    @Published var worldRank = 0
+    @Published var topPercentile = 100
+    @Published var experimentsRun = 0
+    @Published var lessonsCompleted = 0
+    @Published var qpuMinutes = 0
 
     // Learning Stats
-    @Published var streakDays = 12
-    @Published var totalXP = 4580
-    @Published var totalStudyTime = 840 // minutes
-    @Published var weeklyActivity = [45, 60, 30, 75, 90, 0, 20] // minutes per day
+    @Published var streakDays = 0
+    @Published var totalXP = 0
+    @Published var totalStudyTime = 0 // minutes
+    @Published var weeklyActivity = [0, 0, 0, 0, 0, 0, 0] // minutes per day
 
     // Achievements
     @Published var achievements: [Achievement] = []
@@ -713,22 +713,175 @@ class ProfileHubViewModel: ObservableObject {
     @Published var apiKeyConfigured = false
     // isPremium now managed by PremiumManager.shared
 
+    // Loading state
+    @Published var isLoading = false
+
     init() {
         setupAchievements()
+        loadFromCache()
+        Task {
+            await loadProfile()
+        }
+    }
+
+    // MARK: - Load from Cache (UserDefaults)
+    private func loadFromCache() {
+        let defaults = UserDefaults.standard
+
+        // User info
+        if let name = defaults.string(forKey: "SwiftQuantum_Username"), !name.isEmpty {
+            username = name
+            userInitials = String(name.prefix(2)).uppercased()
+        }
+
+        // Stats
+        level = max(1, defaults.integer(forKey: "SwiftQuantum_Level"))
+        totalXP = defaults.integer(forKey: "SwiftQuantum_XPPoints")
+        lessonsCompleted = defaults.integer(forKey: "SwiftQuantum_LessonsCompleted")
+        streakDays = defaults.integer(forKey: "SwiftQuantum_Streak")
+        experimentsRun = defaults.integer(forKey: "SwiftQuantum_ExperimentsRun")
+
+        // Calculate derived values
+        gciScore = calculateGCI()
+        title = titleForLevel(level)
+    }
+
+    // MARK: - Load from Backend
+    func loadProfile() async {
+        isLoading = true
+
+        do {
+            let profile: UserProfileResponse = try await APIClient.shared.get("/api/v1/users/profile")
+
+            // Update user info
+            username = profile.username
+            userInitials = String(profile.username.prefix(2)).uppercased()
+            level = profile.level
+            memberSince = formatMemberSince(profile.createdAt)
+
+            // Update stats
+            totalXP = profile.xpPoints
+            lessonsCompleted = profile.lessonsCompleted
+            streakDays = profile.streak
+            experimentsRun = profile.experimentsRun
+            qpuMinutes = profile.qpuMinutes
+            totalStudyTime = profile.totalStudyTime
+
+            // Calculate GCI
+            gciScore = calculateGCI()
+            worldRank = profile.worldRank ?? calculateWorldRank()
+            topPercentile = profile.topPercentile ?? calculateTopPercentile()
+
+            // Weekly activity
+            if let activity = profile.weeklyActivity, activity.count == 7 {
+                weeklyActivity = activity
+            }
+
+            // Update achievements
+            updateAchievements(from: profile.achievements ?? [])
+
+            // Derived values
+            title = titleForLevel(level)
+            apiKeyConfigured = profile.apiKeyConfigured ?? false
+
+            // Cache to UserDefaults
+            saveToCache()
+
+        } catch {
+            // Use cached values on error - already loaded in init
+            print("Failed to load profile: \(error.localizedDescription)")
+        }
+
+        isLoading = false
+    }
+
+    // MARK: - Save to Cache
+    private func saveToCache() {
+        let defaults = UserDefaults.standard
+        defaults.set(username, forKey: "SwiftQuantum_Username")
+        defaults.set(level, forKey: "SwiftQuantum_Level")
+        defaults.set(totalXP, forKey: "SwiftQuantum_XPPoints")
+        defaults.set(lessonsCompleted, forKey: "SwiftQuantum_LessonsCompleted")
+        defaults.set(streakDays, forKey: "SwiftQuantum_Streak")
+        defaults.set(experimentsRun, forKey: "SwiftQuantum_ExperimentsRun")
+    }
+
+    // MARK: - GCI Calculation
+    private func calculateGCI() -> Int {
+        // Formula: (lessons * 50) + (experiments * 10) + (xp / 10) + (qpu_minutes * 5)
+        return (lessonsCompleted * 50) + (experimentsRun * 10) + (totalXP / 10) + (qpuMinutes * 5)
+    }
+
+    private func calculateWorldRank() -> Int {
+        // Estimate based on GCI score
+        let baseUsers = 10000
+        let rank = max(1, baseUsers - (gciScore / 3))
+        return rank
+    }
+
+    private func calculateTopPercentile() -> Int {
+        let rank = Double(worldRank)
+        let totalUsers = 10000.0
+        return max(1, Int((rank / totalUsers) * 100))
+    }
+
+    // MARK: - Title for Level
+    private func titleForLevel(_ level: Int) -> String {
+        switch level {
+        case 1...2: return "Quantum Novice"
+        case 3...5: return "Quantum Learner"
+        case 6...10: return "Quantum Explorer"
+        case 11...20: return "Quantum Adept"
+        case 21...50: return "Quantum Master"
+        case 51...100: return "Quantum Expert"
+        default: return "Quantum Legend"
+        }
+    }
+
+    // MARK: - Format Member Since
+    private func formatMemberSince(_ date: Date?) -> String {
+        guard let date = date else { return "Jan 2026" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM yyyy"
+        return formatter.string(from: date)
+    }
+
+    // MARK: - Update Achievements
+    private func updateAchievements(from serverAchievements: [String]) {
+        let unlocked = Set(serverAchievements)
+        achievements = [
+            Achievement(name: "First Qubit", icon: "atom", color: QuantumHorizonColors.quantumCyan, isUnlocked: unlocked.contains("first_qubit") || experimentsRun > 0),
+            Achievement(name: "Superposition", icon: "plus.forwardslash.minus", color: QuantumHorizonColors.quantumGreen, isUnlocked: unlocked.contains("superposition") || lessonsCompleted >= 1),
+            Achievement(name: "Gate Master", icon: "rectangle.3.group", color: QuantumHorizonColors.quantumPurple, isUnlocked: unlocked.contains("gate_master") || lessonsCompleted >= 5),
+            Achievement(name: "Entangled", icon: "link", color: QuantumHorizonColors.quantumPink, isUnlocked: unlocked.contains("entangled") || lessonsCompleted >= 10),
+            Achievement(name: "Bridge Builder", icon: "cpu", color: .orange, isUnlocked: unlocked.contains("bridge_builder") || qpuMinutes > 0),
+            Achievement(name: "Algorithm Pro", icon: "function", color: QuantumHorizonColors.quantumGold, isUnlocked: unlocked.contains("algorithm_pro") || experimentsRun >= 100),
+            Achievement(name: "Error Buster", icon: "shield.checkered", color: .red, isUnlocked: unlocked.contains("error_buster")),
+            Achievement(name: "Quantum Legend", icon: "crown.fill", color: QuantumHorizonColors.quantumGold, isUnlocked: unlocked.contains("quantum_legend") || level >= 50)
+        ]
     }
 
     private func setupAchievements() {
-        achievements = [
-            Achievement(name: "First Qubit", icon: "atom", color: QuantumHorizonColors.quantumCyan, isUnlocked: true),
-            Achievement(name: "Superposition", icon: "plus.forwardslash.minus", color: QuantumHorizonColors.quantumGreen, isUnlocked: true),
-            Achievement(name: "Gate Master", icon: "rectangle.3.group", color: QuantumHorizonColors.quantumPurple, isUnlocked: true),
-            Achievement(name: "Entangled", icon: "link", color: QuantumHorizonColors.quantumPink, isUnlocked: true),
-            Achievement(name: "Bridge Builder", icon: "cpu", color: .orange, isUnlocked: false),
-            Achievement(name: "Algorithm Pro", icon: "function", color: QuantumHorizonColors.quantumGold, isUnlocked: false),
-            Achievement(name: "Error Buster", icon: "shield.checkered", color: .red, isUnlocked: false),
-            Achievement(name: "Quantum Legend", icon: "crown.fill", color: QuantumHorizonColors.quantumGold, isUnlocked: false)
-        ]
+        updateAchievements(from: [])
     }
+}
+
+// MARK: - API Response Models for Profile
+struct UserProfileResponse: Decodable {
+    let username: String
+    let level: Int
+    let xpPoints: Int
+    let lessonsCompleted: Int
+    let streak: Int
+    let experimentsRun: Int
+    let qpuMinutes: Int
+    let totalStudyTime: Int
+    let worldRank: Int?
+    let topPercentile: Int?
+    let weeklyActivity: [Int]?
+    let achievements: [String]?
+    let apiKeyConfigured: Bool?
+    let createdAt: Date?
 }
 
 // MARK: - Preview
