@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - SwiftQuantum & QuantumNative</title>
+    <style>
+        :root {
+            --primary-color: #66D9FF;
+            --secondary-color: #00D9A0;
+            --accent-purple: #9D4EDD;
+            --accent-orange: #FF6B35;
+            --accent-pink: #FF4D8D;
+            --bg-dark: #0a0a1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f0f2a 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            border-bottom: 1px solid rgba(102, 217, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            text-align: center;
+            margin: 40px 0 20px;
+            color: var(--primary-color);
+        }
+
+        .intro {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .support-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(102, 217, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .support-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8em;
+        }
+
+        .icon-bug {
+            background: linear-gradient(135deg, rgba(255, 77, 141, 0.2), rgba(255, 77, 141, 0.1));
+            border: 1px solid var(--accent-pink);
+        }
+
+        .icon-feature {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.1));
+            border: 1px solid var(--accent-purple);
+        }
+
+        .icon-account {
+            background: linear-gradient(135deg, rgba(0, 217, 160, 0.2), rgba(0, 217, 160, 0.1));
+            border: 1px solid var(--secondary-color);
+        }
+
+        .icon-payment {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0.1));
+            border: 1px solid var(--accent-orange);
+        }
+
+        .icon-general {
+            background: linear-gradient(135deg, rgba(102, 217, 255, 0.2), rgba(102, 217, 255, 0.1));
+            border: 1px solid var(--primary-color);
+        }
+
+        .icon-business {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border: 1px solid #FFD700;
+        }
+
+        .support-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .support-card p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .email-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .email-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 217, 255, 0.3);
+        }
+
+        .faq-section {
+            margin-top: 60px;
+        }
+
+        .faq-section h2 {
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(102, 217, 255, 0.1);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(102, 217, 255, 0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.4em;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 24px 20px;
+            color: var(--text-secondary);
+        }
+
+        .response-time {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            text-align: center;
+            border: 1px solid rgba(102, 217, 255, 0.1);
+        }
+
+        .response-time h3 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .response-time p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .time-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 217, 160, 0.2);
+            color: var(--secondary-color);
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(102, 217, 255, 0.2);
+            margin-top: 60px;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 2em;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .support-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">SwiftQuantum</div>
+        <p class="tagline">Support Center</p>
+        <a href="https://swiftquantum.tech" class="back-link">← Back to Home</a>
+    </header>
+
+    <div class="container">
+        <h1>How Can We Help?</h1>
+        <p class="intro">
+            Choose the category that best describes your inquiry. Our team is here to help you get the most out of SwiftQuantum and QuantumNative.
+        </p>
+
+        <div class="support-grid">
+            <!-- Bug Report -->
+            <div class="support-card">
+                <div class="support-icon icon-bug">🐛</div>
+                <h3>Bug Report</h3>
+                <p>Found a bug or experiencing crashes? Report technical issues with the app or framework.</p>
+                <a href="mailto:admin@swiftquantumnative.com?subject=[Bug Report] &body=App/Framework:%0AVersion:%0ADevice:%0AiOS Version:%0A%0ADescription of the bug:%0A%0ASteps to reproduce:%0A1.%0A2.%0A3.%0A%0AExpected behavior:%0A%0AActual behavior:%0A" class="email-btn">Report Bug</a>
+            </div>
+
+            <!-- Feature Request -->
+            <div class="support-card">
+                <div class="support-icon icon-feature">💡</div>
+                <h3>Feature Request</h3>
+                <p>Have an idea for a new feature or improvement? We'd love to hear your suggestions.</p>
+                <a href="mailto:admin@swiftquantumnative.com?subject=[Feature Request] &body=App/Framework:%0A%0AFeature description:%0A%0AWhy this would be useful:%0A%0AAny additional details:%0A" class="email-btn">Request Feature</a>
+            </div>
+
+            <!-- Account & Login -->
+            <div class="support-card">
+                <div class="support-icon icon-account">👤</div>
+                <h3>Account & Login</h3>
+                <p>Issues with your account, login problems, or need to manage your profile settings.</p>
+                <a href="mailto:admin@swiftquantumnative.com?subject=[Account Support] &body=Account email:%0A%0AIssue type:%0A[ ] Cannot log in%0A[ ] Password reset%0A[ ] Account deletion request%0A[ ] Profile update%0A[ ] Other%0A%0ADescription:%0A" class="email-btn">Get Help</a>
+            </div>
+
+            <!-- Payment & Subscription -->
+            <div class="support-card">
+                <div class="support-icon icon-payment">💳</div>
+                <h3>Payment & Subscription</h3>
+                <p>Questions about Pro/Enterprise subscriptions, billing, refunds, or payment issues.</p>
+                <a href="mailto:admin@swiftquantumnative.com?subject=[Payment Support] &body=Account email:%0ASubscription type: [ ] Pro / [ ] Enterprise%0A%0AIssue type:%0A[ ] Subscription not activated%0A[ ] Billing question%0A[ ] Refund request%0A[ ] Cancel subscription%0A[ ] Other%0A%0AApple Transaction ID (if available):%0A%0ADescription:%0A" class="email-btn">Payment Help</a>
+            </div>
+
+            <!-- General Inquiry -->
+            <div class="support-card">
+                <div class="support-icon icon-general">❓</div>
+                <h3>General Inquiry</h3>
+                <p>General questions about SwiftQuantum framework, QuantumNative app, or quantum computing.</p>
+                <a href="mailto:admin@swiftquantumnative.com?subject=[General Inquiry] &body=Your question:%0A%0A" class="email-btn">Ask Question</a>
+            </div>
+
+            <!-- Business & Partnership -->
+            <div class="support-card">
+                <div class="support-icon icon-business">🤝</div>
+                <h3>Business & Partnership</h3>
+                <p>Enterprise solutions, educational partnerships, API access, or collaboration opportunities.</p>
+                <a href="mailto:admin@swiftquantumnative.com?subject=[Business Inquiry] &body=Organization name:%0AYour role:%0A%0AInquiry type:%0A[ ] Enterprise subscription%0A[ ] Educational partnership%0A[ ] API access%0A[ ] Press/Media%0A[ ] Investment%0A[ ] Other%0A%0ADescription:%0A" class="email-btn">Contact Us</a>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How do I restore my subscription on a new device?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Go to Settings > Subscription > Restore Purchases in the app. Make sure you're signed in with the same Apple ID that was used for the original purchase. If the restore doesn't work, please contact our payment support.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What's the difference between SwiftQuantum and QuantumNative?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        SwiftQuantum is a Swift framework for iOS/macOS developers to integrate quantum computing into their apps. QuantumNative is an educational iOS app that helps users learn quantum computing through interactive lessons and simulations.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How can I access real IBM Quantum hardware?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Real IBM QPU access is available through our Enterprise subscription ($29.99/month) in QuantumNative. For SwiftQuantum framework users, you can use the QuantumBridge API to access IBM Quantum hardware programmatically.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How do I cancel my subscription?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Subscriptions are managed through Apple. Go to Settings > [Your Name] > Subscriptions on your iPhone, find QuantumNative, and tap Cancel Subscription. Your access continues until the end of the current billing period.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Is my quantum circuit data private?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, we take privacy seriously. Your quantum circuits and simulation data are stored securely and encrypted. When using IBM Quantum hardware, only anonymous circuit data is sent for execution. See our Privacy Policy for full details.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Response Time -->
+        <div class="response-time">
+            <h3>Response Time</h3>
+            <p>We typically respond to all inquiries within:</p>
+            <div class="time-badge">24-48 hours</div>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                For urgent issues, please include "URGENT" in your email subject line.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 iOS Quantum Engineering. All rights reserved.</p>
+        <p style="margin-top: 10px;">
+            <a href="https://swiftquantum.tech">Home</a> ·
+            <a href="https://swiftquantum.tech/#privacy">Privacy Policy</a> ·
+            <a href="mailto:admin@swiftquantumnative.com">admin@swiftquantumnative.com</a>
+        </p>
+        <p style="margin-top: 20px; font-size: 0.9em;">Made with EUNMIN PARK</p>
+    </footer>
+
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
