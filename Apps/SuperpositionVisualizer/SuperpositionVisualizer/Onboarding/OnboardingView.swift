@@ -58,10 +58,10 @@ struct OnboardingView: View {
             accentColor: QuantumHorizonColors.quantumCyan
         ),
         OnboardingStepData(
-            titleKey: .onboardingLoad,
-            subtitleKey: .presets,
-            descriptionKey: .onboardingPresetsDesc,
-            icon: "list.bullet.clipboard",
+            titleKey: .onboardingBuildWith,
+            subtitleKey: .circuits,
+            descriptionKey: .onboardingCircuitsDesc,
+            icon: "cpu",
             accentColor: QuantumHorizonColors.quantumGreen
         ),
         OnboardingStepData(

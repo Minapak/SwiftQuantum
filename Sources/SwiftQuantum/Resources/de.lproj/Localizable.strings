@@ -176,7 +176,8 @@
 
 // MARK: - Industry Solutions
 
-"industry.title" = "Enterprise Quantenlösungen";
+"industry.title" = "Branchenlösungen";
+"industry.subtitle" = "Quantengestützte Geschäftsoptimierung";
 "industry.finance" = "Finanzoptimierung";
 "industry.finance_desc" = "Portfoliooptimierung mit 100-facher Beschleunigungspotential.";
 "industry.healthcare" = "Medikamentenentdeckung";
@@ -185,6 +186,46 @@
 "industry.logistics_desc" = "Routenoptimierung mit Quanten-Annealing.";
 "industry.security" = "Post-Quanten-Kryptographie";
 "industry.security_desc" = "Quantenresistente Verschlüsselungsalgorithmen.";
+
+// ROI & Preise
+"industry.roi.title" = "ROI-Rechner";
+"industry.roi.subtitle" = "Sehen Sie Ihre potentiellen Einsparungen";
+"industry.roi.calculate" = "Berechnen Sie Ihren ROI";
+"industry.roi.estimate" = "Schätzen Sie Ihren Quantenvorteil";
+"industry.roi.team_size" = "Teamgröße";
+"industry.roi.budget" = "Jährliches IT-Budget";
+"industry.roi.calculate_btn" = "ROI berechnen";
+"industry.roi.estimated_savings" = "Geschätzte jährliche Einsparungen";
+"industry.roi.payback" = "Amortisation";
+"industry.roi.projected" = "Prognostizierter Jahresgewinn";
+"industry.roi.calculate_data" = "Mit Ihren Daten berechnen";
+"industry.roi.progress" = "Basierend auf Ihrem Level-8-Fortschritt";
+
+"industry.trial" = "Starten Sie mit einer 7-tägigen Testversion";
+"industry.use_cases" = "Wichtige Anwendungsfälle";
+"industry.learn_more" = "Mehr erfahren";
+"industry.get_started" = "Loslegen";
+"industry.overview" = "Überblick";
+"industry.key_benefits" = "Hauptvorteile";
+"industry.quantum_solutions" = "Quantenlösungen";
+"industry.choose_plan" = "Wählen Sie Ihren Plan";
+"industry.success_stories" = "Erfolgsgeschichten";
+"industry.pricing_soon" = "Preisdetails demnächst";
+
+// Premium
+"industry.premium.title" = "Enterprise Solutions Premium";
+"industry.premium.desc" = "Alle Branchenlösungen und quantengestützte Geschäftsoptimierung freischalten";
+"industry.premium.upgrade" = "Upgrade - $9.99/Monat";
+
+// Vergleich
+"industry.compare.feature" = "Funktion";
+"industry.compare.pro" = "Pro";
+"industry.compare.enterprise" = "Enterprise";
+
+// Lernressourcen
+"industry.learn.ibm" = "IBM Quantum Learning";
+"industry.learn.mit" = "MIT xPRO Quantenkurs";
+"industry.learn.roadmap" = "IBM Quantum 2026 Roadmap";
 
 // MARK: - Errors
 
@@ -204,9 +245,14 @@
 
 // MARK: - Bridge Tab (QuantumBridge)
 
-"bridge.title" = "QuantumBridge";
+"bridge.title" = "Brücke";
+"bridge.description" = "Verbindung zu echter Quantenhardware";
 "bridge.why_use" = "Warum QuantumBridge verwenden?";
 "bridge.connect_real" = "Verbinden Sie sich mit echten Quantencomputern";
+
+// Deploy-Bereich
+"bridge.deploy.title" = "Schaltung bereitstellen";
+"bridge.deploy.hold_text" = "2 Sekunden lang drücken zum Bereitstellen";
 
 // Bridge-Vorteile
 "bridge.benefit.hardware.title" = "Echte Hardware";
@@ -278,6 +324,7 @@
 
 // Schnellaktionen
 "bridge.actions.title" = "Schnellaktionen";
+"bridge.actions.subtitle" = "Vorgefertigte Quantenexperimente ausführen";
 "bridge.actions.bell" = "Bell-Zustand";
 "bridge.actions.bell.desc" = "Verschränkung erstellen";
 "bridge.actions.ghz" = "GHZ-Zustand";

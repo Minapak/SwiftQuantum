@@ -105,7 +105,7 @@ class LocalizationManager: ObservableObject {
 enum LocalizedStringKey: String {
     // Navigation
     case lab = "nav.lab"
-    case presets = "nav.presets"
+    case circuits = "nav.circuits"
     case academy = "nav.academy"
     case industry = "nav.industry"
     case profile = "nav.profile"
@@ -113,7 +113,7 @@ enum LocalizedStringKey: String {
 
     // Tab Descriptions
     case labDescription = "nav.lab.description"
-    case presetsDescription = "nav.presets.description"
+    case circuitsDescription = "nav.circuits.description"
     case bridgeDescription = "nav.bridge.description"
     case moreDescription = "nav.more.description"
 
@@ -159,8 +159,8 @@ enum LocalizedStringKey: String {
     case onboardingWelcomeDesc = "onboarding.welcomeDesc"
     case onboardingExperimentIn = "onboarding.experimentIn"
     case onboardingLabDesc = "onboarding.labDesc"
-    case onboardingLoad = "onboarding.load"
-    case onboardingPresetsDesc = "onboarding.presetsDesc"
+    case onboardingBuildWith = "onboarding.buildWith"
+    case onboardingCircuitsDesc = "onboarding.circuitsDesc"
     case onboardingConnectVia = "onboarding.connectVia"
     case onboardingBridge = "onboarding.bridge"
     case onboardingBridgeDesc = "onboarding.bridgeDesc"
@@ -174,13 +174,13 @@ enum LocalizedStringKey: String {
     var defaultValue: String {
         switch self {
         case .lab: return "Lab"
-        case .presets: return "Presets"
+        case .circuits: return "Circuits"
         case .academy: return "Academy"
         case .industry: return "Industry"
         case .profile: return "Profile"
         case .more: return "More"
         case .labDescription: return "Quantum Experiments"
-        case .presetsDescription: return "Saved States"
+        case .circuitsDescription: return "Circuit Builder"
         case .bridgeDescription: return "QPU Connection"
         case .moreDescription: return "Academy & More"
         case .control: return "Control"
@@ -216,8 +216,8 @@ enum LocalizedStringKey: String {
         case .onboardingWelcomeDesc: return "Explore quantum computing with interactive visualizations and real hardware connections."
         case .onboardingExperimentIn: return "Experiment in"
         case .onboardingLabDesc: return "Manipulate qubits on the Bloch Sphere. Apply gates like Hadamard (H) and measure results."
-        case .onboardingLoad: return "Load"
-        case .onboardingPresetsDesc: return "Explore famous quantum states like Bell pairs and GHZ states with one tap."
+        case .onboardingBuildWith: return "Build with"
+        case .onboardingCircuitsDesc: return "Build quantum circuits with Bell State, GHZ, Grover and more templates."
         case .onboardingConnectVia: return "Connect via"
         case .onboardingBridge: return "Bridge"
         case .onboardingBridgeDesc: return "Deploy circuits to real IBM Quantum computers with 127+ qubits."
@@ -232,13 +232,13 @@ enum LocalizedStringKey: String {
 // MARK: - English Strings
 private let englishStrings: [LocalizedStringKey: String] = [
     .lab: "Lab",
-    .presets: "Presets",
+    .circuits: "Circuits",
     .academy: "Academy",
     .industry: "Industry",
     .profile: "Profile",
     .more: "More",
     .labDescription: "Quantum Experiments",
-    .presetsDescription: "Saved States",
+    .circuitsDescription: "Circuit Builder",
     .bridgeDescription: "QPU Connection",
     .moreDescription: "Academy & More",
     .control: "Control",
@@ -274,8 +274,8 @@ private let englishStrings: [LocalizedStringKey: String] = [
     .onboardingWelcomeDesc: "Explore quantum computing with interactive visualizations and real hardware connections.",
     .onboardingExperimentIn: "Experiment in",
     .onboardingLabDesc: "Manipulate qubits on the Bloch Sphere. Apply gates like Hadamard (H) and measure results.",
-    .onboardingLoad: "Load",
-    .onboardingPresetsDesc: "Explore famous quantum states like Bell pairs and GHZ states with one tap.",
+    .onboardingBuildWith: "Build with",
+    .onboardingCircuitsDesc: "Build quantum circuits with Bell State, GHZ, Grover and more templates.",
     .onboardingConnectVia: "Connect via",
     .onboardingBridge: "Bridge",
     .onboardingBridgeDesc: "Deploy circuits to real IBM Quantum computers with 127+ qubits.",
@@ -288,13 +288,13 @@ private let englishStrings: [LocalizedStringKey: String] = [
 // MARK: - Korean Strings
 private let koreanStrings: [LocalizedStringKey: String] = [
     .lab: "실험실",
-    .presets: "프리셋",
+    .circuits: "회로",
     .academy: "아카데미",
     .industry: "산업",
     .profile: "프로필",
     .more: "더보기",
     .labDescription: "양자 실험",
-    .presetsDescription: "저장된 상태",
+    .circuitsDescription: "회로 빌더",
     .bridgeDescription: "QPU 연결",
     .moreDescription: "아카데미 & 더보기",
     .control: "제어",
@@ -330,8 +330,8 @@ private let koreanStrings: [LocalizedStringKey: String] = [
     .onboardingWelcomeDesc: "인터랙티브 시각화와 실제 하드웨어 연결로 양자 컴퓨팅을 탐험하세요.",
     .onboardingExperimentIn: "실험하세요",
     .onboardingLabDesc: "블로흐 구면에서 큐빗을 조작하세요. 하다마드(H) 게이트를 적용하고 결과를 측정하세요.",
-    .onboardingLoad: "불러오기",
-    .onboardingPresetsDesc: "벨 상태, GHZ 상태 등 유명한 양자 상태를 한 번의 탭으로 탐험하세요.",
+    .onboardingBuildWith: "구축하세요",
+    .onboardingCircuitsDesc: "벨 상태, GHZ, 그로버 등 다양한 템플릿으로 양자 회로를 구축하세요.",
     .onboardingConnectVia: "연결하기",
     .onboardingBridge: "브릿지",
     .onboardingBridgeDesc: "127+ 큐빗의 실제 IBM 양자 컴퓨터에 회로를 배포하세요.",
@@ -344,13 +344,13 @@ private let koreanStrings: [LocalizedStringKey: String] = [
 // MARK: - Japanese Strings
 private let japaneseStrings: [LocalizedStringKey: String] = [
     .lab: "ラボ",
-    .presets: "プリセット",
+    .circuits: "回路",
     .academy: "アカデミー",
     .industry: "産業",
     .profile: "プロフィール",
     .more: "その他",
     .labDescription: "量子実験",
-    .presetsDescription: "保存された状態",
+    .circuitsDescription: "回路ビルダー",
     .bridgeDescription: "QPU接続",
     .moreDescription: "アカデミー＆その他",
     .control: "制御",
@@ -386,8 +386,8 @@ private let japaneseStrings: [LocalizedStringKey: String] = [
     .onboardingWelcomeDesc: "インタラクティブな可視化と実際のハードウェア接続で量子コンピューティングを探索しましょう。",
     .onboardingExperimentIn: "実験する",
     .onboardingLabDesc: "ブロッホ球面でキュービットを操作しましょう。アダマール(H)ゲートを適用して結果を測定します。",
-    .onboardingLoad: "読み込む",
-    .onboardingPresetsDesc: "ベル状態やGHZ状態などの有名な量子状態をワンタップで探索できます。",
+    .onboardingBuildWith: "構築する",
+    .onboardingCircuitsDesc: "ベル状態、GHZ、グローバーなどのテンプレートで量子回路を構築します。",
     .onboardingConnectVia: "接続する",
     .onboardingBridge: "ブリッジ",
     .onboardingBridgeDesc: "127以上のキュービットを持つ実際のIBM量子コンピューターに回路をデプロイしましょう。",
@@ -400,13 +400,13 @@ private let japaneseStrings: [LocalizedStringKey: String] = [
 // MARK: - Chinese Strings
 private let chineseStrings: [LocalizedStringKey: String] = [
     .lab: "实验室",
-    .presets: "预设",
+    .circuits: "电路",
     .academy: "学院",
     .industry: "行业",
     .profile: "个人资料",
     .more: "更多",
     .labDescription: "量子实验",
-    .presetsDescription: "已保存状态",
+    .circuitsDescription: "电路构建器",
     .bridgeDescription: "QPU连接",
     .moreDescription: "学院和更多",
     .control: "控制",
@@ -442,8 +442,8 @@ private let chineseStrings: [LocalizedStringKey: String] = [
     .onboardingWelcomeDesc: "通过交互式可视化和真实硬件连接探索量子计算。",
     .onboardingExperimentIn: "实验于",
     .onboardingLabDesc: "在布洛赫球上操作量子比特。应用哈达玛(H)门并测量结果。",
-    .onboardingLoad: "加载",
-    .onboardingPresetsDesc: "一键探索贝尔态和GHZ态等著名量子态。",
+    .onboardingBuildWith: "构建",
+    .onboardingCircuitsDesc: "使用贝尔态、GHZ、Grover等模板构建量子电路。",
     .onboardingConnectVia: "连接到",
     .onboardingBridge: "桥接",
     .onboardingBridgeDesc: "将电路部署到具有127+量子比特的真实IBM量子计算机。",
@@ -456,13 +456,13 @@ private let chineseStrings: [LocalizedStringKey: String] = [
 // MARK: - German Strings
 private let germanStrings: [LocalizedStringKey: String] = [
     .lab: "Labor",
-    .presets: "Voreinstellungen",
+    .circuits: "Schaltkreise",
     .academy: "Akademie",
     .industry: "Industrie",
     .profile: "Profil",
     .more: "Mehr",
     .labDescription: "Quantenexperimente",
-    .presetsDescription: "Gespeicherte Zustände",
+    .circuitsDescription: "Schaltkreis-Builder",
     .bridgeDescription: "QPU-Verbindung",
     .moreDescription: "Akademie & Mehr",
     .control: "Steuerung",
@@ -498,8 +498,8 @@ private let germanStrings: [LocalizedStringKey: String] = [
     .onboardingWelcomeDesc: "Erkunden Sie Quantencomputing mit interaktiven Visualisierungen und echten Hardware-Verbindungen.",
     .onboardingExperimentIn: "Experimentieren im",
     .onboardingLabDesc: "Manipulieren Sie Qubits auf der Bloch-Kugel. Wenden Sie Gates wie Hadamard (H) an und messen Sie Ergebnisse.",
-    .onboardingLoad: "Laden",
-    .onboardingPresetsDesc: "Entdecken Sie berühmte Quantenzustände wie Bell-Paare und GHZ-Zustände mit einem Tippen.",
+    .onboardingBuildWith: "Erstellen mit",
+    .onboardingCircuitsDesc: "Erstellen Sie Quantenschaltkreise mit Bell, GHZ, Grover und mehr Vorlagen.",
     .onboardingConnectVia: "Verbinden über",
     .onboardingBridge: "Bridge",
     .onboardingBridgeDesc: "Deployen Sie Schaltkreise auf echten IBM Quantencomputern mit 127+ Qubits.",

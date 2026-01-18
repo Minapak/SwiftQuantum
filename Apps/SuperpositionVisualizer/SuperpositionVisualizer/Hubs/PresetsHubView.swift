@@ -11,6 +11,11 @@ struct PresetsHubView: View {
     @State private var showCircuitDetail = false
     @State private var showRunResult = false
 
+    // Helper for localized strings from SwiftQuantum bundle
+    private func L(_ key: String) -> String {
+        return key.quantumLocalized
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -58,10 +63,10 @@ struct PresetsHubView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(LocalizedStringKey("circuits.title"))
+                        Text(L("circuits.title"))
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.white)
-                        Text(LocalizedStringKey("circuits.subtitle"))
+                        Text(L("circuits.subtitle"))
                             .font(.system(size: 13))
                             .foregroundColor(.white.opacity(0.6))
                     }
@@ -71,11 +76,11 @@ struct PresetsHubView: View {
 
                 // Quick Stats
                 HStack(spacing: 0) {
-                    quickStat(value: "\(viewModel.totalCircuits)", label: String(localized: "circuits.stat.templates"))
+                    quickStat(value: "\(viewModel.totalCircuits)", label: L("circuits.stat.templates"))
                     Divider().frame(height: 30).background(Color.white.opacity(0.1))
-                    quickStat(value: "\(viewModel.totalRuns)", label: String(localized: "circuits.stat.runs"))
+                    quickStat(value: "\(viewModel.totalRuns)", label: L("circuits.stat.runs"))
                     Divider().frame(height: 30).background(Color.white.opacity(0.1))
-                    quickStat(value: "\(viewModel.favoriteCount)", label: String(localized: "circuits.stat.favorites"))
+                    quickStat(value: "\(viewModel.favoriteCount)", label: L("circuits.stat.favorites"))
                 }
             }
         }
@@ -96,7 +101,7 @@ struct PresetsHubView: View {
     // MARK: - Quick Circuits Section
     private var quickCircuitsSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(LocalizedStringKey("circuits.quick.title"))
+            Text(L("circuits.quick.title"))
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.white)
 
@@ -118,7 +123,7 @@ struct PresetsHubView: View {
     private var featuredCircuitsSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text(LocalizedStringKey("circuits.featured.title"))
+                Text(L("circuits.featured.title"))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
                 Spacer()
@@ -142,7 +147,7 @@ struct PresetsHubView: View {
     // MARK: - Circuit Templates Section
     private var circuitTemplatesSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(LocalizedStringKey("circuits.templates.title"))
+            Text(L("circuits.templates.title"))
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.white)
 
@@ -178,14 +183,14 @@ struct PresetsHubView: View {
     private var recentRunsSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text(LocalizedStringKey("circuits.recent.title"))
+                Text(L("circuits.recent.title"))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
                 Spacer()
                 Button(action: {
                     viewModel.clearRecentRuns()
                 }) {
-                    Text(LocalizedStringKey("circuits.recent.clear"))
+                    Text(L("circuits.recent.clear"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.5))
                 }
@@ -207,10 +212,10 @@ enum CircuitCategory: String, CaseIterable {
 
     var title: String {
         switch self {
-        case .basic: return String(localized: "circuits.category.basic")
-        case .entanglement: return String(localized: "circuits.category.entanglement")
-        case .algorithms: return String(localized: "circuits.category.algorithms")
-        case .errorCorrection: return String(localized: "circuits.category.error")
+        case .basic: return "circuits.category.basic".quantumLocalized
+        case .entanglement: return "circuits.category.entanglement".quantumLocalized
+        case .algorithms: return "circuits.category.algorithms".quantumLocalized
+        case .errorCorrection: return "circuits.category.error".quantumLocalized
         }
     }
 
@@ -283,7 +288,7 @@ class CircuitsHubViewModel: ObservableObject {
         [
             QuantumCircuitTemplate(
                 name: "Bell State",
-                description: String(localized: "circuits.bell.desc"),
+                description: "circuits.bell.desc".quantumLocalized,
                 category: .entanglement,
                 qubits: 2,
                 gates: ["H", "CNOT"],
@@ -294,7 +299,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "GHZ State",
-                description: String(localized: "circuits.ghz.desc"),
+                description: "circuits.ghz.desc".quantumLocalized,
                 category: .entanglement,
                 qubits: 3,
                 gates: ["H", "CNOT", "CNOT"],
@@ -305,7 +310,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "Grover 2-qubit",
-                description: String(localized: "circuits.grover.desc"),
+                description: "circuits.grover.desc".quantumLocalized,
                 category: .algorithms,
                 qubits: 2,
                 gates: ["H", "H", "Oracle", "H", "H"],
@@ -321,7 +326,7 @@ class CircuitsHubViewModel: ObservableObject {
         [
             QuantumCircuitTemplate(
                 name: "Quantum Teleportation",
-                description: String(localized: "circuits.teleport.desc"),
+                description: "circuits.teleport.desc".quantumLocalized,
                 category: .algorithms,
                 qubits: 3,
                 gates: ["H", "CNOT", "CNOT", "H", "Measure", "X", "Z"],
@@ -332,7 +337,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "Deutsch-Jozsa",
-                description: String(localized: "circuits.dj.desc"),
+                description: "circuits.dj.desc".quantumLocalized,
                 category: .algorithms,
                 qubits: 2,
                 gates: ["X", "H", "H", "Oracle", "H", "Measure"],
@@ -343,7 +348,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "Surface Code",
-                description: String(localized: "circuits.surface.desc"),
+                description: "circuits.surface.desc".quantumLocalized,
                 category: .errorCorrection,
                 qubits: 9,
                 gates: ["H", "CNOT", "Stabilizer", "Measure"],
@@ -354,7 +359,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "QAOA",
-                description: String(localized: "circuits.qaoa.desc"),
+                description: "circuits.qaoa.desc".quantumLocalized,
                 category: .algorithms,
                 qubits: 4,
                 gates: ["H", "RZZ", "RX", "Measure"],
@@ -373,7 +378,7 @@ class CircuitsHubViewModel: ObservableObject {
         circuits.append(contentsOf: [
             QuantumCircuitTemplate(
                 name: "Single Hadamard",
-                description: String(localized: "circuits.hadamard.desc"),
+                description: "circuits.hadamard.desc".quantumLocalized,
                 category: .basic,
                 qubits: 1,
                 gates: ["H"],
@@ -384,7 +389,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "X Gate (NOT)",
-                description: String(localized: "circuits.xgate.desc"),
+                description: "circuits.xgate.desc".quantumLocalized,
                 category: .basic,
                 qubits: 1,
                 gates: ["X"],
@@ -395,7 +400,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "Phase Gates",
-                description: String(localized: "circuits.phase.desc"),
+                description: "circuits.phase.desc".quantumLocalized,
                 category: .basic,
                 qubits: 1,
                 gates: ["S", "T"],
@@ -410,7 +415,7 @@ class CircuitsHubViewModel: ObservableObject {
         circuits.append(contentsOf: [
             QuantumCircuitTemplate(
                 name: "Bit Flip Code",
-                description: String(localized: "circuits.bitflip.desc"),
+                description: "circuits.bitflip.desc".quantumLocalized,
                 category: .errorCorrection,
                 qubits: 3,
                 gates: ["CNOT", "CNOT", "Toffoli"],
@@ -421,7 +426,7 @@ class CircuitsHubViewModel: ObservableObject {
             ),
             QuantumCircuitTemplate(
                 name: "Phase Flip Code",
-                description: String(localized: "circuits.phaseflip.desc"),
+                description: "circuits.phaseflip.desc".quantumLocalized,
                 category: .errorCorrection,
                 qubits: 3,
                 gates: ["H", "CNOT", "H", "Measure"],
@@ -559,7 +564,7 @@ struct FeaturedCircuitCard: View {
                         .font(.system(size: 9, weight: .medium))
                         .foregroundColor(circuit.difficulty.color)
                         .padding(.horizontal, 6)
-                        .padding(.vertical: 2)
+                        .padding(.vertical, 2)
                         .background(circuit.difficulty.color.opacity(0.2))
                         .clipShape(Capsule())
                 }
@@ -670,6 +675,11 @@ struct CircuitDetailSheet: View {
     @State private var runResult: [String: Int]?
     @State private var shots = 1000
 
+    // Helper for localized strings from SwiftQuantum bundle
+    private func L(_ key: String) -> String {
+        return key.quantumLocalized
+    }
+
     var body: some View {
         ZStack {
             QuantumHorizonBackground()
@@ -718,7 +728,7 @@ struct CircuitDetailSheet: View {
 
                     // Description
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(LocalizedStringKey("circuits.detail.about"))
+                        Text(L("circuits.detail.about"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                         Text(circuit.description)
@@ -730,7 +740,7 @@ struct CircuitDetailSheet: View {
 
                     // Gates
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(LocalizedStringKey("circuits.detail.gates"))
+                        Text(L("circuits.detail.gates"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
 
@@ -751,7 +761,7 @@ struct CircuitDetailSheet: View {
 
                     // Run Circuit
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(LocalizedStringKey("circuits.detail.run"))
+                        Text(L("circuits.detail.run"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
 
@@ -788,7 +798,7 @@ struct CircuitDetailSheet: View {
                                 } else {
                                     Image(systemName: "play.fill")
                                 }
-                                Text(isRunning ? String(localized: "circuits.running") : String(localized: "circuits.run"))
+                                Text(isRunning ? L("circuits.running") : L("circuits.run"))
                             }
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.white)
@@ -808,7 +818,7 @@ struct CircuitDetailSheet: View {
                             HStack {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundColor(QuantumHorizonColors.quantumGreen)
-                                Text(LocalizedStringKey("circuits.result"))
+                                Text(L("circuits.result"))
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.white)
                             }

@@ -1,9 +1,15 @@
 import SwiftUI
+import SwiftQuantum
 
 // MARK: - Industry Hub - "The Value"
 // Premium Solution Showcase
 // 3D 아이소매트릭 스타일 산업 아이콘, Gold-Orange 배지
 // 앵커링 효과를 위한 플랜 비교, 수익 예측 그래프
+
+// Localization helper
+private func L(_ key: String) -> String {
+    return key.quantumLocalized
+}
 
 struct IndustryHubView: View {
     @StateObject private var viewModel = IndustryHubViewModel()
@@ -77,11 +83,11 @@ struct IndustryHubView: View {
                         Image(systemName: "network")
                             .font(.system(size: 16))
                             .foregroundStyle(QuantumHorizonColors.quantumCyan)
-                        Text("IBM Quantum Ecosystem")
+                        Text(L("ecosystem.title"))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
                     }
-                    Text("Run real quantum projects from the ecosystem")
+                    Text(L("ecosystem.subtitle"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.5))
                 }
@@ -97,7 +103,7 @@ struct IndustryHubView: View {
                             selectedEcosystemCategory = nil
                         }
                     }) {
-                        Text("All")
+                        Text(L("ecosystem.all"))
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(selectedEcosystemCategory == nil ? .black : .white)
                             .padding(.horizontal, 14)
@@ -169,10 +175,10 @@ struct IndustryHubView: View {
             VStack(spacing: 16) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("ROI Calculator")
+                        Text(L("industry.roi.title"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
-                        Text("See your potential savings")
+                        Text(L("industry.roi.subtitle"))
                             .font(.system(size: 12))
                             .foregroundColor(.white.opacity(0.5))
                     }
@@ -190,7 +196,7 @@ struct IndustryHubView: View {
                 }) {
                     HStack {
                         Image(systemName: "chart.bar.fill")
-                        Text("Calculate Your ROI")
+                        Text(L("industry.roi.calculate"))
                     }
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
@@ -225,7 +231,7 @@ struct IndustryHubView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             }
 
-            Text("Start with a 7-day free trial")
+            Text(L("industry.trial"))
                 .font(.system(size: 12))
                 .foregroundColor(.white.opacity(0.4))
         }
@@ -275,7 +281,7 @@ struct IndustryHubView: View {
 
                 // Use Cases
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Key Use Cases")
+                    Text(L("industry.use_cases"))
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(.white.opacity(0.6))
 
@@ -298,7 +304,7 @@ struct IndustryHubView: View {
                 }) {
                     HStack {
                         Image(systemName: "book.fill")
-                        Text("Learn More")
+                        Text(L("industry.learn_more"))
                     }
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
@@ -367,11 +373,11 @@ struct IndustryHubView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Industry Solutions")
+                        Text(L("industry.title"))
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.white)
 
-                        Text("Quantum-powered business optimization")
+                        Text(L("industry.subtitle"))
                             .font(.system(size: 13))
                             .foregroundColor(.white.opacity(0.6))
                     }
@@ -407,7 +413,7 @@ struct IndustryHubView: View {
     // MARK: - Industry Solutions Grid
     private var industrySolutionsGrid: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Industry Solutions")
+            Text(L("industry.title"))
                 .font(QuantumHorizonTypography.sectionTitle(18))
                 .foregroundColor(.white)
 
@@ -440,7 +446,7 @@ struct IndustryHubView: View {
     private var roiPredictionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("ROI Prediction")
+                Text(L("industry.roi.title"))
                     .font(QuantumHorizonTypography.sectionTitle(18))
                     .foregroundColor(.white)
 
@@ -450,7 +456,7 @@ struct IndustryHubView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "chart.line.uptrend.xyaxis")
                         .font(.system(size: 12))
-                    Text("Based on your Level 8 progress")
+                    Text(L("industry.roi.progress"))
                         .font(.system(size: 11))
                 }
                 .foregroundColor(QuantumHorizonColors.quantumGreen)
@@ -474,7 +480,7 @@ struct IndustryHubView: View {
                     // Projected Gain
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Projected Annual Gain")
+                            Text(L("industry.roi.projected"))
                                 .font(.system(size: 12))
                                 .foregroundColor(.white.opacity(0.5))
 
@@ -492,7 +498,7 @@ struct IndustryHubView: View {
                         }) {
                             HStack(spacing: 6) {
                                 Image(systemName: "function")
-                                Text("Calculate for your data")
+                                Text(L("industry.roi.calculate_data"))
                             }
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(.white)
@@ -522,7 +528,7 @@ struct IndustryHubView: View {
     // MARK: - Pricing Section (Anchoring Effect)
     private var pricingSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Choose Your Plan")
+            Text(L("industry.choose_plan"))
                 .font(QuantumHorizonTypography.sectionTitle(18))
                 .foregroundColor(.white)
 
@@ -563,17 +569,17 @@ struct IndustryHubView: View {
         VStack(spacing: 0) {
             // Header
             HStack {
-                Text("Feature")
+                Text(L("industry.compare.feature"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.white.opacity(0.5))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("Pro")
+                Text(L("industry.compare.pro"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(QuantumHorizonColors.quantumPurple)
                     .frame(width: 60)
 
-                Text("Enterprise")
+                Text(L("industry.compare.enterprise"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(QuantumHorizonColors.quantumGold)
                     .frame(width: 70)
@@ -617,7 +623,7 @@ struct IndustryHubView: View {
     // MARK: - Success Stories Section
     private var successStoriesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Success Stories")
+            Text(L("industry.success_stories"))
                 .font(QuantumHorizonTypography.sectionTitle(18))
                 .foregroundColor(.white)
 
@@ -914,7 +920,7 @@ struct HorizonPricingPlanCard: View {
                 DeveloperModeManager.shared.log(screen: "Industry", element: "Pricing: \(plan.name) Get Started", status: .success)
                 onGetStarted()
             }) {
-                Text("Get Started")
+                Text(L("industry.get_started"))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -1281,7 +1287,7 @@ struct PricingDetailSheet: View {
 
                 Spacer()
 
-                Text("Pricing Details Coming Soon")
+                Text(L("industry.pricing_soon"))
                     .font(QuantumHorizonTypography.sectionTitle())
                     .foregroundColor(.white)
 
@@ -1327,11 +1333,11 @@ struct IndustryPremiumSheet: View {
                         .font(.system(size: 64))
                         .foregroundStyle(QuantumHorizonColors.goldCelebration)
 
-                    Text("Enterprise Solutions Premium")
+                    Text(L("industry.premium.title"))
                         .font(QuantumHorizonTypography.sectionTitle(24))
                         .foregroundColor(.white)
 
-                    Text("Unlock all industry solutions and quantum-powered business optimization")
+                    Text(L("industry.premium.desc"))
                         .font(QuantumHorizonTypography.body(14))
                         .foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
@@ -1355,7 +1361,7 @@ struct IndustryPremiumSheet: View {
                             showSuccessView = true
                         }
                     }) {
-                        Text("Upgrade - $9.99/month")
+                        Text(L("industry.premium.upgrade"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity)
@@ -1421,10 +1427,10 @@ struct ROICalculatorSheet: View {
                 // Header
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("ROI Calculator")
+                        Text(L("industry.roi.title"))
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(.white)
-                        Text("Estimate your quantum advantage")
+                        Text(L("industry.roi.estimate"))
                             .font(.system(size: 14))
                             .foregroundColor(.white.opacity(0.6))
                     }
@@ -1440,7 +1446,7 @@ struct ROICalculatorSheet: View {
                     VStack(spacing: 20) {
                         // Industry Selection
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Industry")
+                            Text(L("industry.title"))
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.white.opacity(0.6))
 
@@ -1468,7 +1474,7 @@ struct ROICalculatorSheet: View {
                         // Company Size Slider
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Team Size")
+                                Text(L("industry.roi.team_size"))
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundColor(.white.opacity(0.6))
                                 Spacer()
@@ -1486,7 +1492,7 @@ struct ROICalculatorSheet: View {
                         // Annual Budget Slider
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Annual IT Budget")
+                                Text(L("industry.roi.budget"))
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundColor(.white.opacity(0.6))
                                 Spacer()
@@ -1509,7 +1515,7 @@ struct ROICalculatorSheet: View {
                         }) {
                             HStack {
                                 Image(systemName: "chart.bar.fill")
-                                Text("Calculate ROI")
+                                Text(L("industry.roi.calculate_btn"))
                             }
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(.white)
@@ -1522,7 +1528,7 @@ struct ROICalculatorSheet: View {
                         // Result Section
                         if showResult {
                             VStack(spacing: 16) {
-                                Text("Estimated Annual Savings")
+                                Text(L("industry.roi.estimated_savings"))
                                     .font(.system(size: 14))
                                     .foregroundColor(.white.opacity(0.6))
 
@@ -1541,7 +1547,7 @@ struct ROICalculatorSheet: View {
                                     }
 
                                     VStack {
-                                        Text("Payback")
+                                        Text(L("industry.roi.payback"))
                                             .font(.system(size: 11))
                                             .foregroundColor(.white.opacity(0.5))
                                         Text("< 6 months")
@@ -1594,7 +1600,7 @@ struct IndustryDetailSheet: View {
                             Text(industry.name)
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.white)
-                            Text("Quantum Solutions")
+                            Text(L("industry.quantum_solutions"))
                                 .font(.system(size: 14))
                                 .foregroundColor(.white.opacity(0.6))
                         }
@@ -1610,7 +1616,7 @@ struct IndustryDetailSheet: View {
 
                     // Overview
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Overview")
+                        Text(L("industry.overview"))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
@@ -1624,7 +1630,7 @@ struct IndustryDetailSheet: View {
 
                     // Key Benefits
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Key Benefits")
+                        Text(L("industry.key_benefits"))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
@@ -1648,18 +1654,67 @@ struct IndustryDetailSheet: View {
                         statCard(value: "99.9%", label: "Uptime", color: QuantumHorizonColors.quantumGold)
                     }
 
-                    // CTA
-                    Button(action: { dismiss() }) {
-                        HStack {
-                            Image(systemName: "paperplane.fill")
-                            Text("Contact Sales")
+                    // CTA Buttons - Link to official learning resources
+                    VStack(spacing: 12) {
+                        // IBM Quantum Learning (Official Platform)
+                        Button(action: {
+                            if let url = URL(string: "https://quantum.cloud.ibm.com/learning/en") {
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "atom")
+                                Text(L("industry.learn.ibm"))
+                            }
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                LinearGradient(
+                                    colors: [Color(red: 0.2, green: 0.4, blue: 0.8), Color(red: 0.4, green: 0.2, blue: 0.8)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(QuantumHorizonColors.goldCelebration)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
+
+                        // MIT xPRO Quantum Computing
+                        Button(action: {
+                            if let url = URL(string: "https://xpro.mit.edu/programs/program-v1:xPRO+QCF/") {
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "building.columns.fill")
+                                Text(L("industry.learn.mit"))
+                            }
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(Color(red: 0.6, green: 0.1, blue: 0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+
+                        // IBM Quantum 2026 Roadmap
+                        Button(action: {
+                            if let url = URL(string: "https://www.ibm.com/roadmaps/quantum/2026/") {
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "map.fill")
+                                Text(L("industry.learn.roadmap"))
+                            }
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(QuantumHorizonColors.goldCelebration)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
                     }
 
                     Spacer(minLength: 50)
@@ -1858,7 +1913,7 @@ struct EcosystemProjectDetailSheet: View {
 
                     // Description
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("About")
+                        Text(L("ecosystem.about"))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
@@ -1872,7 +1927,7 @@ struct EcosystemProjectDetailSheet: View {
 
                     // Quick Actions
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Quick Actions")
+                        Text(L("ecosystem.actions"))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
@@ -1886,7 +1941,7 @@ struct EcosystemProjectDetailSheet: View {
                                 } else {
                                     Image(systemName: "play.fill")
                                 }
-                                Text(isRunning ? "Running..." : "Run Demo Circuit")
+                                Text(isRunning ? L("ecosystem.running") : L("ecosystem.run_demo"))
                             }
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.white)
@@ -1901,7 +1956,7 @@ struct EcosystemProjectDetailSheet: View {
                         Button(action: { showCodeExport = true }) {
                             HStack {
                                 Image(systemName: "doc.text.fill")
-                                Text("Export Sample Code")
+                                Text(L("ecosystem.export_code"))
                             }
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.white)
@@ -1920,7 +1975,7 @@ struct EcosystemProjectDetailSheet: View {
                             }) {
                                 HStack {
                                     Image(systemName: "link")
-                                    Text("View on GitHub")
+                                    Text(L("ecosystem.view_github"))
                                 }
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.white)
@@ -1940,7 +1995,7 @@ struct EcosystemProjectDetailSheet: View {
                             HStack {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundColor(QuantumHorizonColors.quantumGreen)
-                                Text("Execution Result")
+                                Text(L("ecosystem.result"))
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.white)
                             }
@@ -1960,7 +2015,7 @@ struct EcosystemProjectDetailSheet: View {
 
                     // Use Cases
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Use Cases")
+                        Text(L("ecosystem.use_cases"))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
@@ -2222,7 +2277,7 @@ struct EcosystemCodeExportSheet: View {
                 // Header
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Sample Code")
+                        Text(L("ecosystem.sample_code"))
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.white)
                         Text(project.name)
@@ -2258,7 +2313,7 @@ struct EcosystemCodeExportSheet: View {
                 }) {
                     HStack {
                         Image(systemName: copied ? "checkmark" : "doc.on.doc")
-                        Text(copied ? "Copied!" : "Copy to Clipboard")
+                        Text(copied ? L("bridge.qasm.copied") : L("ecosystem.copy"))
                     }
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.black)

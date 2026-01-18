@@ -212,37 +212,74 @@ struct IndustrySolutionsView: View {
                 Spacer()
             }
 
-            Text("Our team of quantum experts can help design and implement custom solutions tailored to your specific industry challenges.")
+            Text("Learn quantum computing from world-leading institutions with official courses and resources.")
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.leading)
 
-            HStack(spacing: 12) {
-                Button(action: {}) {
-                    HStack {
-                        Image(systemName: "envelope")
-                        Text("Contact Sales")
+            VStack(spacing: 10) {
+                HStack(spacing: 12) {
+                    // IBM Quantum Learning (Official Platform 2026)
+                    Button(action: {
+                        if let url = URL(string: "https://quantum.cloud.ibm.com/learning/en") {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "atom")
+                            Text("IBM Quantum")
+                        }
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(red: 0.2, green: 0.4, blue: 0.8), Color(red: 0.4, green: 0.2, blue: 0.8)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(10)
                     }
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .background(QuantumPremiumColors.cyberneticBlue)
-                    .cornerRadius(10)
+
+                    // MIT xPRO Quantum Computing (2026 Course)
+                    Button(action: {
+                        if let url = URL(string: "https://xpro.mit.edu/programs/program-v1:xPRO+QCF/") {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "building.columns")
+                            Text("MIT xPRO")
+                        }
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color(red: 0.6, green: 0.1, blue: 0.1))
+                        .cornerRadius(10)
+                    }
                 }
 
-                Button(action: {}) {
+                // Coursera Quantum Courses
+                Button(action: {
+                    if let url = URL(string: "https://www.coursera.org/courses?query=quantum+computing") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
                     HStack {
-                        Image(systemName: "calendar")
-                        Text("Schedule Demo")
+                        Image(systemName: "play.rectangle.fill")
+                        Text("Coursera Quantum Courses")
                     }
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(0.15))
                     .cornerRadius(10)
                 }
             }

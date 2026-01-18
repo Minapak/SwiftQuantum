@@ -13,11 +13,20 @@ struct FactoryHubView: View {
     @State private var showErrorCorrection = false
     @State private var showExportSheet = false
     @State private var exportedQASM: String = ""
+    @State private var showBridgeInfo = false
+
+    // Helper for localized strings from SwiftQuantum bundle
+    private func L(_ key: String) -> String {
+        return key.quantumLocalized
+    }
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Why Use Bridge? - Introduction Card
+                // Bridge Header with ? button
+                bridgeHeaderWithInfo
+
+                // Why Use Bridge? - Introduction Card (toggleable)
                 bridgeIntroductionCard
 
                 // Central Connection Visualization
@@ -62,52 +71,122 @@ struct FactoryHubView: View {
         }
     }
 
-    // MARK: - Bridge Introduction Card
+    // MARK: - Bridge Introduction Card (Toggle Info Button)
     private var bridgeIntroductionCard: some View {
-        BentoCard(size: .medium) {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack(spacing: 12) {
-                    ZStack {
-                        Circle()
-                            .fill(QuantumHorizonColors.quantumCyan.opacity(0.2))
-                            .frame(width: 44, height: 44)
-                        Image(systemName: "questionmark.circle.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(QuantumHorizonColors.quantumCyan)
+        VStack(spacing: 0) {
+            if showBridgeInfo {
+                BentoCard(size: .medium) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack(spacing: 12) {
+                            ZStack {
+                                Circle()
+                                    .fill(QuantumHorizonColors.quantumCyan.opacity(0.2))
+                                    .frame(width: 44, height: 44)
+                                Image(systemName: "questionmark.circle.fill")
+                                    .font(.system(size: 24))
+                                    .foregroundColor(QuantumHorizonColors.quantumCyan)
+                            }
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(L("bridge.why_use"))
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+
+                                Text(L("bridge.connect_real"))
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+
+                            Spacer()
+
+                            // Close button
+                            Button(action: {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    showBridgeInfo = false
+                                }
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(.white.opacity(0.4))
+                            }
+                        }
+
+                        VStack(alignment: .leading, spacing: 10) {
+                            bridgeBenefitRow(
+                                icon: "cpu",
+                                title: L("bridge.benefit.hardware.title"),
+                                description: L("bridge.benefit.hardware.desc")
+                            )
+                            bridgeBenefitRow(
+                                icon: "bolt.fill",
+                                title: L("bridge.benefit.quantum.title"),
+                                description: L("bridge.benefit.quantum.desc")
+                            )
+                            bridgeBenefitRow(
+                                icon: "chart.bar.fill",
+                                title: L("bridge.benefit.results.title"),
+                                description: L("bridge.benefit.results.desc")
+                            )
+                        }
                     }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Why Use QuantumBridge?")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
-
-                        Text("Connect to Real Quantum Computers")
-                            .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.6))
-                    }
-
-                    Spacer()
                 }
-
-                VStack(alignment: .leading, spacing: 10) {
-                    bridgeBenefitRow(
-                        icon: "cpu",
-                        title: "Real Hardware",
-                        description: "Run your circuits on actual IBM quantum processors"
-                    )
-                    bridgeBenefitRow(
-                        icon: "bolt.fill",
-                        title: "True Quantum Effects",
-                        description: "Experience real superposition and entanglement"
-                    )
-                    bridgeBenefitRow(
-                        icon: "chart.bar.fill",
-                        title: "Authentic Results",
-                        description: "Get measurements from quantum hardware, not simulations"
-                    )
-                }
+                .transition(.asymmetric(
+                    insertion: .opacity.combined(with: .move(edge: .top)),
+                    removal: .opacity.combined(with: .move(edge: .top))
+                ))
             }
         }
+    }
+
+    // MARK: - Bridge Header with ? Button (Inline)
+    private var bridgeHeaderWithInfo: some View {
+        HStack(alignment: .center, spacing: 16) {
+            // Animated hub icon
+            ZStack {
+                Circle()
+                    .fill(QuantumHorizonColors.quantumPurple.opacity(0.15))
+                    .frame(width: 52, height: 52)
+
+                Circle()
+                    .stroke(QuantumHorizonColors.quantumPurple.opacity(0.4), lineWidth: 1.5)
+                    .frame(width: 52, height: 52)
+
+                Image(systemName: "network")
+                    .font(.system(size: 24, weight: .semibold))
+                    .foregroundColor(QuantumHorizonColors.quantumPurple)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(L("bridge.title"))
+                    .font(QuantumHorizonTypography.sectionTitle(24))
+                    .foregroundColor(.white)
+
+                Text(L("bridge.description"))
+                    .font(QuantumHorizonTypography.caption(13))
+                    .foregroundColor(.white.opacity(0.5))
+            }
+
+            Spacer()
+
+            // Info toggle button (? button next to header)
+            Button(action: {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    showBridgeInfo.toggle()
+                }
+            }) {
+                ZStack {
+                    Circle()
+                        .fill(showBridgeInfo ? QuantumHorizonColors.quantumCyan.opacity(0.3) : Color.white.opacity(0.1))
+                        .frame(width: 36, height: 36)
+
+                    Image(systemName: "questionmark")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(showBridgeInfo ? QuantumHorizonColors.quantumCyan : .white.opacity(0.7))
+                }
+            }
+            .buttonStyle(SpringButtonStyle())
+        }
+        .padding(.horizontal, 4)
     }
 
     private func bridgeBenefitRow(icon: String, title: String, description: String) -> some View {
@@ -141,7 +220,7 @@ struct FactoryHubView: View {
                     HStack {
                         deviceNode(
                             icon: "iphone",
-                            label: "Local",
+                            label: L("executor.local").components(separatedBy: " ").first ?? "Local",
                             color: QuantumHorizonColors.quantumCyan,
                             isActive: true
                         )
@@ -170,7 +249,7 @@ struct FactoryHubView: View {
                             .frame(width: 8, height: 8)
                             .pulsingGlow(color: viewModel.isConnected ? .green : .red, radius: 5)
 
-                        Text(viewModel.isConnected ? "Bridge Active" : "Bridge Disconnected")
+                        Text(viewModel.isConnected ? L("bridge.status.active") : L("bridge.status.disconnected"))
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(viewModel.isConnected ? QuantumHorizonColors.quantumGreen : .red)
                     }
@@ -194,7 +273,7 @@ struct FactoryHubView: View {
                     }) {
                         HStack(spacing: 8) {
                             Image(systemName: viewModel.isConnected ? "link.badge.minus" : "link.badge.plus")
-                            Text(viewModel.isConnected ? "Disconnect" : "Connect to QPU")
+                            Text(viewModel.isConnected ? L("bridge.disconnect") : L("bridge.connect"))
                         }
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white)
@@ -296,11 +375,11 @@ struct FactoryHubView: View {
     private var backendSelectionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Select Backend")
+                Text(L("bridge.select_backend"))
                     .font(QuantumHorizonTypography.cardTitle(16))
                     .foregroundColor(.white)
 
-                Text("Choose where to run your quantum circuits")
+                Text(L("bridge.select_backend.desc"))
                     .font(.system(size: 12))
                     .foregroundColor(.white.opacity(0.5))
             }
@@ -402,7 +481,7 @@ struct FactoryHubView: View {
                 HStack(alignment: .top, spacing: 16) {
                     // Advantages
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Advantages")
+                        Text(L("bridge.advantages"))
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundColor(QuantumHorizonColors.quantumGreen)
 
@@ -421,7 +500,7 @@ struct FactoryHubView: View {
 
                     // Limitations
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Limitations")
+                        Text(L("bridge.limitations"))
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundColor(.orange)
 
@@ -504,7 +583,7 @@ struct FactoryHubView: View {
     // MARK: - Deploy Section
     private var deploySection: some View {
         VStack(spacing: 16) {
-            Text("Deploy Circuit")
+            Text(L("bridge.deploy.title"))
                 .font(QuantumHorizonTypography.cardTitle(16))
                 .foregroundColor(.white)
 
@@ -545,7 +624,7 @@ struct FactoryHubView: View {
                         .font(.system(size: 36, weight: .light))
                         .foregroundColor(isLongPressing ? .white : QuantumHorizonColors.quantumGold)
 
-                    Text(isLongPressing ? "Deploying..." : "Hold to Deploy")
+                    Text(isLongPressing ? L("bridge.deploy.deploying") : L("bridge.deploy.hold"))
                         .font(.system(size: 10, weight: .medium))
                         .foregroundColor(.white.opacity(0.6))
                 }
@@ -571,7 +650,7 @@ struct FactoryHubView: View {
                     }
             )
 
-            Text("Long press for 2 seconds to deploy")
+            Text(L("bridge.deploy.hold_text"))
                 .font(.system(size: 12))
                 .foregroundColor(.white.opacity(0.4))
         }
@@ -614,7 +693,7 @@ struct FactoryHubView: View {
     private var activeJobsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Active Jobs")
+                Text(L("bridge.jobs.title"))
                     .font(QuantumHorizonTypography.cardTitle(16))
                     .foregroundColor(.white)
 
@@ -637,11 +716,11 @@ struct FactoryHubView: View {
     private var quickActionsGrid: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Quick Actions")
+                Text(L("bridge.actions.title"))
                     .font(QuantumHorizonTypography.cardTitle(16))
                     .foregroundColor(.white)
 
-                Text("Run pre-built quantum experiments")
+                Text(L("bridge.actions.subtitle"))
                     .font(.system(size: 12))
                     .foregroundColor(.white.opacity(0.5))
             }
@@ -1068,6 +1147,11 @@ struct QASMExportSheet: View {
     @Environment(\.dismiss) var dismiss
     @State private var showCopiedAlert = false
 
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return key.quantumLocalized
+    }
+
     var body: some View {
         ZStack {
             QuantumHorizonBackground()
@@ -1076,11 +1160,11 @@ struct QASMExportSheet: View {
                 // Header
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Export QASM")
+                        Text(L("bridge.qasm.title"))
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(.white)
 
-                        Text("OpenQASM 3.0 Circuit Code")
+                        Text("OpenQASM 3.0")
                             .font(.system(size: 14))
                             .foregroundColor(.white.opacity(0.6))
                     }
@@ -1120,7 +1204,7 @@ struct QASMExportSheet: View {
                     }) {
                         HStack {
                             Image(systemName: showCopiedAlert ? "checkmark" : "doc.on.doc")
-                            Text(showCopiedAlert ? "Copied!" : "Copy to Clipboard")
+                            Text(showCopiedAlert ? L("bridge.qasm.copied") : L("bridge.qasm.copy"))
                         }
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white)
@@ -1139,7 +1223,7 @@ struct QASMExportSheet: View {
                     }) {
                         HStack {
                             Image(systemName: "square.and.arrow.up")
-                            Text("Share")
+                            Text(L("bridge.qasm.share"))
                         }
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.white)

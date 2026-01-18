@@ -2,15 +2,15 @@ import SwiftUI
 
 // MARK: - Hub Navigation (4-Hub Consolidation - Apple HIG Compliant)
 enum QuantumHub: Int, CaseIterable {
-    case lab = 0      // Controls + Measure + Info 통합
-    case presets = 1  // Presets + Examples 통합
-    case bridge = 2   // Bridge (핵심 기능 독립)
-    case more = 3     // Academy + Industry + Profile 통합
+    case lab = 0       // Controls + Measure + Info 통합
+    case circuits = 1  // Circuits Builder (회로 빌더)
+    case bridge = 2    // Bridge (핵심 기능 독립)
+    case more = 3      // Academy + Industry + Profile 통합
 
     var title: String {
         switch self {
         case .lab: return LocalizedStringKey.lab.defaultValue
-        case .presets: return LocalizedStringKey.presets.defaultValue
+        case .circuits: return LocalizedStringKey.circuits.defaultValue
         case .bridge: return LocalizedStringKey.onboardingBridge.defaultValue
         case .more: return LocalizedStringKey.more.defaultValue
         }
@@ -22,7 +22,7 @@ enum QuantumHub: Int, CaseIterable {
         let localization = LocalizationManager.shared
         switch self {
         case .lab: return localization.string(for: .lab)
-        case .presets: return localization.string(for: .presets)
+        case .circuits: return localization.string(for: .circuits)
         case .bridge: return localization.string(for: .onboardingBridge)
         case .more: return localization.string(for: .more)
         }
@@ -31,7 +31,7 @@ enum QuantumHub: Int, CaseIterable {
     var icon: String {
         switch self {
         case .lab: return "atom"
-        case .presets: return "list.bullet.clipboard"
+        case .circuits: return "cpu"
         case .bridge: return "network"
         case .more: return "square.grid.2x2"
         }
@@ -40,7 +40,7 @@ enum QuantumHub: Int, CaseIterable {
     var accentColor: Color {
         switch self {
         case .lab: return QuantumHorizonColors.quantumCyan
-        case .presets: return QuantumHorizonColors.quantumGreen
+        case .circuits: return QuantumHorizonColors.quantumGreen
         case .bridge: return QuantumHorizonColors.quantumPurple
         case .more: return QuantumHorizonColors.quantumGold
         }
@@ -49,7 +49,7 @@ enum QuantumHub: Int, CaseIterable {
     var description: String {
         switch self {
         case .lab: return LocalizedStringKey.labDescription.defaultValue
-        case .presets: return LocalizedStringKey.presetsDescription.defaultValue
+        case .circuits: return LocalizedStringKey.circuitsDescription.defaultValue
         case .bridge: return LocalizedStringKey.bridgeDescription.defaultValue
         case .more: return LocalizedStringKey.moreDescription.defaultValue
         }
@@ -61,7 +61,7 @@ enum QuantumHub: Int, CaseIterable {
         let localization = LocalizationManager.shared
         switch self {
         case .lab: return localization.string(for: .labDescription)
-        case .presets: return localization.string(for: .presetsDescription)
+        case .circuits: return localization.string(for: .circuitsDescription)
         case .bridge: return localization.string(for: .bridgeDescription)
         case .more: return localization.string(for: .moreDescription)
         }

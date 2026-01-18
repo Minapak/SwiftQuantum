@@ -1,4 +1,4 @@
-# SwiftQuantum v2.2.1 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.2 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
@@ -21,7 +21,18 @@
 
 ---
 
-## What's New in v2.2.1 (2026 Production Release)
+## What's New in v2.2.2 (2026 Production Release)
+
+### UI Improvements & Bug Fixes
+
+- **Bridge Tab Info Toggle**: "Why Use QuantumBridge?" is now a toggleable info card
+  - Tap the `?` button in the top-right corner to show/hide the explanation
+  - Cleaner initial view with explanation available on demand
+- **Build Fixes**: Resolved syntax errors in PresetsHubView (LocalizedStringKey, padding)
+
+---
+
+## What's New in v2.2.1
 
 ### Backend Integration & Real-time Localization
 
@@ -122,7 +133,7 @@ SomeView()
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/YOUR_USERNAME/SwiftQuantum.git", from: "2.2.1")
+    .package(url: "https://github.com/YOUR_USERNAME/SwiftQuantum.git", from: "2.2.2")
 ]
 ```
 
@@ -173,6 +184,8 @@ print("Counts: \(result.counts)")  // {"00": 498, "11": 502}
 The **Bridge** tab is your gateway to real quantum hardware! Here's what you can do:
 
 ### Why Use QuantumBridge?
+
+> **Tip**: Tap the `?` button in the top-right corner of the Bridge tab to see this information in-app!
 
 | Benefit | Description |
 |---------|-------------|
@@ -287,7 +300,7 @@ SwiftQuantum now integrates with the **IBM Quantum Ecosystem**, allowing you to 
 ## Architecture
 
 ```
-SwiftQuantum v2.2.1/
+SwiftQuantum v2.2.2/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -395,7 +408,12 @@ SwiftQuantum is built on cutting-edge quantum computing research:
 
 ## Roadmap
 
-### Version 2.2.1 (Current - January 2026)
+### Version 2.2.2 (Current - January 2026)
+- [x] Bridge tab info toggle (? button for "Why Use QuantumBridge?")
+- [x] Build error fixes (LocalizedStringKey, padding syntax)
+- [x] Cleaner initial Bridge view
+
+### Version 2.2.1 (January 2026)
 - [x] Real-time language switching without app restart
 - [x] Backend integration for user stats and settings
 - [x] Remove hardcoded values, dynamic content

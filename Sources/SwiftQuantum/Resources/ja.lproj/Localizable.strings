@@ -176,7 +176,8 @@
 
 // MARK: - 産業ソリューション
 
-"industry.title" = "エンタープライズ量子ソリューション";
+"industry.title" = "産業ソリューション";
+"industry.subtitle" = "量子ベースのビジネス最適化";
 "industry.finance" = "金融最適化";
 "industry.finance_desc" = "100倍速度向上可能なポートフォリオ最適化。";
 "industry.healthcare" = "創薬";
@@ -185,6 +186,46 @@
 "industry.logistics_desc" = "量子アニーリングを使用したルート最適化。";
 "industry.security" = "ポスト量子暗号";
 "industry.security_desc" = "量子耐性暗号アルゴリズム。";
+
+// ROI & 価格
+"industry.roi.title" = "ROI計算機";
+"industry.roi.subtitle" = "予想節約額を確認";
+"industry.roi.calculate" = "ROIを計算する";
+"industry.roi.estimate" = "量子コンピューティングの利点を推定";
+"industry.roi.team_size" = "チーム規模";
+"industry.roi.budget" = "年間ITバジェット";
+"industry.roi.calculate_btn" = "ROI計算";
+"industry.roi.estimated_savings" = "予想年間節約額";
+"industry.roi.payback" = "投資回収";
+"industry.roi.projected" = "予想年間利益";
+"industry.roi.calculate_data" = "データで計算する";
+"industry.roi.progress" = "レベル8の進行状況に基づく";
+
+"industry.trial" = "7日間の無料トライアルで開始";
+"industry.use_cases" = "主な活用事例";
+"industry.learn_more" = "詳細を見る";
+"industry.get_started" = "始める";
+"industry.overview" = "概要";
+"industry.key_benefits" = "主なメリット";
+"industry.quantum_solutions" = "量子ソリューション";
+"industry.choose_plan" = "プランを選択";
+"industry.success_stories" = "成功事例";
+"industry.pricing_soon" = "価格情報準備中";
+
+// プレミアム
+"industry.premium.title" = "エンタープライズソリューションプレミアム";
+"industry.premium.desc" = "すべての産業ソリューションと量子ベースのビジネス最適化をアンロック";
+"industry.premium.upgrade" = "アップグレード - $9.99/月";
+
+// 比較
+"industry.compare.feature" = "機能";
+"industry.compare.pro" = "プロ";
+"industry.compare.enterprise" = "エンタープライズ";
+
+// 学習リソース
+"industry.learn.ibm" = "IBM量子学習";
+"industry.learn.mit" = "MIT xPRO量子コース";
+"industry.learn.roadmap" = "IBM量子2026ロードマップ";
 
 // MARK: - エラー
 
@@ -204,9 +245,14 @@
 
 // MARK: - Bridgeタブ (QuantumBridge)
 
-"bridge.title" = "QuantumBridge";
+"bridge.title" = "ブリッジ";
+"bridge.description" = "実際の量子ハードウェアに接続";
 "bridge.why_use" = "なぜQuantumBridgeを使うのか？";
 "bridge.connect_real" = "実際の量子コンピュータに接続";
+
+// デプロイセクション
+"bridge.deploy.title" = "回路をデプロイ";
+"bridge.deploy.hold_text" = "デプロイするには2秒間長押し";
 
 // Bridgeの利点
 "bridge.benefit.hardware.title" = "実物ハードウェア";
@@ -278,6 +324,7 @@
 
 // クイックアクション
 "bridge.actions.title" = "クイックアクション";
+"bridge.actions.subtitle" = "事前構築された量子実験を実行";
 "bridge.actions.bell" = "ベル状態";
 "bridge.actions.bell.desc" = "もつれを作成";
 "bridge.actions.ghz" = "GHZ状態";

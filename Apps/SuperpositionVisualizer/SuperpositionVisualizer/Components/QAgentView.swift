@@ -292,8 +292,8 @@ class QAgentViewModel: ObservableObject {
         switch hub {
         case .lab:
             currentMessage = "In the Lab, visualize qubit states on the Bloch Sphere. Use sliders to adjust probability and phase!"
-        case .presets:
-            currentMessage = "Explore preset quantum states. Instantly load |+⟩, |-⟩, |i⟩ and other superposition states!"
+        case .circuits:
+            currentMessage = "Build quantum circuits with templates. Try Bell State, GHZ, Grover and more!"
         case .bridge:
             currentMessage = "Deploy circuits to real quantum computers via Bridge. IBM Brisbane is currently online."
         case .more:

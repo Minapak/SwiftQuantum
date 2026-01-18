@@ -176,7 +176,8 @@
 
 // MARK: - 行业解决方案
 
-"industry.title" = "企业量子解决方案";
+"industry.title" = "行业解决方案";
+"industry.subtitle" = "量子驱动的业务优化";
 "industry.finance" = "金融优化";
 "industry.finance_desc" = "投资组合优化，潜在100倍加速。";
 "industry.healthcare" = "药物发现";
@@ -185,6 +186,46 @@
 "industry.logistics_desc" = "使用量子退火的路径优化。";
 "industry.security" = "后量子密码学";
 "industry.security_desc" = "抗量子加密算法。";
+
+// ROI & 定价
+"industry.roi.title" = "ROI计算器";
+"industry.roi.subtitle" = "查看预估节省";
+"industry.roi.calculate" = "计算您的ROI";
+"industry.roi.estimate" = "估算量子优势";
+"industry.roi.team_size" = "团队规模";
+"industry.roi.budget" = "年度IT预算";
+"industry.roi.calculate_btn" = "计算ROI";
+"industry.roi.estimated_savings" = "预估年度节省";
+"industry.roi.payback" = "回收期";
+"industry.roi.projected" = "预计年度收益";
+"industry.roi.calculate_data" = "根据您的数据计算";
+"industry.roi.progress" = "基于您的8级进度";
+
+"industry.trial" = "开始7天免费试用";
+"industry.use_cases" = "主要用例";
+"industry.learn_more" = "了解更多";
+"industry.get_started" = "开始使用";
+"industry.overview" = "概述";
+"industry.key_benefits" = "主要优势";
+"industry.quantum_solutions" = "量子解决方案";
+"industry.choose_plan" = "选择计划";
+"industry.success_stories" = "成功案例";
+"industry.pricing_soon" = "定价详情即将推出";
+
+// 高级版
+"industry.premium.title" = "企业解决方案高级版";
+"industry.premium.desc" = "解锁所有行业解决方案和量子驱动的业务优化";
+"industry.premium.upgrade" = "升级 - $9.99/月";
+
+// 比较
+"industry.compare.feature" = "功能";
+"industry.compare.pro" = "专业版";
+"industry.compare.enterprise" = "企业版";
+
+// 学习资源
+"industry.learn.ibm" = "IBM量子学习";
+"industry.learn.mit" = "MIT xPRO量子课程";
+"industry.learn.roadmap" = "IBM量子2026路线图";
 
 // MARK: - 错误
 
@@ -204,9 +245,14 @@
 
 // MARK: - Bridge标签页 (QuantumBridge)
 
-"bridge.title" = "QuantumBridge";
+"bridge.title" = "桥接";
+"bridge.description" = "连接真实量子硬件";
 "bridge.why_use" = "为什么使用QuantumBridge？";
 "bridge.connect_real" = "连接真正的量子计算机";
+
+// 部署部分
+"bridge.deploy.title" = "部署电路";
+"bridge.deploy.hold_text" = "长按2秒部署";
 
 // Bridge优势
 "bridge.benefit.hardware.title" = "真实硬件";
@@ -278,6 +324,7 @@
 
 // 快速操作
 "bridge.actions.title" = "快速操作";
+"bridge.actions.subtitle" = "运行预构建的量子实验";
 "bridge.actions.bell" = "贝尔态";
 "bridge.actions.bell.desc" = "创建纠缠";
 "bridge.actions.ghz" = "GHZ态";

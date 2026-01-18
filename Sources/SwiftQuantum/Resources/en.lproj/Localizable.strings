@@ -177,7 +177,8 @@
 
 // MARK: - Industry Solutions
 
-"industry.title" = "Enterprise Quantum Solutions";
+"industry.title" = "Industry Solutions";
+"industry.subtitle" = "Quantum-powered business optimization";
 "industry.finance" = "Financial Optimization";
 "industry.finance_desc" = "Portfolio optimization with 100x speedup potential.";
 "industry.healthcare" = "Drug Discovery";
@@ -186,6 +187,46 @@
 "industry.logistics_desc" = "Route optimization using quantum annealing.";
 "industry.security" = "Post-Quantum Cryptography";
 "industry.security_desc" = "Quantum-resistant encryption algorithms.";
+
+// ROI & Pricing
+"industry.roi.title" = "ROI Calculator";
+"industry.roi.subtitle" = "See your potential savings";
+"industry.roi.calculate" = "Calculate Your ROI";
+"industry.roi.estimate" = "Estimate your quantum advantage";
+"industry.roi.team_size" = "Team Size";
+"industry.roi.budget" = "Annual IT Budget";
+"industry.roi.calculate_btn" = "Calculate ROI";
+"industry.roi.estimated_savings" = "Estimated Annual Savings";
+"industry.roi.payback" = "Payback";
+"industry.roi.projected" = "Projected Annual Gain";
+"industry.roi.calculate_data" = "Calculate for your data";
+"industry.roi.progress" = "Based on your Level 8 progress";
+
+"industry.trial" = "Start with a 7-day free trial";
+"industry.use_cases" = "Key Use Cases";
+"industry.learn_more" = "Learn More";
+"industry.get_started" = "Get Started";
+"industry.overview" = "Overview";
+"industry.key_benefits" = "Key Benefits";
+"industry.quantum_solutions" = "Quantum Solutions";
+"industry.choose_plan" = "Choose Your Plan";
+"industry.success_stories" = "Success Stories";
+"industry.pricing_soon" = "Pricing Details Coming Soon";
+
+// Premium
+"industry.premium.title" = "Enterprise Solutions Premium";
+"industry.premium.desc" = "Unlock all industry solutions and quantum-powered business optimization";
+"industry.premium.upgrade" = "Upgrade - $9.99/month";
+
+// Comparison
+"industry.compare.feature" = "Feature";
+"industry.compare.pro" = "Pro";
+"industry.compare.enterprise" = "Enterprise";
+
+// Learning Resources
+"industry.learn.ibm" = "IBM Quantum Learning";
+"industry.learn.mit" = "MIT xPRO Quantum Course";
+"industry.learn.roadmap" = "IBM Quantum 2026 Roadmap";
 
 // MARK: - Errors
 
@@ -205,9 +246,14 @@
 
 // MARK: - Bridge Tab (QuantumBridge)
 
-"bridge.title" = "QuantumBridge";
+"bridge.title" = "Bridge";
+"bridge.description" = "Connect to real quantum hardware";
 "bridge.why_use" = "Why Use QuantumBridge?";
 "bridge.connect_real" = "Connect to Real Quantum Computers";
+
+// Deploy Section
+"bridge.deploy.title" = "Deploy Circuit";
+"bridge.deploy.hold_text" = "Long press for 2 seconds to deploy";
 
 // Bridge Benefits
 "bridge.benefit.hardware.title" = "Real Hardware";
@@ -279,6 +325,7 @@
 
 // Quick Actions
 "bridge.actions.title" = "Quick Actions";
+"bridge.actions.subtitle" = "Run pre-built quantum experiments";
 "bridge.actions.bell" = "Bell State";
 "bridge.actions.bell.desc" = "Create entanglement";
 "bridge.actions.ghz" = "GHZ State";

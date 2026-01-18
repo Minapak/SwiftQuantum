@@ -67,7 +67,7 @@ struct QuantumHorizonView: View {
         case .lab:
             LabHubView(stateManager: stateManager)
 
-        case .presets:
+        case .circuits:
             PresetsHubView()
 
         case .bridge:

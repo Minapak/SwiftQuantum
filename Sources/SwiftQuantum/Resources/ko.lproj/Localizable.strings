@@ -176,7 +176,8 @@
 
 // MARK: - 산업 솔루션
 
-"industry.title" = "엔터프라이즈 양자 솔루션";
+"industry.title" = "산업 솔루션";
+"industry.subtitle" = "양자 기반 비즈니스 최적화";
 "industry.finance" = "금융 최적화";
 "industry.finance_desc" = "100배 속도 향상 가능한 포트폴리오 최적화.";
 "industry.healthcare" = "신약 개발";
@@ -185,6 +186,46 @@
 "industry.logistics_desc" = "양자 어닐링을 활용한 경로 최적화.";
 "industry.security" = "포스트 양자 암호화";
 "industry.security_desc" = "양자 내성 암호화 알고리즘.";
+
+// ROI & 가격
+"industry.roi.title" = "ROI 계산기";
+"industry.roi.subtitle" = "예상 절감액 확인";
+"industry.roi.calculate" = "ROI 계산하기";
+"industry.roi.estimate" = "양자 컴퓨팅 이점 추정";
+"industry.roi.team_size" = "팀 규모";
+"industry.roi.budget" = "연간 IT 예산";
+"industry.roi.calculate_btn" = "ROI 계산";
+"industry.roi.estimated_savings" = "예상 연간 절감액";
+"industry.roi.payback" = "투자회수";
+"industry.roi.projected" = "예상 연간 이익";
+"industry.roi.calculate_data" = "데이터로 계산하기";
+"industry.roi.progress" = "레벨 8 진행 상황 기반";
+
+"industry.trial" = "7일 무료 체험으로 시작하기";
+"industry.use_cases" = "주요 활용 사례";
+"industry.learn_more" = "더 알아보기";
+"industry.get_started" = "시작하기";
+"industry.overview" = "개요";
+"industry.key_benefits" = "주요 이점";
+"industry.quantum_solutions" = "양자 솔루션";
+"industry.choose_plan" = "플랜 선택";
+"industry.success_stories" = "성공 사례";
+"industry.pricing_soon" = "가격 정보 준비 중";
+
+// 프리미엄
+"industry.premium.title" = "엔터프라이즈 솔루션 프리미엄";
+"industry.premium.desc" = "모든 산업 솔루션과 양자 기반 비즈니스 최적화 잠금 해제";
+"industry.premium.upgrade" = "업그레이드 - $9.99/월";
+
+// 비교
+"industry.compare.feature" = "기능";
+"industry.compare.pro" = "프로";
+"industry.compare.enterprise" = "엔터프라이즈";
+
+// 학습 자료
+"industry.learn.ibm" = "IBM 양자 학습";
+"industry.learn.mit" = "MIT xPRO 양자 과정";
+"industry.learn.roadmap" = "IBM 양자 2026 로드맵";
 
 // MARK: - 오류
 
@@ -204,9 +245,14 @@
 
 // MARK: - Bridge 탭 (QuantumBridge)
 
-"bridge.title" = "QuantumBridge";
+"bridge.title" = "브릿지";
+"bridge.description" = "실제 양자 하드웨어에 연결";
 "bridge.why_use" = "왜 QuantumBridge를 사용하나요?";
 "bridge.connect_real" = "실제 양자 컴퓨터에 연결";
+
+// 배포 섹션
+"bridge.deploy.title" = "회로 배포";
+"bridge.deploy.hold_text" = "배포하려면 2초간 길게 누르세요";
 
 // 브릿지 장점
 "bridge.benefit.hardware.title" = "실제 하드웨어";
@@ -278,6 +324,7 @@
 
 // 빠른 작업
 "bridge.actions.title" = "빠른 작업";
+"bridge.actions.subtitle" = "미리 만들어진 양자 실험 실행";
 "bridge.actions.bell" = "벨 상태";
 "bridge.actions.bell.desc" = "얽힘 생성";
 "bridge.actions.ghz" = "GHZ 상태";
