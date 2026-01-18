@@ -418,16 +418,16 @@ struct IndustryHubView: View {
             Text(text)
                 .font(.system(size: 11))
                 .foregroundColor(.white.opacity(0.8))
-                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
 
-            Spacer()
+            Spacer(minLength: 8)
 
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 11))
                 .foregroundColor(QuantumHorizonColors.quantumGreen.opacity(0.7))
         }
         .padding(.horizontal, 10)
-        .padding(.vertical, 5)
+        .padding(.vertical, 6)
         .background(Color.white.opacity(0.05))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
@@ -1048,9 +1048,9 @@ struct HorizonIndustrySolution: Identifiable {
 // MARK: - IBM Quantum Ecosystem Project Model
 struct QuantumEcosystemProject: Identifiable {
     let id = UUID()
-    let name: String
+    let nameKey: String
     let category: EcosystemCategory
-    let description: String
+    let descriptionKey: String
     let icon: String
     let color: Color
     let stars: Int?
@@ -1058,12 +1058,23 @@ struct QuantumEcosystemProject: Identifiable {
     let isPremium: Bool
 
     enum EcosystemCategory: String, CaseIterable {
-        case machineLearning = "Machine Learning"
-        case chemistry = "Chemistry & Physics"
-        case optimization = "Optimization"
-        case hardware = "Hardware Providers"
-        case simulation = "Simulation"
-        case research = "Research"
+        case machineLearning
+        case chemistry
+        case optimization
+        case hardware
+        case simulation
+        case research
+
+        var localizationKey: String {
+            switch self {
+            case .machineLearning: return "ecosystem.category.ml"
+            case .chemistry: return "ecosystem.category.chem"
+            case .optimization: return "ecosystem.category.opt"
+            case .hardware: return "ecosystem.category.hw"
+            case .simulation: return "ecosystem.category.sim"
+            case .research: return "ecosystem.category.research"
+            }
+        }
     }
 }
 
@@ -1156,9 +1167,9 @@ class IndustryHubViewModel: ObservableObject {
         ecosystemProjects = [
             // Machine Learning
             QuantumEcosystemProject(
-                name: "TorchQuantum",
+                nameKey: "ecosystem.project.torchquantum",
                 category: .machineLearning,
-                description: "PyTorch-based quantum ML framework with GPU support. Build and train quantum neural networks seamlessly.",
+                descriptionKey: "ecosystem.project.torchquantum.desc",
                 icon: "brain.fill",
                 color: .orange,
                 stars: 1591,
@@ -1166,9 +1177,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: false
             ),
             QuantumEcosystemProject(
-                name: "Qiskit ML",
+                nameKey: "ecosystem.project.qiskit_ml",
                 category: .machineLearning,
-                description: "Quantum Machine Learning module with variational algorithms, quantum kernels, and neural networks.",
+                descriptionKey: "ecosystem.project.qiskit_ml.desc",
                 icon: "cpu.fill",
                 color: .blue,
                 stars: 928,
@@ -1178,9 +1189,9 @@ class IndustryHubViewModel: ObservableObject {
 
             // Chemistry & Physics
             QuantumEcosystemProject(
-                name: "Qiskit Nature",
+                nameKey: "ecosystem.project.qiskit_nature",
                 category: .chemistry,
-                description: "Simulate molecular structures and chemical reactions. Quantum chemistry for drug discovery.",
+                descriptionKey: "ecosystem.project.qiskit_nature.desc",
                 icon: "atom",
                 color: .green,
                 stars: 372,
@@ -1190,9 +1201,9 @@ class IndustryHubViewModel: ObservableObject {
 
             // Optimization
             QuantumEcosystemProject(
-                name: "Qiskit Finance",
+                nameKey: "ecosystem.project.qiskit_finance",
                 category: .optimization,
-                description: "Portfolio optimization, option pricing, and risk analysis using quantum algorithms.",
+                descriptionKey: "ecosystem.project.qiskit_finance.desc",
                 icon: "chart.line.uptrend.xyaxis",
                 color: .green,
                 stars: 302,
@@ -1200,9 +1211,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: true
             ),
             QuantumEcosystemProject(
-                name: "Qiskit Optimization",
+                nameKey: "ecosystem.project.qiskit_optimization",
                 category: .optimization,
-                description: "Solve combinatorial optimization problems with QAOA, VQE, and Grover's algorithm.",
+                descriptionKey: "ecosystem.project.qiskit_optimization.desc",
                 icon: "gearshape.2.fill",
                 color: .purple,
                 stars: 272,
@@ -1212,9 +1223,9 @@ class IndustryHubViewModel: ObservableObject {
 
             // Hardware Providers
             QuantumEcosystemProject(
-                name: "IBM Quantum",
+                nameKey: "ecosystem.project.ibm_quantum",
                 category: .hardware,
-                description: "Access 127+ qubit Eagle processors. Brisbane, Osaka, Kyoto systems available.",
+                descriptionKey: "ecosystem.project.ibm_quantum.desc",
                 icon: "server.rack",
                 color: .blue,
                 stars: nil,
@@ -1222,9 +1233,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: true
             ),
             QuantumEcosystemProject(
-                name: "Azure Quantum",
+                nameKey: "ecosystem.project.azure_quantum",
                 category: .hardware,
-                description: "Microsoft's quantum cloud with IonQ, Quantinuum, and Rigetti backends.",
+                descriptionKey: "ecosystem.project.azure_quantum.desc",
                 icon: "cloud.fill",
                 color: .cyan,
                 stars: nil,
@@ -1232,9 +1243,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: true
             ),
             QuantumEcosystemProject(
-                name: "AWS Braket",
+                nameKey: "ecosystem.project.aws_braket",
                 category: .hardware,
-                description: "Amazon's quantum service with IonQ, Rigetti, and OQC quantum hardware.",
+                descriptionKey: "ecosystem.project.aws_braket.desc",
                 icon: "arrow.triangle.branch",
                 color: .orange,
                 stars: nil,
@@ -1242,9 +1253,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: true
             ),
             QuantumEcosystemProject(
-                name: "IonQ",
+                nameKey: "ecosystem.project.ionq",
                 category: .hardware,
-                description: "Trapped-ion quantum computers with high gate fidelity and all-to-all connectivity.",
+                descriptionKey: "ecosystem.project.ionq.desc",
                 icon: "bolt.circle.fill",
                 color: .purple,
                 stars: nil,
@@ -1254,9 +1265,9 @@ class IndustryHubViewModel: ObservableObject {
 
             // Simulation
             QuantumEcosystemProject(
-                name: "Qiskit Aer",
+                nameKey: "ecosystem.project.qiskit_aer",
                 category: .simulation,
-                description: "High-performance quantum circuit simulator with noise modeling and GPU acceleration.",
+                descriptionKey: "ecosystem.project.qiskit_aer.desc",
                 icon: "waveform.path",
                 color: .indigo,
                 stars: 629,
@@ -1264,9 +1275,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: false
             ),
             QuantumEcosystemProject(
-                name: "MQT DDSIM",
+                nameKey: "ecosystem.project.mqt_ddsim",
                 category: .simulation,
-                description: "Decision diagram-based quantum simulator for efficient large-scale simulations.",
+                descriptionKey: "ecosystem.project.mqt_ddsim.desc",
                 icon: "square.grid.3x3.fill",
                 color: .teal,
                 stars: 156,
@@ -1276,9 +1287,9 @@ class IndustryHubViewModel: ObservableObject {
 
             // Research
             QuantumEcosystemProject(
-                name: "PennyLane",
+                nameKey: "ecosystem.project.pennylane",
                 category: .research,
-                description: "Cross-platform quantum ML library supporting multiple hardware backends.",
+                descriptionKey: "ecosystem.project.pennylane.desc",
                 icon: "doc.text.magnifyingglass",
                 color: .pink,
                 stars: nil,
@@ -1286,9 +1297,9 @@ class IndustryHubViewModel: ObservableObject {
                 isPremium: false
             ),
             QuantumEcosystemProject(
-                name: "Cirq (Google)",
+                nameKey: "ecosystem.project.cirq",
                 category: .research,
-                description: "Google's quantum framework for NISQ algorithms and experiments.",
+                descriptionKey: "ecosystem.project.cirq.desc",
                 icon: "circle.hexagongrid.fill",
                 color: .red,
                 stars: nil,
@@ -1836,6 +1847,12 @@ struct IndustryDetailSheet: View {
 struct EcosystemProjectCard: View {
     let project: QuantumEcosystemProject
     var isPremiumUser: Bool = false
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         HStack(spacing: 14) {
@@ -1853,7 +1870,7 @@ struct EcosystemProjectCard: View {
             // Info
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text(project.name)
+                    Text(L(project.nameKey))
                         .font(.system(size: 15, weight: .semibold))
                         .foregroundColor(.white)
 
@@ -1880,13 +1897,13 @@ struct EcosystemProjectCard: View {
                     }
                 }
 
-                Text(project.description)
+                Text(L(project.descriptionKey))
                     .font(.system(size: 12))
                     .foregroundColor(.white.opacity(0.6))
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 // Category badge
-                Text(project.category.rawValue)
+                Text(L(project.category.localizationKey))
                     .font(.system(size: 10, weight: .medium))
                     .foregroundColor(project.color)
                     .padding(.horizontal, 8)
@@ -1910,9 +1927,15 @@ struct EcosystemProjectCard: View {
 struct EcosystemProjectDetailSheet: View {
     let project: QuantumEcosystemProject
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var isRunning = false
     @State private var runResult: String?
     @State private var showCodeExport = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -1932,12 +1955,12 @@ struct EcosystemProjectDetailSheet: View {
                         }
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(project.name)
+                            Text(L(project.nameKey))
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.white)
 
                             HStack(spacing: 8) {
-                                Text(project.category.rawValue)
+                                Text(L(project.category.localizationKey))
                                     .font(.system(size: 12, weight: .medium))
                                     .foregroundColor(project.color)
                                     .padding(.horizontal, 8)
@@ -1972,7 +1995,7 @@ struct EcosystemProjectDetailSheet: View {
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
-                        Text(project.description)
+                        Text(L(project.descriptionKey))
                             .font(.system(size: 14))
                             .foregroundColor(.white.opacity(0.8))
                             .lineSpacing(4)
@@ -2112,6 +2135,7 @@ struct EcosystemProjectDetailSheet: View {
     }
 
     private func generateDemoResult() -> String {
+        let projectName = L(project.nameKey)
         switch project.category {
         case .machineLearning:
             return """
@@ -2147,7 +2171,7 @@ struct EcosystemProjectDetailSheet: View {
             return """
             🖥️ Hardware Connection Demo
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            Backend: \(project.name)
+            Backend: \(projectName)
             Status: ✅ Connected
             Queue position: #3
             Estimated wait: ~2 min
@@ -2167,7 +2191,7 @@ struct EcosystemProjectDetailSheet: View {
             return """
             🔬 Research Framework Demo
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            Framework: \(project.name)
+            Framework: \(projectName)
             Mode: Hybrid quantum-classical
             Gradient method: Parameter-shift
             Optimization: Adam
@@ -2198,13 +2222,23 @@ struct EcosystemProjectDetailSheet: View {
 struct EcosystemCodeExportSheet: View {
     let project: QuantumEcosystemProject
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var copied = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
+
+    private var projectName: String {
+        return L(project.nameKey)
+    }
 
     var sampleCode: String {
         switch project.category {
         case .machineLearning:
             return """
-            # \(project.name) - Sample Code
+            # \(projectName) - Sample Code
             import torch
             from torchquantum import QuantumDevice, QuantumCircuit
 
@@ -2225,7 +2259,7 @@ struct EcosystemCodeExportSheet: View {
             """
         case .chemistry:
             return """
-            # \(project.name) - Sample Code
+            # \(projectName) - Sample Code
             from qiskit_nature.second_q.drivers import PySCFDriver
             from qiskit_nature.second_q.mappers import JordanWignerMapper
 
@@ -2245,7 +2279,7 @@ struct EcosystemCodeExportSheet: View {
             """
         case .optimization:
             return """
-            # \(project.name) - Sample Code
+            # \(projectName) - Sample Code
             from qiskit_optimization import QuadraticProgram
             from qiskit_optimization.algorithms import MinimumEigenOptimizer
             from qiskit.algorithms import QAOA
@@ -2264,7 +2298,7 @@ struct EcosystemCodeExportSheet: View {
             """
         case .hardware:
             return """
-            # \(project.name) - Connection Code
+            # \(projectName) - Connection Code
             from qiskit_ibm_runtime import QiskitRuntimeService
 
             # Initialize service
@@ -2274,14 +2308,14 @@ struct EcosystemCodeExportSheet: View {
             )
 
             # Get backend
-            backend = service.backend("\(project.name.lowercased().replacingOccurrences(of: " ", with: "_"))")
+            backend = service.backend("\(projectName.lowercased().replacingOccurrences(of: " ", with: "_"))")
             print(f"Backend: {backend.name}")
             print(f"Qubits: {backend.num_qubits}")
             print(f"Status: {backend.status()}")
             """
         case .simulation:
             return """
-            # \(project.name) - Sample Code
+            # \(projectName) - Sample Code
             from qiskit import QuantumCircuit
             from qiskit_aer import AerSimulator
 
@@ -2300,7 +2334,7 @@ struct EcosystemCodeExportSheet: View {
             """
         case .research:
             return """
-            # \(project.name) - Sample Code
+            # \(projectName) - Sample Code
             import pennylane as qml
             import numpy as np
 
@@ -2335,7 +2369,7 @@ struct EcosystemCodeExportSheet: View {
                         Text(L("ecosystem.sample_code"))
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.white)
-                        Text(project.name)
+                        Text(projectName)
                             .font(.system(size: 14))
                             .foregroundColor(.white.opacity(0.6))
                     }

@@ -1,4 +1,4 @@
-# SwiftQuantum v2.2.3 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.4 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
@@ -21,7 +21,35 @@
 
 ---
 
-## What's New in v2.2.3 (2026 Production Release)
+## What's New in v2.2.4 (2026 Production Release)
+
+### IBM Quantum Ecosystem Localization & Subscription System Overhaul
+
+- **IBM Quantum Ecosystem Full Localization**:
+  - All 12 ecosystem project names and descriptions localized (EN, KO, JA, ZH, DE)
+  - Category labels (ML, Chemistry, Optimization, Hardware, Simulation, Research) localized
+  - Ecosystem project cards, detail sheets, and code export views fully localized
+
+- **Subscription System Complete Redesign**:
+  - Tab-based comparison UI (Compare, Pro, Premium tabs)
+  - Clear plan differentiation: Pro Monthly, Pro Yearly, Premium Monthly, Premium Yearly
+  - Feature comparison table with Free/Pro/Premium columns
+  - Localized in all 5 languages
+
+- **Subscription Info Page (More Tab)**:
+  - New "Subscription Info" menu item in Settings section
+  - Dedicated page explaining Pro vs Premium features
+  - Tier comparison cards with feature highlights
+  - All features list with descriptions
+  - One-tap access to PaywallView for subscription
+
+- **Text Truncation Fix**:
+  - Fixed `lineLimit(1)` causing "..." truncation in benefit descriptions
+  - Industry and Circuits tab hero sections now show full text in all languages
+
+---
+
+## What's New in v2.2.3
 
 ### Comprehensive Localization & Premium Subscription Redesign
 
@@ -154,7 +182,7 @@ SomeView()
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/YOUR_USERNAME/SwiftQuantum.git", from: "2.2.3")
+    .package(url: "https://github.com/Minapak/SwiftQuantum.git", from: "2.2.4")
 ]
 ```
 
@@ -321,7 +349,7 @@ SwiftQuantum now integrates with the **IBM Quantum Ecosystem**, allowing you to 
 ## Architecture
 
 ```
-SwiftQuantum v2.2.3/
+SwiftQuantum v2.2.4/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -429,7 +457,14 @@ SwiftQuantum is built on cutting-edge quantum computing research:
 
 ## Roadmap
 
-### Version 2.2.3 (Current - January 2026)
+### Version 2.2.4 (Current - January 2026)
+- [x] IBM Quantum Ecosystem full localization (12 projects, 6 categories)
+- [x] Subscription system complete redesign with tab-based comparison
+- [x] Subscription Info page in More tab settings
+- [x] Text truncation fix for multi-language benefit descriptions
+- [x] All subscription-related UI localized in 5 languages
+
+### Version 2.2.3 (January 2026)
 - [x] Authentication screens localization (Login, Sign Up, Reset Password)
 - [x] Premium subscription paywall complete redesign
 - [x] Pro/Premium tier selection with feature comparison
@@ -472,7 +507,7 @@ Contributions are welcome! Please read the contribution guidelines.
 
 ```bash
 # Clone
-git clone https://github.com/YOUR_USERNAME/SwiftQuantum.git
+git clone https://github.com/Minapak/SwiftQuantum.git
 cd SwiftQuantum
 
 # Build
@@ -521,9 +556,9 @@ MIT License - See [LICENSE](LICENSE)
 
 ## Contact & Support
 
-- **GitHub Issues**: [Report Bug](https://github.com/YOUR_USERNAME/SwiftQuantum/issues/new?template=bug_report.md)
-- **Feature Request**: [Request Feature](https://github.com/YOUR_USERNAME/SwiftQuantum/issues/new?template=feature_request.md)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/SwiftQuantum/discussions)
+- **GitHub Issues**: [Report Bug](https://github.com/Minapak/SwiftQuantum/issues/new?template=bug_report.md)
+- **Feature Request**: [Request Feature](https://github.com/Minapak/SwiftQuantum/issues/new?template=feature_request.md)
+- **Discussions**: [GitHub Discussions](https://github.com/Minapak/SwiftQuantum/discussions)
 
 ---
 

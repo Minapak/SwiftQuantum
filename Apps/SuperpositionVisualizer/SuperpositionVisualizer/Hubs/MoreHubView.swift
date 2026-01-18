@@ -23,6 +23,7 @@ struct MoreHubView: View {
     @State private var webViewURL: URL?
     @State private var showAuthView = false
     @State private var pendingAction: PendingAction?
+    @State private var showSubscriptionInfo = false
     @StateObject private var firstLaunchManager = FirstLaunchManager()
     @StateObject private var statsManager = UserStatsManager()
     @ObservedObject private var authService = AuthService.shared
@@ -114,6 +115,9 @@ struct MoreHubView: View {
         }
         .sheet(isPresented: $showAuthView) {
             AuthenticationView()
+        }
+        .sheet(isPresented: $showSubscriptionInfo) {
+            SubscriptionInfoView()
         }
         .onChange(of: authService.isLoggedIn) { _, isLoggedIn in
             if isLoggedIn, let action = pendingAction {
@@ -258,6 +262,14 @@ struct MoreHubView: View {
                 // Help & Support - Opens Support Page
                 settingsRowButton(icon: "questionmark.circle.fill", title: L("more.help"), color: QuantumHorizonColors.quantumCyan, isComingSoon: false) {
                     openWebApp(path: "/support")
+                }
+
+                Divider().background(Color.white.opacity(0.1))
+
+                // Subscription Info - Shows PaywallView for non-subscribers
+                settingsRowButton(icon: "crown.fill", title: L("more.subscription_info"), color: QuantumHorizonColors.quantumGold, isComingSoon: false) {
+                    DeveloperModeManager.shared.log(screen: "More", element: "Subscription Info", status: .success)
+                    showSubscriptionInfo = true
                 }
             }
             .background(.ultraThinMaterial)
@@ -865,6 +877,280 @@ struct CompleteLessonRequest: Encodable {
 }
 
 struct EmptyResponse: Decodable {}
+
+// MARK: - Subscription Info View
+struct SubscriptionInfoView: View {
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
+    @State private var showPaywall = false
+
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
+
+    var body: some View {
+        NavigationView {
+            ZStack {
+                // Background
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.05, green: 0.05, blue: 0.15),
+                        Color(red: 0.1, green: 0.05, blue: 0.2)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Hero Section
+                        subscriptionHeroSection
+
+                        // Tier Comparison
+                        tierComparisonSection
+
+                        // Features List
+                        featuresListSection
+
+                        // CTA Button
+                        ctaSection
+
+                        Spacer(minLength: 40)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(L("more.done")) {
+                        dismiss()
+                    }
+                    .foregroundColor(QuantumHorizonColors.quantumGold)
+                }
+            }
+        }
+        .preferredColorScheme(.dark)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+        }
+    }
+
+    // MARK: - Hero Section
+    private var subscriptionHeroSection: some View {
+        VStack(spacing: 16) {
+            // Crown Icon
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [QuantumHorizonColors.quantumGold, QuantumHorizonColors.quantumGold.opacity(0.5)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 80, height: 80)
+                    .shadow(color: QuantumHorizonColors.quantumGold.opacity(0.4), radius: 15)
+
+                Image(systemName: "crown.fill")
+                    .font(.system(size: 36))
+                    .foregroundColor(.white)
+            }
+
+            VStack(spacing: 8) {
+                Text(L("subscription.info.title"))
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text(L("subscription.info.subtitle"))
+                    .font(.system(size: 15))
+                    .foregroundColor(.white.opacity(0.7))
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(.top, 20)
+    }
+
+    // MARK: - Tier Comparison Section
+    private var tierComparisonSection: some View {
+        VStack(spacing: 16) {
+            Text(L("subscription.info.choose_tier"))
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.white)
+
+            HStack(spacing: 12) {
+                // Pro Tier Card
+                tierCard(
+                    title: "Pro",
+                    price: "$4.99",
+                    period: L("subscription.monthly"),
+                    color: QuantumHorizonColors.quantumCyan,
+                    features: [
+                        L("subscription.info.pro.feature1"),
+                        L("subscription.info.pro.feature2"),
+                        L("subscription.info.pro.feature3")
+                    ]
+                )
+
+                // Premium Tier Card
+                tierCard(
+                    title: "Premium",
+                    price: "$9.99",
+                    period: L("subscription.monthly"),
+                    color: QuantumHorizonColors.quantumGold,
+                    features: [
+                        L("subscription.info.premium.feature1"),
+                        L("subscription.info.premium.feature2"),
+                        L("subscription.info.premium.feature3")
+                    ],
+                    isBestValue: true
+                )
+            }
+        }
+    }
+
+    private func tierCard(title: String, price: String, period: String, color: Color, features: [String], isBestValue: Bool = false) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(color)
+
+                Spacer()
+
+                if isBestValue {
+                    Text(L("subscription.info.best_value"))
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(.black)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(color)
+                        .clipShape(Capsule())
+                }
+            }
+
+            HStack(alignment: .firstTextBaseline, spacing: 2) {
+                Text(price)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text("/\(period)")
+                    .font(.system(size: 12))
+                    .foregroundColor(.white.opacity(0.5))
+            }
+
+            Divider().background(Color.white.opacity(0.1))
+
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(features, id: \.self) { feature in
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(color)
+
+                        Text(feature)
+                            .font(.system(size: 11))
+                            .foregroundColor(.white.opacity(0.8))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(isBestValue ? color.opacity(0.5) : Color.white.opacity(0.1), lineWidth: isBestValue ? 2 : 1)
+                )
+        )
+    }
+
+    // MARK: - Features List Section
+    private var featuresListSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(L("subscription.info.all_features"))
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.white)
+
+            VStack(spacing: 12) {
+                featureRow(icon: "cpu", title: L("subscription.info.feature.qpu"), description: L("subscription.info.feature.qpu.desc"))
+                featureRow(icon: "graduationcap.fill", title: L("subscription.info.feature.academy"), description: L("subscription.info.feature.academy.desc"))
+                featureRow(icon: "building.2.fill", title: L("subscription.info.feature.industry"), description: L("subscription.info.feature.industry.desc"))
+                featureRow(icon: "waveform.path.ecg", title: L("subscription.info.feature.error"), description: L("subscription.info.feature.error.desc"))
+                featureRow(icon: "headphones", title: L("subscription.info.feature.support"), description: L("subscription.info.feature.support.desc"))
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white.opacity(0.05))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
+    }
+
+    private func featureRow(icon: String, title: String, description: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: icon)
+                .font(.system(size: 18))
+                .foregroundColor(QuantumHorizonColors.quantumCyan)
+                .frame(width: 24)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+
+                Text(description)
+                    .font(.system(size: 12))
+                    .foregroundColor(.white.opacity(0.6))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Spacer()
+        }
+    }
+
+    // MARK: - CTA Section
+    private var ctaSection: some View {
+        VStack(spacing: 12) {
+            Button(action: {
+                showPaywall = true
+            }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "crown.fill")
+                        .font(.system(size: 18))
+
+                    Text(L("subscription.info.subscribe_now"))
+                        .font(.system(size: 17, weight: .bold))
+                }
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(
+                    LinearGradient(
+                        colors: [QuantumHorizonColors.quantumGold, QuantumHorizonColors.quantumGold.opacity(0.8)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(color: QuantumHorizonColors.quantumGold.opacity(0.4), radius: 10, y: 5)
+            }
+
+            Text(L("subscription.info.cancel_anytime"))
+                .font(.system(size: 12))
+                .foregroundColor(.white.opacity(0.5))
+        }
+    }
+}
 
 // MARK: - Preview
 #Preview {

@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.2.4] - 2026-01-18
+
+### Added
+- **IBM Quantum Ecosystem Full Localization**
+  - All 12 ecosystem project names and descriptions localized (EN, KO, JA, ZH, DE)
+  - Category labels (Machine Learning, Chemistry, Optimization, Hardware, Simulation, Research)
+  - `QuantumEcosystemProject` model refactored to use `nameKey` and `descriptionKey`
+  - `EcosystemCategory` enum with `localizationKey` property
+  - `EcosystemProjectCard`, `EcosystemProjectDetailSheet`, `EcosystemCodeExportSheet` localized
+
+- **Subscription System Complete Redesign**
+  - Tab-based comparison UI (Compare, Pro, Premium tabs)
+  - `SubscriptionPlan` enum with 4 distinct plans (proMonthly, proYearly, premiumMonthly, premiumYearly)
+  - Feature comparison table with Free/Pro/Premium columns
+  - Plan selection cards with monthly/yearly toggle
+  - All subscription UI localized in 5 languages
+
+- **Subscription Info Page (More Tab)**
+  - New `SubscriptionInfoView` with tier comparison
+  - Hero section with premium unlock messaging
+  - Side-by-side Pro vs Premium tier cards
+  - Full features list with icons and descriptions
+  - One-tap access to PaywallView
+  - New settings row in More tab: "Subscription Info"
+  - All strings localized (EN, KO, JA, ZH, DE)
+
+- **New Localization Keys (All 5 Languages)**
+  - `subscription.info.title`, `subscription.info.subtitle`, `subscription.info.choose_tier`
+  - `subscription.info.best_value`, `subscription.info.pro.feature1-3`, `subscription.info.premium.feature1-3`
+  - `subscription.info.all_features`, `subscription.info.feature.qpu/academy/industry/error/support`
+  - `subscription.info.subscribe_now`, `subscription.info.cancel_anytime`
+  - `ecosystem.category.*`, `ecosystem.project.*`, `ecosystem.project.*.desc`
+
+### Fixed
+- **Text Truncation in Benefit Descriptions**
+  - `IndustryHubView.heroBenefitRow`: Changed `lineLimit(1)` to `fixedSize(horizontal: false, vertical: true)`
+  - `PresetsHubView.heroBenefitRow`: Same fix applied
+  - Hero sections now display full text in all languages without "..." truncation
+
+### Changed
+- **Ecosystem Project Model**: Now uses localization keys instead of hardcoded English strings
+- **PaywallView**: Complete rewrite with tab-based subscription comparison
+- **MoreHubView**: Added subscription info entry in settings section
+
+---
+
 ## [2.2.3] - 2026-01-18
 
 ### Added
@@ -382,12 +428,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[2.2.3]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.2.1...v2.2.3
-[2.2.1]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.2.0...v2.2.1
-[2.2.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.1.1...v2.2.0
-[2.1.1]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.1.0...v2.1.1
-[2.1.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v1.2.0...v2.0.0
-[1.2.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/releases/tag/v1.0.0
+[2.2.4]: https://github.com/Minapak/SwiftQuantum/compare/v2.2.3...v2.2.4
+[2.2.3]: https://github.com/Minapak/SwiftQuantum/compare/v2.2.1...v2.2.3
+[2.2.1]: https://github.com/Minapak/SwiftQuantum/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/Minapak/SwiftQuantum/compare/v2.1.1...v2.2.0
+[2.1.1]: https://github.com/Minapak/SwiftQuantum/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/Minapak/SwiftQuantum/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/Minapak/SwiftQuantum/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/Minapak/SwiftQuantum/releases/tag/v1.0.0

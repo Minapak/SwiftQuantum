@@ -937,6 +937,44 @@ private let englishDynamicStrings: [String: String] = [
     "ecosystem.sample_code": "Sample Code",
     "ecosystem.copy": "Copy to Clipboard",
 
+    // Ecosystem Categories
+    "ecosystem.category.ml": "Machine Learning",
+    "ecosystem.category.chem": "Chemistry & Physics",
+    "ecosystem.category.opt": "Optimization",
+    "ecosystem.category.hw": "Hardware Providers",
+    "ecosystem.category.sim": "Simulation",
+    "ecosystem.category.research": "Research",
+
+    // Ecosystem Project Names
+    "ecosystem.project.torchquantum": "TorchQuantum",
+    "ecosystem.project.qiskit_ml": "Qiskit ML",
+    "ecosystem.project.qiskit_nature": "Qiskit Nature",
+    "ecosystem.project.qiskit_finance": "Qiskit Finance",
+    "ecosystem.project.qiskit_optimization": "Qiskit Optimization",
+    "ecosystem.project.ibm_quantum": "IBM Quantum",
+    "ecosystem.project.azure_quantum": "Azure Quantum",
+    "ecosystem.project.aws_braket": "AWS Braket",
+    "ecosystem.project.ionq": "IonQ",
+    "ecosystem.project.qiskit_aer": "Qiskit Aer",
+    "ecosystem.project.mqt_ddsim": "MQT DDSIM",
+    "ecosystem.project.pennylane": "PennyLane",
+    "ecosystem.project.cirq": "Cirq (Google)",
+
+    // Ecosystem Project Descriptions
+    "ecosystem.project.torchquantum.desc": "PyTorch-based quantum ML framework with GPU support. Build and train quantum neural networks seamlessly.",
+    "ecosystem.project.qiskit_ml.desc": "Quantum Machine Learning module with variational algorithms, quantum kernels, and neural networks.",
+    "ecosystem.project.qiskit_nature.desc": "Simulate molecular structures and chemical reactions. Quantum chemistry for drug discovery.",
+    "ecosystem.project.qiskit_finance.desc": "Portfolio optimization, option pricing, and risk analysis using quantum algorithms.",
+    "ecosystem.project.qiskit_optimization.desc": "Solve combinatorial optimization problems with QAOA, VQE, and Grover's algorithm.",
+    "ecosystem.project.ibm_quantum.desc": "Access 127+ qubit Eagle processors. Brisbane, Osaka, Kyoto systems available.",
+    "ecosystem.project.azure_quantum.desc": "Microsoft's quantum cloud with IonQ, Quantinuum, and Rigetti backends.",
+    "ecosystem.project.aws_braket.desc": "Amazon's quantum service with IonQ, Rigetti, and OQC quantum hardware.",
+    "ecosystem.project.ionq.desc": "Trapped-ion quantum computers with high gate fidelity and all-to-all connectivity.",
+    "ecosystem.project.qiskit_aer.desc": "High-performance quantum circuit simulator with noise modeling and GPU acceleration.",
+    "ecosystem.project.mqt_ddsim.desc": "Decision diagram-based quantum simulator for efficient large-scale simulations.",
+    "ecosystem.project.pennylane.desc": "Cross-platform quantum ML library supporting multiple hardware backends.",
+    "ecosystem.project.cirq.desc": "Google's quantum framework for NISQ algorithms and experiments.",
+
     // Industry Hero Benefits
     "industry.hero.benefit1": "Solve complex optimization problems in minutes, not days",
     "industry.hero.benefit2": "Run simulations impossible on classical computers",
@@ -1121,7 +1159,54 @@ private let englishDynamicStrings: [String: String] = [
     "subscription.premium.feature4": "Industry Solutions Access",
     "subscription.premium.feature5": "Priority Support",
     "subscription.premium.desc_monthly": "Full access with real quantum hardware",
-    "subscription.premium.desc_yearly": "Complete quantum experience at best price"
+    "subscription.premium.desc_yearly": "Complete quantum experience at best price",
+
+    // Subscription Tabs & Comparison
+    "subscription.tab.compare": "Compare",
+    "subscription.tab.pro": "Pro",
+    "subscription.tab.premium": "Premium",
+    "subscription.features": "Features",
+    "subscription.free": "Free",
+    "subscription.select_plan": "Select a Plan",
+    "subscription.compare.circuits": "Quantum Circuits",
+    "subscription.compare.simulation": "Local Simulation",
+    "subscription.compare.academy_basic": "Academy (Basic)",
+    "subscription.compare.academy_full": "Academy (Full)",
+    "subscription.compare.qpu_access": "Real QPU Access",
+    "subscription.compare.industry": "Industry Solutions",
+    "subscription.compare.support": "Email Support",
+    "subscription.compare.priority": "Priority Support",
+    "subscription.pro.subtitle": "Perfect for learning and experimentation",
+    "subscription.premium.subtitle": "Complete quantum computing experience",
+
+    // More Hub - Subscription Info
+    "more.subscription_info": "Subscription Info",
+    "more.subscription_info.subtitle": "Learn about Pro & Premium features",
+
+    // Subscription Info Page
+    "subscription.info.title": "Unlock Premium",
+    "subscription.info.subtitle": "Get the most out of SwiftQuantum with Pro or Premium",
+    "subscription.info.choose_tier": "Choose Your Tier",
+    "subscription.info.best_value": "Best",
+    "subscription.info.pro.feature1": "Real QPU Access",
+    "subscription.info.pro.feature2": "All Circuit Templates",
+    "subscription.info.pro.feature3": "Priority Support",
+    "subscription.info.premium.feature1": "Everything in Pro",
+    "subscription.info.premium.feature2": "Error Correction",
+    "subscription.info.premium.feature3": "Industry Solutions",
+    "subscription.info.all_features": "All Premium Features",
+    "subscription.info.feature.qpu": "Real QPU Access",
+    "subscription.info.feature.qpu.desc": "Run circuits on IBM Quantum computers with 127+ qubits",
+    "subscription.info.feature.academy": "Quantum Academy",
+    "subscription.info.feature.academy.desc": "Access all MIT/Harvard-style courses and lessons",
+    "subscription.info.feature.industry": "Industry Solutions",
+    "subscription.info.feature.industry.desc": "Enterprise quantum optimization for your business",
+    "subscription.info.feature.error": "Error Correction",
+    "subscription.info.feature.error.desc": "Surface code simulation and fault-tolerant computing",
+    "subscription.info.feature.support": "Priority Support",
+    "subscription.info.feature.support.desc": "Get faster responses from our quantum experts",
+    "subscription.info.subscribe_now": "Subscribe Now",
+    "subscription.info.cancel_anytime": "Cancel anytime. No commitment."
 ]
 
 // MARK: - Dynamic Localized Strings (Korean)
@@ -1432,6 +1517,44 @@ private let koreanDynamicStrings: [String: String] = [
     "ecosystem.sample_code": "샘플 코드",
     "ecosystem.copy": "클립보드에 복사",
 
+    // Ecosystem Categories
+    "ecosystem.category.ml": "머신러닝",
+    "ecosystem.category.chem": "화학 & 물리",
+    "ecosystem.category.opt": "최적화",
+    "ecosystem.category.hw": "하드웨어 제공자",
+    "ecosystem.category.sim": "시뮬레이션",
+    "ecosystem.category.research": "연구",
+
+    // Ecosystem Project Names (Keep English names for recognition)
+    "ecosystem.project.torchquantum": "TorchQuantum",
+    "ecosystem.project.qiskit_ml": "Qiskit ML",
+    "ecosystem.project.qiskit_nature": "Qiskit Nature",
+    "ecosystem.project.qiskit_finance": "Qiskit Finance",
+    "ecosystem.project.qiskit_optimization": "Qiskit Optimization",
+    "ecosystem.project.ibm_quantum": "IBM Quantum",
+    "ecosystem.project.azure_quantum": "Azure Quantum",
+    "ecosystem.project.aws_braket": "AWS Braket",
+    "ecosystem.project.ionq": "IonQ",
+    "ecosystem.project.qiskit_aer": "Qiskit Aer",
+    "ecosystem.project.mqt_ddsim": "MQT DDSIM",
+    "ecosystem.project.pennylane": "PennyLane",
+    "ecosystem.project.cirq": "Cirq (Google)",
+
+    // Ecosystem Project Descriptions
+    "ecosystem.project.torchquantum.desc": "GPU 지원 PyTorch 기반 양자 ML 프레임워크. 양자 신경망을 매끄럽게 구축하고 훈련합니다.",
+    "ecosystem.project.qiskit_ml.desc": "변분 알고리즘, 양자 커널, 신경망을 포함한 양자 머신러닝 모듈입니다.",
+    "ecosystem.project.qiskit_nature.desc": "분자 구조와 화학 반응을 시뮬레이션합니다. 신약 발견을 위한 양자 화학입니다.",
+    "ecosystem.project.qiskit_finance.desc": "양자 알고리즘을 사용한 포트폴리오 최적화, 옵션 가격 책정, 위험 분석입니다.",
+    "ecosystem.project.qiskit_optimization.desc": "QAOA, VQE, Grover 알고리즘으로 조합 최적화 문제를 해결합니다.",
+    "ecosystem.project.ibm_quantum.desc": "127+ 큐비트 Eagle 프로세서에 액세스합니다. Brisbane, Osaka, Kyoto 시스템 사용 가능합니다.",
+    "ecosystem.project.azure_quantum.desc": "IonQ, Quantinuum, Rigetti 백엔드를 갖춘 Microsoft의 양자 클라우드입니다.",
+    "ecosystem.project.aws_braket.desc": "IonQ, Rigetti, OQC 양자 하드웨어를 갖춘 Amazon의 양자 서비스입니다.",
+    "ecosystem.project.ionq.desc": "높은 게이트 충실도와 모든 연결성을 갖춘 트랩 이온 양자 컴퓨터입니다.",
+    "ecosystem.project.qiskit_aer.desc": "노이즈 모델링 및 GPU 가속을 지원하는 고성능 양자 회로 시뮬레이터입니다.",
+    "ecosystem.project.mqt_ddsim.desc": "효율적인 대규모 시뮬레이션을 위한 결정 다이어그램 기반 양자 시뮬레이터입니다.",
+    "ecosystem.project.pennylane.desc": "여러 하드웨어 백엔드를 지원하는 크로스 플랫폼 양자 ML 라이브러리입니다.",
+    "ecosystem.project.cirq.desc": "NISQ 알고리즘 및 실험을 위한 Google의 양자 프레임워크입니다.",
+
     // Industry Hero Benefits
     "industry.hero.benefit1": "복잡한 최적화 문제를 며칠이 아닌 몇 분 만에 해결",
     "industry.hero.benefit2": "기존 컴퓨터로는 불가능한 시뮬레이션 실행",
@@ -1616,7 +1739,54 @@ private let koreanDynamicStrings: [String: String] = [
     "subscription.premium.feature4": "산업 솔루션 접근",
     "subscription.premium.feature5": "우선 지원",
     "subscription.premium.desc_monthly": "실제 양자 하드웨어 전체 접근",
-    "subscription.premium.desc_yearly": "최적 가격의 완전한 양자 경험"
+    "subscription.premium.desc_yearly": "최적 가격의 완전한 양자 경험",
+
+    // Subscription Tabs & Comparison
+    "subscription.tab.compare": "비교",
+    "subscription.tab.pro": "Pro",
+    "subscription.tab.premium": "Premium",
+    "subscription.features": "기능",
+    "subscription.free": "무료",
+    "subscription.select_plan": "플랜 선택",
+    "subscription.compare.circuits": "양자 회로",
+    "subscription.compare.simulation": "로컬 시뮬레이션",
+    "subscription.compare.academy_basic": "아카데미 (기본)",
+    "subscription.compare.academy_full": "아카데미 (전체)",
+    "subscription.compare.qpu_access": "실제 QPU 접근",
+    "subscription.compare.industry": "산업 솔루션",
+    "subscription.compare.support": "이메일 지원",
+    "subscription.compare.priority": "우선 지원",
+    "subscription.pro.subtitle": "학습과 실험에 완벽",
+    "subscription.premium.subtitle": "완전한 양자 컴퓨팅 경험",
+
+    // More Hub - Subscription Info
+    "more.subscription_info": "구독 알아보기",
+    "more.subscription_info.subtitle": "Pro & Premium 기능 알아보기",
+
+    // Subscription Info Page
+    "subscription.info.title": "프리미엄 잠금 해제",
+    "subscription.info.subtitle": "Pro 또는 Premium으로 SwiftQuantum을 최대한 활용하세요",
+    "subscription.info.choose_tier": "플랜을 선택하세요",
+    "subscription.info.best_value": "추천",
+    "subscription.info.pro.feature1": "실제 QPU 접근",
+    "subscription.info.pro.feature2": "모든 회로 템플릿",
+    "subscription.info.pro.feature3": "우선 지원",
+    "subscription.info.premium.feature1": "Pro의 모든 기능",
+    "subscription.info.premium.feature2": "오류 정정",
+    "subscription.info.premium.feature3": "산업 솔루션",
+    "subscription.info.all_features": "모든 프리미엄 기능",
+    "subscription.info.feature.qpu": "실제 QPU 접근",
+    "subscription.info.feature.qpu.desc": "127개 이상의 큐빗을 가진 IBM 양자 컴퓨터에서 회로 실행",
+    "subscription.info.feature.academy": "양자 아카데미",
+    "subscription.info.feature.academy.desc": "MIT/Harvard 스타일 코스 및 레슨 전체 접근",
+    "subscription.info.feature.industry": "산업 솔루션",
+    "subscription.info.feature.industry.desc": "비즈니스를 위한 엔터프라이즈 양자 최적화",
+    "subscription.info.feature.error": "오류 정정",
+    "subscription.info.feature.error.desc": "서피스 코드 시뮬레이션 및 결함 허용 컴퓨팅",
+    "subscription.info.feature.support": "우선 지원",
+    "subscription.info.feature.support.desc": "양자 전문가로부터 빠른 답변 받기",
+    "subscription.info.subscribe_now": "지금 구독하기",
+    "subscription.info.cancel_anytime": "언제든 취소 가능. 약정 없음."
 ]
 
 // MARK: - Dynamic Localized Strings (Japanese)
@@ -1875,6 +2045,44 @@ private let japaneseDynamicStrings: [String: String] = [
     "ecosystem.sample_code": "サンプルコード",
     "ecosystem.copy": "クリップボードにコピー",
 
+    // Ecosystem Categories
+    "ecosystem.category.ml": "機械学習",
+    "ecosystem.category.chem": "化学・物理",
+    "ecosystem.category.opt": "最適化",
+    "ecosystem.category.hw": "ハードウェアプロバイダー",
+    "ecosystem.category.sim": "シミュレーション",
+    "ecosystem.category.research": "研究",
+
+    // Ecosystem Project Names (Keep English names for recognition)
+    "ecosystem.project.torchquantum": "TorchQuantum",
+    "ecosystem.project.qiskit_ml": "Qiskit ML",
+    "ecosystem.project.qiskit_nature": "Qiskit Nature",
+    "ecosystem.project.qiskit_finance": "Qiskit Finance",
+    "ecosystem.project.qiskit_optimization": "Qiskit Optimization",
+    "ecosystem.project.ibm_quantum": "IBM Quantum",
+    "ecosystem.project.azure_quantum": "Azure Quantum",
+    "ecosystem.project.aws_braket": "AWS Braket",
+    "ecosystem.project.ionq": "IonQ",
+    "ecosystem.project.qiskit_aer": "Qiskit Aer",
+    "ecosystem.project.mqt_ddsim": "MQT DDSIM",
+    "ecosystem.project.pennylane": "PennyLane",
+    "ecosystem.project.cirq": "Cirq (Google)",
+
+    // Ecosystem Project Descriptions
+    "ecosystem.project.torchquantum.desc": "GPU対応のPyTorchベース量子MLフレームワーク。量子ニューラルネットワークをシームレスに構築・訓練します。",
+    "ecosystem.project.qiskit_ml.desc": "変分アルゴリズム、量子カーネル、ニューラルネットワークを含む量子機械学習モジュールです。",
+    "ecosystem.project.qiskit_nature.desc": "分子構造と化学反応をシミュレートします。創薬のための量子化学です。",
+    "ecosystem.project.qiskit_finance.desc": "量子アルゴリズムを使用したポートフォリオ最適化、オプション価格設定、リスク分析です。",
+    "ecosystem.project.qiskit_optimization.desc": "QAOA、VQE、Groverアルゴリズムで組み合わせ最適化問題を解決します。",
+    "ecosystem.project.ibm_quantum.desc": "127+量子ビットEagleプロセッサにアクセス。Brisbane、Osaka、Kyotoシステムが利用可能です。",
+    "ecosystem.project.azure_quantum.desc": "IonQ、Quantinuum、Rigettiバックエンドを持つMicrosoftの量子クラウドです。",
+    "ecosystem.project.aws_braket.desc": "IonQ、Rigetti、OQC量子ハードウェアを持つAmazonの量子サービスです。",
+    "ecosystem.project.ionq.desc": "高いゲート忠実度と全対全接続性を持つイオントラップ量子コンピューターです。",
+    "ecosystem.project.qiskit_aer.desc": "ノイズモデリングとGPU加速をサポートする高性能量子回路シミュレーターです。",
+    "ecosystem.project.mqt_ddsim.desc": "効率的な大規模シミュレーションのための決定図ベースの量子シミュレーターです。",
+    "ecosystem.project.pennylane.desc": "複数のハードウェアバックエンドをサポートするクロスプラットフォーム量子MLライブラリです。",
+    "ecosystem.project.cirq.desc": "NISQアルゴリズムと実験のためのGoogleの量子フレームワークです。",
+
     // Industry Hero Benefits
     "industry.hero.benefit1": "複雑な最適化問題を数日ではなく数分で解決",
     "industry.hero.benefit2": "古典コンピューターでは不可能なシミュレーションを実行",
@@ -2059,7 +2267,54 @@ private let japaneseDynamicStrings: [String: String] = [
     "subscription.premium.feature4": "産業ソリューションアクセス",
     "subscription.premium.feature5": "優先サポート",
     "subscription.premium.desc_monthly": "実際の量子ハードウェアへのフルアクセス",
-    "subscription.premium.desc_yearly": "最高の価格で完全な量子体験"
+    "subscription.premium.desc_yearly": "最高の価格で完全な量子体験",
+
+    // Subscription Tabs & Comparison
+    "subscription.tab.compare": "比較",
+    "subscription.tab.pro": "Pro",
+    "subscription.tab.premium": "Premium",
+    "subscription.features": "機能",
+    "subscription.free": "無料",
+    "subscription.select_plan": "プランを選択",
+    "subscription.compare.circuits": "量子回路",
+    "subscription.compare.simulation": "ローカルシミュレーション",
+    "subscription.compare.academy_basic": "アカデミー (基本)",
+    "subscription.compare.academy_full": "アカデミー (全部)",
+    "subscription.compare.qpu_access": "実機QPUアクセス",
+    "subscription.compare.industry": "産業ソリューション",
+    "subscription.compare.support": "メールサポート",
+    "subscription.compare.priority": "優先サポート",
+    "subscription.pro.subtitle": "学習と実験に最適",
+    "subscription.premium.subtitle": "完全な量子コンピューティング体験",
+
+    // More Hub - Subscription Info
+    "more.subscription_info": "サブスクリプション情報",
+    "more.subscription_info.subtitle": "Pro & Premium機能を見る",
+
+    // Subscription Info Page
+    "subscription.info.title": "プレミアムを解除",
+    "subscription.info.subtitle": "ProまたはPremiumでSwiftQuantumを最大限に活用",
+    "subscription.info.choose_tier": "プランを選択",
+    "subscription.info.best_value": "おすすめ",
+    "subscription.info.pro.feature1": "実機QPUアクセス",
+    "subscription.info.pro.feature2": "全回路テンプレート",
+    "subscription.info.pro.feature3": "優先サポート",
+    "subscription.info.premium.feature1": "Proの全機能",
+    "subscription.info.premium.feature2": "エラー訂正",
+    "subscription.info.premium.feature3": "産業ソリューション",
+    "subscription.info.all_features": "全プレミアム機能",
+    "subscription.info.feature.qpu": "実機QPUアクセス",
+    "subscription.info.feature.qpu.desc": "127キュービット以上のIBM量子コンピューターで回路を実行",
+    "subscription.info.feature.academy": "量子アカデミー",
+    "subscription.info.feature.academy.desc": "MIT/Harvardスタイルの全コースとレッスンにアクセス",
+    "subscription.info.feature.industry": "産業ソリューション",
+    "subscription.info.feature.industry.desc": "ビジネス向けエンタープライズ量子最適化",
+    "subscription.info.feature.error": "エラー訂正",
+    "subscription.info.feature.error.desc": "表面コードシミュレーションとフォールトトレラント計算",
+    "subscription.info.feature.support": "優先サポート",
+    "subscription.info.feature.support.desc": "量子専門家からより迅速な回答を取得",
+    "subscription.info.subscribe_now": "今すぐ登録",
+    "subscription.info.cancel_anytime": "いつでもキャンセル可能。契約なし。"
 ]
 
 // MARK: - Dynamic Localized Strings (Chinese)
@@ -2309,6 +2564,44 @@ private let chineseDynamicStrings: [String: String] = [
     "ecosystem.sample_code": "示例代码",
     "ecosystem.copy": "复制到剪贴板",
 
+    // Ecosystem Categories
+    "ecosystem.category.ml": "机器学习",
+    "ecosystem.category.chem": "化学与物理",
+    "ecosystem.category.opt": "优化",
+    "ecosystem.category.hw": "硬件提供商",
+    "ecosystem.category.sim": "模拟",
+    "ecosystem.category.research": "研究",
+
+    // Ecosystem Project Names (Keep English names for recognition)
+    "ecosystem.project.torchquantum": "TorchQuantum",
+    "ecosystem.project.qiskit_ml": "Qiskit ML",
+    "ecosystem.project.qiskit_nature": "Qiskit Nature",
+    "ecosystem.project.qiskit_finance": "Qiskit Finance",
+    "ecosystem.project.qiskit_optimization": "Qiskit Optimization",
+    "ecosystem.project.ibm_quantum": "IBM Quantum",
+    "ecosystem.project.azure_quantum": "Azure Quantum",
+    "ecosystem.project.aws_braket": "AWS Braket",
+    "ecosystem.project.ionq": "IonQ",
+    "ecosystem.project.qiskit_aer": "Qiskit Aer",
+    "ecosystem.project.mqt_ddsim": "MQT DDSIM",
+    "ecosystem.project.pennylane": "PennyLane",
+    "ecosystem.project.cirq": "Cirq (Google)",
+
+    // Ecosystem Project Descriptions
+    "ecosystem.project.torchquantum.desc": "支持GPU的基于PyTorch的量子ML框架。无缝构建和训练量子神经网络。",
+    "ecosystem.project.qiskit_ml.desc": "包含变分算法、量子核和神经网络的量子机器学习模块。",
+    "ecosystem.project.qiskit_nature.desc": "模拟分子结构和化学反应。用于药物发现的量子化学。",
+    "ecosystem.project.qiskit_finance.desc": "使用量子算法进行投资组合优化、期权定价和风险分析。",
+    "ecosystem.project.qiskit_optimization.desc": "使用QAOA、VQE和Grover算法解决组合优化问题。",
+    "ecosystem.project.ibm_quantum.desc": "访问127+量子比特Eagle处理器。可使用Brisbane、Osaka、Kyoto系统。",
+    "ecosystem.project.azure_quantum.desc": "微软的量子云，提供IonQ、Quantinuum和Rigetti后端。",
+    "ecosystem.project.aws_braket.desc": "亚马逊的量子服务，提供IonQ、Rigetti和OQC量子硬件。",
+    "ecosystem.project.ionq.desc": "具有高门保真度和全对全连接性的离子阱量子计算机。",
+    "ecosystem.project.qiskit_aer.desc": "支持噪声建模和GPU加速的高性能量子电路模拟器。",
+    "ecosystem.project.mqt_ddsim.desc": "用于高效大规模模拟的基于决策图的量子模拟器。",
+    "ecosystem.project.pennylane.desc": "支持多种硬件后端的跨平台量子ML库。",
+    "ecosystem.project.cirq.desc": "谷歌的NISQ算法和实验量子框架。",
+
     // Industry Hero Benefits
     "industry.hero.benefit1": "几分钟而非几天内解决复杂优化问题",
     "industry.hero.benefit2": "运行经典计算机无法完成的模拟",
@@ -2493,7 +2786,54 @@ private let chineseDynamicStrings: [String: String] = [
     "subscription.premium.feature4": "行业解决方案访问",
     "subscription.premium.feature5": "优先支持",
     "subscription.premium.desc_monthly": "完整访问真实量子硬件",
-    "subscription.premium.desc_yearly": "以最优价格获得完整量子体验"
+    "subscription.premium.desc_yearly": "以最优价格获得完整量子体验",
+
+    // Subscription Tabs & Comparison
+    "subscription.tab.compare": "比较",
+    "subscription.tab.pro": "Pro",
+    "subscription.tab.premium": "Premium",
+    "subscription.features": "功能",
+    "subscription.free": "免费",
+    "subscription.select_plan": "选择计划",
+    "subscription.compare.circuits": "量子电路",
+    "subscription.compare.simulation": "本地模拟",
+    "subscription.compare.academy_basic": "学院（基础）",
+    "subscription.compare.academy_full": "学院（完整）",
+    "subscription.compare.qpu_access": "真实QPU访问",
+    "subscription.compare.industry": "行业解决方案",
+    "subscription.compare.support": "邮件支持",
+    "subscription.compare.priority": "优先支持",
+    "subscription.pro.subtitle": "完美适合学习和实验",
+    "subscription.premium.subtitle": "完整的量子计算体验",
+
+    // More Hub - Subscription Info
+    "more.subscription_info": "订阅信息",
+    "more.subscription_info.subtitle": "了解Pro & Premium功能",
+
+    // Subscription Info Page
+    "subscription.info.title": "解锁高级版",
+    "subscription.info.subtitle": "通过Pro或Premium充分利用SwiftQuantum",
+    "subscription.info.choose_tier": "选择您的计划",
+    "subscription.info.best_value": "推荐",
+    "subscription.info.pro.feature1": "真实QPU访问",
+    "subscription.info.pro.feature2": "所有电路模板",
+    "subscription.info.pro.feature3": "优先支持",
+    "subscription.info.premium.feature1": "Pro的所有功能",
+    "subscription.info.premium.feature2": "错误纠正",
+    "subscription.info.premium.feature3": "行业解决方案",
+    "subscription.info.all_features": "所有高级功能",
+    "subscription.info.feature.qpu": "真实QPU访问",
+    "subscription.info.feature.qpu.desc": "在127+量子比特的IBM量子计算机上运行电路",
+    "subscription.info.feature.academy": "量子学院",
+    "subscription.info.feature.academy.desc": "访问所有MIT/Harvard风格的课程和教程",
+    "subscription.info.feature.industry": "行业解决方案",
+    "subscription.info.feature.industry.desc": "企业级量子优化解决方案",
+    "subscription.info.feature.error": "错误纠正",
+    "subscription.info.feature.error.desc": "表面码模拟和容错计算",
+    "subscription.info.feature.support": "优先支持",
+    "subscription.info.feature.support.desc": "从量子专家获得更快的回复",
+    "subscription.info.subscribe_now": "立即订阅",
+    "subscription.info.cancel_anytime": "随时取消。无需承诺。"
 ]
 
 // MARK: - Dynamic Localized Strings (German)
@@ -2743,6 +3083,44 @@ private let germanDynamicStrings: [String: String] = [
     "ecosystem.sample_code": "Beispielcode",
     "ecosystem.copy": "In Zwischenablage kopieren",
 
+    // Ecosystem Categories
+    "ecosystem.category.ml": "Maschinelles Lernen",
+    "ecosystem.category.chem": "Chemie & Physik",
+    "ecosystem.category.opt": "Optimierung",
+    "ecosystem.category.hw": "Hardware-Anbieter",
+    "ecosystem.category.sim": "Simulation",
+    "ecosystem.category.research": "Forschung",
+
+    // Ecosystem Project Names (Keep English names for recognition)
+    "ecosystem.project.torchquantum": "TorchQuantum",
+    "ecosystem.project.qiskit_ml": "Qiskit ML",
+    "ecosystem.project.qiskit_nature": "Qiskit Nature",
+    "ecosystem.project.qiskit_finance": "Qiskit Finance",
+    "ecosystem.project.qiskit_optimization": "Qiskit Optimization",
+    "ecosystem.project.ibm_quantum": "IBM Quantum",
+    "ecosystem.project.azure_quantum": "Azure Quantum",
+    "ecosystem.project.aws_braket": "AWS Braket",
+    "ecosystem.project.ionq": "IonQ",
+    "ecosystem.project.qiskit_aer": "Qiskit Aer",
+    "ecosystem.project.mqt_ddsim": "MQT DDSIM",
+    "ecosystem.project.pennylane": "PennyLane",
+    "ecosystem.project.cirq": "Cirq (Google)",
+
+    // Ecosystem Project Descriptions
+    "ecosystem.project.torchquantum.desc": "PyTorch-basiertes Quanten-ML-Framework mit GPU-Unterstützung. Quanten-Neuronale-Netze nahtlos erstellen und trainieren.",
+    "ecosystem.project.qiskit_ml.desc": "Quanten-Machine-Learning-Modul mit variationalen Algorithmen, Quantenkernen und neuronalen Netzen.",
+    "ecosystem.project.qiskit_nature.desc": "Molekülstrukturen und chemische Reaktionen simulieren. Quantenchemie für die Medikamentenentdeckung.",
+    "ecosystem.project.qiskit_finance.desc": "Portfoliooptimierung, Optionspreisgestaltung und Risikoanalyse mit Quantenalgorithmen.",
+    "ecosystem.project.qiskit_optimization.desc": "Kombinatorische Optimierungsprobleme mit QAOA, VQE und Grovers Algorithmus lösen.",
+    "ecosystem.project.ibm_quantum.desc": "Zugang zu 127+ Qubit Eagle-Prozessoren. Brisbane, Osaka, Kyoto Systeme verfügbar.",
+    "ecosystem.project.azure_quantum.desc": "Microsofts Quanten-Cloud mit IonQ, Quantinuum und Rigetti Backends.",
+    "ecosystem.project.aws_braket.desc": "Amazons Quantendienst mit IonQ, Rigetti und OQC Quantenhardware.",
+    "ecosystem.project.ionq.desc": "Ionenfallen-Quantencomputer mit hoher Gate-Treue und All-to-All-Konnektivität.",
+    "ecosystem.project.qiskit_aer.desc": "Hochleistungs-Quantenschaltkreissimulator mit Rauschmodellierung und GPU-Beschleunigung.",
+    "ecosystem.project.mqt_ddsim.desc": "Entscheidungsdiagramm-basierter Quantensimulator für effiziente großmaßstäbliche Simulationen.",
+    "ecosystem.project.pennylane.desc": "Plattformübergreifende Quanten-ML-Bibliothek mit Unterstützung mehrerer Hardware-Backends.",
+    "ecosystem.project.cirq.desc": "Googles Quantenframework für NISQ-Algorithmen und Experimente.",
+
     // Industry Hero Benefits
     "industry.hero.benefit1": "Komplexe Optimierungsprobleme in Minuten statt Tagen lösen",
     "industry.hero.benefit2": "Simulationen ausführen, die auf klassischen Computern unmöglich sind",
@@ -2927,5 +3305,52 @@ private let germanDynamicStrings: [String: String] = [
     "subscription.premium.feature4": "Industrielösungen-Zugang",
     "subscription.premium.feature5": "Prioritäts-Support",
     "subscription.premium.desc_monthly": "Voller Zugang zu echter Quantenhardware",
-    "subscription.premium.desc_yearly": "Komplettes Quantenerlebnis zum besten Preis"
+    "subscription.premium.desc_yearly": "Komplettes Quantenerlebnis zum besten Preis",
+
+    // Subscription Tabs & Comparison
+    "subscription.tab.compare": "Vergleichen",
+    "subscription.tab.pro": "Pro",
+    "subscription.tab.premium": "Premium",
+    "subscription.features": "Funktionen",
+    "subscription.free": "Kostenlos",
+    "subscription.select_plan": "Plan auswählen",
+    "subscription.compare.circuits": "Quantenschaltkreise",
+    "subscription.compare.simulation": "Lokale Simulation",
+    "subscription.compare.academy_basic": "Academy (Basis)",
+    "subscription.compare.academy_full": "Academy (Voll)",
+    "subscription.compare.qpu_access": "Echter QPU-Zugang",
+    "subscription.compare.industry": "Industrielösungen",
+    "subscription.compare.support": "E-Mail-Support",
+    "subscription.compare.priority": "Prioritäts-Support",
+    "subscription.pro.subtitle": "Perfekt zum Lernen und Experimentieren",
+    "subscription.premium.subtitle": "Komplettes Quantencomputing-Erlebnis",
+
+    // More Hub - Subscription Info
+    "more.subscription_info": "Abo-Info",
+    "more.subscription_info.subtitle": "Pro & Premium Funktionen entdecken",
+
+    // Subscription Info Page
+    "subscription.info.title": "Premium freischalten",
+    "subscription.info.subtitle": "Holen Sie das Beste aus SwiftQuantum mit Pro oder Premium",
+    "subscription.info.choose_tier": "Wählen Sie Ihren Plan",
+    "subscription.info.best_value": "Empfohlen",
+    "subscription.info.pro.feature1": "Echter QPU-Zugang",
+    "subscription.info.pro.feature2": "Alle Schaltkreis-Vorlagen",
+    "subscription.info.pro.feature3": "Prioritäts-Support",
+    "subscription.info.premium.feature1": "Alle Pro-Funktionen",
+    "subscription.info.premium.feature2": "Fehlerkorrektur",
+    "subscription.info.premium.feature3": "Industrielösungen",
+    "subscription.info.all_features": "Alle Premium-Funktionen",
+    "subscription.info.feature.qpu": "Echter QPU-Zugang",
+    "subscription.info.feature.qpu.desc": "Schaltkreise auf IBM Quantencomputern mit 127+ Qubits ausführen",
+    "subscription.info.feature.academy": "Quanten-Akademie",
+    "subscription.info.feature.academy.desc": "Zugang zu allen MIT/Harvard-Kursen und Lektionen",
+    "subscription.info.feature.industry": "Industrielösungen",
+    "subscription.info.feature.industry.desc": "Enterprise-Quantenoptimierung für Ihr Unternehmen",
+    "subscription.info.feature.error": "Fehlerkorrektur",
+    "subscription.info.feature.error.desc": "Surface-Code-Simulation und fehlertolerantes Rechnen",
+    "subscription.info.feature.support": "Prioritäts-Support",
+    "subscription.info.feature.support.desc": "Schnellere Antworten von unseren Quantenexperten",
+    "subscription.info.subscribe_now": "Jetzt abonnieren",
+    "subscription.info.cancel_anytime": "Jederzeit kündbar. Keine Verpflichtung."
 ]

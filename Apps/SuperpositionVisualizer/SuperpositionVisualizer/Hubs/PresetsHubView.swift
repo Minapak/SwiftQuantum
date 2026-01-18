@@ -126,16 +126,16 @@ struct PresetsHubView: View {
             Text(text)
                 .font(.system(size: 11))
                 .foregroundColor(.white.opacity(0.8))
-                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
 
-            Spacer()
+            Spacer(minLength: 8)
 
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 11))
                 .foregroundColor(QuantumHorizonColors.quantumGreen.opacity(0.7))
         }
         .padding(.horizontal, 10)
-        .padding(.vertical, 5)
+        .padding(.vertical, 6)
         .background(Color.white.opacity(0.05))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
