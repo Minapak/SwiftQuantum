@@ -70,6 +70,9 @@ coverage/
 .nyc_output/
 test-results/
 
+# Scripts (contains test results, not source code)
+Scripts/*.json
+
 # Temporary files
 *.tmp
 *.temp

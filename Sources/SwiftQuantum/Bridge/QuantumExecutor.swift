@@ -500,7 +500,7 @@ public final class QuantumBridgeExecutor: QuantumExecutor, @unchecked Sendable {
     public init(
         executorType: ExecutorType = .ibmBrisbane,
         apiKey: String? = nil,
-        baseURL: String = "https://api.quantum-bridge.io",
+        baseURL: String = "https://bridge.swiftquantum.tech",
         errorMitigation: QuantumBridge.ErrorMitigationConfig = .standard
     ) {
         self.executorType = executorType
@@ -536,26 +536,163 @@ public final class QuantumBridgeExecutor: QuantumExecutor, @unchecked Sendable {
     }
 
     public func submitJob(circuit: BridgeCircuitBuilder, shots: Int) async throws -> QuantumJob {
-        guard isAvailable else {
-            throw QuantumExecutorError.invalidApiKey
+        // Build request body from circuit
+        let requestBody = buildRunCircuitRequest(circuit: circuit, shots: shots)
+
+        guard let url = URL(string: "\(baseURL)/run-circuit") else {
+            throw QuantumExecutorError.executionFailed(reason: "Invalid URL")
         }
 
-        // In a real implementation, this would make an HTTP request to QuantumBridge
-        // For now, we simulate the job submission
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let jobId = "qb-\(UUID().uuidString.prefix(8))"
+        if let apiKey = apiKey {
+            request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        }
 
-        let job = QuantumJob(
-            jobId: jobId,
-            status: .queued,
-            executor: executorType.rawValue,
-            queuePosition: Int.random(in: 1...50),
-            estimatedWaitTime: Double.random(in: 60...3600)
-        )
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
 
-        activeJobs[jobId] = job
+            let (data, response) = try await URLSession.shared.data(for: request)
 
-        return job
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw QuantumExecutorError.executionFailed(reason: "Invalid response")
+            }
+
+            guard httpResponse.statusCode == 200 else {
+                throw QuantumExecutorError.executionFailed(reason: "HTTP \(httpResponse.statusCode)")
+            }
+
+            // Parse response
+            guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let status = json["status"] as? String,
+                  status == "success",
+                  let jobId = json["job_id"] as? String,
+                  let resultDict = json["result"] as? [String: Any],
+                  let countsRaw = resultDict["counts"] as? [String: Int],
+                  let executionTime = json["execution_time"] as? Double else {
+                throw QuantumExecutorError.executionFailed(reason: "Invalid response format")
+            }
+
+            // Normalize counts keys (remove spaces from Qiskit format like "00 00" -> "0000")
+            let counts = countsRaw.reduce(into: [String: Int]()) { result, pair in
+                let normalizedKey = pair.key.replacingOccurrences(of: " ", with: "")
+                result[normalizedKey] = pair.value
+            }
+
+            let executionResult = ExecutionResult(
+                counts: counts,
+                shots: shots,
+                executor: executorType.rawValue,
+                executionTime: executionTime,
+                fidelity: 0.99,
+                metadata: [
+                    "backend": executorType.rawValue,
+                    "job_id": jobId,
+                    "evidence_hash": json["evidence_hash"] as? String ?? ""
+                ]
+            )
+
+            let job = QuantumJob(
+                jobId: jobId,
+                status: .completed,
+                executor: executorType.rawValue,
+                completedAt: Date(),
+                result: executionResult
+            )
+
+            activeJobs[jobId] = job
+            return job
+
+        } catch let error as QuantumExecutorError {
+            throw error
+        } catch {
+            throw QuantumExecutorError.networkError(underlying: error)
+        }
+    }
+
+    /// Builds the request body for run-circuit API
+    private func buildRunCircuitRequest(circuit: BridgeCircuitBuilder, shots: Int) -> [String: Any] {
+        // Extract circuit information using QASM and parse gates
+        let qasm = circuit.toQASM()
+        let lines = qasm.components(separatedBy: "\n")
+
+        var numQubits = 2
+        var instructions: [[String: Any]] = []
+
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+
+            // Parse qreg to get number of qubits
+            if trimmed.hasPrefix("qreg q[") {
+                if let range = trimmed.range(of: "\\d+", options: .regularExpression),
+                   let n = Int(trimmed[range]) {
+                    numQubits = n
+                }
+            }
+
+            // Parse gates
+            if trimmed.hasPrefix("h q[") {
+                if let qubit = parseQubit(from: trimmed) {
+                    instructions.append(["gate": "h", "qubits": [qubit]])
+                }
+            } else if trimmed.hasPrefix("x q[") {
+                if let qubit = parseQubit(from: trimmed) {
+                    instructions.append(["gate": "x", "qubits": [qubit]])
+                }
+            } else if trimmed.hasPrefix("y q[") {
+                if let qubit = parseQubit(from: trimmed) {
+                    instructions.append(["gate": "y", "qubits": [qubit]])
+                }
+            } else if trimmed.hasPrefix("z q[") {
+                if let qubit = parseQubit(from: trimmed) {
+                    instructions.append(["gate": "z", "qubits": [qubit]])
+                }
+            } else if trimmed.hasPrefix("cx q[") {
+                if let qubits = parseTwoQubits(from: trimmed) {
+                    instructions.append(["gate": "cx", "qubits": qubits])
+                }
+            } else if trimmed.hasPrefix("cz q[") {
+                if let qubits = parseTwoQubits(from: trimmed) {
+                    instructions.append(["gate": "cz", "qubits": qubits])
+                }
+            } else if trimmed.hasPrefix("swap q[") {
+                if let qubits = parseTwoQubits(from: trimmed) {
+                    instructions.append(["gate": "swap", "qubits": qubits])
+                }
+            }
+        }
+
+        return [
+            "num_qubits": numQubits,
+            "instructions": instructions,
+            "shots": shots
+        ]
+    }
+
+    private func parseQubit(from line: String) -> Int? {
+        guard let start = line.firstIndex(of: "["),
+              let end = line.firstIndex(of: "]") else { return nil }
+        let indexStr = String(line[line.index(after: start)..<end])
+        return Int(indexStr)
+    }
+
+    private func parseTwoQubits(from line: String) -> [Int]? {
+        let pattern = "q\\[(\\d+)\\].*q\\[(\\d+)\\]"
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+              let match = regex.firstMatch(in: line, range: NSRange(line.startIndex..., in: line)) else {
+            return nil
+        }
+
+        guard let range1 = Range(match.range(at: 1), in: line),
+              let range2 = Range(match.range(at: 2), in: line),
+              let q1 = Int(line[range1]),
+              let q2 = Int(line[range2]) else {
+            return nil
+        }
+
+        return [q1, q2]
     }
 
     public func getJobStatus(jobId: String) async throws -> QuantumJob {

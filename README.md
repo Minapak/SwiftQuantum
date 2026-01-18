@@ -331,8 +331,8 @@ Create a `.env` file (not committed to git):
 
 ```bash
 # Backend API
-API_BASE_URL=https://api.your-domain.com
-BRIDGE_BASE_URL=https://bridge.your-domain.com
+API_BASE_URL=https://api.swiftquantum.tech
+BRIDGE_BASE_URL=https://bridge.swiftquantum.tech
 
 # IBM Quantum (Optional)
 IBM_QUANTUM_API_KEY=your_ibm_quantum_api_key
