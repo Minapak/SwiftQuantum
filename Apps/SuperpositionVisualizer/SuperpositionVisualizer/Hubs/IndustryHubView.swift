@@ -253,10 +253,10 @@ struct IndustryHubView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(industry.name)
+                        Text(L(industry.nameKey))
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
-                        Text(industry.benefit)
+                        Text(L(industry.benefitKey))
                             .font(.system(size: 12))
                             .foregroundColor(.white.opacity(0.6))
                     }
