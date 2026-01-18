@@ -13,32 +13,42 @@ actor APIClient {
     static let shared = APIClient()
 
     // MARK: - Configuration
+    // Always use production servers for real device testing
+    // Set USE_LOCAL_SERVER=1 in scheme environment variables for local development
 
-    #if DEBUG
-    private let baseURL = "http://localhost:8000"  // Local development
-    private let bridgeURL = "http://localhost:8001"  // Local QuantumBridge
+    #if targetEnvironment(simulator)
+    // Simulator can use localhost
+    private let baseURL = "http://localhost:8000"
+    private let bridgeURL = "http://localhost:8001"
     #else
-    private let baseURL = "https://api.swiftquantum.tech"  // Production (HTTPS)
-    private let bridgeURL = "https://bridge.swiftquantum.tech"  // Production QuantumBridge
+    // Real devices always use production servers
+    private let baseURL = "https://api.swiftquantum.tech"
+    private let bridgeURL = "https://bridge.swiftquantum.tech"
     #endif
 
-    private var authToken: String? {
-        get { UserDefaults.standard.string(forKey: "SwiftQuantum_AuthToken") }
-        set { UserDefaults.standard.set(newValue, forKey: "SwiftQuantum_AuthToken") }
-    }
+    private var authToken: String?
 
-    // MARK: - Token Management
+    // MARK: - Token Management (Uses Shared Keychain)
 
     func setAuthToken(_ token: String?) {
-        UserDefaults.standard.set(token, forKey: "SwiftQuantum_AuthToken")
+        if let token = token {
+            KeychainService.shared.saveToken(token)
+        } else {
+            KeychainService.shared.deleteToken()
+        }
+        self.authToken = token
     }
 
     func getAuthToken() -> String? {
-        return UserDefaults.standard.string(forKey: "SwiftQuantum_AuthToken")
+        if authToken == nil {
+            authToken = KeychainService.shared.getToken()
+        }
+        return authToken
     }
 
     func clearAuthToken() {
-        UserDefaults.standard.removeObject(forKey: "SwiftQuantum_AuthToken")
+        KeychainService.shared.deleteToken()
+        authToken = nil
     }
 
     // MARK: - Generic Request

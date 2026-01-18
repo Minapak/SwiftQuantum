@@ -11,6 +11,12 @@ import SwiftUI
 import Combine
 import StoreKit
 
+/// Admin Credentials for Development/Testing
+struct AdminCredentials {
+    static let email = "admin@swiftquantum.io"
+    static let password = "QuantumAdmin2026!"
+}
+
 /// Global Premium Manager - Singleton for managing premium subscription state
 /// Integrates with StoreKit 2 for App Store subscriptions
 @MainActor
@@ -18,6 +24,24 @@ class PremiumManager: ObservableObject {
 
     // MARK: - Singleton
     static let shared = PremiumManager()
+
+    // MARK: - Admin Mode
+
+    /// Admin mode - bypasses all premium checks
+    @Published var isAdmin: Bool = false {
+        didSet {
+            UserDefaults.standard.set(isAdmin, forKey: "SwiftQuantum_isAdmin")
+            if isAdmin {
+                isPremium = true
+                subscriptionTier = .premium
+                DeveloperModeManager.shared.log(
+                    screen: "Premium",
+                    element: "Admin Mode: ACTIVATED - Full premium access",
+                    status: .success
+                )
+            }
+        }
+    }
 
     // MARK: - Published Properties
 
@@ -139,12 +163,42 @@ class PremiumManager: ObservableObject {
     // MARK: - Initialization
 
     private init() {
+        // Restore admin state
+        isAdmin = UserDefaults.standard.bool(forKey: "SwiftQuantum_isAdmin")
+        if isAdmin {
+            isPremium = true
+            subscriptionTier = .premium
+        }
+
         // Start listening for transaction updates
         updateListenerTask = listenForTransactions()
 
         // Check current subscription status
         Task {
             await loadProducts()
+            await updateSubscriptionStatus()
+        }
+    }
+
+    // MARK: - Admin Login
+
+    /// Login as admin with credentials
+    func loginAsAdmin(email: String, password: String) -> Bool {
+        if email == AdminCredentials.email && password == AdminCredentials.password {
+            isAdmin = true
+            isPremium = true
+            subscriptionTier = .premium
+            expiryDate = Calendar.current.date(byAdding: .year, value: 100, to: Date())
+            return true
+        }
+        return false
+    }
+
+    /// Logout from admin mode
+    func logoutAdmin() {
+        isAdmin = false
+        UserDefaults.standard.set(false, forKey: "SwiftQuantum_isAdmin")
+        Task {
             await updateSubscriptionStatus()
         }
     }
@@ -560,7 +614,9 @@ struct PremiumRequiredOverlay: View {
 
 struct SubscriptionView: View {
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var authService = AuthService.shared
     @Environment(\.dismiss) var dismiss
+    @State private var showAuthView = false
 
     var body: some View {
         NavigationView {
@@ -581,6 +637,13 @@ struct SubscriptionView: View {
                             .foregroundColor(.white.opacity(0.7))
                     }
                     .padding(.top, 20)
+
+                    // Login Section
+                    if !authService.isLoggedIn {
+                        loginSection
+                    } else {
+                        userInfoSection
+                    }
 
                     // Products
                     if premiumManager.isLoading {
@@ -628,7 +691,102 @@ struct SubscriptionView: View {
                     .foregroundColor(.yellow)
                 }
             }
+            .sheet(isPresented: $showAuthView) {
+                AuthenticationView()
+            }
         }
+    }
+
+    // MARK: - Login Section
+    private var loginSection: some View {
+        VStack(spacing: 12) {
+            Text("Sign in to sync your subscription across devices")
+                .font(.subheadline)
+                .foregroundColor(.white.opacity(0.7))
+                .multilineTextAlignment(.center)
+
+            Button(action: { showAuthView = true }) {
+                HStack {
+                    Image(systemName: "person.circle")
+                    Text("Sign In / Create Account")
+                }
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(
+                    LinearGradient(
+                        colors: [.cyan, .purple],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .cornerRadius(12)
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.05))
+        )
+    }
+
+    // MARK: - User Info Section
+    private var userInfoSection: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: authService.isAdmin ? "shield.checkered" : "person.circle.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(authService.isAdmin ? .yellow : .cyan)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(authService.username ?? "User")
+                        .font(.headline)
+                        .foregroundColor(.white)
+
+                    Text(authService.userEmail ?? "")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.6))
+
+                    if authService.isAdmin {
+                        Text("ADMIN MODE")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(.black)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(Color.yellow)
+                            .clipShape(Capsule())
+                    } else if premiumManager.isPremium {
+                        Text(premiumManager.subscriptionTier.rawValue.uppercased())
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(.black)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(Color.green)
+                            .clipShape(Capsule())
+                    }
+                }
+
+                Spacer()
+
+                Button(action: {
+                    authService.logout()
+                }) {
+                    Text("Logout")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color.red.opacity(0.2))
+                        .cornerRadius(8)
+                }
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.05))
+        )
     }
 }
 

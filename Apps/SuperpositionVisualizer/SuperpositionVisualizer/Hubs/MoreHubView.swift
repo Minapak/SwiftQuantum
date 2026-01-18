@@ -14,8 +14,16 @@ struct MoreHubView: View {
     @State private var showResetConfirm = false
     @State private var showWebView = false
     @State private var webViewURL: URL?
+    @State private var showAuthView = false
+    @State private var pendingAction: PendingAction?
     @StateObject private var firstLaunchManager = FirstLaunchManager()
     @StateObject private var statsManager = UserStatsManager()
+    @ObservedObject private var authService = AuthService.shared
+
+    enum PendingAction {
+        case academy
+        case profile
+    }
 
     // Backend webapp base URL
     #if DEBUG
@@ -44,18 +52,11 @@ struct MoreHubView: View {
                         subtitle: "Learn Quantum Computing",
                         icon: "graduationcap.fill",
                         color: QuantumHorizonColors.quantumCyan,
-                        badge: statsManager.lessonsCompleted > 0 ? "\(statsManager.lessonsCompleted) Done" : nil
+                        badge: authService.isLoggedIn ? (statsManager.lessonsCompleted > 0 ? "\(statsManager.lessonsCompleted) Done" : nil) : "Login"
                     ) {
                         DeveloperModeManager.shared.log(screen: "More", element: "Academy Card", status: .success)
-                        // Open QuantumNative app via deep link
-                        if let url = URL(string: "quantumnative://academy") {
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url)
-                            } else {
-                                // Fallback to in-app Academy if QuantumNative not installed
-                                showAcademy = true
-                            }
-                        }
+                        // Always show Academy marketing page (redirects to QuantumNative)
+                        showAcademy = true
                     }
 
                     moreNavigationCard(
@@ -74,10 +75,15 @@ struct MoreHubView: View {
                         subtitle: "Your Quantum Journey",
                         icon: "person.circle.fill",
                         color: QuantumHorizonColors.quantumGold,
-                        badge: nil
+                        badge: authService.isLoggedIn ? (authService.isAdmin ? "Admin" : nil) : "Login"
                     ) {
                         DeveloperModeManager.shared.log(screen: "More", element: "Profile Card", status: .success)
-                        showProfile = true
+                        if authService.isLoggedIn {
+                            showProfile = true
+                        } else {
+                            pendingAction = .profile
+                            showAuthView = true
+                        }
                     }
                 }
 
@@ -91,7 +97,7 @@ struct MoreHubView: View {
             .padding(.bottom, 120)
         }
         .sheet(isPresented: $showAcademy) {
-            AcademyDetailView()
+            AcademyMarketingView()
         }
         .sheet(isPresented: $showIndustry) {
             IndustryDetailView()
@@ -101,6 +107,22 @@ struct MoreHubView: View {
         }
         .sheet(isPresented: $showLanguageSheet) {
             LanguageSelectionSheet()
+        }
+        .sheet(isPresented: $showAuthView) {
+            AuthenticationView()
+        }
+        .onChange(of: authService.isLoggedIn) { _, isLoggedIn in
+            if isLoggedIn, let action = pendingAction {
+                pendingAction = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    switch action {
+                    case .profile:
+                        showProfile = true
+                    case .academy:
+                        showAcademy = true
+                    }
+                }
+            }
         }
         .alert("Coming Soon", isPresented: $showComingSoon) {
             Button("OK", role: .cancel) { }
@@ -358,24 +380,61 @@ enum AppInfo {
 // Note: LanguageSelectionSheet is now defined in LocalizationManager.swift
 // to avoid duplicate definitions. Use LocalizationManager for all language-related functionality.
 
-// MARK: - Academy Detail View (Sheet)
-struct AcademyDetailView: View {
+// MARK: - Academy Marketing View (QuantumNative App Promotion)
+struct AcademyMarketingView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var animateGradient = false
+
+    // QuantumNative App Store URL (Replace with actual App Store ID)
+    private let quantumNativeAppStoreURL = "https://apps.apple.com/app/quantumnative/id6740513054"
 
     var body: some View {
         NavigationView {
             ZStack {
-                QuantumHorizonBackground()
-                    .ignoresSafeArea()
+                // Animated Background
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.05, green: 0.05, blue: 0.15),
+                        Color(red: 0.1, green: 0.05, blue: 0.2),
+                        Color(red: 0.05, green: 0.1, blue: 0.2)
+                    ],
+                    startPoint: animateGradient ? .topLeading : .bottomTrailing,
+                    endPoint: animateGradient ? .bottomTrailing : .topLeading
+                )
+                .ignoresSafeArea()
+                .onAppear {
+                    withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
+                        animateGradient.toggle()
+                    }
+                }
 
-                AcademyHubView()
+                ScrollView {
+                    VStack(spacing: 32) {
+                        // Hero Section
+                        heroSection
+
+                        // Features Section
+                        featuresSection
+
+                        // Course Preview
+                        coursePreviewSection
+
+                        // Testimonial
+                        testimonialSection
+
+                        // CTA Button
+                        ctaSection
+
+                        Spacer(minLength: 40)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 20)
+                }
             }
-            .navigationTitle("Academy")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        DeveloperModeManager.shared.log(screen: "Academy", element: "Done Button", status: .success)
                         dismiss()
                     }
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
@@ -383,6 +442,315 @@ struct AcademyDetailView: View {
             }
         }
         .preferredColorScheme(.dark)
+    }
+
+    // MARK: - Hero Section
+    private var heroSection: some View {
+        VStack(spacing: 20) {
+            // App Icon
+            ZStack {
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(
+                        LinearGradient(
+                            colors: [QuantumHorizonColors.quantumCyan, QuantumHorizonColors.quantumPurple],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 120, height: 120)
+                    .shadow(color: QuantumHorizonColors.quantumCyan.opacity(0.5), radius: 20)
+
+                Image(systemName: "atom")
+                    .font(.system(size: 50, weight: .medium))
+                    .foregroundColor(.white)
+            }
+
+            VStack(spacing: 8) {
+                Text("QuantumNative")
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .foregroundColor(.white)
+
+                Text("Master Quantum Computing")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(QuantumHorizonColors.quantumCyan)
+
+                HStack(spacing: 4) {
+                    ForEach(0..<5) { _ in
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 14))
+                            .foregroundColor(.yellow)
+                    }
+                    Text("4.9")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white)
+                    Text("(2.4K Reviews)")
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.6))
+                }
+                .padding(.top, 4)
+            }
+        }
+        .padding(.top, 20)
+    }
+
+    // MARK: - Features Section
+    private var featuresSection: some View {
+        VStack(spacing: 16) {
+            Text("Why Learn with QuantumNative?")
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(.white)
+
+            VStack(spacing: 12) {
+                featureRow(
+                    icon: "brain.head.profile",
+                    title: "Interactive Learning",
+                    description: "Hands-on quantum circuits with real-time visualization"
+                )
+
+                featureRow(
+                    icon: "chart.line.uptrend.xyaxis",
+                    title: "Track Progress",
+                    description: "XP points, achievements, and learning streaks"
+                )
+
+                featureRow(
+                    icon: "person.2.fill",
+                    title: "Synced Account",
+                    description: "Your progress syncs across SwiftQuantum apps"
+                )
+
+                featureRow(
+                    icon: "certificate.fill",
+                    title: "Career Passport",
+                    description: "Earn verifiable quantum computing credentials"
+                )
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white.opacity(0.05))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
+    }
+
+    private func featureRow(icon: String, title: String, description: String) -> some View {
+        HStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(QuantumHorizonColors.quantumCyan.opacity(0.15))
+                    .frame(width: 44, height: 44)
+
+                Image(systemName: icon)
+                    .font(.system(size: 20))
+                    .foregroundColor(QuantumHorizonColors.quantumCyan)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(.white)
+
+                Text(description)
+                    .font(.system(size: 13))
+                    .foregroundColor(.white.opacity(0.6))
+            }
+
+            Spacer()
+        }
+    }
+
+    // MARK: - Course Preview Section
+    private var coursePreviewSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("12+ Courses Available")
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(.white)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    courseCard(
+                        title: "Quantum Basics",
+                        lessons: 8,
+                        duration: "2h",
+                        color: QuantumHorizonColors.quantumCyan,
+                        isFree: true
+                    )
+
+                    courseCard(
+                        title: "Quantum Gates",
+                        lessons: 12,
+                        duration: "3h",
+                        color: QuantumHorizonColors.quantumPurple,
+                        isFree: true
+                    )
+
+                    courseCard(
+                        title: "Entanglement",
+                        lessons: 10,
+                        duration: "2.5h",
+                        color: QuantumHorizonColors.quantumPink,
+                        isFree: false
+                    )
+
+                    courseCard(
+                        title: "Algorithms",
+                        lessons: 15,
+                        duration: "4h",
+                        color: QuantumHorizonColors.quantumGold,
+                        isFree: false
+                    )
+                }
+            }
+        }
+    }
+
+    private func courseCard(title: String, lessons: Int, duration: String, color: Color, isFree: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+
+                Spacer()
+
+                if isFree {
+                    Text("FREE")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(.black)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(QuantumHorizonColors.quantumGreen)
+                        .clipShape(Capsule())
+                }
+            }
+
+            HStack(spacing: 12) {
+                HStack(spacing: 4) {
+                    Image(systemName: "book.fill")
+                        .font(.system(size: 10))
+                    Text("\(lessons) lessons")
+                        .font(.system(size: 11))
+                }
+                .foregroundColor(.white.opacity(0.6))
+
+                HStack(spacing: 4) {
+                    Image(systemName: "clock.fill")
+                        .font(.system(size: 10))
+                    Text(duration)
+                        .font(.system(size: 11))
+                }
+                .foregroundColor(.white.opacity(0.6))
+            }
+
+            // Progress bar placeholder
+            RoundedRectangle(cornerRadius: 2)
+                .fill(color.opacity(0.3))
+                .frame(height: 4)
+                .overlay(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(color)
+                        .frame(width: isFree ? 60 : 0)
+                }
+        }
+        .padding(16)
+        .frame(width: 160)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(color.opacity(0.3), lineWidth: 1)
+                )
+        )
+    }
+
+    // MARK: - Testimonial Section
+    private var testimonialSection: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "quote.opening")
+                .font(.system(size: 24))
+                .foregroundColor(QuantumHorizonColors.quantumGold.opacity(0.5))
+
+            Text("QuantumNative made quantum computing accessible. I went from zero to building quantum algorithms in just 2 weeks!")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(.white.opacity(0.9))
+                .multilineTextAlignment(.center)
+                .italic()
+
+            HStack(spacing: 8) {
+                Circle()
+                    .fill(QuantumHorizonColors.quantumPurple)
+                    .frame(width: 32, height: 32)
+                    .overlay(
+                        Text("JK")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(.white)
+                    )
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("James K.")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.white)
+
+                    Text("Software Engineer")
+                        .font(.system(size: 11))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+        }
+        .padding(24)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white.opacity(0.05))
+        )
+    }
+
+    // MARK: - CTA Section
+    private var ctaSection: some View {
+        VStack(spacing: 16) {
+            Button(action: {
+                if let url = URL(string: quantumNativeAppStoreURL) {
+                    UIApplication.shared.open(url)
+                }
+            }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "arrow.down.app.fill")
+                        .font(.system(size: 20))
+
+                    Text("Download QuantumNative")
+                        .font(.system(size: 17, weight: .bold))
+                }
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(
+                    LinearGradient(
+                        colors: [QuantumHorizonColors.quantumCyan, QuantumHorizonColors.quantumPurple],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(color: QuantumHorizonColors.quantumCyan.opacity(0.4), radius: 10, y: 5)
+            }
+
+            Text("Free download · Premium courses available")
+                .font(.system(size: 12))
+                .foregroundColor(.white.opacity(0.5))
+        }
+    }
+}
+
+// MARK: - Academy Detail View (Legacy - Redirect to Marketing)
+struct AcademyDetailView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        AcademyMarketingView()
     }
 }
 
