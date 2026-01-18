@@ -150,11 +150,11 @@ struct IndustryHubView: View {
                         let impact = UIImpactFeedbackGenerator(style: .light)
                         impact.impactOccurred()
                         if !project.isPremium || premiumManager.isPremium {
-                            DeveloperModeManager.shared.log(screen: "Industry", element: "Ecosystem: \(project.name)", status: .success)
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Ecosystem: \(L(project.nameKey))", status: .success)
                             selectedEcosystemProject = project
                             showEcosystemDetail = true
                         } else {
-                            DeveloperModeManager.shared.log(screen: "Industry", element: "Ecosystem: \(project.name) (Premium)", status: .comingSoon)
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Ecosystem: \(L(project.nameKey)) (Premium)", status: .comingSoon)
                             showPremiumSheet = true
                         }
                     }
@@ -2123,7 +2123,7 @@ struct EcosystemProjectDetailSheet: View {
 
     private func runDemo() {
         isRunning = true
-        DeveloperModeManager.shared.log(screen: "Ecosystem Detail", element: "Run Demo: \(project.name)", status: .success)
+        DeveloperModeManager.shared.log(screen: "Ecosystem Detail", element: "Run Demo: \(L(project.nameKey))", status: .success)
 
         // Simulate running the demo
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
