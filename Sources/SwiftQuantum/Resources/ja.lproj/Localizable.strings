@@ -201,3 +201,179 @@
 "success.job_submitted" = "ジョブが量子キューに送信されました";
 "success.connection_established" = "量子バックエンドに接続しました";
 "success.state_prepared" = "量子状態が正常に準備されました";
+
+// MARK: - Bridgeタブ (QuantumBridge)
+
+"bridge.title" = "QuantumBridge";
+"bridge.why_use" = "なぜQuantumBridgeを使うのか？";
+"bridge.connect_real" = "実際の量子コンピュータに接続";
+
+// Bridgeの利点
+"bridge.benefit.hardware.title" = "実物ハードウェア";
+"bridge.benefit.hardware.desc" = "実際のIBM量子プロセッサで回路を実行";
+"bridge.benefit.quantum.title" = "真の量子効果";
+"bridge.benefit.quantum.desc" = "実際の重ね合わせともつれを体験";
+"bridge.benefit.results.title" = "本物の結果";
+"bridge.benefit.results.desc" = "シミュレーションではなく量子ハードウェアから測定値を取得";
+
+// 接続状態
+"bridge.status.active" = "ブリッジ有効";
+"bridge.status.disconnected" = "ブリッジ切断";
+"bridge.connect" = "QPUに接続";
+"bridge.disconnect" = "切断";
+
+// バックエンド選択
+"bridge.select_backend" = "バックエンドを選択";
+"bridge.select_backend.desc" = "量子回路を実行する場所を選択";
+"bridge.best_for" = "最適な用途";
+"bridge.advantages" = "利点";
+"bridge.limitations" = "制限事項";
+
+// シミュレータバックエンド
+"bridge.backend.simulator.name" = "シミュレータ";
+"bridge.backend.simulator.best" = "学習とテスト";
+"bridge.backend.simulator.adv1" = "即時結果 - 待ち時間なし";
+"bridge.backend.simulator.adv2" = "無料使用 - 無制限実行";
+"bridge.backend.simulator.adv3" = "回路デバッグに最適";
+"bridge.backend.simulator.lim1" = "実際の量子ノイズなし";
+"bridge.backend.simulator.lim2" = "古典シミュレーションに制限";
+
+// IBM Brisbaneバックエンド
+"bridge.backend.brisbane.name" = "IBM Brisbane";
+"bridge.backend.brisbane.best" = "本番環境と研究";
+"bridge.backend.brisbane.adv1" = "127実量子ビット";
+"bridge.backend.brisbane.adv2" = "最高のコヒーレンス時間";
+"bridge.backend.brisbane.adv3" = "複雑なアルゴリズムに最適";
+"bridge.backend.brisbane.lim1" = "キュー待ち時間";
+"bridge.backend.brisbane.lim2" = "日次使用制限";
+
+// IBM Osakaバックエンド
+"bridge.backend.osaka.name" = "IBM Osaka";
+"bridge.backend.osaka.best" = "高速実行";
+"bridge.backend.osaka.adv1" = "127実量子ビット";
+"bridge.backend.osaka.adv2" = "最適化されたゲート速度";
+"bridge.backend.osaka.adv3" = "短い待ち行列";
+"bridge.backend.osaka.lim1" = "中程度のノイズレベル";
+"bridge.backend.osaka.lim2" = "日次使用制限";
+
+// IBM Kyotoバックエンド
+"bridge.backend.kyoto.name" = "IBM Kyoto";
+"bridge.backend.kyoto.best" = "研究プロジェクト";
+"bridge.backend.kyoto.adv1" = "127実量子ビット";
+"bridge.backend.kyoto.adv2" = "高度なエラー軽減";
+"bridge.backend.kyoto.adv3" = "研究パートナーシップ";
+"bridge.backend.kyoto.lim1" = "現在メンテナンス中";
+"bridge.backend.kyoto.lim2" = "限定的な可用性";
+
+// キュー状態
+"bridge.queue.title" = "キュー状態";
+"bridge.queue.pending" = "保留中";
+"bridge.queue.running" = "実行中";
+"bridge.queue.wait" = "予想待機";
+
+// デプロイセクション
+"bridge.deploy.hold" = "長押しでデプロイ";
+"bridge.deploy.deploying" = "デプロイ中...";
+"bridge.deploy.to" = "へ";
+
+// クイックアクション
+"bridge.actions.title" = "クイックアクション";
+"bridge.actions.bell" = "ベル状態";
+"bridge.actions.bell.desc" = "もつれを作成";
+"bridge.actions.ghz" = "GHZ状態";
+"bridge.actions.ghz.desc" = "多量子ビットもつれ";
+"bridge.actions.export" = "QASMエクスポート";
+"bridge.actions.export.desc" = "OpenQASM 3.0コードを取得";
+"bridge.actions.continuous" = "連続モード";
+"bridge.actions.continuous.desc" = "30秒ごとに自動繰り返し";
+"bridge.actions.continuous.active" = "有効";
+"bridge.actions.continuous.runs" = "回実行";
+"bridge.actions.continuous.stop" = "連続モード停止";
+
+// アクティブジョブ
+"bridge.jobs.title" = "アクティブジョブ";
+"bridge.jobs.position" = "位置";
+"bridge.jobs.shots" = "ショット";
+"bridge.jobs.running" = "実行中";
+"bridge.jobs.queued" = "キュー中";
+
+// QASMエクスポート
+"bridge.qasm.title" = "QASMコードエクスポート";
+"bridge.qasm.copy" = "クリップボードにコピー";
+"bridge.qasm.copied" = "コピー完了！";
+"bridge.qasm.share" = "共有";
+
+// エラー訂正
+"bridge.error.title" = "エラー訂正";
+"bridge.error.surface" = "表面コード";
+"bridge.error.active" = "有効";
+
+// MARK: - IBM Quantum Ecosystem
+
+"ecosystem.title" = "IBM Quantum Ecosystem";
+"ecosystem.subtitle" = "エコシステムから実際の量子プロジェクトを実行";
+"ecosystem.all" = "すべて";
+"ecosystem.category.ml" = "機械学習";
+"ecosystem.category.chemistry" = "化学・物理学";
+"ecosystem.category.optimization" = "最適化";
+"ecosystem.category.hardware" = "ハードウェアプロバイダ";
+"ecosystem.category.simulation" = "シミュレーション";
+"ecosystem.category.research" = "研究";
+
+"ecosystem.about" = "概要";
+"ecosystem.actions" = "クイックアクション";
+"ecosystem.run_demo" = "デモ回路を実行";
+"ecosystem.running" = "実行中...";
+"ecosystem.export_code" = "サンプルコードをエクスポート";
+"ecosystem.view_github" = "GitHubで表示";
+"ecosystem.result" = "実行結果";
+"ecosystem.use_cases" = "ユースケース";
+"ecosystem.sample_code" = "サンプルコード";
+"ecosystem.copy" = "クリップボードにコピー";
+
+// MARK: - Circuitsタブ
+
+"circuits.title" = "回路ビルダー";
+"circuits.subtitle" = "量子回路を構築して実行";
+
+// 統計
+"circuits.stat.templates" = "テンプレート";
+"circuits.stat.runs" = "実行回数";
+"circuits.stat.favorites" = "お気に入り";
+
+// セクション
+"circuits.quick.title" = "クイックスタート";
+"circuits.featured.title" = "おすすめ回路";
+"circuits.templates.title" = "全テンプレート";
+"circuits.recent.title" = "最近の実行";
+"circuits.recent.clear" = "クリア";
+
+// カテゴリ
+"circuits.category.basic" = "基本ゲート";
+"circuits.category.entanglement" = "もつれ";
+"circuits.category.algorithms" = "アルゴリズム";
+"circuits.category.error" = "エラー訂正";
+
+// 回路説明
+"circuits.bell.desc" = "2量子ビットのもつれを作成";
+"circuits.ghz.desc" = "3量子ビット最大もつれ状態";
+"circuits.grover.desc" = "2次速度向上の量子検索";
+"circuits.teleport.desc" = "もつれを使用した量子状態転送";
+"circuits.dj.desc" = "関数が定数か均衡かを判定";
+"circuits.surface.desc" = "トポロジカルエラー訂正コード";
+"circuits.qaoa.desc" = "量子近似最適化";
+"circuits.hadamard.desc" = "均等な重ね合わせを作成";
+"circuits.xgate.desc" = "量子ビット反転演算";
+"circuits.phase.desc" = "SとT位相回転を適用";
+"circuits.bitflip.desc" = "単一ビット反転エラーを訂正";
+"circuits.phaseflip.desc" = "単一位相反転エラーを訂正";
+
+// 回路詳細
+"circuits.detail.about" = "概要";
+"circuits.detail.gates" = "使用ゲート";
+"circuits.detail.run" = "回路を実行";
+
+// アクション
+"circuits.run" = "回路を実行";
+"circuits.running" = "実行中...";
+"circuits.result" = "結果";

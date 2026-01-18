@@ -201,3 +201,179 @@
 "success.job_submitted" = "作业已提交到量子队列";
 "success.connection_established" = "已连接到量子后端";
 "success.state_prepared" = "量子态准备成功";
+
+// MARK: - Bridge标签页 (QuantumBridge)
+
+"bridge.title" = "QuantumBridge";
+"bridge.why_use" = "为什么使用QuantumBridge？";
+"bridge.connect_real" = "连接真正的量子计算机";
+
+// Bridge优势
+"bridge.benefit.hardware.title" = "真实硬件";
+"bridge.benefit.hardware.desc" = "在真正的IBM量子处理器上运行电路";
+"bridge.benefit.quantum.title" = "真正的量子效应";
+"bridge.benefit.quantum.desc" = "体验真正的叠加和纠缠";
+"bridge.benefit.results.title" = "真实结果";
+"bridge.benefit.results.desc" = "从量子硬件获取测量值，而非模拟";
+
+// 连接状态
+"bridge.status.active" = "Bridge已激活";
+"bridge.status.disconnected" = "Bridge已断开";
+"bridge.connect" = "连接到QPU";
+"bridge.disconnect" = "断开连接";
+
+// 后端选择
+"bridge.select_backend" = "选择后端";
+"bridge.select_backend.desc" = "选择运行量子电路的位置";
+"bridge.best_for" = "最适用于";
+"bridge.advantages" = "优势";
+"bridge.limitations" = "限制";
+
+// 模拟器后端
+"bridge.backend.simulator.name" = "模拟器";
+"bridge.backend.simulator.best" = "学习与测试";
+"bridge.backend.simulator.adv1" = "即时结果 - 无需等待";
+"bridge.backend.simulator.adv2" = "免费使用 - 无限运行";
+"bridge.backend.simulator.adv3" = "非常适合调试电路";
+"bridge.backend.simulator.lim1" = "无真实量子噪声";
+"bridge.backend.simulator.lim2" = "仅限经典模拟";
+
+// IBM Brisbane后端
+"bridge.backend.brisbane.name" = "IBM Brisbane";
+"bridge.backend.brisbane.best" = "生产与研究";
+"bridge.backend.brisbane.adv1" = "127个真实量子比特";
+"bridge.backend.brisbane.adv2" = "最长相干时间";
+"bridge.backend.brisbane.adv3" = "最适合复杂算法";
+"bridge.backend.brisbane.lim1" = "队列等待时间";
+"bridge.backend.brisbane.lim2" = "每日使用限制";
+
+// IBM Osaka后端
+"bridge.backend.osaka.name" = "IBM Osaka";
+"bridge.backend.osaka.best" = "高速执行";
+"bridge.backend.osaka.adv1" = "127个真实量子比特";
+"bridge.backend.osaka.adv2" = "优化的门速度";
+"bridge.backend.osaka.adv3" = "较短的队列";
+"bridge.backend.osaka.lim1" = "中等噪声水平";
+"bridge.backend.osaka.lim2" = "每日使用限制";
+
+// IBM Kyoto后端
+"bridge.backend.kyoto.name" = "IBM Kyoto";
+"bridge.backend.kyoto.best" = "研究项目";
+"bridge.backend.kyoto.adv1" = "127个真实量子比特";
+"bridge.backend.kyoto.adv2" = "高级错误缓解";
+"bridge.backend.kyoto.adv3" = "研究合作伙伴";
+"bridge.backend.kyoto.lim1" = "目前维护中";
+"bridge.backend.kyoto.lim2" = "可用性有限";
+
+// 队列状态
+"bridge.queue.title" = "队列状态";
+"bridge.queue.pending" = "待处理";
+"bridge.queue.running" = "运行中";
+"bridge.queue.wait" = "预计等待";
+
+// 部署部分
+"bridge.deploy.hold" = "长按部署";
+"bridge.deploy.deploying" = "部署中...";
+"bridge.deploy.to" = "到";
+
+// 快速操作
+"bridge.actions.title" = "快速操作";
+"bridge.actions.bell" = "贝尔态";
+"bridge.actions.bell.desc" = "创建纠缠";
+"bridge.actions.ghz" = "GHZ态";
+"bridge.actions.ghz.desc" = "多量子比特纠缠";
+"bridge.actions.export" = "导出QASM";
+"bridge.actions.export.desc" = "获取OpenQASM 3.0代码";
+"bridge.actions.continuous" = "连续模式";
+"bridge.actions.continuous.desc" = "每30秒自动重复";
+"bridge.actions.continuous.active" = "已激活";
+"bridge.actions.continuous.runs" = "次运行";
+"bridge.actions.continuous.stop" = "停止连续模式";
+
+// 活动作业
+"bridge.jobs.title" = "活动作业";
+"bridge.jobs.position" = "位置";
+"bridge.jobs.shots" = "次测量";
+"bridge.jobs.running" = "运行中";
+"bridge.jobs.queued" = "排队中";
+
+// QASM导出
+"bridge.qasm.title" = "导出QASM代码";
+"bridge.qasm.copy" = "复制到剪贴板";
+"bridge.qasm.copied" = "已复制！";
+"bridge.qasm.share" = "分享";
+
+// 错误纠正
+"bridge.error.title" = "错误纠正";
+"bridge.error.surface" = "表面码";
+"bridge.error.active" = "已激活";
+
+// MARK: - IBM Quantum生态系统
+
+"ecosystem.title" = "IBM Quantum生态系统";
+"ecosystem.subtitle" = "运行生态系统中的真实量子项目";
+"ecosystem.all" = "全部";
+"ecosystem.category.ml" = "机器学习";
+"ecosystem.category.chemistry" = "化学与物理";
+"ecosystem.category.optimization" = "优化";
+"ecosystem.category.hardware" = "硬件提供商";
+"ecosystem.category.simulation" = "模拟";
+"ecosystem.category.research" = "研究";
+
+"ecosystem.about" = "关于";
+"ecosystem.actions" = "快速操作";
+"ecosystem.run_demo" = "运行演示电路";
+"ecosystem.running" = "运行中...";
+"ecosystem.export_code" = "导出示例代码";
+"ecosystem.view_github" = "在GitHub查看";
+"ecosystem.result" = "执行结果";
+"ecosystem.use_cases" = "使用场景";
+"ecosystem.sample_code" = "示例代码";
+"ecosystem.copy" = "复制到剪贴板";
+
+// MARK: - Circuits标签页
+
+"circuits.title" = "电路构建器";
+"circuits.subtitle" = "构建和运行量子电路";
+
+// 统计
+"circuits.stat.templates" = "模板";
+"circuits.stat.runs" = "运行次数";
+"circuits.stat.favorites" = "收藏";
+
+// 区块
+"circuits.quick.title" = "快速开始";
+"circuits.featured.title" = "推荐电路";
+"circuits.templates.title" = "所有模板";
+"circuits.recent.title" = "最近运行";
+"circuits.recent.clear" = "清除";
+
+// 分类
+"circuits.category.basic" = "基础门";
+"circuits.category.entanglement" = "纠缠";
+"circuits.category.algorithms" = "算法";
+"circuits.category.error" = "纠错";
+
+// 电路描述
+"circuits.bell.desc" = "创建2量子比特纠缠";
+"circuits.ghz.desc" = "3量子比特最大纠缠态";
+"circuits.grover.desc" = "二次加速量子搜索";
+"circuits.teleport.desc" = "使用纠缠传输量子态";
+"circuits.dj.desc" = "判断函数是常数还是平衡";
+"circuits.surface.desc" = "拓扑纠错码";
+"circuits.qaoa.desc" = "量子近似优化";
+"circuits.hadamard.desc" = "创建均等叠加";
+"circuits.xgate.desc" = "量子比特翻转操作";
+"circuits.phase.desc" = "应用S和T相位旋转";
+"circuits.bitflip.desc" = "纠正单比特翻转错误";
+"circuits.phaseflip.desc" = "纠正单相位翻转错误";
+
+// 电路详情
+"circuits.detail.about" = "关于";
+"circuits.detail.gates" = "使用的门";
+"circuits.detail.run" = "运行电路";
+
+// 操作
+"circuits.run" = "运行电路";
+"circuits.running" = "运行中...";
+"circuits.result" = "结果";

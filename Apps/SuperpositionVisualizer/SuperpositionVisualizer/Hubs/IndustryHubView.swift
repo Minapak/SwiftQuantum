@@ -12,24 +12,34 @@ struct IndustryHubView: View {
     @State private var showPricingSheet = false
     @State private var showCaseStudy = false
     @State private var showPremiumSheet = false
+    @State private var showIndustryDetail = false
+    @State private var showROICalculator = false
+    @State private var selectedEcosystemProject: QuantumEcosystemProject?
+    @State private var showEcosystemDetail = false
+    @State private var selectedEcosystemCategory: QuantumEcosystemProject.EcosystemCategory?
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Hero Section
+                // Hero Section (Simplified)
                 heroSection
+
+                // Selected Industry Detail (if selected)
+                if let industry = selectedIndustry {
+                    selectedIndustryDetail(industry)
+                }
 
                 // Industry Solutions Grid
                 industrySolutionsGrid
 
-                // ROI Prediction Graph
-                roiPredictionSection
+                // IBM Quantum Ecosystem Section
+                ecosystemSection
 
-                // Pricing Plans (Anchoring Effect)
-                pricingSection
+                // Quick ROI Calculator Card
+                quickROICard
 
-                // Success Stories
-                successStoriesSection
+                // Simple CTA Section
+                simpleCTASection
 
                 Spacer(minLength: 120)
             }
@@ -42,59 +52,356 @@ struct IndustryHubView: View {
         .sheet(isPresented: $showPremiumSheet) {
             IndustryPremiumSheet()
         }
+        .sheet(isPresented: $showROICalculator) {
+            ROICalculatorSheet(viewModel: viewModel)
+        }
+        .sheet(isPresented: $showIndustryDetail) {
+            if let industry = selectedIndustry {
+                IndustryDetailSheet(industry: industry)
+            }
+        }
+        .sheet(isPresented: $showEcosystemDetail) {
+            if let project = selectedEcosystemProject {
+                EcosystemProjectDetailSheet(project: project)
+            }
+        }
     }
 
-    // MARK: - Hero Section
-    private var heroSection: some View {
-        BentoCard(size: .large) {
-            VStack(spacing: 20) {
-                // Isometric illustration
-                ZStack {
-                    // Background glow
-                    Circle()
-                        .fill(QuantumHorizonColors.quantumGold.opacity(0.15))
-                        .frame(width: 120, height: 120)
-                        .blur(radius: 30)
+    // MARK: - IBM Quantum Ecosystem Section
+    private var ecosystemSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Header
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "network")
+                            .font(.system(size: 16))
+                            .foregroundStyle(QuantumHorizonColors.quantumCyan)
+                        Text("IBM Quantum Ecosystem")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                    Text("Run real quantum projects from the ecosystem")
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+                Spacer()
+            }
 
-                    // Isometric building stack
-                    IsometricBuildingView()
-                        .frame(width: 100, height: 100)
+            // Category Filter
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    // All category button
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            selectedEcosystemCategory = nil
+                        }
+                    }) {
+                        Text("All")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(selectedEcosystemCategory == nil ? .black : .white)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(
+                                selectedEcosystemCategory == nil ?
+                                QuantumHorizonColors.quantumCyan :
+                                Color.white.opacity(0.1)
+                            )
+                            .clipShape(Capsule())
+                    }
+
+                    ForEach(QuantumEcosystemProject.EcosystemCategory.allCases, id: \.self) { category in
+                        Button(action: {
+                            withAnimation(.spring()) {
+                                selectedEcosystemCategory = category
+                            }
+                        }) {
+                            Text(category.rawValue)
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(selectedEcosystemCategory == category ? .black : .white)
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(
+                                    selectedEcosystemCategory == category ?
+                                    QuantumHorizonColors.quantumCyan :
+                                    Color.white.opacity(0.1)
+                                )
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
+            }
+
+            // Ecosystem Projects Grid
+            LazyVGrid(columns: [GridItem(.flexible())], spacing: 12) {
+                ForEach(filteredEcosystemProjects) { project in
+                    EcosystemProjectCard(
+                        project: project,
+                        isPremiumUser: premiumManager.isPremium
+                    )
+                    .onTapGesture {
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+                        if !project.isPremium || premiumManager.isPremium {
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Ecosystem: \(project.name)", status: .success)
+                            selectedEcosystemProject = project
+                            showEcosystemDetail = true
+                        } else {
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Ecosystem: \(project.name) (Premium)", status: .comingSoon)
+                            showPremiumSheet = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var filteredEcosystemProjects: [QuantumEcosystemProject] {
+        if let category = selectedEcosystemCategory {
+            return viewModel.ecosystemProjects.filter { $0.category == category }
+        }
+        return viewModel.ecosystemProjects
+    }
+
+    // MARK: - Quick ROI Card
+    private var quickROICard: some View {
+        BentoCard(size: .medium) {
+            VStack(spacing: 16) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ROI Calculator")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                        Text("See your potential savings")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.5))
+                    }
+
+                    Spacer()
+
+                    Text("~$\(Int(viewModel.projectedAnnualGain))K/year")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(QuantumHorizonColors.goldCelebration)
                 }
 
-                VStack(spacing: 8) {
-                    Text("Enterprise Quantum Solutions")
-                        .font(QuantumHorizonTypography.sectionTitle(22))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Industry", element: "Calculate ROI", status: .success)
+                    showROICalculator = true
+                }) {
+                    HStack {
+                        Image(systemName: "chart.bar.fill")
+                        Text("Calculate Your ROI")
+                    }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(QuantumHorizonColors.quantumPurple.opacity(0.4))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+        }
+    }
 
-                    Text("Transform your business with quantum-powered optimization and analytics")
-                        .font(QuantumHorizonTypography.body(14))
+    // MARK: - Simple CTA Section
+    private var simpleCTASection: some View {
+        VStack(spacing: 12) {
+            Button(action: {
+                if premiumManager.isPremium {
+                    showPricingSheet = true
+                } else {
+                    showPremiumSheet = true
+                }
+            }) {
+                HStack {
+                    Image(systemName: premiumManager.isPremium ? "crown.fill" : "star.fill")
+                    Text(premiumManager.isPremium ? "Upgrade to Enterprise" : "Get Premium Access")
+                }
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(QuantumHorizonColors.goldCelebration)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
+
+            Text("Start with a 7-day free trial")
+                .font(.system(size: 12))
+                .foregroundColor(.white.opacity(0.4))
+        }
+    }
+
+    // MARK: - Selected Industry Detail Card
+    private func selectedIndustryDetail(_ industry: HorizonIndustrySolution) -> some View {
+        BentoCard(size: .medium) {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+                    ZStack {
+                        Circle()
+                            .fill(industry.color.opacity(0.2))
+                            .frame(width: 50, height: 50)
+                        Image(systemName: industry.icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(industry.color)
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(industry.name)
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+                        Text(industry.benefit)
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+
+                    Spacer()
+
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            selectedIndustry = nil
+                        }
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.white.opacity(0.4))
+                    }
+                }
+
+                // Industry Details
+                VStack(alignment: .leading, spacing: 10) {
+                    industryDetailRow(icon: "chart.line.uptrend.xyaxis", title: "Efficiency Gain", value: "+\(industry.efficiencyGain)%")
+                    industryDetailRow(icon: "clock.fill", title: "Implementation", value: "2-4 weeks")
+                    industryDetailRow(icon: "person.3.fill", title: "Team Size", value: "Any size")
+                }
+
+                // Use Cases
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Key Use Cases")
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(.white.opacity(0.6))
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
+
+                    ForEach(getUseCases(for: industry.name), id: \.self) { useCase in
+                        HStack(spacing: 8) {
+                            Circle()
+                                .fill(industry.color)
+                                .frame(width: 6, height: 6)
+                            Text(useCase)
+                                .font(.system(size: 12))
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                    }
                 }
 
-                // Quick Stats
-                HStack(spacing: 20) {
-                    quickStat(value: "47%", label: "Avg. Efficiency Gain")
-                    quickStat(value: "2.3x", label: "ROI Improvement")
-                    quickStat(value: "500+", label: "Enterprise Clients")
+                // Action Button
+                Button(action: {
+                    DeveloperModeManager.shared.log(screen: "Industry", element: "Learn More: \(industry.name)", status: .success)
+                    showIndustryDetail = true
+                }) {
+                    HStack {
+                        Image(systemName: "book.fill")
+                        Text("Learn More")
+                    }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(industry.color.opacity(0.3))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+        }
+        .transition(.opacity.combined(with: .move(edge: .top)))
+    }
+
+    private func industryDetailRow(icon: String, title: String, value: String) -> some View {
+        HStack {
+            Image(systemName: icon)
+                .font(.system(size: 12))
+                .foregroundColor(QuantumHorizonColors.quantumGold)
+                .frame(width: 20)
+
+            Text(title)
+                .font(.system(size: 12))
+                .foregroundColor(.white.opacity(0.6))
+
+            Spacer()
+
+            Text(value)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.white)
+        }
+    }
+
+    private func getUseCases(for industry: String) -> [String] {
+        switch industry {
+        case "Finance":
+            return ["Portfolio optimization", "Risk assessment", "Fraud detection", "High-frequency trading"]
+        case "Healthcare":
+            return ["Drug molecule simulation", "Protein folding", "Treatment optimization", "Medical imaging"]
+        case "Logistics":
+            return ["Route optimization", "Warehouse layout", "Supply chain", "Delivery scheduling"]
+        case "Energy":
+            return ["Grid optimization", "Demand forecasting", "Renewable integration", "Load balancing"]
+        case "Manufacturing":
+            return ["Quality control", "Predictive maintenance", "Process optimization", "Inventory management"]
+        case "AI & ML":
+            return ["Quantum neural networks", "Feature selection", "Optimization problems", "Generative models"]
+        default:
+            return ["Optimization", "Simulation", "Analysis"]
+        }
+    }
+
+    // MARK: - Hero Section (Simplified)
+    private var heroSection: some View {
+        BentoCard(size: .medium) {
+            VStack(spacing: 16) {
+                HStack(spacing: 16) {
+                    // Simple Icon
+                    ZStack {
+                        Circle()
+                            .fill(QuantumHorizonColors.quantumGold.opacity(0.2))
+                            .frame(width: 60, height: 60)
+
+                        Image(systemName: "building.2.fill")
+                            .font(.system(size: 28))
+                            .foregroundStyle(QuantumHorizonColors.goldCelebration)
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Industry Solutions")
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.white)
+
+                        Text("Quantum-powered business optimization")
+                            .font(.system(size: 13))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+
+                    Spacer()
+                }
+
+                // Quick Stats Row
+                HStack(spacing: 0) {
+                    quickStat(value: "47%", label: "Efficiency")
+                    Divider().frame(height: 30).background(Color.white.opacity(0.1))
+                    quickStat(value: "2.3x", label: "ROI")
+                    Divider().frame(height: 30).background(Color.white.opacity(0.1))
+                    quickStat(value: "500+", label: "Clients")
                 }
             }
         }
     }
 
     private func quickStat(value: String, label: String) -> some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 2) {
             Text(value)
-                .font(QuantumHorizonTypography.statNumber(24))
+                .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(QuantumHorizonColors.goldCelebration)
 
             Text(label)
                 .font(.system(size: 10, weight: .medium))
                 .foregroundColor(.white.opacity(0.5))
-                .lineLimit(1)
         }
+        .frame(maxWidth: .infinity)
     }
 
     // MARK: - Industry Solutions Grid
@@ -180,7 +487,8 @@ struct IndustryHubView: View {
 
                         // Calculate button
                         Button(action: {
-                            DeveloperModeManager.shared.log(screen: "Industry", element: "Calculate ROI Button", status: .comingSoon)
+                            DeveloperModeManager.shared.log(screen: "Industry", element: "Calculate ROI Button", status: .success)
+                            showROICalculator = true
                         }) {
                             HStack(spacing: 6) {
                                 Image(systemName: "function")
@@ -223,14 +531,28 @@ struct IndustryHubView: View {
                 plan: viewModel.enterprisePlan,
                 isHighlighted: false,
                 badge: "BEST VALUE"
-            )
+            ) {
+                if premiumManager.isPremium {
+                    // Already premium - show contact enterprise
+                    showPricingSheet = true
+                } else {
+                    showPremiumSheet = true
+                }
+            }
 
             // Pro Plan
             HorizonPricingPlanCard(
                 plan: viewModel.proPlan,
                 isHighlighted: true,
                 badge: "POPULAR"
-            )
+            ) {
+                if premiumManager.isPremium {
+                    // Already premium
+                    showPricingSheet = true
+                } else {
+                    showPremiumSheet = true
+                }
+            }
 
             // Comparison table
             comparisonTable
@@ -530,6 +852,7 @@ struct HorizonPricingPlanCard: View {
     let plan: HorizonPricingPlan
     let isHighlighted: Bool
     let badge: String?
+    var onGetStarted: () -> Void = {}
 
     var body: some View {
         VStack(spacing: 16) {
@@ -588,7 +911,8 @@ struct HorizonPricingPlanCard: View {
 
             // CTA Button
             Button(action: {
-                DeveloperModeManager.shared.log(screen: "Industry", element: "Pricing: \(plan.name) Get Started", status: .comingSoon)
+                DeveloperModeManager.shared.log(screen: "Industry", element: "Pricing: \(plan.name) Get Started", status: .success)
+                onGetStarted()
             }) {
                 Text("Get Started")
                     .font(.system(size: 14, weight: .semibold))
@@ -678,6 +1002,28 @@ struct HorizonIndustrySolution: Identifiable {
     let isPremium: Bool
 }
 
+// MARK: - IBM Quantum Ecosystem Project Model
+struct QuantumEcosystemProject: Identifiable {
+    let id = UUID()
+    let name: String
+    let category: EcosystemCategory
+    let description: String
+    let icon: String
+    let color: Color
+    let stars: Int?
+    let githubUrl: String?
+    let isPremium: Bool
+
+    enum EcosystemCategory: String, CaseIterable {
+        case machineLearning = "Machine Learning"
+        case chemistry = "Chemistry & Physics"
+        case optimization = "Optimization"
+        case hardware = "Hardware Providers"
+        case simulation = "Simulation"
+        case research = "Research"
+    }
+}
+
 struct HorizonPricingPlan {
     let name: String
     let price: Int
@@ -702,6 +1048,7 @@ struct HorizonSuccessStory: Identifiable {
 @MainActor
 class IndustryHubViewModel: ObservableObject {
     @Published var industries: [HorizonIndustrySolution] = []
+    @Published var ecosystemProjects: [QuantumEcosystemProject] = []
     @Published var currentROI: Double = 15000
     @Published var projectedROI: Double = 85000
     @Published var projectedAnnualGain: Double = 127.5
@@ -741,6 +1088,7 @@ class IndustryHubViewModel: ObservableObject {
 
     init() {
         setupData()
+        setupEcosystemProjects()
     }
 
     private func setupData() {
@@ -757,6 +1105,153 @@ class IndustryHubViewModel: ObservableObject {
             HorizonSuccessStory(company: "GlobalBank", industry: "Finance", quote: "Quantum optimization reduced our risk exposure by 40% while increasing returns.", result: "40% risk reduction", color: .green),
             HorizonSuccessStory(company: "PharmaCorp", industry: "Healthcare", quote: "Drug candidate screening time cut from months to days.", result: "85% faster discovery", color: .red),
             HorizonSuccessStory(company: "LogiFlow", industry: "Logistics", quote: "Fleet routing optimization saved us $2.3M annually.", result: "$2.3M annual savings", color: .orange)
+        ]
+    }
+
+    // MARK: - IBM Quantum Ecosystem Projects Setup
+    private func setupEcosystemProjects() {
+        ecosystemProjects = [
+            // Machine Learning
+            QuantumEcosystemProject(
+                name: "TorchQuantum",
+                category: .machineLearning,
+                description: "PyTorch-based quantum ML framework with GPU support. Build and train quantum neural networks seamlessly.",
+                icon: "brain.fill",
+                color: .orange,
+                stars: 1591,
+                githubUrl: "https://github.com/mit-han-lab/torchquantum",
+                isPremium: false
+            ),
+            QuantumEcosystemProject(
+                name: "Qiskit ML",
+                category: .machineLearning,
+                description: "Quantum Machine Learning module with variational algorithms, quantum kernels, and neural networks.",
+                icon: "cpu.fill",
+                color: .blue,
+                stars: 928,
+                githubUrl: "https://github.com/qiskit-community/qiskit-machine-learning",
+                isPremium: true
+            ),
+
+            // Chemistry & Physics
+            QuantumEcosystemProject(
+                name: "Qiskit Nature",
+                category: .chemistry,
+                description: "Simulate molecular structures and chemical reactions. Quantum chemistry for drug discovery.",
+                icon: "atom",
+                color: .green,
+                stars: 372,
+                githubUrl: "https://github.com/qiskit-community/qiskit-nature",
+                isPremium: true
+            ),
+
+            // Optimization
+            QuantumEcosystemProject(
+                name: "Qiskit Finance",
+                category: .optimization,
+                description: "Portfolio optimization, option pricing, and risk analysis using quantum algorithms.",
+                icon: "chart.line.uptrend.xyaxis",
+                color: .green,
+                stars: 302,
+                githubUrl: "https://github.com/qiskit-community/qiskit-finance",
+                isPremium: true
+            ),
+            QuantumEcosystemProject(
+                name: "Qiskit Optimization",
+                category: .optimization,
+                description: "Solve combinatorial optimization problems with QAOA, VQE, and Grover's algorithm.",
+                icon: "gearshape.2.fill",
+                color: .purple,
+                stars: 272,
+                githubUrl: "https://github.com/qiskit-community/qiskit-optimization",
+                isPremium: true
+            ),
+
+            // Hardware Providers
+            QuantumEcosystemProject(
+                name: "IBM Quantum",
+                category: .hardware,
+                description: "Access 127+ qubit Eagle processors. Brisbane, Osaka, Kyoto systems available.",
+                icon: "server.rack",
+                color: .blue,
+                stars: nil,
+                githubUrl: nil,
+                isPremium: true
+            ),
+            QuantumEcosystemProject(
+                name: "Azure Quantum",
+                category: .hardware,
+                description: "Microsoft's quantum cloud with IonQ, Quantinuum, and Rigetti backends.",
+                icon: "cloud.fill",
+                color: .cyan,
+                stars: nil,
+                githubUrl: nil,
+                isPremium: true
+            ),
+            QuantumEcosystemProject(
+                name: "AWS Braket",
+                category: .hardware,
+                description: "Amazon's quantum service with IonQ, Rigetti, and OQC quantum hardware.",
+                icon: "arrow.triangle.branch",
+                color: .orange,
+                stars: nil,
+                githubUrl: nil,
+                isPremium: true
+            ),
+            QuantumEcosystemProject(
+                name: "IonQ",
+                category: .hardware,
+                description: "Trapped-ion quantum computers with high gate fidelity and all-to-all connectivity.",
+                icon: "bolt.circle.fill",
+                color: .purple,
+                stars: nil,
+                githubUrl: nil,
+                isPremium: true
+            ),
+
+            // Simulation
+            QuantumEcosystemProject(
+                name: "Qiskit Aer",
+                category: .simulation,
+                description: "High-performance quantum circuit simulator with noise modeling and GPU acceleration.",
+                icon: "waveform.path",
+                color: .indigo,
+                stars: 629,
+                githubUrl: "https://github.com/Qiskit/qiskit-aer",
+                isPremium: false
+            ),
+            QuantumEcosystemProject(
+                name: "MQT DDSIM",
+                category: .simulation,
+                description: "Decision diagram-based quantum simulator for efficient large-scale simulations.",
+                icon: "square.grid.3x3.fill",
+                color: .teal,
+                stars: 156,
+                githubUrl: "https://github.com/cda-tum/mqt-ddsim",
+                isPremium: false
+            ),
+
+            // Research
+            QuantumEcosystemProject(
+                name: "PennyLane",
+                category: .research,
+                description: "Cross-platform quantum ML library supporting multiple hardware backends.",
+                icon: "doc.text.magnifyingglass",
+                color: .pink,
+                stars: nil,
+                githubUrl: "https://github.com/PennyLaneAI/pennylane",
+                isPremium: false
+            ),
+            QuantumEcosystemProject(
+                name: "Cirq (Google)",
+                category: .research,
+                description: "Google's quantum framework for NISQ algorithms and experiments.",
+                icon: "circle.hexagongrid.fill",
+                color: .red,
+                stars: nil,
+                githubUrl: "https://github.com/quantumlib/Cirq",
+                isPremium: false
+            )
         ]
     }
 }
@@ -888,6 +1383,892 @@ struct IndustryPremiumSheet: View {
             Text(text)
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.white.opacity(0.8))
+        }
+    }
+}
+
+// MARK: - ROI Calculator Sheet
+struct ROICalculatorSheet: View {
+    @ObservedObject var viewModel: IndustryHubViewModel
+    @Environment(\.dismiss) var dismiss
+    @State private var companySize: Double = 100
+    @State private var annualBudget: Double = 500000
+    @State private var selectedIndustry = "Finance"
+    @State private var showResult = false
+
+    let industries = ["Finance", "Healthcare", "Logistics", "Energy", "Manufacturing", "AI & ML"]
+
+    var calculatedROI: Double {
+        let baseROI = annualBudget * 0.15  // 15% base
+        let sizeMultiplier = min(companySize / 50, 3)  // Scale with company size
+        let industryMultiplier: Double = {
+            switch selectedIndustry {
+            case "Finance": return 1.4
+            case "Healthcare": return 1.2
+            case "AI & ML": return 1.5
+            case "Energy": return 1.3
+            default: return 1.0
+            }
+        }()
+        return baseROI * sizeMultiplier * industryMultiplier
+    }
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            VStack(spacing: 24) {
+                // Header
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ROI Calculator")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.white)
+                        Text("Estimate your quantum advantage")
+                            .font(.system(size: 14))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+                    Spacer()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(.white.opacity(0.5))
+                    }
+                }
+
+                ScrollView {
+                    VStack(spacing: 20) {
+                        // Industry Selection
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Industry")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(.white.opacity(0.6))
+
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 10) {
+                                    ForEach(industries, id: \.self) { industry in
+                                        Button(action: { selectedIndustry = industry }) {
+                                            Text(industry)
+                                                .font(.system(size: 13, weight: .medium))
+                                                .foregroundColor(selectedIndustry == industry ? .black : .white)
+                                                .padding(.horizontal, 16)
+                                                .padding(.vertical, 8)
+                                                .background(
+                                                    selectedIndustry == industry ?
+                                                    QuantumHorizonColors.quantumGold :
+                                                    Color.white.opacity(0.1)
+                                                )
+                                                .clipShape(Capsule())
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Company Size Slider
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text("Team Size")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.6))
+                                Spacer()
+                                Text("\(Int(companySize)) people")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(QuantumHorizonColors.quantumCyan)
+                            }
+
+                            Slider(value: $companySize, in: 10...1000, step: 10)
+                                .accentColor(QuantumHorizonColors.quantumCyan)
+                        }
+                        .padding()
+                        .glassmorphism(intensity: 0.06, cornerRadius: 12)
+
+                        // Annual Budget Slider
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text("Annual IT Budget")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.6))
+                                Spacer()
+                                Text("$\(Int(annualBudget / 1000))K")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(QuantumHorizonColors.quantumCyan)
+                            }
+
+                            Slider(value: $annualBudget, in: 50000...10000000, step: 50000)
+                                .accentColor(QuantumHorizonColors.quantumCyan)
+                        }
+                        .padding()
+                        .glassmorphism(intensity: 0.06, cornerRadius: 12)
+
+                        // Calculate Button
+                        Button(action: {
+                            withAnimation(.spring()) {
+                                showResult = true
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "chart.bar.fill")
+                                Text("Calculate ROI")
+                            }
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(QuantumHorizonColors.miamiSunset)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                        }
+
+                        // Result Section
+                        if showResult {
+                            VStack(spacing: 16) {
+                                Text("Estimated Annual Savings")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.white.opacity(0.6))
+
+                                Text("$\(Int(calculatedROI / 1000))K")
+                                    .font(.system(size: 48, weight: .bold))
+                                    .foregroundStyle(QuantumHorizonColors.goldCelebration)
+
+                                HStack(spacing: 20) {
+                                    VStack {
+                                        Text("ROI")
+                                            .font(.system(size: 11))
+                                            .foregroundColor(.white.opacity(0.5))
+                                        Text("\(Int(calculatedROI / annualBudget * 100))%")
+                                            .font(.system(size: 20, weight: .bold))
+                                            .foregroundColor(QuantumHorizonColors.quantumGreen)
+                                    }
+
+                                    VStack {
+                                        Text("Payback")
+                                            .font(.system(size: 11))
+                                            .foregroundColor(.white.opacity(0.5))
+                                        Text("< 6 months")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                    }
+                                }
+
+                                Text("*Based on industry benchmarks and your inputs")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.white.opacity(0.4))
+                            }
+                            .padding(20)
+                            .glassmorphism(intensity: 0.1, cornerRadius: 16)
+                            .transition(.opacity.combined(with: .scale))
+                        }
+                    }
+                }
+
+                Spacer()
+            }
+            .padding(24)
+        }
+    }
+}
+
+// MARK: - Industry Detail Sheet
+struct IndustryDetailSheet: View {
+    let industry: HorizonIndustrySolution
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header
+                    HStack {
+                        ZStack {
+                            Circle()
+                                .fill(industry.color.opacity(0.2))
+                                .frame(width: 60, height: 60)
+                            Image(systemName: industry.icon)
+                                .font(.system(size: 28))
+                                .foregroundColor(industry.color)
+                        }
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(industry.name)
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(.white)
+                            Text("Quantum Solutions")
+                                .font(.system(size: 14))
+                                .foregroundColor(.white.opacity(0.6))
+                        }
+
+                        Spacer()
+
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Overview
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Overview")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+
+                        Text(getIndustryOverview(industry.name))
+                            .font(.system(size: 14))
+                            .foregroundColor(.white.opacity(0.8))
+                            .lineSpacing(4)
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.06, cornerRadius: 16)
+
+                    // Key Benefits
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Key Benefits")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+
+                        ForEach(getIndustryBenefits(industry.name), id: \.self) { benefit in
+                            HStack(alignment: .top, spacing: 12) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(QuantumHorizonColors.quantumGreen)
+                                Text(benefit)
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.white.opacity(0.8))
+                            }
+                        }
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.06, cornerRadius: 16)
+
+                    // Stats
+                    HStack(spacing: 20) {
+                        statCard(value: "+\(industry.efficiencyGain)%", label: "Efficiency", color: QuantumHorizonColors.quantumGreen)
+                        statCard(value: "2-4", label: "Weeks to Deploy", color: QuantumHorizonColors.quantumCyan)
+                        statCard(value: "99.9%", label: "Uptime", color: QuantumHorizonColors.quantumGold)
+                    }
+
+                    // CTA
+                    Button(action: { dismiss() }) {
+                        HStack {
+                            Image(systemName: "paperplane.fill")
+                            Text("Contact Sales")
+                        }
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(QuantumHorizonColors.goldCelebration)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Spacer(minLength: 50)
+                }
+                .padding(24)
+            }
+        }
+    }
+
+    private func statCard(value: String, label: String, color: Color) -> some View {
+        VStack(spacing: 4) {
+            Text(value)
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(color)
+            Text(label)
+                .font(.system(size: 10))
+                .foregroundColor(.white.opacity(0.5))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 16)
+        .glassmorphism(intensity: 0.08, cornerRadius: 12)
+    }
+
+    private func getIndustryOverview(_ name: String) -> String {
+        switch name {
+        case "Finance":
+            return "Quantum computing revolutionizes financial services by enabling complex portfolio optimization, risk analysis, and fraud detection at unprecedented speeds. Our solutions help financial institutions process millions of scenarios in seconds."
+        case "Healthcare":
+            return "Accelerate drug discovery and medical research with quantum-powered molecular simulations. Our healthcare solutions reduce drug development time from years to months, enabling faster treatments for patients worldwide."
+        case "Logistics":
+            return "Optimize complex supply chains and delivery routes with quantum algorithms. Our logistics solutions help companies reduce costs, minimize delivery times, and improve customer satisfaction through intelligent route planning."
+        case "Energy":
+            return "Transform energy grid management with quantum optimization. Our solutions enable better demand forecasting, renewable energy integration, and real-time load balancing for more efficient and sustainable power systems."
+        case "Manufacturing":
+            return "Enhance manufacturing processes with quantum-powered quality control and predictive maintenance. Our solutions help factories reduce downtime, improve product quality, and optimize production schedules."
+        case "AI & ML":
+            return "Supercharge your machine learning with quantum neural networks. Our AI solutions provide exponential speedups for training complex models, enabling new possibilities in pattern recognition and data analysis."
+        default:
+            return "Quantum computing offers transformative solutions for your industry."
+        }
+    }
+
+    private func getIndustryBenefits(_ name: String) -> [String] {
+        switch name {
+        case "Finance":
+            return ["40% reduction in risk exposure", "Real-time portfolio rebalancing", "Advanced fraud detection algorithms", "Regulatory compliance automation"]
+        case "Healthcare":
+            return ["85% faster drug candidate screening", "Protein structure prediction", "Personalized treatment optimization", "Clinical trial acceleration"]
+        case "Logistics":
+            return ["30% reduction in delivery costs", "Dynamic route optimization", "Inventory level optimization", "Demand forecasting accuracy"]
+        case "Energy":
+            return ["25% improvement in grid efficiency", "Renewable integration optimization", "Peak demand prediction", "Carbon footprint reduction"]
+        case "Manufacturing":
+            return ["50% reduction in defects", "Predictive maintenance accuracy", "Supply chain resilience", "Production scheduling optimization"]
+        case "AI & ML":
+            return ["100x training speedup potential", "Enhanced feature extraction", "Quantum advantage in optimization", "Novel algorithm development"]
+        default:
+            return ["Improved efficiency", "Cost reduction", "Faster processing"]
+        }
+    }
+}
+
+// MARK: - Ecosystem Project Card
+struct EcosystemProjectCard: View {
+    let project: QuantumEcosystemProject
+    var isPremiumUser: Bool = false
+
+    var body: some View {
+        HStack(spacing: 14) {
+            // Icon
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(project.color.opacity(0.15))
+                    .frame(width: 50, height: 50)
+
+                Image(systemName: project.icon)
+                    .font(.system(size: 22))
+                    .foregroundColor(project.color)
+            }
+
+            // Info
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(project.name)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.white)
+
+                    if project.isPremium && !isPremiumUser {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 10))
+                            .foregroundColor(.orange)
+                    } else if project.isPremium && isPremiumUser {
+                        Image(systemName: "crown.fill")
+                            .font(.system(size: 10))
+                            .foregroundStyle(QuantumHorizonColors.goldCelebration)
+                    }
+
+                    Spacer()
+
+                    if let stars = project.stars {
+                        HStack(spacing: 3) {
+                            Image(systemName: "star.fill")
+                                .font(.system(size: 10))
+                            Text("\(stars)")
+                                .font(.system(size: 11))
+                        }
+                        .foregroundColor(.yellow)
+                    }
+                }
+
+                Text(project.description)
+                    .font(.system(size: 12))
+                    .foregroundColor(.white.opacity(0.6))
+                    .lineLimit(2)
+
+                // Category badge
+                Text(project.category.rawValue)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(project.color)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(project.color.opacity(0.15))
+                    .clipShape(Capsule())
+            }
+
+            // Arrow
+            Image(systemName: "chevron.right")
+                .font(.system(size: 12))
+                .foregroundColor(.white.opacity(0.3))
+        }
+        .padding(14)
+        .glassmorphism(intensity: 0.08, cornerRadius: 16)
+        .opacity(project.isPremium && !isPremiumUser ? 0.7 : 1.0)
+    }
+}
+
+// MARK: - Ecosystem Project Detail Sheet
+struct EcosystemProjectDetailSheet: View {
+    let project: QuantumEcosystemProject
+    @Environment(\.dismiss) var dismiss
+    @State private var isRunning = false
+    @State private var runResult: String?
+    @State private var showCodeExport = false
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header
+                    HStack {
+                        ZStack {
+                            Circle()
+                                .fill(project.color.opacity(0.2))
+                                .frame(width: 60, height: 60)
+                            Image(systemName: project.icon)
+                                .font(.system(size: 28))
+                                .foregroundColor(project.color)
+                        }
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(project.name)
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(.white)
+
+                            HStack(spacing: 8) {
+                                Text(project.category.rawValue)
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(project.color)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background(project.color.opacity(0.15))
+                                    .clipShape(Capsule())
+
+                                if let stars = project.stars {
+                                    HStack(spacing: 3) {
+                                        Image(systemName: "star.fill")
+                                            .font(.system(size: 11))
+                                        Text("\(stars)")
+                                            .font(.system(size: 12, weight: .medium))
+                                    }
+                                    .foregroundColor(.yellow)
+                                }
+                            }
+                        }
+
+                        Spacer()
+
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Description
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("About")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+
+                        Text(project.description)
+                            .font(.system(size: 14))
+                            .foregroundColor(.white.opacity(0.8))
+                            .lineSpacing(4)
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.06, cornerRadius: 16)
+
+                    // Quick Actions
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Quick Actions")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+
+                        // Run Demo Button
+                        Button(action: runDemo) {
+                            HStack {
+                                if isRunning {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .scaleEffect(0.8)
+                                } else {
+                                    Image(systemName: "play.fill")
+                                }
+                                Text(isRunning ? "Running..." : "Run Demo Circuit")
+                            }
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(project.color.opacity(0.4))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .disabled(isRunning)
+
+                        // Export Code Button
+                        Button(action: { showCodeExport = true }) {
+                            HStack {
+                                Image(systemName: "doc.text.fill")
+                                Text("Export Sample Code")
+                            }
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(Color.white.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+
+                        // GitHub Link
+                        if let githubUrl = project.githubUrl {
+                            Button(action: {
+                                if let url = URL(string: githubUrl) {
+                                    UIApplication.shared.open(url)
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "link")
+                                    Text("View on GitHub")
+                                }
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(Color.white.opacity(0.1))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                        }
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.06, cornerRadius: 16)
+
+                    // Run Result
+                    if let result = runResult {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(QuantumHorizonColors.quantumGreen)
+                                Text("Execution Result")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+
+                            Text(result)
+                                .font(.system(size: 13, design: .monospaced))
+                                .foregroundColor(.white.opacity(0.8))
+                                .padding(12)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color.black.opacity(0.3))
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
+                        .padding()
+                        .glassmorphism(intensity: 0.08, cornerRadius: 16)
+                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                    }
+
+                    // Use Cases
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Use Cases")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+
+                        ForEach(getUseCases(), id: \.self) { useCase in
+                            HStack(alignment: .top, spacing: 10) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(QuantumHorizonColors.quantumGreen)
+                                    .font(.system(size: 14))
+                                Text(useCase)
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.white.opacity(0.8))
+                            }
+                        }
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.06, cornerRadius: 16)
+
+                    Spacer(minLength: 50)
+                }
+                .padding(24)
+            }
+        }
+        .sheet(isPresented: $showCodeExport) {
+            EcosystemCodeExportSheet(project: project)
+        }
+    }
+
+    private func runDemo() {
+        isRunning = true
+        DeveloperModeManager.shared.log(screen: "Ecosystem Detail", element: "Run Demo: \(project.name)", status: .success)
+
+        // Simulate running the demo
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.spring()) {
+                runResult = generateDemoResult()
+                isRunning = false
+            }
+        }
+    }
+
+    private func generateDemoResult() -> String {
+        switch project.category {
+        case .machineLearning:
+            return """
+            🧠 Quantum Neural Network Demo
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Model: 4-qubit variational classifier
+            Layers: 3 quantum layers
+            Parameters: 24 trainable weights
+            Training accuracy: 94.2%
+            Inference time: 0.023s
+            """
+        case .chemistry:
+            return """
+            ⚛️ Molecular Simulation Demo
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Molecule: H₂ (Hydrogen)
+            Basis: STO-3G
+            Qubits used: 4
+            Ground state energy: -1.137 Ha
+            Calculation time: 0.156s
+            """
+        case .optimization:
+            return """
+            📊 Portfolio Optimization Demo
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Assets: 5 stocks
+            Algorithm: QAOA (p=2)
+            Optimal allocation found
+            Expected return: +12.3%
+            Risk (VaR): 4.2%
+            """
+        case .hardware:
+            return """
+            🖥️ Hardware Connection Demo
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Backend: \(project.name)
+            Status: ✅ Connected
+            Queue position: #3
+            Estimated wait: ~2 min
+            Available qubits: 127
+            """
+        case .simulation:
+            return """
+            🌊 Quantum Simulation Demo
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Circuit: Bell State
+            Qubits: 2
+            Shots: 1000
+            Results: {"00": 498, "11": 502}
+            Fidelity: 99.8%
+            """
+        case .research:
+            return """
+            🔬 Research Framework Demo
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Framework: \(project.name)
+            Mode: Hybrid quantum-classical
+            Gradient method: Parameter-shift
+            Optimization: Adam
+            Convergence: 50 iterations
+            """
+        }
+    }
+
+    private func getUseCases() -> [String] {
+        switch project.category {
+        case .machineLearning:
+            return ["Classification tasks", "Feature extraction", "Quantum kernel methods", "Variational quantum classifiers"]
+        case .chemistry:
+            return ["Drug molecule simulation", "Protein folding analysis", "Material science research", "Chemical reaction modeling"]
+        case .optimization:
+            return ["Portfolio optimization", "Supply chain routing", "Resource allocation", "Scheduling problems"]
+        case .hardware:
+            return ["Production workloads", "Research experiments", "Algorithm benchmarking", "Error analysis"]
+        case .simulation:
+            return ["Circuit debugging", "Noise modeling", "Algorithm development", "Performance testing"]
+        case .research:
+            return ["Novel algorithm development", "Cross-platform experiments", "Hybrid computing", "Academic research"]
+        }
+    }
+}
+
+// MARK: - Ecosystem Code Export Sheet
+struct EcosystemCodeExportSheet: View {
+    let project: QuantumEcosystemProject
+    @Environment(\.dismiss) var dismiss
+    @State private var copied = false
+
+    var sampleCode: String {
+        switch project.category {
+        case .machineLearning:
+            return """
+            # \(project.name) - Sample Code
+            import torch
+            from torchquantum import QuantumDevice, QuantumCircuit
+
+            # Create quantum device with 4 qubits
+            dev = QuantumDevice(n_wires=4)
+
+            # Build quantum neural network layer
+            qc = QuantumCircuit(n_wires=4)
+            qc.h(wires=0)
+            qc.cnot(wires=[0, 1])
+            qc.ry(wires=2, params=0.5)
+            qc.cnot(wires=[2, 3])
+
+            # Execute and measure
+            dev.forward(qc)
+            result = dev.measure()
+            print(f"Measurement: {result}")
+            """
+        case .chemistry:
+            return """
+            # \(project.name) - Sample Code
+            from qiskit_nature.second_q.drivers import PySCFDriver
+            from qiskit_nature.second_q.mappers import JordanWignerMapper
+
+            # Define H2 molecule
+            driver = PySCFDriver(atom="H 0 0 0; H 0 0 0.735")
+            problem = driver.run()
+
+            # Map to qubit operators
+            mapper = JordanWignerMapper()
+            qubit_op = mapper.map(problem.second_q_ops())
+
+            # Run VQE for ground state
+            from qiskit.algorithms import VQE
+            vqe = VQE(ansatz=problem.ansatz)
+            result = vqe.compute_minimum_eigenvalue(qubit_op)
+            print(f"Ground state energy: {result.eigenvalue}")
+            """
+        case .optimization:
+            return """
+            # \(project.name) - Sample Code
+            from qiskit_optimization import QuadraticProgram
+            from qiskit_optimization.algorithms import MinimumEigenOptimizer
+            from qiskit.algorithms import QAOA
+
+            # Define optimization problem
+            qp = QuadraticProgram()
+            qp.binary_var('x')
+            qp.binary_var('y')
+            qp.minimize(linear={'x': 1, 'y': 2})
+
+            # Solve with QAOA
+            qaoa = QAOA(reps=2)
+            optimizer = MinimumEigenOptimizer(qaoa)
+            result = optimizer.solve(qp)
+            print(f"Optimal solution: {result.x}")
+            """
+        case .hardware:
+            return """
+            # \(project.name) - Connection Code
+            from qiskit_ibm_runtime import QiskitRuntimeService
+
+            # Initialize service
+            service = QiskitRuntimeService(
+                channel="ibm_quantum",
+                token="YOUR_API_TOKEN"
+            )
+
+            # Get backend
+            backend = service.backend("\(project.name.lowercased().replacingOccurrences(of: " ", with: "_"))")
+            print(f"Backend: {backend.name}")
+            print(f"Qubits: {backend.num_qubits}")
+            print(f"Status: {backend.status()}")
+            """
+        case .simulation:
+            return """
+            # \(project.name) - Sample Code
+            from qiskit import QuantumCircuit
+            from qiskit_aer import AerSimulator
+
+            # Create Bell state circuit
+            qc = QuantumCircuit(2, 2)
+            qc.h(0)
+            qc.cx(0, 1)
+            qc.measure([0, 1], [0, 1])
+
+            # Run on Aer simulator
+            simulator = AerSimulator()
+            job = simulator.run(qc, shots=1000)
+            result = job.result()
+            counts = result.get_counts()
+            print(f"Results: {counts}")
+            """
+        case .research:
+            return """
+            # \(project.name) - Sample Code
+            import pennylane as qml
+            import numpy as np
+
+            # Create quantum device
+            dev = qml.device("default.qubit", wires=2)
+
+            @qml.qnode(dev)
+            def circuit(params):
+                qml.RX(params[0], wires=0)
+                qml.RY(params[1], wires=1)
+                qml.CNOT(wires=[0, 1])
+                return qml.expval(qml.PauliZ(0))
+
+            # Optimize circuit
+            params = np.array([0.5, 0.1])
+            opt = qml.GradientDescentOptimizer(stepsize=0.4)
+            for _ in range(100):
+                params = opt.step(circuit, params)
+            print(f"Optimized params: {params}")
+            """
+        }
+    }
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            VStack(spacing: 20) {
+                // Header
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Sample Code")
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.white)
+                        Text(project.name)
+                            .font(.system(size: 14))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+                    Spacer()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(.white.opacity(0.5))
+                    }
+                }
+
+                // Code View
+                ScrollView {
+                    Text(sampleCode)
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundColor(.white.opacity(0.9))
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .background(Color.black.opacity(0.4))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                // Copy Button
+                Button(action: {
+                    UIPasteboard.general.string = sampleCode
+                    copied = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        copied = false
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: copied ? "checkmark" : "doc.on.doc")
+                        Text(copied ? "Copied!" : "Copy to Clipboard")
+                    }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(QuantumHorizonColors.quantumCyan)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .padding(24)
         }
     }
 }

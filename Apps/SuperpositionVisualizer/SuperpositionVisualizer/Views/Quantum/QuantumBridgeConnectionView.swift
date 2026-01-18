@@ -920,6 +920,7 @@ struct QuantumBackend: Identifiable {
     let icon: String
     let color: Color
     let isPremium: Bool
+    var description: String = ""
 }
 
 struct QueueStatusInfo {

@@ -201,3 +201,179 @@
 "success.job_submitted" = "Auftrag an Quantenwarteschlange übermittelt";
 "success.connection_established" = "Verbindung zum Quanten-Backend hergestellt";
 "success.state_prepared" = "Quantenzustand erfolgreich vorbereitet";
+
+// MARK: - Bridge Tab (QuantumBridge)
+
+"bridge.title" = "QuantumBridge";
+"bridge.why_use" = "Warum QuantumBridge verwenden?";
+"bridge.connect_real" = "Verbinden Sie sich mit echten Quantencomputern";
+
+// Bridge-Vorteile
+"bridge.benefit.hardware.title" = "Echte Hardware";
+"bridge.benefit.hardware.desc" = "Schaltungen auf echten IBM Quantenprozessoren ausführen";
+"bridge.benefit.quantum.title" = "Echte Quanteneffekte";
+"bridge.benefit.quantum.desc" = "Echte Superposition und Verschränkung erleben";
+"bridge.benefit.results.title" = "Authentische Ergebnisse";
+"bridge.benefit.results.desc" = "Messungen von Quantenhardware, nicht Simulationen";
+
+// Verbindungsstatus
+"bridge.status.active" = "Bridge Aktiv";
+"bridge.status.disconnected" = "Bridge Getrennt";
+"bridge.connect" = "Mit QPU verbinden";
+"bridge.disconnect" = "Trennen";
+
+// Backend-Auswahl
+"bridge.select_backend" = "Backend auswählen";
+"bridge.select_backend.desc" = "Wählen Sie wo Ihre Quantenschaltungen ausgeführt werden";
+"bridge.best_for" = "Am besten für";
+"bridge.advantages" = "Vorteile";
+"bridge.limitations" = "Einschränkungen";
+
+// Simulator-Backend
+"bridge.backend.simulator.name" = "Simulator";
+"bridge.backend.simulator.best" = "Lernen & Testen";
+"bridge.backend.simulator.adv1" = "Sofortige Ergebnisse - keine Wartezeit";
+"bridge.backend.simulator.adv2" = "Kostenlos - unbegrenzte Ausführungen";
+"bridge.backend.simulator.adv3" = "Perfekt zum Debuggen von Schaltungen";
+"bridge.backend.simulator.lim1" = "Kein echtes Quantenrauschen";
+"bridge.backend.simulator.lim2" = "Auf klassische Simulation beschränkt";
+
+// IBM Brisbane-Backend
+"bridge.backend.brisbane.name" = "IBM Brisbane";
+"bridge.backend.brisbane.best" = "Produktion & Forschung";
+"bridge.backend.brisbane.adv1" = "127 echte Qubits";
+"bridge.backend.brisbane.adv2" = "Höchste Kohärenzzeit";
+"bridge.backend.brisbane.adv3" = "Am besten für komplexe Algorithmen";
+"bridge.backend.brisbane.lim1" = "Warteschlangen-Wartezeit";
+"bridge.backend.brisbane.lim2" = "Tägliches Nutzungslimit";
+
+// IBM Osaka-Backend
+"bridge.backend.osaka.name" = "IBM Osaka";
+"bridge.backend.osaka.best" = "Hochgeschwindigkeitsausführung";
+"bridge.backend.osaka.adv1" = "127 echte Qubits";
+"bridge.backend.osaka.adv2" = "Optimierte Gattergeschwindigkeit";
+"bridge.backend.osaka.adv3" = "Kürzere Warteschlangen";
+"bridge.backend.osaka.lim1" = "Mittlerer Rauschpegel";
+"bridge.backend.osaka.lim2" = "Tägliches Nutzungslimit";
+
+// IBM Kyoto-Backend
+"bridge.backend.kyoto.name" = "IBM Kyoto";
+"bridge.backend.kyoto.best" = "Forschungsprojekte";
+"bridge.backend.kyoto.adv1" = "127 echte Qubits";
+"bridge.backend.kyoto.adv2" = "Erweiterte Fehlerminderung";
+"bridge.backend.kyoto.adv3" = "Forschungspartnerschaften";
+"bridge.backend.kyoto.lim1" = "Derzeit in Wartung";
+"bridge.backend.kyoto.lim2" = "Eingeschränkte Verfügbarkeit";
+
+// Warteschlangenstatus
+"bridge.queue.title" = "Warteschlangenstatus";
+"bridge.queue.pending" = "Ausstehend";
+"bridge.queue.running" = "Läuft";
+"bridge.queue.wait" = "Gesch. Wartezeit";
+
+// Bereitstellungsbereich
+"bridge.deploy.hold" = "Halten zum Bereitstellen";
+"bridge.deploy.deploying" = "Wird bereitgestellt...";
+"bridge.deploy.to" = "an";
+
+// Schnellaktionen
+"bridge.actions.title" = "Schnellaktionen";
+"bridge.actions.bell" = "Bell-Zustand";
+"bridge.actions.bell.desc" = "Verschränkung erstellen";
+"bridge.actions.ghz" = "GHZ-Zustand";
+"bridge.actions.ghz.desc" = "Multi-Qubit Verschränkung";
+"bridge.actions.export" = "QASM exportieren";
+"bridge.actions.export.desc" = "OpenQASM 3.0 Code erhalten";
+"bridge.actions.continuous" = "Kontinuierlicher Modus";
+"bridge.actions.continuous.desc" = "Automatisch alle 30s wiederholen";
+"bridge.actions.continuous.active" = "Aktiv";
+"bridge.actions.continuous.runs" = "Ausführungen";
+"bridge.actions.continuous.stop" = "Kontinuierlichen Modus stoppen";
+
+// Aktive Jobs
+"bridge.jobs.title" = "Aktive Jobs";
+"bridge.jobs.position" = "Position";
+"bridge.jobs.shots" = "Shots";
+"bridge.jobs.running" = "Läuft";
+"bridge.jobs.queued" = "In Warteschlange";
+
+// QASM-Export
+"bridge.qasm.title" = "QASM-Code exportieren";
+"bridge.qasm.copy" = "In Zwischenablage kopieren";
+"bridge.qasm.copied" = "Kopiert!";
+"bridge.qasm.share" = "Teilen";
+
+// Fehlerkorrektur
+"bridge.error.title" = "Fehlerkorrektur";
+"bridge.error.surface" = "Oberflächencode";
+"bridge.error.active" = "Aktiv";
+
+// MARK: - IBM Quantum Ecosystem
+
+"ecosystem.title" = "IBM Quantum Ecosystem";
+"ecosystem.subtitle" = "Echte Quantenprojekte aus dem Ökosystem ausführen";
+"ecosystem.all" = "Alle";
+"ecosystem.category.ml" = "Maschinelles Lernen";
+"ecosystem.category.chemistry" = "Chemie & Physik";
+"ecosystem.category.optimization" = "Optimierung";
+"ecosystem.category.hardware" = "Hardware-Anbieter";
+"ecosystem.category.simulation" = "Simulation";
+"ecosystem.category.research" = "Forschung";
+
+"ecosystem.about" = "Über";
+"ecosystem.actions" = "Schnellaktionen";
+"ecosystem.run_demo" = "Demo-Schaltung ausführen";
+"ecosystem.running" = "Läuft...";
+"ecosystem.export_code" = "Beispielcode exportieren";
+"ecosystem.view_github" = "Auf GitHub anzeigen";
+"ecosystem.result" = "Ausführungsergebnis";
+"ecosystem.use_cases" = "Anwendungsfälle";
+"ecosystem.sample_code" = "Beispielcode";
+"ecosystem.copy" = "In Zwischenablage kopieren";
+
+// MARK: - Circuits Tab
+
+"circuits.title" = "Schaltungs-Builder";
+"circuits.subtitle" = "Quantenschaltungen erstellen und ausführen";
+
+// Statistiken
+"circuits.stat.templates" = "Vorlagen";
+"circuits.stat.runs" = "Ausführungen";
+"circuits.stat.favorites" = "Favoriten";
+
+// Abschnitte
+"circuits.quick.title" = "Schnellstart";
+"circuits.featured.title" = "Empfohlene Schaltungen";
+"circuits.templates.title" = "Alle Vorlagen";
+"circuits.recent.title" = "Kürzlich ausgeführt";
+"circuits.recent.clear" = "Löschen";
+
+// Kategorien
+"circuits.category.basic" = "Grundlegende Gatter";
+"circuits.category.entanglement" = "Verschränkung";
+"circuits.category.algorithms" = "Algorithmen";
+"circuits.category.error" = "Fehlerkorrektur";
+
+// Schaltungsbeschreibungen
+"circuits.bell.desc" = "Verschränkung zwischen 2 Qubits erstellen";
+"circuits.ghz.desc" = "3-Qubit maximal verschränkter Zustand";
+"circuits.grover.desc" = "Quantensuche mit quadratischer Beschleunigung";
+"circuits.teleport.desc" = "Quantenzustand mittels Verschränkung übertragen";
+"circuits.dj.desc" = "Bestimmen ob Funktion konstant oder ausgeglichen ist";
+"circuits.surface.desc" = "Topologischer Fehlerkorrekturcode";
+"circuits.qaoa.desc" = "Quantenapproximierte Optimierung";
+"circuits.hadamard.desc" = "Gleichmäßige Superposition erstellen";
+"circuits.xgate.desc" = "Quanten-Bit-Flip-Operation";
+"circuits.phase.desc" = "S- und T-Phasenrotationen anwenden";
+"circuits.bitflip.desc" = "Einzelne Bit-Flip-Fehler korrigieren";
+"circuits.phaseflip.desc" = "Einzelne Phasen-Flip-Fehler korrigieren";
+
+// Schaltungsdetails
+"circuits.detail.about" = "Über";
+"circuits.detail.gates" = "Verwendete Gatter";
+"circuits.detail.run" = "Schaltung ausführen";
+
+// Aktionen
+"circuits.run" = "Schaltung ausführen";
+"circuits.running" = "Läuft...";
+"circuits.result" = "Ergebnis";
