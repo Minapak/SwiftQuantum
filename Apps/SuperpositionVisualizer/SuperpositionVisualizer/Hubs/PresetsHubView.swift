@@ -7,13 +7,16 @@ import SwiftQuantum
 
 struct PresetsHubView: View {
     @StateObject private var viewModel = CircuitsHubViewModel()
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var selectedCircuit: QuantumCircuitTemplate?
     @State private var showCircuitDetail = false
     @State private var showRunResult = false
+    @State private var showPremiumSheet = false
 
-    // Helper for localized strings from SwiftQuantum bundle
+    // Helper for localized strings
     private func L(_ key: String) -> String {
-        return key.quantumLocalized
+        return localization.string(forKey: key)
     }
 
     var body: some View {
@@ -46,6 +49,23 @@ struct PresetsHubView: View {
                 CircuitDetailSheet(circuit: circuit, viewModel: viewModel)
             }
         }
+        .sheet(isPresented: $showPremiumSheet) {
+            CircuitsPremiumSheet()
+        }
+    }
+
+    // MARK: - Handle Circuit Selection
+    private func handleCircuitSelection(_ circuit: QuantumCircuitTemplate) {
+        if circuit.isPremium && !premiumManager.isPremium {
+            // Show premium sheet for non-premium users clicking premium circuits
+            DeveloperModeManager.shared.log(screen: "Circuits", element: "\(circuit.name) (Premium Required)", status: .comingSoon)
+            showPremiumSheet = true
+        } else {
+            // Show circuit detail for free circuits or premium users
+            DeveloperModeManager.shared.log(screen: "Circuits", element: circuit.name, status: .success)
+            selectedCircuit = circuit
+            showCircuitDetail = true
+        }
     }
 
     // MARK: - Hero Section
@@ -74,28 +94,50 @@ struct PresetsHubView: View {
                     Spacer()
                 }
 
-                // Quick Stats
-                HStack(spacing: 0) {
-                    quickStat(value: "\(viewModel.totalCircuits)", label: L("circuits.stat.templates"))
-                    Divider().frame(height: 30).background(Color.white.opacity(0.1))
-                    quickStat(value: "\(viewModel.totalRuns)", label: L("circuits.stat.runs"))
-                    Divider().frame(height: 30).background(Color.white.opacity(0.1))
-                    quickStat(value: "\(viewModel.favoriteCount)", label: L("circuits.stat.favorites"))
+                // Key Benefits Row - Intuitive description
+                VStack(spacing: 8) {
+                    heroBenefitRow(
+                        icon: "waveform.path.ecg",
+                        text: L("circuits.hero.benefit1"),
+                        color: QuantumHorizonColors.quantumCyan
+                    )
+                    heroBenefitRow(
+                        icon: "doc.on.doc",
+                        text: L("circuits.hero.benefit2"),
+                        color: QuantumHorizonColors.quantumPurple
+                    )
+                    heroBenefitRow(
+                        icon: "play.circle",
+                        text: L("circuits.hero.benefit3"),
+                        color: QuantumHorizonColors.quantumGold
+                    )
                 }
             }
         }
     }
 
-    private func quickStat(value: String, label: String) -> some View {
-        VStack(spacing: 2) {
-            Text(value)
-                .font(.system(size: 20, weight: .bold))
-                .foregroundStyle(QuantumHorizonColors.miamiSunset)
-            Text(label)
-                .font(.system(size: 10, weight: .medium))
-                .foregroundColor(.white.opacity(0.5))
+    private func heroBenefitRow(icon: String, text: String, color: Color) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.system(size: 12))
+                .foregroundColor(color)
+                .frame(width: 18)
+
+            Text(text)
+                .font(.system(size: 11))
+                .foregroundColor(.white.opacity(0.8))
+                .lineLimit(1)
+
+            Spacer()
+
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 11))
+                .foregroundColor(QuantumHorizonColors.quantumGreen.opacity(0.7))
         }
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(Color.white.opacity(0.05))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     // MARK: - Quick Circuits Section
@@ -109,9 +151,7 @@ struct PresetsHubView: View {
                 HStack(spacing: 12) {
                     ForEach(viewModel.quickCircuits) { circuit in
                         QuickCircuitCard(circuit: circuit) {
-                            DeveloperModeManager.shared.log(screen: "Circuits", element: "Quick: \(circuit.name)", status: .success)
-                            selectedCircuit = circuit
-                            showCircuitDetail = true
+                            handleCircuitSelection(circuit)
                         }
                     }
                 }
@@ -135,9 +175,7 @@ struct PresetsHubView: View {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 ForEach(viewModel.featuredCircuits) { circuit in
                     FeaturedCircuitCard(circuit: circuit) {
-                        DeveloperModeManager.shared.log(screen: "Circuits", element: "Featured: \(circuit.name)", status: .success)
-                        selectedCircuit = circuit
-                        showCircuitDetail = true
+                        handleCircuitSelection(circuit)
                     }
                 }
             }
@@ -166,9 +204,7 @@ struct PresetsHubView: View {
                         HStack(spacing: 10) {
                             ForEach(viewModel.circuits(for: category)) { circuit in
                                 CircuitTemplateCard(circuit: circuit) {
-                                    DeveloperModeManager.shared.log(screen: "Circuits", element: "Template: \(circuit.name)", status: .success)
-                                    selectedCircuit = circuit
-                                    showCircuitDetail = true
+                                    handleCircuitSelection(circuit)
                                 }
                             }
                         }
@@ -252,9 +288,13 @@ struct QuantumCircuitTemplate: Identifiable {
     let isPremium: Bool
 
     enum Difficulty: String {
-        case beginner = "Beginner"
-        case intermediate = "Intermediate"
-        case advanced = "Advanced"
+        case beginner = "circuits.difficulty.beginner"
+        case intermediate = "circuits.difficulty.intermediate"
+        case advanced = "circuits.difficulty.advanced"
+
+        var localizedName: String {
+            return rawValue.quantumLocalized
+        }
 
         var color: Color {
             switch self {
@@ -306,7 +346,7 @@ class CircuitsHubViewModel: ObservableObject {
                 icon: "point.3.connected.trianglepath.dotted",
                 color: QuantumHorizonColors.quantumPink,
                 difficulty: .intermediate,
-                isPremium: false
+                isPremium: true
             ),
             QuantumCircuitTemplate(
                 name: "Grover 2-qubit",
@@ -344,7 +384,7 @@ class CircuitsHubViewModel: ObservableObject {
                 icon: "questionmark.circle",
                 color: QuantumHorizonColors.quantumGreen,
                 difficulty: .intermediate,
-                isPremium: false
+                isPremium: true
             ),
             QuantumCircuitTemplate(
                 name: "Surface Code",
@@ -422,7 +462,7 @@ class CircuitsHubViewModel: ObservableObject {
                 icon: "shield.checkered",
                 color: QuantumHorizonColors.quantumGreen,
                 difficulty: .intermediate,
-                isPremium: false
+                isPremium: true
             ),
             QuantumCircuitTemplate(
                 name: "Phase Flip Code",
@@ -543,6 +583,12 @@ struct FeaturedCircuitCard: View {
     let circuit: QuantumCircuitTemplate
     let action: () -> Void
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         Button(action: action) {
@@ -560,7 +606,7 @@ struct FeaturedCircuitCard: View {
                             .foregroundColor(.orange)
                     }
 
-                    Text(circuit.difficulty.rawValue)
+                    Text(circuit.difficulty.localizedName)
                         .font(.system(size: 9, weight: .medium))
                         .foregroundColor(circuit.difficulty.color)
                         .padding(.horizontal, 6)
@@ -580,11 +626,11 @@ struct FeaturedCircuitCard: View {
                     .lineLimit(2)
 
                 HStack {
-                    Text("\(circuit.qubits) qubits")
+                    Text("\(circuit.qubits) \(L("circuits.qubits"))")
                         .font(.system(size: 10))
                         .foregroundColor(.white.opacity(0.4))
                     Spacer()
-                    Text("\(circuit.gates.count) gates")
+                    Text("\(circuit.gates.count) \(L("circuits.gates"))")
                         .font(.system(size: 10))
                         .foregroundColor(.white.opacity(0.4))
                 }
@@ -605,6 +651,12 @@ struct FeaturedCircuitCard: View {
 struct CircuitTemplateCard: View {
     let circuit: QuantumCircuitTemplate
     let action: () -> Void
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         Button(action: action) {
@@ -622,7 +674,7 @@ struct CircuitTemplateCard: View {
                     Text(circuit.name)
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(.white)
-                    Text("\(circuit.qubits)Q · \(circuit.gates.count) gates")
+                    Text("\(circuit.qubits)Q · \(circuit.gates.count) \(L("circuits.gates"))")
                         .font(.system(size: 10))
                         .foregroundColor(.white.opacity(0.5))
                 }
@@ -671,13 +723,14 @@ struct CircuitDetailSheet: View {
     @ObservedObject var viewModel: CircuitsHubViewModel
     @Environment(\.dismiss) var dismiss
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var isRunning = false
     @State private var runResult: [String: Int]?
     @State private var shots = 1000
 
-    // Helper for localized strings from SwiftQuantum bundle
+    // Helper for localized strings
     private func L(_ key: String) -> String {
-        return key.quantumLocalized
+        return localization.string(forKey: key)
     }
 
     var body: some View {
@@ -703,11 +756,11 @@ struct CircuitDetailSheet: View {
                                 .foregroundColor(.white)
 
                             HStack(spacing: 8) {
-                                Text("\(circuit.qubits) qubits")
+                                Text("\(circuit.qubits) \(L("circuits.qubits"))")
                                     .font(.system(size: 12))
                                     .foregroundColor(.white.opacity(0.6))
 
-                                Text(circuit.difficulty.rawValue)
+                                Text(circuit.difficulty.localizedName)
                                     .font(.system(size: 10, weight: .medium))
                                     .foregroundColor(circuit.difficulty.color)
                                     .padding(.horizontal, 8)
@@ -767,7 +820,7 @@ struct CircuitDetailSheet: View {
 
                         // Shots selector
                         HStack {
-                            Text("Shots:")
+                            Text(L("circuits.shots"))
                                 .font(.system(size: 14))
                                 .foregroundColor(.white.opacity(0.6))
                             Spacer()
@@ -860,6 +913,108 @@ struct CircuitDetailSheet: View {
                 runResult = viewModel.recentRuns.first?.result
                 isRunning = false
             }
+        }
+    }
+}
+
+// MARK: - Circuits Premium Sheet
+struct CircuitsPremiumSheet: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
+    @State private var showSuccessView = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
+
+    var body: some View {
+        ZStack {
+            QuantumHorizonBackground()
+
+            if showSuccessView {
+                UpgradeSuccessView(isPresented: $showSuccessView)
+                    .transition(.opacity)
+                    .onDisappear {
+                        dismiss()
+                    }
+            } else {
+                VStack(spacing: 24) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            DeveloperModeManager.shared.log(screen: "Circuits Premium", element: "Close Button", status: .success)
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                    }
+
+                    // Crown icon
+                    Image(systemName: "cpu.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(QuantumHorizonColors.miamiSunset)
+
+                    Text(L("circuits.premium.title"))
+                        .font(QuantumHorizonTypography.sectionTitle(24))
+                        .foregroundColor(.white)
+
+                    Text(L("circuits.premium.desc"))
+                        .font(QuantumHorizonTypography.body(14))
+                        .foregroundColor(.white.opacity(0.6))
+                        .multilineTextAlignment(.center)
+
+                    // Features list
+                    VStack(alignment: .leading, spacing: 12) {
+                        premiumFeatureRow(L("circuits.premium.feat1"))
+                        premiumFeatureRow(L("circuits.premium.feat2"))
+                        premiumFeatureRow(L("circuits.premium.feat3"))
+                        premiumFeatureRow(L("circuits.premium.feat4"))
+                        premiumFeatureRow(L("circuits.premium.feat5"))
+                    }
+                    .padding()
+                    .glassmorphism(intensity: 0.08, cornerRadius: 16)
+
+                    // Upgrade button
+                    Button(action: {
+                        DeveloperModeManager.shared.log(screen: "Circuits Premium", element: "Upgrade Button", status: .success)
+                        premiumManager.upgradeToPremium()
+                        withAnimation {
+                            showSuccessView = true
+                        }
+                    }) {
+                        Text(L("circuits.premium.upgrade"))
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(QuantumHorizonColors.miamiSunset)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Text(L("circuits.premium.trial"))
+                        .font(.system(size: 12))
+                        .foregroundColor(.white.opacity(0.4))
+
+                    Spacer()
+                }
+                .padding(24)
+            }
+        }
+    }
+
+    private func premiumFeatureRow(_ text: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(QuantumHorizonColors.quantumGreen)
+
+            Text(text)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.white.opacity(0.8))
         }
     }
 }

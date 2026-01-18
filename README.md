@@ -1,4 +1,4 @@
-# SwiftQuantum v2.2.2 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.3 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
@@ -21,7 +21,28 @@
 
 ---
 
-## What's New in v2.2.2 (2026 Production Release)
+## What's New in v2.2.3 (2026 Production Release)
+
+### Comprehensive Localization & Premium Subscription Redesign
+
+- **Authentication Localization**: Login, Sign Up, Password Reset screens now fully localized
+  - All form fields, buttons, error messages in 5 languages (EN, KO, JA, ZH, DE)
+  - Replaced SF Symbol with actual app icon in auth screens
+
+- **Subscription Paywall Redesign**: Complete overhaul of the premium purchase experience
+  - Tier selection: Pro vs Premium with clear feature comparison
+  - Period selection: Monthly vs Yearly with 33% savings badge
+  - Dynamic feature lists based on selected tier
+  - Localized pricing display and descriptions in all 5 languages
+
+- **Academy & Industry UI Improvements**:
+  - Academy hero section now uses actual app icon
+  - Industry solution cards fully localized (Finance, Healthcare, Logistics, etc.)
+  - Removed hardcoded stats, replaced with intuitive benefit descriptions
+
+---
+
+## What's New in v2.2.2
 
 ### UI Improvements & Bug Fixes
 
@@ -133,7 +154,7 @@ SomeView()
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/YOUR_USERNAME/SwiftQuantum.git", from: "2.2.2")
+    .package(url: "https://github.com/YOUR_USERNAME/SwiftQuantum.git", from: "2.2.3")
 ]
 ```
 
@@ -300,7 +321,7 @@ SwiftQuantum now integrates with the **IBM Quantum Ecosystem**, allowing you to 
 ## Architecture
 
 ```
-SwiftQuantum v2.2.2/
+SwiftQuantum v2.2.3/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -408,7 +429,16 @@ SwiftQuantum is built on cutting-edge quantum computing research:
 
 ## Roadmap
 
-### Version 2.2.2 (Current - January 2026)
+### Version 2.2.3 (Current - January 2026)
+- [x] Authentication screens localization (Login, Sign Up, Reset Password)
+- [x] Premium subscription paywall complete redesign
+- [x] Pro/Premium tier selection with feature comparison
+- [x] Monthly/Yearly period selection with savings badge
+- [x] Academy hero section uses actual app icon
+- [x] Industry solution cards localization
+- [x] Removed hardcoded stats in Industry and Circuits tabs
+
+### Version 2.2.2 (January 2026)
 - [x] Bridge tab info toggle (? button for "Why Use QuantumBridge?")
 - [x] Build error fixes (LocalizedStringKey, padding syntax)
 - [x] Cleaner initial Bridge view

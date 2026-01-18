@@ -1,10 +1,17 @@
 import SwiftUI
 import SafariServices
+import SwiftQuantum
 
 // MARK: - More Hub - "Ecosystem"
 // Academy + Industry + Profile + Settings
 
 struct MoreHubView: View {
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
     @State private var showAcademy = false
     @State private var showIndustry = false
     @State private var showProfile = false
@@ -42,17 +49,14 @@ struct MoreHubView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                // Quick Stats Card
-                quickStatsCard
-
                 // Navigation Cards
                 VStack(spacing: 12) {
                     moreNavigationCard(
                         title: LocalizationManager.shared.string(for: .academy),
-                        subtitle: "Learn Quantum Computing",
+                        subtitle: L("more.academy.subtitle"),
                         icon: "graduationcap.fill",
                         color: QuantumHorizonColors.quantumCyan,
-                        badge: authService.isLoggedIn ? (statsManager.lessonsCompleted > 0 ? "\(statsManager.lessonsCompleted) Done" : nil) : "Login"
+                        badge: authService.isLoggedIn ? (statsManager.lessonsCompleted > 0 ? "\(statsManager.lessonsCompleted) \(L("more.done"))" : nil) : L("more.login")
                     ) {
                         DeveloperModeManager.shared.log(screen: "More", element: "Academy Card", status: .success)
                         // Always show Academy marketing page (redirects to QuantumNative)
@@ -61,10 +65,10 @@ struct MoreHubView: View {
 
                     moreNavigationCard(
                         title: LocalizationManager.shared.string(for: .industry),
-                        subtitle: "Enterprise Solutions",
+                        subtitle: L("more.industry.subtitle"),
                         icon: "building.2.fill",
                         color: QuantumHorizonColors.quantumPurple,
-                        badge: "Premium"
+                        badge: L("more.premium")
                     ) {
                         DeveloperModeManager.shared.log(screen: "More", element: "Industry Card", status: .success)
                         showIndustry = true
@@ -72,10 +76,10 @@ struct MoreHubView: View {
 
                     moreNavigationCard(
                         title: LocalizationManager.shared.string(for: .profile),
-                        subtitle: "Your Quantum Journey",
+                        subtitle: L("more.profile.subtitle"),
                         icon: "person.circle.fill",
                         color: QuantumHorizonColors.quantumGold,
-                        badge: authService.isLoggedIn ? (authService.isAdmin ? "Admin" : nil) : "Login"
+                        badge: authService.isLoggedIn ? (authService.isAdmin ? L("more.admin") : nil) : L("more.login")
                     ) {
                         DeveloperModeManager.shared.log(screen: "More", element: "Profile Card", status: .success)
                         if authService.isLoggedIn {
@@ -124,65 +128,24 @@ struct MoreHubView: View {
                 }
             }
         }
-        .alert("Coming Soon", isPresented: $showComingSoon) {
-            Button("OK", role: .cancel) { }
+        .alert(L("more.coming_soon"), isPresented: $showComingSoon) {
+            Button(L("more.ok"), role: .cancel) { }
         } message: {
-            Text("\(comingSoonFeature) will be available in a future update.")
+            Text(L("more.coming_soon_message"))
         }
-        .alert("Reset Tutorial", isPresented: $showResetConfirm) {
-            Button("Cancel", role: .cancel) { }
-            Button("Reset", role: .destructive) {
+        .alert(L("more.reset_tutorial"), isPresented: $showResetConfirm) {
+            Button(L("more.cancel"), role: .cancel) { }
+            Button(L("more.reset"), role: .destructive) {
                 firstLaunchManager.resetOnboarding()
             }
         } message: {
-            Text("This will show the onboarding tutorial again when you restart the app.")
+            Text(L("more.reset_message"))
         }
         .sheet(isPresented: $showWebView) {
             if let url = webViewURL {
                 SafariWebView(url: url)
             }
         }
-        .task {
-            await statsManager.loadStats()
-        }
-    }
-
-    // MARK: - Quick Stats Card
-    private var quickStatsCard: some View {
-        HStack(spacing: 0) {
-            quickStatItem(value: "\(statsManager.lessonsCompleted)", label: "Lessons", color: QuantumHorizonColors.quantumCyan)
-
-            Divider()
-                .background(Color.white.opacity(0.1))
-                .frame(height: 40)
-
-            quickStatItem(value: "\(statsManager.xpPoints)", label: "XP Points", color: QuantumHorizonColors.quantumGold)
-
-            Divider()
-                .background(Color.white.opacity(0.1))
-                .frame(height: 40)
-
-            quickStatItem(value: "Level \(statsManager.level)", label: "Rank", color: QuantumHorizonColors.quantumPurple)
-        }
-        .padding(.vertical, 16)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-        )
-    }
-
-    private func quickStatItem(value: String, label: String, color: Color) -> some View {
-        VStack(spacing: 4) {
-            Text(value)
-                .font(.system(size: 18, weight: .bold, design: .monospaced))
-                .foregroundColor(color)
-            Text(label)
-                .font(.system(size: 10))
-                .foregroundColor(.white.opacity(0.5))
-        }
-        .frame(maxWidth: .infinity)
     }
 
     // MARK: - Navigation Card
@@ -272,28 +235,28 @@ struct MoreHubView: View {
                 Divider().background(Color.white.opacity(0.1))
 
                 // Appearance - Opens Web Settings
-                settingsRowButton(icon: "paintbrush.fill", title: "Appearance", color: QuantumHorizonColors.quantumPurple, isComingSoon: false) {
+                settingsRowButton(icon: "paintbrush.fill", title: L("more.appearance"), color: QuantumHorizonColors.quantumPurple, isComingSoon: false) {
                     openWebApp(path: "/settings/appearance")
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
                 // Privacy - Opens Privacy Policy
-                settingsRowButton(icon: "lock.fill", title: "Privacy", color: QuantumHorizonColors.quantumGreen, isComingSoon: false) {
-                    openWebApp(path: "/privacy")
+                settingsRowButton(icon: "lock.fill", title: L("more.privacy"), color: QuantumHorizonColors.quantumGreen, isComingSoon: false) {
+                    openWebApp(path: "/#")
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
                 // Reset Tutorial - Working
-                settingsRowButton(icon: "arrow.counterclockwise", title: "Reset Tutorial", color: .orange, isComingSoon: false) {
+                settingsRowButton(icon: "arrow.counterclockwise", title: L("more.reset_tutorial"), color: .orange, isComingSoon: false) {
                     showResetConfirm = true
                 }
 
                 Divider().background(Color.white.opacity(0.1))
 
                 // Help & Support - Opens Support Page
-                settingsRowButton(icon: "questionmark.circle.fill", title: "Help & Support", color: QuantumHorizonColors.quantumCyan, isComingSoon: false) {
+                settingsRowButton(icon: "questionmark.circle.fill", title: L("more.help"), color: QuantumHorizonColors.quantumCyan, isComingSoon: false) {
                     openWebApp(path: "/support")
                 }
             }
@@ -368,7 +331,7 @@ struct MoreHubView: View {
 // MARK: - App Info Helper
 enum AppInfo {
     static var version: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.2.0"
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "2.2.3"
     }
 
     static var build: String {
@@ -384,6 +347,12 @@ enum AppInfo {
 struct AcademyMarketingView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var animateGradient = false
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     // QuantumNative App Store URL (Replace with actual App Store ID)
     private let quantumNativeAppStoreURL = "https://apps.apple.com/app/quantumnative/id6740513054"
@@ -434,7 +403,7 @@ struct AcademyMarketingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(L("academy.done")) {
                         dismiss()
                     }
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
@@ -448,46 +417,21 @@ struct AcademyMarketingView: View {
     private var heroSection: some View {
         VStack(spacing: 20) {
             // App Icon
-            ZStack {
-                RoundedRectangle(cornerRadius: 28)
-                    .fill(
-                        LinearGradient(
-                            colors: [QuantumHorizonColors.quantumCyan, QuantumHorizonColors.quantumPurple],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 120, height: 120)
-                    .shadow(color: QuantumHorizonColors.quantumCyan.opacity(0.5), radius: 20)
-
-                Image(systemName: "atom")
-                    .font(.system(size: 50, weight: .medium))
-                    .foregroundColor(.white)
-            }
+            Image("QuantumNativeIcon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 120, height: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 28))
+                .shadow(color: QuantumHorizonColors.quantumCyan.opacity(0.5), radius: 20)
 
             VStack(spacing: 8) {
                 Text("QuantumNative")
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
 
-                Text("Master Quantum Computing")
+                Text(L("academy.hero.subtitle"))
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(QuantumHorizonColors.quantumCyan)
-
-                HStack(spacing: 4) {
-                    ForEach(0..<5) { _ in
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 14))
-                            .foregroundColor(.yellow)
-                    }
-                    Text("4.9")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.white)
-                    Text("(2.4K Reviews)")
-                        .font(.system(size: 12))
-                        .foregroundColor(.white.opacity(0.6))
-                }
-                .padding(.top, 4)
             }
         }
         .padding(.top, 20)
@@ -496,33 +440,33 @@ struct AcademyMarketingView: View {
     // MARK: - Features Section
     private var featuresSection: some View {
         VStack(spacing: 16) {
-            Text("Why Learn with QuantumNative?")
+            Text(L("academy.features.title"))
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
 
             VStack(spacing: 12) {
                 featureRow(
                     icon: "brain.head.profile",
-                    title: "Interactive Learning",
-                    description: "Hands-on quantum circuits with real-time visualization"
+                    title: L("academy.features.interactive.title"),
+                    description: L("academy.features.interactive.desc")
                 )
 
                 featureRow(
                     icon: "chart.line.uptrend.xyaxis",
-                    title: "Track Progress",
-                    description: "XP points, achievements, and learning streaks"
+                    title: L("academy.features.progress.title"),
+                    description: L("academy.features.progress.desc")
                 )
 
                 featureRow(
                     icon: "person.2.fill",
-                    title: "Synced Account",
-                    description: "Your progress syncs across SwiftQuantum apps"
+                    title: L("academy.features.synced.title"),
+                    description: L("academy.features.synced.desc")
                 )
 
                 featureRow(
                     icon: "certificate.fill",
-                    title: "Career Passport",
-                    description: "Earn verifiable quantum computing credentials"
+                    title: L("academy.features.passport.title"),
+                    description: L("academy.features.passport.desc")
                 )
             }
         }
@@ -566,14 +510,14 @@ struct AcademyMarketingView: View {
     // MARK: - Course Preview Section
     private var coursePreviewSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("12+ Courses Available")
+            Text(L("academy.courses.title"))
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     courseCard(
-                        title: "Quantum Basics",
+                        title: L("academy.courses.basics"),
                         lessons: 8,
                         duration: "2h",
                         color: QuantumHorizonColors.quantumCyan,
@@ -581,7 +525,7 @@ struct AcademyMarketingView: View {
                     )
 
                     courseCard(
-                        title: "Quantum Gates",
+                        title: L("academy.courses.gates"),
                         lessons: 12,
                         duration: "3h",
                         color: QuantumHorizonColors.quantumPurple,
@@ -589,7 +533,7 @@ struct AcademyMarketingView: View {
                     )
 
                     courseCard(
-                        title: "Entanglement",
+                        title: L("academy.courses.entanglement"),
                         lessons: 10,
                         duration: "2.5h",
                         color: QuantumHorizonColors.quantumPink,
@@ -597,7 +541,7 @@ struct AcademyMarketingView: View {
                     )
 
                     courseCard(
-                        title: "Algorithms",
+                        title: L("academy.courses.algorithms"),
                         lessons: 15,
                         duration: "4h",
                         color: QuantumHorizonColors.quantumGold,
@@ -618,7 +562,7 @@ struct AcademyMarketingView: View {
                 Spacer()
 
                 if isFree {
-                    Text("FREE")
+                    Text(L("academy.courses.free"))
                         .font(.system(size: 9, weight: .bold))
                         .foregroundColor(.black)
                         .padding(.horizontal, 6)
@@ -632,7 +576,7 @@ struct AcademyMarketingView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "book.fill")
                         .font(.system(size: 10))
-                    Text("\(lessons) lessons")
+                    Text("\(lessons) \(L("academy.courses.lessons"))")
                         .font(.system(size: 11))
                 }
                 .foregroundColor(.white.opacity(0.6))
@@ -675,7 +619,7 @@ struct AcademyMarketingView: View {
                 .font(.system(size: 24))
                 .foregroundColor(QuantumHorizonColors.quantumGold.opacity(0.5))
 
-            Text("QuantumNative made quantum computing accessible. I went from zero to building quantum algorithms in just 2 weeks!")
+            Text(L("academy.testimonial.quote"))
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(.white.opacity(0.9))
                 .multilineTextAlignment(.center)
@@ -686,17 +630,17 @@ struct AcademyMarketingView: View {
                     .fill(QuantumHorizonColors.quantumPurple)
                     .frame(width: 32, height: 32)
                     .overlay(
-                        Text("JK")
+                        Text(L("academy.testimonial.initials"))
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(.white)
                     )
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("James K.")
+                    Text(L("academy.testimonial.name"))
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.white)
 
-                    Text("Software Engineer")
+                    Text(L("academy.testimonial.role"))
                         .font(.system(size: 11))
                         .foregroundColor(.white.opacity(0.5))
                 }
@@ -721,7 +665,7 @@ struct AcademyMarketingView: View {
                     Image(systemName: "arrow.down.app.fill")
                         .font(.system(size: 20))
 
-                    Text("Download QuantumNative")
+                    Text(L("academy.cta.download"))
                         .font(.system(size: 17, weight: .bold))
                 }
                 .foregroundColor(.black)
@@ -738,7 +682,7 @@ struct AcademyMarketingView: View {
                 .shadow(color: QuantumHorizonColors.quantumCyan.opacity(0.4), radius: 10, y: 5)
             }
 
-            Text("Free download · Premium courses available")
+            Text(L("academy.cta.subtitle"))
                 .font(.system(size: 12))
                 .foregroundColor(.white.opacity(0.5))
         }
@@ -757,6 +701,11 @@ struct AcademyDetailView: View {
 // MARK: - Industry Detail View (Sheet)
 struct IndustryDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
+
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         NavigationView {
@@ -766,11 +715,11 @@ struct IndustryDetailView: View {
 
                 IndustryHubView()
             }
-            .navigationTitle("Industry")
+            .navigationTitle(L("industry.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(L("more.done")) {
                         DeveloperModeManager.shared.log(screen: "Industry", element: "Done Button", status: .success)
                         dismiss()
                     }
@@ -785,6 +734,11 @@ struct IndustryDetailView: View {
 // MARK: - Profile Detail View (Sheet)
 struct ProfileDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
+
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         NavigationView {
@@ -794,11 +748,11 @@ struct ProfileDetailView: View {
 
                 ProfileHubView()
             }
-            .navigationTitle("Profile")
+            .navigationTitle(L("profile.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(L("more.done")) {
                         DeveloperModeManager.shared.log(screen: "Profile", element: "Done Button", status: .success)
                         dismiss()
                     }

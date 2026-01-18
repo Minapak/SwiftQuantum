@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.2.3] - 2026-01-18
+
+### Added
+- **Authentication Screen Localization**
+  - Login, Sign Up, Password Reset screens fully localized
+  - All form fields (email, username, password) localized
+  - Error messages and validation text in all 5 languages
+  - Auth screens now use actual app icon instead of SF Symbol
+
+- **Premium Subscription Paywall Redesign**
+  - Complete UI overhaul with tier and period selection
+  - Tier selection: Pro vs Premium with visual indicators
+  - Period selection: Monthly vs Yearly with 33% savings badge
+  - Dynamic feature lists based on selected tier
+  - Localized pricing and descriptions
+
+- **Subscription Localization Keys (5 languages)**
+  - `subscription.title`, `subscription.subtitle`, `subscription.choose_plan`
+  - `subscription.pro/premium`, `subscription.monthly/yearly`
+  - `subscription.pro.feature1-4`, `subscription.premium.feature1-5`
+  - `subscription.pro/premium.desc_monthly/yearly`
+  - `subscription.subscribe`, `subscription.restore`, `subscription.legal`
+
+- **Industry Card Localization**
+  - All 6 industry cards (Finance, Healthcare, Logistics, Energy, Manufacturing, AI) localized
+  - Industry benefit descriptions localized for all languages
+
+- **QuantumNativeIcon Image Asset**
+  - Created reusable app icon image asset for in-app use
+  - Used in Academy hero, Auth screens, and Paywall
+
+### Changed
+- **Industry Hero Section**: Replaced hardcoded stats with intuitive benefit descriptions
+- **Circuits Hero Section**: Replaced hardcoded stats with benefit descriptions
+- **Academy Hero Section**: Now uses actual app icon with shadow effect
+- **Auth Logo Section**: Uses app icon instead of SF Symbol "atom"
+
+### Removed
+- Academy star rating display removed from hero section
+- Hardcoded stats (47%, 2.3x, 500+) from Industry tab
+- Hardcoded stats (Templates, Runs, Favorites) from Circuits tab
+
+---
+
 ## [2.2.1] - 2026-01-16
 
 ### Added
@@ -338,6 +382,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[2.2.3]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.2.1...v2.2.3
 [2.2.1]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/YOUR_USERNAME/SwiftQuantum/compare/v2.1.0...v2.1.1

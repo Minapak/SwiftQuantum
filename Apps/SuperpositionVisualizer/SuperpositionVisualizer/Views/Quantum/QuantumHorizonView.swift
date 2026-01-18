@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftQuantum
 
 // MARK: - Quantum Horizon Main View
 // 2026 Modern UI/UX: Glassmorphism + Bento Grid + Miami Gradients
@@ -8,9 +9,16 @@ struct QuantumHorizonView: View {
     @StateObject private var stateManager = QuantumStateManager()
     @StateObject private var firstLaunchManager = FirstLaunchManager()
     @StateObject private var devMode = DeveloperModeManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var selectedHub: QuantumHub = .lab
     @State private var showCelebration = false
     @State private var showOnboarding = false
+    @State private var showBridgeInfo = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -20,9 +28,33 @@ struct QuantumHorizonView: View {
 
             // Main Content
             VStack(spacing: 0) {
-                // Hub Header
-                HubHeader(hub: selectedHub)
-                    .padding(.top, 8)
+                // Hub Header with optional trailing content
+                HubHeader(hub: selectedHub) {
+                    // Learn More button for Bridge tab (inline with header)
+                    if selectedHub == .bridge {
+                        Button(action: {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                showBridgeInfo.toggle()
+                            }
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "questionmark.circle.fill")
+                                    .font(.system(size: 14))
+                                Text(L("bridge.learn_more"))
+                                    .font(.system(size: 12, weight: .medium))
+                            }
+                            .foregroundColor(showBridgeInfo ? QuantumHorizonColors.quantumCyan : .white.opacity(0.6))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(
+                                Capsule()
+                                    .fill(showBridgeInfo ? QuantumHorizonColors.quantumCyan.opacity(0.2) : Color.white.opacity(0.08))
+                            )
+                        }
+                        .buttonStyle(SpringButtonStyle())
+                    }
+                }
+                .padding(.top, 8)
 
                 // Hub Content
                 hubContent
@@ -71,7 +103,7 @@ struct QuantumHorizonView: View {
             PresetsHubView()
 
         case .bridge:
-            FactoryHubView()
+            FactoryHubView(showBridgeInfo: $showBridgeInfo)
 
         case .more:
             MoreHubView()

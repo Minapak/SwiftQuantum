@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftQuantum
 
 // MARK: - Profile Hub - "마이클"
 // 글로벌 기여 지수, 설정, 성취도
@@ -11,6 +12,11 @@ struct ProfileHubView: View {
     @State private var showSettings = false
     @State private var showPremiumSheet = false
     @State private var showLanguageSheet = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ScrollView {
@@ -131,7 +137,7 @@ struct ProfileHubView: View {
                         }
                     }
 
-                    Text(premiumManager.isPremium ? "Premium Quantum Explorer" : viewModel.title)
+                    Text(premiumManager.isPremium ? L("profile.premium_explorer") : viewModel.title)
                         .font(QuantumHorizonTypography.body(14))
                         .foregroundColor(premiumManager.isPremium ? QuantumHorizonColors.quantumGold : QuantumHorizonColors.quantumPurple)
 
@@ -139,7 +145,7 @@ struct ProfileHubView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "calendar")
                             .font(.system(size: 11))
-                        Text("Member since \(viewModel.memberSince)")
+                        Text("\(L("profile.member_since")) \(viewModel.memberSince)")
                             .font(.system(size: 11))
                     }
                     .foregroundColor(.white.opacity(0.5))
@@ -164,7 +170,7 @@ struct ProfileHubView: View {
     private var globalContributionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Global Contribution Index")
+                Text(L("profile.gci.title"))
                     .font(QuantumHorizonTypography.sectionTitle(18))
                     .foregroundColor(.white)
 
@@ -185,7 +191,7 @@ struct ProfileHubView: View {
                     // GCI Score
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("GCI Score")
+                            Text(L("profile.gci.score"))
                                 .font(.system(size: 12))
                                 .foregroundColor(.white.opacity(0.5))
 
@@ -212,7 +218,7 @@ struct ProfileHubView: View {
                                 .rotationEffect(.degrees(-90))
 
                             VStack(spacing: 2) {
-                                Text("Top")
+                                Text(L("profile.gci.top"))
                                     .font(.system(size: 10))
                                     .foregroundColor(.white.opacity(0.5))
                                 Text("\(viewModel.topPercentile)%")
@@ -227,9 +233,9 @@ struct ProfileHubView: View {
 
                     // Contribution breakdown
                     HStack(spacing: 20) {
-                        contributionItem(icon: "flask.fill", value: "\(viewModel.experimentsRun)", label: "Experiments")
-                        contributionItem(icon: "book.fill", value: "\(viewModel.lessonsCompleted)", label: "Lessons")
-                        contributionItem(icon: "cpu", value: "\(viewModel.qpuMinutes)", label: "QPU Min")
+                        contributionItem(icon: "flask.fill", value: "\(viewModel.experimentsRun)", label: L("profile.gci.experiments"))
+                        contributionItem(icon: "book.fill", value: "\(viewModel.lessonsCompleted)", label: L("profile.gci.lessons"))
+                        contributionItem(icon: "cpu", value: "\(viewModel.qpuMinutes)", label: L("profile.gci.qpu_min"))
                     }
                 }
             }
@@ -257,7 +263,7 @@ struct ProfileHubView: View {
     private var achievementSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Achievements")
+                Text(L("profile.achievements"))
                     .font(QuantumHorizonTypography.sectionTitle(18))
                     .foregroundColor(.white)
 
@@ -291,35 +297,35 @@ struct ProfileHubView: View {
     // MARK: - Learning Stats Section
     private var learningStatsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Learning Progress")
+            Text(L("profile.learning_progress"))
                 .font(QuantumHorizonTypography.sectionTitle(18))
                 .foregroundColor(.white)
 
             HStack(spacing: 12) {
                 LearningStatCard(
                     value: "\(viewModel.streakDays)",
-                    label: "Day Streak",
+                    label: L("profile.day_streak"),
                     icon: "flame.fill",
                     color: .orange
                 )
 
                 LearningStatCard(
                     value: "\(viewModel.totalXP)",
-                    label: "Total XP",
+                    label: L("profile.total_xp"),
                     icon: "star.fill",
                     color: QuantumHorizonColors.quantumGold
                 )
 
                 LearningStatCard(
                     value: formatTime(viewModel.totalStudyTime),
-                    label: "Study Time",
+                    label: L("profile.study_time"),
                     icon: "clock.fill",
                     color: QuantumHorizonColors.quantumCyan
                 )
             }
 
             // Weekly activity chart
-            BentoCard(title: "This Week", icon: "chart.bar.fill", accentColor: QuantumHorizonColors.quantumGreen, size: .medium) {
+            BentoCard(title: L("profile.this_week"), icon: "chart.bar.fill", accentColor: QuantumHorizonColors.quantumGreen, size: .medium) {
                 WeeklyActivityChart(data: viewModel.weeklyActivity)
                     .frame(height: 100)
             }
@@ -335,7 +341,7 @@ struct ProfileHubView: View {
     // MARK: - Settings Section
     private var settingsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Settings")
+            Text(L("profile.settings"))
                 .font(QuantumHorizonTypography.sectionTitle(18))
                 .foregroundColor(.white)
 
@@ -344,7 +350,7 @@ struct ProfileHubView: View {
                     DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Notifications Toggle", status: .success)
                     viewModel.notificationsEnabled.toggle()
                 }) {
-                    SettingsRow(icon: "bell.fill", title: "Notifications", color: .red) {
+                    SettingsRow(icon: "bell.fill", title: L("profile.notifications"), color: .red) {
                         Toggle("", isOn: $viewModel.notificationsEnabled)
                             .tint(QuantumHorizonColors.quantumPurple)
                     }
@@ -355,7 +361,7 @@ struct ProfileHubView: View {
                     DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: Dark Mode Toggle", status: .success)
                     viewModel.darkModeEnabled.toggle()
                 }) {
-                    SettingsRow(icon: "moon.fill", title: "Dark Mode", color: .purple) {
+                    SettingsRow(icon: "moon.fill", title: L("profile.dark_mode"), color: .purple) {
                         Toggle("", isOn: $viewModel.darkModeEnabled)
                             .tint(QuantumHorizonColors.quantumPurple)
                     }
@@ -384,8 +390,8 @@ struct ProfileHubView: View {
                 Button(action: {
                     DeveloperModeManager.shared.log(screen: "Profile", element: "Settings: IBM Quantum API", status: .comingSoon)
                 }) {
-                    SettingsRow(icon: "key.fill", title: "IBM Quantum API", color: QuantumHorizonColors.quantumCyan) {
-                        Text(viewModel.apiKeyConfigured ? "Configured" : "Not set")
+                    SettingsRow(icon: "key.fill", title: L("profile.api_key"), color: QuantumHorizonColors.quantumCyan) {
+                        Text(viewModel.apiKeyConfigured ? L("profile.configured") : L("profile.not_set"))
                             .font(.system(size: 14))
                             .foregroundColor(viewModel.apiKeyConfigured ? QuantumHorizonColors.quantumGreen : .white.opacity(0.5))
                         Image(systemName: "chevron.right")
@@ -406,14 +412,14 @@ struct ProfileHubView: View {
                         showPremiumSheet = true
                     }
                 }) {
-                    SettingsRow(icon: "crown.fill", title: "Premium Status", color: QuantumHorizonColors.quantumGold) {
+                    SettingsRow(icon: "crown.fill", title: L("profile.premium_status"), color: QuantumHorizonColors.quantumGold) {
                         HStack(spacing: 6) {
                             if premiumManager.isPremium {
                                 Image(systemName: "checkmark.circle.fill")
                                     .font(.system(size: 12))
                                     .foregroundColor(QuantumHorizonColors.quantumGreen)
                             }
-                            Text(premiumManager.isPremium ? "Active" : "Free")
+                            Text(premiumManager.isPremium ? L("profile.active") : L("profile.free"))
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(premiumManager.isPremium ? QuantumHorizonColors.quantumGold : .white.opacity(0.5))
                         }
@@ -584,7 +590,13 @@ struct Achievement: Identifiable {
 struct ProfilePremiumSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showSuccessView = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -616,23 +628,23 @@ struct ProfilePremiumSheet: View {
                         .font(.system(size: 64))
                         .foregroundStyle(QuantumHorizonColors.goldCelebration)
 
-                    Text("Upgrade to Premium")
+                    Text(L("profile.upgrade_premium"))
                         .font(QuantumHorizonTypography.sectionTitle(24))
                         .foregroundColor(.white)
 
-                    Text("Unlock all premium features and become a Quantum Legend")
+                    Text(L("profile.unlock_features"))
                         .font(QuantumHorizonTypography.body(14))
                         .foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
 
                     // Features list
                     VStack(alignment: .leading, spacing: 12) {
-                        premiumFeatureRow("QuantumBridge QPU Connection")
-                        premiumFeatureRow("All 12+ Academy Courses")
-                        premiumFeatureRow("Industry Solutions Access")
-                        premiumFeatureRow("Error Correction Simulation")
-                        premiumFeatureRow("Premium Badge & Title")
-                        premiumFeatureRow("Priority Support")
+                        premiumFeatureRow(L("profile.feature.bridge"))
+                        premiumFeatureRow(L("profile.feature.academy"))
+                        premiumFeatureRow(L("profile.feature.industry"))
+                        premiumFeatureRow(L("profile.feature.error"))
+                        premiumFeatureRow(L("profile.feature.badge"))
+                        premiumFeatureRow(L("profile.feature.support"))
                     }
                     .padding()
                     .glassmorphism(intensity: 0.08, cornerRadius: 16)
@@ -645,7 +657,7 @@ struct ProfilePremiumSheet: View {
                             showSuccessView = true
                         }
                     }) {
-                        Text("Upgrade - $9.99/month")
+                        Text(L("profile.upgrade_btn"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity)
@@ -654,7 +666,7 @@ struct ProfilePremiumSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
 
-                    Text("7-day free trial included")
+                    Text(L("profile.trial"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.4))
 

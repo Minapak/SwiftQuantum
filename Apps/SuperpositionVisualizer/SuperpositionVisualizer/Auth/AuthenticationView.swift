@@ -11,6 +11,7 @@ import SwiftUI
 // MARK: - Authentication View
 struct AuthenticationView: View {
     @ObservedObject var authService = AuthService.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @Environment(\.dismiss) var dismiss
 
     @State private var authMode: AuthMode = .login
@@ -19,6 +20,11 @@ struct AuthenticationView: View {
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var showPassword = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     enum AuthMode {
         case login
@@ -69,22 +75,18 @@ struct AuthenticationView: View {
     // MARK: - Logo Section
     private var logoSection: some View {
         VStack(spacing: 12) {
-            Image(systemName: "atom")
-                .font(.system(size: 60))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [.cyan, .purple],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+            Image("QuantumNativeIcon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 18))
 
             Text("SwiftQuantum")
                 .font(.title.bold())
                 .foregroundColor(.white)
 
-            Text(authMode == .login ? "Welcome Back" :
-                 authMode == .signUp ? "Create Account" : "Reset Password")
+            Text(authMode == .login ? L("auth.welcome_back") :
+                 authMode == .signUp ? L("auth.create_account") : L("auth.reset_password"))
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.7))
         }
@@ -97,7 +99,7 @@ struct AuthenticationView: View {
             // Email Field
             AuthTextField(
                 icon: "envelope",
-                placeholder: "Email",
+                placeholder: L("auth.email"),
                 text: $email,
                 keyboardType: .emailAddress
             )
@@ -105,7 +107,7 @@ struct AuthenticationView: View {
             // Password Field
             AuthSecureField(
                 icon: "lock",
-                placeholder: "Password",
+                placeholder: L("auth.password"),
                 text: $password,
                 showPassword: $showPassword
             )
@@ -119,7 +121,7 @@ struct AuthenticationView: View {
                     ProgressView()
                         .tint(.black)
                 } else {
-                    Text("Login")
+                    Text(L("auth.login"))
                         .font(.headline)
                         .foregroundColor(.black)
                 }
@@ -139,17 +141,17 @@ struct AuthenticationView: View {
             // Links
             VStack(spacing: 12) {
                 Button(action: { authMode = .forgotPassword }) {
-                    Text("Forgot Password?")
+                    Text(L("auth.forgot_password"))
                         .font(.subheadline)
                         .foregroundColor(.cyan)
                 }
 
                 HStack(spacing: 4) {
-                    Text("Don't have an account?")
+                    Text(L("auth.no_account"))
                         .foregroundColor(.white.opacity(0.6))
 
                     Button(action: { withAnimation { authMode = .signUp } }) {
-                        Text("Sign Up")
+                        Text(L("auth.signup"))
                             .fontWeight(.semibold)
                             .foregroundColor(.cyan)
                     }
@@ -166,7 +168,7 @@ struct AuthenticationView: View {
             // Email Field
             AuthTextField(
                 icon: "envelope",
-                placeholder: "Email",
+                placeholder: L("auth.email"),
                 text: $email,
                 keyboardType: .emailAddress
             )
@@ -174,14 +176,14 @@ struct AuthenticationView: View {
             // Username Field
             AuthTextField(
                 icon: "person",
-                placeholder: "Username",
+                placeholder: L("auth.username"),
                 text: $username
             )
 
             // Password Field
             AuthSecureField(
                 icon: "lock",
-                placeholder: "Password (min 6 characters)",
+                placeholder: L("auth.password_min"),
                 text: $password,
                 showPassword: $showPassword
             )
@@ -189,7 +191,7 @@ struct AuthenticationView: View {
             // Confirm Password Field
             AuthSecureField(
                 icon: "lock.fill",
-                placeholder: "Confirm Password",
+                placeholder: L("auth.confirm_password"),
                 text: $confirmPassword,
                 showPassword: $showPassword
             )
@@ -200,7 +202,7 @@ struct AuthenticationView: View {
                     Image(systemName: password == confirmPassword ? "checkmark.circle.fill" : "xmark.circle.fill")
                         .foregroundColor(password == confirmPassword ? .green : .red)
 
-                    Text(password == confirmPassword ? "Passwords match" : "Passwords don't match")
+                    Text(password == confirmPassword ? L("auth.passwords_match") : L("auth.passwords_no_match"))
                         .font(.caption)
                         .foregroundColor(password == confirmPassword ? .green : .red)
 
@@ -217,7 +219,7 @@ struct AuthenticationView: View {
                     ProgressView()
                         .tint(.black)
                 } else {
-                    Text("Create Account")
+                    Text(L("auth.create_account"))
                         .font(.headline)
                         .foregroundColor(.black)
                 }
@@ -236,11 +238,11 @@ struct AuthenticationView: View {
 
             // Link to Login
             HStack(spacing: 4) {
-                Text("Already have an account?")
+                Text(L("auth.have_account"))
                     .foregroundColor(.white.opacity(0.6))
 
                 Button(action: { withAnimation { authMode = .login } }) {
-                    Text("Login")
+                    Text(L("auth.login"))
                         .fontWeight(.semibold)
                         .foregroundColor(.cyan)
                 }
@@ -253,7 +255,7 @@ struct AuthenticationView: View {
     // MARK: - Forgot Password Form
     private var forgotPasswordForm: some View {
         VStack(spacing: 20) {
-            Text("Enter your email address and we'll send you a link to reset your password.")
+            Text(L("auth.reset_instruction"))
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -261,7 +263,7 @@ struct AuthenticationView: View {
             // Email Field
             AuthTextField(
                 icon: "envelope",
-                placeholder: "Email",
+                placeholder: L("auth.email"),
                 text: $email,
                 keyboardType: .emailAddress
             )
@@ -275,7 +277,7 @@ struct AuthenticationView: View {
                     ProgressView()
                         .tint(.black)
                 } else {
-                    Text("Send Reset Link")
+                    Text(L("auth.send_reset"))
                         .font(.headline)
                         .foregroundColor(.black)
                 }
@@ -296,7 +298,7 @@ struct AuthenticationView: View {
             Button(action: { withAnimation { authMode = .login } }) {
                 HStack {
                     Image(systemName: "arrow.left")
-                    Text("Back to Login")
+                    Text(L("auth.back_to_login"))
                 }
                 .font(.subheadline)
                 .foregroundColor(.cyan)
@@ -349,7 +351,7 @@ struct AuthenticationView: View {
 
     private func performSignUp() {
         guard password == confirmPassword else {
-            authService.errorMessage = "Passwords don't match"
+            authService.errorMessage = L("auth.passwords_no_match")
             return
         }
 

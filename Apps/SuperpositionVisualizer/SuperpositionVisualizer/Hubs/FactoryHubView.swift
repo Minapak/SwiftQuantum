@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftQuantum
 
 // MARK: - Factory Hub - "The Deployment"
 // Execution Command Center: QuantumBridge 연결 및 실무 알고리즘 배포
@@ -6,6 +7,7 @@ import SwiftUI
 
 struct FactoryHubView: View {
     @StateObject private var viewModel = FactoryHubViewModel()
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showApiKeySheet = false
     @State private var showPremiumSheet = false
     @State private var deployButtonProgress: CGFloat = 0
@@ -13,19 +15,21 @@ struct FactoryHubView: View {
     @State private var showErrorCorrection = false
     @State private var showExportSheet = false
     @State private var exportedQASM: String = ""
-    @State private var showBridgeInfo = false
+    @Binding var showBridgeInfo: Bool
 
-    // Helper for localized strings from SwiftQuantum bundle
+    init(showBridgeInfo: Binding<Bool> = .constant(false)) {
+        self._showBridgeInfo = showBridgeInfo
+    }
+
+    // Helper for localized strings
     private func L(_ key: String) -> String {
-        return key.quantumLocalized
+        return localization.string(forKey: key)
     }
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Bridge Header with ? button
-                bridgeHeaderWithInfo
-
+                // Note: Learn More button is now in the header (via QuantumHorizonView)
                 // Why Use Bridge? - Introduction Card (toggleable)
                 bridgeIntroductionCard
 
@@ -136,57 +140,6 @@ struct FactoryHubView: View {
                 ))
             }
         }
-    }
-
-    // MARK: - Bridge Header with ? Button (Inline)
-    private var bridgeHeaderWithInfo: some View {
-        HStack(alignment: .center, spacing: 16) {
-            // Animated hub icon
-            ZStack {
-                Circle()
-                    .fill(QuantumHorizonColors.quantumPurple.opacity(0.15))
-                    .frame(width: 52, height: 52)
-
-                Circle()
-                    .stroke(QuantumHorizonColors.quantumPurple.opacity(0.4), lineWidth: 1.5)
-                    .frame(width: 52, height: 52)
-
-                Image(systemName: "network")
-                    .font(.system(size: 24, weight: .semibold))
-                    .foregroundColor(QuantumHorizonColors.quantumPurple)
-            }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(L("bridge.title"))
-                    .font(QuantumHorizonTypography.sectionTitle(24))
-                    .foregroundColor(.white)
-
-                Text(L("bridge.description"))
-                    .font(QuantumHorizonTypography.caption(13))
-                    .foregroundColor(.white.opacity(0.5))
-            }
-
-            Spacer()
-
-            // Info toggle button (? button next to header)
-            Button(action: {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    showBridgeInfo.toggle()
-                }
-            }) {
-                ZStack {
-                    Circle()
-                        .fill(showBridgeInfo ? QuantumHorizonColors.quantumCyan.opacity(0.3) : Color.white.opacity(0.1))
-                        .frame(width: 36, height: 36)
-
-                    Image(systemName: "questionmark")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(showBridgeInfo ? QuantumHorizonColors.quantumCyan : .white.opacity(0.7))
-                }
-            }
-            .buttonStyle(SpringButtonStyle())
-        }
-        .padding(.horizontal, 4)
     }
 
     private func bridgeBenefitRow(icon: String, title: String, description: String) -> some View {
@@ -422,31 +375,31 @@ struct FactoryHubView: View {
         switch id {
         case "simulator":
             return BackendDetailInfo(
-                title: "Local Simulator",
-                bestFor: "Learning & Testing",
-                advantages: ["Instant results - no queue wait", "Free to use - unlimited runs", "Perfect for debugging circuits"],
-                limitations: ["No real quantum noise", "Limited to classical simulation"]
+                title: L("bridge.backend.simulator.title"),
+                bestFor: L("bridge.backend.simulator.best"),
+                advantages: [L("bridge.backend.simulator.adv1"), L("bridge.backend.simulator.adv2"), L("bridge.backend.simulator.adv3")],
+                limitations: [L("bridge.backend.simulator.lim1"), L("bridge.backend.simulator.lim2")]
             )
         case "ibm_brisbane":
             return BackendDetailInfo(
-                title: "IBM Brisbane",
-                bestFor: "Production & Research",
-                advantages: ["127 real qubits", "Highest coherence time", "Best for complex algorithms"],
-                limitations: ["Queue wait time", "Limited daily usage"]
+                title: L("bridge.backend.brisbane.title"),
+                bestFor: L("bridge.backend.brisbane.best"),
+                advantages: [L("bridge.backend.qubits127"), L("bridge.backend.brisbane.adv1"), L("bridge.backend.brisbane.adv2")],
+                limitations: [L("bridge.backend.queue_wait"), L("bridge.backend.limited_daily")]
             )
         case "ibm_osaka":
             return BackendDetailInfo(
-                title: "IBM Osaka",
-                bestFor: "High-speed Execution",
-                advantages: ["127 real qubits", "Optimized gate speed", "Shorter queue times"],
-                limitations: ["Moderate noise levels", "Limited daily usage"]
+                title: L("bridge.backend.osaka.title"),
+                bestFor: L("bridge.backend.osaka.best"),
+                advantages: [L("bridge.backend.qubits127"), L("bridge.backend.osaka.adv1"), L("bridge.backend.osaka.adv2")],
+                limitations: [L("bridge.backend.osaka.lim1"), L("bridge.backend.limited_daily")]
             )
         case "ibm_kyoto":
             return BackendDetailInfo(
-                title: "IBM Kyoto",
-                bestFor: "Research Projects",
-                advantages: ["127 real qubits", "Advanced error mitigation", "Research partnerships"],
-                limitations: ["Currently in maintenance", "Limited availability"]
+                title: L("bridge.backend.kyoto.title"),
+                bestFor: L("bridge.backend.kyoto.best"),
+                advantages: [L("bridge.backend.qubits127"), L("bridge.backend.kyoto.adv1"), L("bridge.backend.kyoto.adv2")],
+                limitations: [L("bridge.backend.kyoto.lim1"), L("bridge.backend.kyoto.lim2")]
             )
         default:
             return nil
@@ -466,7 +419,7 @@ struct FactoryHubView: View {
                             Image(systemName: "star.fill")
                                 .font(.system(size: 10))
                                 .foregroundColor(QuantumHorizonColors.quantumGold)
-                            Text("Best for: \(info.bestFor)")
+                            Text("\(L("bridge.best_for")): \(info.bestFor)")
                                 .font(.system(size: 11))
                                 .foregroundColor(QuantumHorizonColors.quantumGold)
                         }
@@ -523,11 +476,11 @@ struct FactoryHubView: View {
 
     // MARK: - Queue Status
     private var queueStatusSection: some View {
-        BentoCard(title: "Queue Status", icon: "clock.fill", accentColor: QuantumHorizonColors.quantumPurple, size: .medium) {
+        BentoCard(title: L("bridge.queue.title"), icon: "clock.fill", accentColor: QuantumHorizonColors.quantumPurple, size: .medium) {
             HStack(spacing: 0) {
                 queueStatItem(
                     value: "\(viewModel.queueStatus.pendingJobs)",
-                    label: "Pending",
+                    label: L("bridge.queue.pending"),
                     icon: "hourglass",
                     color: .orange
                 )
@@ -538,7 +491,7 @@ struct FactoryHubView: View {
 
                 queueStatItem(
                     value: "\(viewModel.queueStatus.runningJobs)",
-                    label: "Running",
+                    label: L("bridge.queue.running"),
                     icon: "play.fill",
                     color: QuantumHorizonColors.quantumGreen
                 )
@@ -549,7 +502,7 @@ struct FactoryHubView: View {
 
                 queueStatItem(
                     value: formatWaitTime(viewModel.queueStatus.averageWaitTime),
-                    label: "Est. Wait",
+                    label: L("bridge.queue.est_wait"),
                     icon: "timer",
                     color: QuantumHorizonColors.quantumCyan
                 )
@@ -728,8 +681,8 @@ struct FactoryHubView: View {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 // Bell State - Creates quantum entanglement
                 EnhancedActionButton(
-                    title: "Bell State",
-                    subtitle: "Create entanglement",
+                    title: L("bridge.action.bell"),
+                    subtitle: L("bridge.action.bell.sub"),
                     icon: "link.circle.fill",
                     gradient: LinearGradient(colors: [.purple, .blue], startPoint: .topLeading, endPoint: .bottomTrailing),
                     isPremium: !viewModel.isPremium
@@ -745,8 +698,8 @@ struct FactoryHubView: View {
 
                 // GHZ State - Multi-qubit entanglement
                 EnhancedActionButton(
-                    title: "GHZ State",
-                    subtitle: "3-qubit entanglement",
+                    title: L("bridge.action.ghz"),
+                    subtitle: L("bridge.action.ghz.sub"),
                     icon: "network",
                     gradient: LinearGradient(colors: [.blue, .cyan], startPoint: .topLeading, endPoint: .bottomTrailing),
                     isPremium: !viewModel.isPremium
@@ -762,8 +715,8 @@ struct FactoryHubView: View {
 
                 // Export QASM - Now actually works!
                 EnhancedActionButton(
-                    title: "Export QASM",
-                    subtitle: "Share circuit code",
+                    title: L("bridge.action.export"),
+                    subtitle: L("bridge.action.export.sub"),
                     icon: "square.and.arrow.up.fill",
                     gradient: LinearGradient(colors: [.green, .mint], startPoint: .topLeading, endPoint: .bottomTrailing),
                     isPremium: false
@@ -775,8 +728,8 @@ struct FactoryHubView: View {
 
                 // Continuous Mode - Now shows status!
                 EnhancedActionButton(
-                    title: viewModel.isContinuousModeActive ? "Stop Continuous" : "Continuous Mode",
-                    subtitle: viewModel.isContinuousModeActive ? "Running..." : "Auto-repeat circuits",
+                    title: viewModel.isContinuousModeActive ? L("bridge.action.stop_continuous") : L("bridge.action.continuous"),
+                    subtitle: viewModel.isContinuousModeActive ? L("bridge.action.running") : L("bridge.action.continuous.sub"),
                     icon: viewModel.isContinuousModeActive ? "stop.circle.fill" : "infinity",
                     gradient: viewModel.isContinuousModeActive ?
                         LinearGradient(colors: [.red, .orange], startPoint: .topLeading, endPoint: .bottomTrailing) :
@@ -812,18 +765,18 @@ struct FactoryHubView: View {
                 .pulsingGlow(color: QuantumHorizonColors.quantumGreen, radius: 8)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("Continuous Mode Active")
+                Text(L("bridge.continuous.active"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(QuantumHorizonColors.quantumGreen)
 
-                Text("Circuits will auto-repeat every 30 seconds")
+                Text(L("bridge.continuous.desc"))
                     .font(.system(size: 10))
                     .foregroundColor(.white.opacity(0.5))
             }
 
             Spacer()
 
-            Text("\(viewModel.continuousRunCount) runs")
+            Text("\(viewModel.continuousRunCount) \(L("bridge.continuous.runs"))")
                 .font(.system(size: 11, weight: .medium))
                 .foregroundColor(.white.opacity(0.6))
         }
@@ -838,18 +791,18 @@ struct FactoryHubView: View {
 
     // MARK: - Error Correction Visualization
     private var errorCorrectionVisualization: some View {
-        BentoCard(title: "Error Correction", icon: "shield.checkered", accentColor: QuantumHorizonColors.quantumGreen, size: .medium) {
+        BentoCard(title: L("bridge.ecc.title"), icon: "shield.checkered", accentColor: QuantumHorizonColors.quantumGreen, size: .medium) {
             VStack(spacing: 16) {
                 // Error correction progress
                 ErrorCorrectionBar()
 
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("ECC Status")
+                        Text(L("bridge.ecc.status"))
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(.white.opacity(0.5))
 
-                        Text("Auto-correcting...")
+                        Text(L("bridge.ecc.correcting"))
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(QuantumHorizonColors.quantumGreen)
                     }
@@ -858,7 +811,7 @@ struct FactoryHubView: View {
 
                     // Fidelity indicator
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text("Fidelity")
+                        Text(L("bridge.ecc.fidelity"))
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(.white.opacity(0.5))
 
@@ -1145,11 +1098,12 @@ struct EnhancedActionButton: View {
 struct QASMExportSheet: View {
     let qasmCode: String
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showCopiedAlert = false
 
     // Localization helper
     private func L(_ key: String) -> String {
-        return key.quantumLocalized
+        return localization.string(forKey: key)
     }
 
     var body: some View {
@@ -1235,11 +1189,11 @@ struct QASMExportSheet: View {
 
                 // Info Section
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("What is QASM?")
+                    Text(L("bridge.qasm.what"))
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white)
 
-                    Text("OpenQASM (Open Quantum Assembly Language) is a standard format for describing quantum circuits. You can use this code with IBM Quantum, Qiskit, or other quantum computing platforms.")
+                    Text(L("bridge.qasm.desc"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.6))
                         .fixedSize(horizontal: false, vertical: true)
@@ -1607,8 +1561,14 @@ struct BackendDetailInfo {
 // MARK: - Factory API Key Sheet
 struct FactoryApiKeySheet: View {
     @ObservedObject var viewModel: FactoryHubViewModel
+    @ObservedObject var localization = LocalizationManager.shared
     @Environment(\.dismiss) var dismiss
     @State private var apiKey = ""
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -1621,18 +1581,18 @@ struct FactoryApiKeySheet: View {
                         .font(.system(size: 56, weight: .light))
                         .foregroundStyle(QuantumHorizonColors.miamiSunset)
 
-                    Text("Connect to IBM Quantum")
+                    Text(L("bridge.apikey.title"))
                         .font(QuantumHorizonTypography.sectionTitle(24))
                         .foregroundColor(.white)
 
-                    Text("Enter your API key from quantum-computing.ibm.com")
+                    Text(L("bridge.apikey.desc"))
                         .font(QuantumHorizonTypography.body(14))
                         .foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
                 }
 
                 // API Key Input
-                SecureField("API Key", text: $apiKey)
+                SecureField(L("bridge.apikey.placeholder"), text: $apiKey)
                     .textFieldStyle(.plain)
                     .padding()
                     .background(Color.white.opacity(0.08))
@@ -1649,7 +1609,7 @@ struct FactoryApiKeySheet: View {
                     viewModel.connect(apiKey: apiKey)
                     dismiss()
                 }) {
-                    Text("Connect")
+                    Text(L("bridge.connect"))
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -1671,7 +1631,13 @@ struct FactoryApiKeySheet: View {
 struct FactoryPremiumSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showSuccessView = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -1703,22 +1669,22 @@ struct FactoryPremiumSheet: View {
                         .font(.system(size: 64))
                         .foregroundStyle(QuantumHorizonColors.goldCelebration)
 
-                    Text("Unlock Factory Premium")
+                    Text(L("bridge.premium.title"))
                         .font(QuantumHorizonTypography.sectionTitle(24))
                         .foregroundColor(.white)
 
-                    Text("Access real quantum hardware and advanced deployment features")
+                    Text(L("bridge.premium.desc"))
                         .font(QuantumHorizonTypography.body(14))
                         .foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
 
                     // Features list
                     VStack(alignment: .leading, spacing: 12) {
-                        premiumFeatureRow("IBM Quantum hardware access")
-                        premiumFeatureRow("127-qubit systems")
-                        premiumFeatureRow("Priority queue placement")
-                        premiumFeatureRow("Advanced error mitigation")
-                        premiumFeatureRow("Continuous operation mode")
+                        premiumFeatureRow(L("bridge.premium.feat1"))
+                        premiumFeatureRow(L("bridge.premium.feat2"))
+                        premiumFeatureRow(L("bridge.premium.feat3"))
+                        premiumFeatureRow(L("bridge.premium.feat4"))
+                        premiumFeatureRow(L("bridge.premium.feat5"))
                     }
                     .padding()
                     .glassmorphism(intensity: 0.08, cornerRadius: 16)
@@ -1731,7 +1697,7 @@ struct FactoryPremiumSheet: View {
                             showSuccessView = true
                         }
                     }) {
-                        Text("Upgrade - $9.99/month")
+                        Text(L("bridge.premium.upgrade"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity)
@@ -1740,7 +1706,7 @@ struct FactoryPremiumSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
 
-                    Text("7-day free trial included")
+                    Text(L("bridge.premium.trial"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.4))
 

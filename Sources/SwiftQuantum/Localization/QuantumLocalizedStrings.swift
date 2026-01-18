@@ -21,41 +21,81 @@ public final class QuantumLocalization: @unchecked Sendable {
     /// Shared instance for localization
     public static let shared = QuantumLocalization()
 
-    /// Current locale
-    public private(set) var currentLocale: Locale
+    /// Current language code
+    public private(set) var currentLanguageCode: String
 
     /// Supported language codes
-    public static let supportedLanguages = ["en", "ko", "ja", "zh-Hans"]
+    public static let supportedLanguages = ["en", "ko", "ja", "zh-Hans", "de"]
 
-    /// Bundle for localized resources
-    private let bundle: Bundle
+    /// Main bundle for localized resources
+    private let mainBundle: Bundle
+
+    /// Current language-specific bundle
+    private var languageBundle: Bundle
 
     private init() {
-        self.bundle = Bundle.module
-        self.currentLocale = Locale.current
+        self.mainBundle = Bundle.module
 
-        // Default to English if current locale is not supported
-        // Use languageCode for iOS 15 compatibility
-        let langCode: String?
+        // Get saved language from UserDefaults, or use system language
+        let savedLanguage = UserDefaults.standard.string(forKey: "SwiftQuantum_AppLanguage")
+        let systemLangCode: String
         if #available(iOS 16, macOS 13, *) {
-            langCode = currentLocale.language.languageCode?.identifier
+            systemLangCode = Locale.current.language.languageCode?.identifier ?? "en"
         } else {
-            langCode = currentLocale.languageCode
+            systemLangCode = Locale.current.languageCode ?? "en"
         }
 
-        if !QuantumLocalization.supportedLanguages.contains(langCode ?? "") {
-            self.currentLocale = Locale(identifier: "en")
+        let langCode = savedLanguage ?? systemLangCode
+
+        if QuantumLocalization.supportedLanguages.contains(langCode) {
+            self.currentLanguageCode = langCode
+        } else {
+            self.currentLanguageCode = "en"
         }
+
+        // Load the language-specific bundle
+        self.languageBundle = Self.loadLanguageBundle(for: currentLanguageCode, from: mainBundle)
+    }
+
+    /// Loads the bundle for a specific language
+    private static func loadLanguageBundle(for languageCode: String, from mainBundle: Bundle) -> Bundle {
+        // Try to find the .lproj folder for this language
+        let lprojName = languageCode == "zh-Hans" ? "zh-Hans" : languageCode
+
+        if let path = mainBundle.path(forResource: lprojName, ofType: "lproj"),
+           let bundle = Bundle(path: path) {
+            return bundle
+        }
+
+        // Fallback to English
+        if let path = mainBundle.path(forResource: "en", ofType: "lproj"),
+           let bundle = Bundle(path: path) {
+            return bundle
+        }
+
+        // Last resort: use main bundle
+        return mainBundle
     }
 
     /// Sets the current language
-    /// - Parameter languageCode: Language code (e.g., "en", "ko", "ja", "zh-Hans")
+    /// - Parameter languageCode: Language code (e.g., "en", "ko", "ja", "zh-Hans", "de")
     public func setLanguage(_ languageCode: String) {
         if QuantumLocalization.supportedLanguages.contains(languageCode) {
-            currentLocale = Locale(identifier: languageCode)
+            currentLanguageCode = languageCode
         } else {
-            // Fall back to English
-            currentLocale = Locale(identifier: "en")
+            currentLanguageCode = "en"
+        }
+        // Reload the language bundle
+        languageBundle = Self.loadLanguageBundle(for: currentLanguageCode, from: mainBundle)
+    }
+
+    /// Refreshes the language from UserDefaults (call when app becomes active or language changes)
+    public func refreshLanguage() {
+        if let savedLanguage = UserDefaults.standard.string(forKey: "SwiftQuantum_AppLanguage"),
+           QuantumLocalization.supportedLanguages.contains(savedLanguage) {
+            if savedLanguage != currentLanguageCode {
+                setLanguage(savedLanguage)
+            }
         }
     }
 
@@ -63,7 +103,9 @@ public final class QuantumLocalization: @unchecked Sendable {
     /// - Parameter key: Localization key
     /// - Returns: Localized string or key if not found
     public func string(forKey key: String) -> String {
-        return NSLocalizedString(key, bundle: bundle, comment: "")
+        // First try the language-specific bundle
+        let result = NSLocalizedString(key, tableName: "Localizable", bundle: languageBundle, value: key, comment: "")
+        return result
     }
 
     /// Gets a localized string with format arguments

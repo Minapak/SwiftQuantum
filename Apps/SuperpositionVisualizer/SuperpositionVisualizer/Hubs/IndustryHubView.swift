@@ -6,14 +6,10 @@ import SwiftQuantum
 // 3D 아이소매트릭 스타일 산업 아이콘, Gold-Orange 배지
 // 앵커링 효과를 위한 플랜 비교, 수익 예측 그래프
 
-// Localization helper
-private func L(_ key: String) -> String {
-    return key.quantumLocalized
-}
-
 struct IndustryHubView: View {
     @StateObject private var viewModel = IndustryHubViewModel()
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var selectedIndustry: HorizonIndustrySolution?
     @State private var showPricingSheet = false
     @State private var showCaseStudy = false
@@ -23,6 +19,11 @@ struct IndustryHubView: View {
     @State private var selectedEcosystemProject: QuantumEcosystemProject?
     @State private var showEcosystemDetail = false
     @State private var selectedEcosystemCategory: QuantumEcosystemProject.EcosystemCategory?
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ScrollView {
@@ -221,7 +222,7 @@ struct IndustryHubView: View {
             }) {
                 HStack {
                     Image(systemName: premiumManager.isPremium ? "crown.fill" : "star.fill")
-                    Text(premiumManager.isPremium ? "Upgrade to Enterprise" : "Get Premium Access")
+                    Text(premiumManager.isPremium ? L("industry.upgrade_enterprise") : L("industry.get_premium"))
                 }
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(.black)
@@ -274,9 +275,9 @@ struct IndustryHubView: View {
 
                 // Industry Details
                 VStack(alignment: .leading, spacing: 10) {
-                    industryDetailRow(icon: "chart.line.uptrend.xyaxis", title: "Efficiency Gain", value: "+\(industry.efficiencyGain)%")
-                    industryDetailRow(icon: "clock.fill", title: "Implementation", value: "2-4 weeks")
-                    industryDetailRow(icon: "person.3.fill", title: "Team Size", value: "Any size")
+                    industryDetailRow(icon: "chart.line.uptrend.xyaxis", title: L("industry.efficiency_gain"), value: "+\(industry.efficiencyGain)%")
+                    industryDetailRow(icon: "clock.fill", title: L("industry.implementation"), value: L("industry.impl_weeks"))
+                    industryDetailRow(icon: "person.3.fill", title: L("industry.team_size"), value: L("industry.any_size"))
                 }
 
                 // Use Cases
@@ -340,19 +341,19 @@ struct IndustryHubView: View {
     private func getUseCases(for industry: String) -> [String] {
         switch industry {
         case "Finance":
-            return ["Portfolio optimization", "Risk assessment", "Fraud detection", "High-frequency trading"]
+            return [L("industry.use.finance.1"), L("industry.use.finance.2"), L("industry.use.finance.3"), L("industry.use.finance.4")]
         case "Healthcare":
-            return ["Drug molecule simulation", "Protein folding", "Treatment optimization", "Medical imaging"]
+            return [L("industry.use.health.1"), L("industry.use.health.2"), L("industry.use.health.3"), L("industry.use.health.4")]
         case "Logistics":
-            return ["Route optimization", "Warehouse layout", "Supply chain", "Delivery scheduling"]
+            return [L("industry.use.logistics.1"), L("industry.use.logistics.2"), L("industry.use.logistics.3"), L("industry.use.logistics.4")]
         case "Energy":
-            return ["Grid optimization", "Demand forecasting", "Renewable integration", "Load balancing"]
+            return [L("industry.use.energy.1"), L("industry.use.energy.2"), L("industry.use.energy.3"), L("industry.use.energy.4")]
         case "Manufacturing":
-            return ["Quality control", "Predictive maintenance", "Process optimization", "Inventory management"]
+            return [L("industry.use.mfg.1"), L("industry.use.mfg.2"), L("industry.use.mfg.3"), L("industry.use.mfg.4")]
         case "AI & ML":
-            return ["Quantum neural networks", "Feature selection", "Optimization problems", "Generative models"]
+            return [L("industry.use.ai.1"), L("industry.use.ai.2"), L("industry.use.ai.3"), L("industry.use.ai.4")]
         default:
-            return ["Optimization", "Simulation", "Analysis"]
+            return [L("industry.use.default.1"), L("industry.use.default.2"), L("industry.use.default.3")]
         }
     }
 
@@ -385,29 +386,50 @@ struct IndustryHubView: View {
                     Spacer()
                 }
 
-                // Quick Stats Row
-                HStack(spacing: 0) {
-                    quickStat(value: "47%", label: "Efficiency")
-                    Divider().frame(height: 30).background(Color.white.opacity(0.1))
-                    quickStat(value: "2.3x", label: "ROI")
-                    Divider().frame(height: 30).background(Color.white.opacity(0.1))
-                    quickStat(value: "500+", label: "Clients")
+                // Key Benefits Row - More intuitive description
+                VStack(spacing: 10) {
+                    heroBenefitRow(
+                        icon: "bolt.fill",
+                        text: L("industry.hero.benefit1"),
+                        color: QuantumHorizonColors.quantumCyan
+                    )
+                    heroBenefitRow(
+                        icon: "cpu",
+                        text: L("industry.hero.benefit2"),
+                        color: QuantumHorizonColors.quantumPurple
+                    )
+                    heroBenefitRow(
+                        icon: "chart.line.uptrend.xyaxis",
+                        text: L("industry.hero.benefit3"),
+                        color: QuantumHorizonColors.quantumGold
+                    )
                 }
             }
         }
     }
 
-    private func quickStat(value: String, label: String) -> some View {
-        VStack(spacing: 2) {
-            Text(value)
-                .font(.system(size: 18, weight: .bold))
-                .foregroundStyle(QuantumHorizonColors.goldCelebration)
+    private func heroBenefitRow(icon: String, text: String, color: Color) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.system(size: 12))
+                .foregroundColor(color)
+                .frame(width: 18)
 
-            Text(label)
-                .font(.system(size: 10, weight: .medium))
-                .foregroundColor(.white.opacity(0.5))
+            Text(text)
+                .font(.system(size: 11))
+                .foregroundColor(.white.opacity(0.8))
+                .lineLimit(1)
+
+            Spacer()
+
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 11))
+                .foregroundColor(QuantumHorizonColors.quantumGreen.opacity(0.7))
         }
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(Color.white.opacity(0.05))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     // MARK: - Industry Solutions Grid
@@ -473,8 +495,8 @@ struct IndustryHubView: View {
 
                     // Legend
                     HStack(spacing: 20) {
-                        legendItem(color: .white.opacity(0.4), label: "Without Quantum")
-                        legendItem(color: QuantumHorizonColors.quantumGold, label: "With Quantum Premium")
+                        legendItem(color: .white.opacity(0.4), label: L("industry.legend.without"))
+                        legendItem(color: QuantumHorizonColors.quantumGold, label: L("industry.legend.with"))
                     }
 
                     // Projected Gain
@@ -536,7 +558,7 @@ struct IndustryHubView: View {
             HorizonPricingPlanCard(
                 plan: viewModel.enterprisePlan,
                 isHighlighted: false,
-                badge: "BEST VALUE"
+                badge: L("industry.badge.best")
             ) {
                 if premiumManager.isPremium {
                     // Already premium - show contact enterprise
@@ -550,7 +572,7 @@ struct IndustryHubView: View {
             HorizonPricingPlanCard(
                 plan: viewModel.proPlan,
                 isHighlighted: true,
-                badge: "POPULAR"
+                badge: L("industry.badge.popular")
             ) {
                 if premiumManager.isPremium {
                     // Already premium
@@ -720,6 +742,12 @@ struct HorizonIndustrySolutionCard: View {
     let industry: HorizonIndustrySolution
     let isSelected: Bool
     var isPremiumUser: Bool = false
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         VStack(spacing: 14) {
@@ -760,11 +788,11 @@ struct HorizonIndustrySolutionCard: View {
             }
 
             VStack(spacing: 4) {
-                Text(industry.name)
+                Text(L(industry.nameKey))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
 
-                Text(industry.benefit)
+                Text(L(industry.benefitKey))
                     .font(.system(size: 11))
                     .foregroundColor(.white.opacity(0.5))
                     .lineLimit(2)
@@ -775,7 +803,7 @@ struct HorizonIndustrySolutionCard: View {
             HStack(spacing: 4) {
                 Image(systemName: "arrow.up.right")
                     .font(.system(size: 10))
-                Text("\(industry.efficiencyGain)% efficiency")
+                Text("\(industry.efficiencyGain)% \(L("industry.efficiency"))")
                     .font(.system(size: 11, weight: .medium))
             }
             .foregroundColor(QuantumHorizonColors.quantumGreen)
@@ -859,6 +887,12 @@ struct HorizonPricingPlanCard: View {
     let isHighlighted: Bool
     let badge: String?
     var onGetStarted: () -> Void = {}
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -1000,12 +1034,15 @@ struct HorizonSuccessStoryCard: View {
 // MARK: - Models
 struct HorizonIndustrySolution: Identifiable {
     let id = UUID()
-    let name: String
+    let nameKey: String      // Localization key for name
     let icon: String
-    let benefit: String
+    let benefitKey: String   // Localization key for benefit
     let efficiencyGain: Int
     let color: Color
     let isPremium: Bool
+
+    // For backward compatibility, keep name as computed property
+    var name: String { nameKey }
 }
 
 // MARK: - IBM Quantum Ecosystem Project Model
@@ -1099,12 +1136,12 @@ class IndustryHubViewModel: ObservableObject {
 
     private func setupData() {
         industries = [
-            HorizonIndustrySolution(name: "Finance", icon: "chart.line.uptrend.xyaxis", benefit: "Portfolio optimization & risk analysis", efficiencyGain: 52, color: .green, isPremium: true),
-            HorizonIndustrySolution(name: "Healthcare", icon: "cross.circle.fill", benefit: "Drug discovery acceleration", efficiencyGain: 38, color: .red, isPremium: true),
-            HorizonIndustrySolution(name: "Logistics", icon: "shippingbox.fill", benefit: "Route optimization & scheduling", efficiencyGain: 45, color: .orange, isPremium: false),
-            HorizonIndustrySolution(name: "Energy", icon: "bolt.fill", benefit: "Grid optimization & forecasting", efficiencyGain: 41, color: .yellow, isPremium: true),
-            HorizonIndustrySolution(name: "Manufacturing", icon: "gear.circle.fill", benefit: "Supply chain optimization", efficiencyGain: 33, color: .purple, isPremium: false),
-            HorizonIndustrySolution(name: "AI & ML", icon: "brain.head.profile", benefit: "Quantum machine learning", efficiencyGain: 67, color: QuantumHorizonColors.quantumCyan, isPremium: true)
+            HorizonIndustrySolution(nameKey: "industry.card.finance", icon: "chart.line.uptrend.xyaxis", benefitKey: "industry.card.finance.benefit", efficiencyGain: 52, color: .green, isPremium: true),
+            HorizonIndustrySolution(nameKey: "industry.card.healthcare", icon: "cross.circle.fill", benefitKey: "industry.card.healthcare.benefit", efficiencyGain: 38, color: .red, isPremium: true),
+            HorizonIndustrySolution(nameKey: "industry.card.logistics", icon: "shippingbox.fill", benefitKey: "industry.card.logistics.benefit", efficiencyGain: 45, color: .orange, isPremium: false),
+            HorizonIndustrySolution(nameKey: "industry.card.energy", icon: "bolt.fill", benefitKey: "industry.card.energy.benefit", efficiencyGain: 41, color: .yellow, isPremium: true),
+            HorizonIndustrySolution(nameKey: "industry.card.manufacturing", icon: "gear.circle.fill", benefitKey: "industry.card.manufacturing.benefit", efficiencyGain: 33, color: .purple, isPremium: false),
+            HorizonIndustrySolution(nameKey: "industry.card.ai", icon: "brain.head.profile", benefitKey: "industry.card.ai.benefit", efficiencyGain: 67, color: QuantumHorizonColors.quantumCyan, isPremium: true)
         ]
 
         successStories = [
@@ -1265,6 +1302,12 @@ class IndustryHubViewModel: ObservableObject {
 // MARK: - Pricing Detail Sheet
 struct PricingDetailSheet: View {
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -1301,7 +1344,13 @@ struct PricingDetailSheet: View {
 struct IndustryPremiumSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showSuccessView = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -1344,11 +1393,11 @@ struct IndustryPremiumSheet: View {
 
                     // Features list
                     VStack(alignment: .leading, spacing: 12) {
-                        premiumFeatureRow("Finance: Portfolio & Risk Analysis")
-                        premiumFeatureRow("Healthcare: Drug Discovery")
-                        premiumFeatureRow("Energy: Grid Optimization")
-                        premiumFeatureRow("AI & ML: Quantum Learning")
-                        premiumFeatureRow("ROI Calculator & Analytics")
+                        premiumFeatureRow(L("industry.premium.feat.finance"))
+                        premiumFeatureRow(L("industry.premium.feat.health"))
+                        premiumFeatureRow(L("industry.premium.feat.energy"))
+                        premiumFeatureRow(L("industry.premium.feat.ai"))
+                        premiumFeatureRow(L("industry.premium.feat.roi"))
                     }
                     .padding()
                     .glassmorphism(intensity: 0.08, cornerRadius: 16)
@@ -1370,7 +1419,7 @@ struct IndustryPremiumSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
 
-                    Text("7-day free trial included")
+                    Text(L("industry.premium.trial"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.4))
 
@@ -1397,10 +1446,16 @@ struct IndustryPremiumSheet: View {
 struct ROICalculatorSheet: View {
     @ObservedObject var viewModel: IndustryHubViewModel
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var companySize: Double = 100
     @State private var annualBudget: Double = 500000
     @State private var selectedIndustry = "Finance"
     @State private var showResult = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     let industries = ["Finance", "Healthcare", "Logistics", "Energy", "Manufacturing", "AI & ML"]
 
@@ -1649,9 +1704,9 @@ struct IndustryDetailSheet: View {
 
                     // Stats
                     HStack(spacing: 20) {
-                        statCard(value: "+\(industry.efficiencyGain)%", label: "Efficiency", color: QuantumHorizonColors.quantumGreen)
-                        statCard(value: "2-4", label: "Weeks to Deploy", color: QuantumHorizonColors.quantumCyan)
-                        statCard(value: "99.9%", label: "Uptime", color: QuantumHorizonColors.quantumGold)
+                        statCard(value: "+\(industry.efficiencyGain)%", label: L("industry.detail.efficiency"), color: QuantumHorizonColors.quantumGreen)
+                        statCard(value: "2-4", label: L("industry.detail.weeks"), color: QuantumHorizonColors.quantumCyan)
+                        statCard(value: "99.9%", label: L("industry.detail.uptime"), color: QuantumHorizonColors.quantumGold)
                     }
 
                     // CTA Buttons - Link to official learning resources
@@ -1741,38 +1796,38 @@ struct IndustryDetailSheet: View {
     private func getIndustryOverview(_ name: String) -> String {
         switch name {
         case "Finance":
-            return "Quantum computing revolutionizes financial services by enabling complex portfolio optimization, risk analysis, and fraud detection at unprecedented speeds. Our solutions help financial institutions process millions of scenarios in seconds."
+            return L("industry.overview.finance")
         case "Healthcare":
-            return "Accelerate drug discovery and medical research with quantum-powered molecular simulations. Our healthcare solutions reduce drug development time from years to months, enabling faster treatments for patients worldwide."
+            return L("industry.overview.healthcare")
         case "Logistics":
-            return "Optimize complex supply chains and delivery routes with quantum algorithms. Our logistics solutions help companies reduce costs, minimize delivery times, and improve customer satisfaction through intelligent route planning."
+            return L("industry.overview.logistics")
         case "Energy":
-            return "Transform energy grid management with quantum optimization. Our solutions enable better demand forecasting, renewable energy integration, and real-time load balancing for more efficient and sustainable power systems."
+            return L("industry.overview.energy")
         case "Manufacturing":
-            return "Enhance manufacturing processes with quantum-powered quality control and predictive maintenance. Our solutions help factories reduce downtime, improve product quality, and optimize production schedules."
+            return L("industry.overview.manufacturing")
         case "AI & ML":
-            return "Supercharge your machine learning with quantum neural networks. Our AI solutions provide exponential speedups for training complex models, enabling new possibilities in pattern recognition and data analysis."
+            return L("industry.overview.ai")
         default:
-            return "Quantum computing offers transformative solutions for your industry."
+            return L("industry.overview.default")
         }
     }
 
     private func getIndustryBenefits(_ name: String) -> [String] {
         switch name {
         case "Finance":
-            return ["40% reduction in risk exposure", "Real-time portfolio rebalancing", "Advanced fraud detection algorithms", "Regulatory compliance automation"]
+            return [L("industry.benefit.finance.1"), L("industry.benefit.finance.2"), L("industry.benefit.finance.3"), L("industry.benefit.finance.4")]
         case "Healthcare":
-            return ["85% faster drug candidate screening", "Protein structure prediction", "Personalized treatment optimization", "Clinical trial acceleration"]
+            return [L("industry.benefit.health.1"), L("industry.benefit.health.2"), L("industry.benefit.health.3"), L("industry.benefit.health.4")]
         case "Logistics":
-            return ["30% reduction in delivery costs", "Dynamic route optimization", "Inventory level optimization", "Demand forecasting accuracy"]
+            return [L("industry.benefit.logistics.1"), L("industry.benefit.logistics.2"), L("industry.benefit.logistics.3"), L("industry.benefit.logistics.4")]
         case "Energy":
-            return ["25% improvement in grid efficiency", "Renewable integration optimization", "Peak demand prediction", "Carbon footprint reduction"]
+            return [L("industry.benefit.energy.1"), L("industry.benefit.energy.2"), L("industry.benefit.energy.3"), L("industry.benefit.energy.4")]
         case "Manufacturing":
-            return ["50% reduction in defects", "Predictive maintenance accuracy", "Supply chain resilience", "Production scheduling optimization"]
+            return [L("industry.benefit.mfg.1"), L("industry.benefit.mfg.2"), L("industry.benefit.mfg.3"), L("industry.benefit.mfg.4")]
         case "AI & ML":
-            return ["100x training speedup potential", "Enhanced feature extraction", "Quantum advantage in optimization", "Novel algorithm development"]
+            return [L("industry.benefit.ai.1"), L("industry.benefit.ai.2"), L("industry.benefit.ai.3"), L("industry.benefit.ai.4")]
         default:
-            return ["Improved efficiency", "Cost reduction", "Faster processing"]
+            return [L("industry.benefit.default.1"), L("industry.benefit.default.2"), L("industry.benefit.default.3")]
         }
     }
 }
@@ -2124,17 +2179,17 @@ struct EcosystemProjectDetailSheet: View {
     private func getUseCases() -> [String] {
         switch project.category {
         case .machineLearning:
-            return ["Classification tasks", "Feature extraction", "Quantum kernel methods", "Variational quantum classifiers"]
+            return [L("ecosystem.usecase.ml.1"), L("ecosystem.usecase.ml.2"), L("ecosystem.usecase.ml.3"), L("ecosystem.usecase.ml.4")]
         case .chemistry:
-            return ["Drug molecule simulation", "Protein folding analysis", "Material science research", "Chemical reaction modeling"]
+            return [L("ecosystem.usecase.chem.1"), L("ecosystem.usecase.chem.2"), L("ecosystem.usecase.chem.3"), L("ecosystem.usecase.chem.4")]
         case .optimization:
-            return ["Portfolio optimization", "Supply chain routing", "Resource allocation", "Scheduling problems"]
+            return [L("ecosystem.usecase.opt.1"), L("ecosystem.usecase.opt.2"), L("ecosystem.usecase.opt.3"), L("ecosystem.usecase.opt.4")]
         case .hardware:
-            return ["Production workloads", "Research experiments", "Algorithm benchmarking", "Error analysis"]
+            return [L("ecosystem.usecase.hw.1"), L("ecosystem.usecase.hw.2"), L("ecosystem.usecase.hw.3"), L("ecosystem.usecase.hw.4")]
         case .simulation:
-            return ["Circuit debugging", "Noise modeling", "Algorithm development", "Performance testing"]
+            return [L("ecosystem.usecase.sim.1"), L("ecosystem.usecase.sim.2"), L("ecosystem.usecase.sim.3"), L("ecosystem.usecase.sim.4")]
         case .research:
-            return ["Novel algorithm development", "Cross-platform experiments", "Hybrid computing", "Academic research"]
+            return [L("ecosystem.usecase.research.1"), L("ecosystem.usecase.research.2"), L("ecosystem.usecase.research.3"), L("ecosystem.usecase.research.4")]
         }
     }
 }

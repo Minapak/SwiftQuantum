@@ -227,6 +227,86 @@
 "industry.learn.mit" = "MIT xPRO Quantenkurs";
 "industry.learn.roadmap" = "IBM Quantum 2026 Roadmap";
 
+// Zusätzliche Industry-Schlüssel
+"industry.upgrade_enterprise" = "Auf Enterprise upgraden";
+"industry.get_premium" = "Premium erhalten";
+"industry.efficiency_gain" = "Effizienzsteigerung";
+"industry.implementation" = "Implementierung";
+"industry.impl_weeks" = "2-4 Wochen";
+"industry.team_size" = "Teamgröße";
+"industry.any_size" = "Jede Größe";
+"industry.stat.efficiency" = "Effizienz";
+"industry.stat.roi" = "ROI";
+"industry.stat.clients" = "Kunden";
+
+// MARK: - Profil
+
+"profile.premium_explorer" = "Premium Quanten-Entdecker";
+"profile.member_since" = "Mitglied seit";
+"profile.gci.title" = "Globaler Beitragsindex";
+"profile.gci.score" = "GCI-Punktzahl";
+"profile.gci.top" = "Top";
+"profile.gci.experiments" = "Experimente";
+"profile.gci.lessons" = "Lektionen";
+"profile.gci.qpu_min" = "QPU Min";
+"profile.achievements" = "Erfolge";
+"profile.learning_progress" = "Lernfortschritt";
+"profile.day_streak" = "Tages-Serie";
+"profile.total_xp" = "Gesamt-XP";
+"profile.study_time" = "Lernzeit";
+"profile.this_week" = "Diese Woche";
+"profile.settings" = "Einstellungen";
+"profile.notifications" = "Benachrichtigungen";
+"profile.dark_mode" = "Dunkelmodus";
+"profile.api_key" = "IBM Quantum API";
+"profile.configured" = "Konfiguriert";
+"profile.not_set" = "Nicht gesetzt";
+"profile.premium_status" = "Premium-Status";
+"profile.active" = "Aktiv";
+"profile.free" = "Kostenlos";
+"profile.upgrade_premium" = "Auf Premium upgraden";
+"profile.unlock_features" = "Alle Premium-Funktionen freischalten und zur Quanten-Legende werden";
+"profile.feature.bridge" = "QuantumBridge QPU-Verbindung";
+"profile.feature.academy" = "Alle 12+ Academy-Kurse";
+"profile.feature.industry" = "Zugang zu Industrielösungen";
+"profile.feature.error" = "Fehlerkorrektur-Simulation";
+"profile.feature.badge" = "Premium-Abzeichen & Titel";
+"profile.feature.support" = "Prioritäts-Support";
+"profile.upgrade_btn" = "Upgrade - $9,99/Monat";
+"profile.trial" = "7-tägige kostenlose Testversion inklusive";
+
+// MARK: - Akademie
+
+"academy.level" = "Level";
+"academy.explorer" = "Quanten-Entdecker";
+"academy.total_xp" = "Gesamt-XP";
+"academy.next_level" = "Nächstes Level";
+"academy.xp_to_go" = "XP übrig";
+"academy.journey" = "Reise";
+"academy.stats" = "Statistiken";
+"academy.lessons_completed" = "Lektionen";
+"academy.streak" = "Serie";
+"academy.premium_unlock" = "Premium freischalten";
+"academy.start_lesson" = "Lektion starten";
+"academy.continue" = "Fortfahren";
+"academy.completed" = "Abgeschlossen";
+"academy.locked" = "Gesperrt";
+"academy.market_value" = "Absolvieren Sie diesen Kurs, um Ihren Marktwert um 23% zu steigern";
+"academy.topics" = "Themen";
+"academy.reward" = "Belohnung";
+"academy.duration" = "Dauer";
+"academy.min" = "Min";
+"academy.review" = "Wiederholen";
+"academy.current" = "AKTUELL";
+"academy.unlocked" = "FREIGESCHALTET";
+"academy.premium.title" = "Quantum Academy Premium";
+"academy.premium.desc" = "Alle 12+ Kurse freischalten und Quantencomputing meistern";
+"academy.feature.grover" = "Grovers Algorithmus - Quantensuche";
+"academy.feature.error" = "Fehlerkorrektur & Fehlertoleranz";
+"academy.feature.shor" = "Shors Algorithmus - RSA knacken";
+"academy.feature.ml" = "Quanten-Maschinelles Lernen";
+"academy.feature.curriculum" = "MIT/Harvard-Curriculum";
+
 // MARK: - Errors
 
 "error.circuit_too_large" = "Schaltung überschreitet maximales Qubit-Limit";
@@ -318,9 +398,14 @@
 "bridge.queue.wait" = "Gesch. Wartezeit";
 
 // Bereitstellungsbereich
+"bridge.deploy.title" = "Schaltung bereitstellen";
 "bridge.deploy.hold" = "Halten zum Bereitstellen";
 "bridge.deploy.deploying" = "Wird bereitgestellt...";
+"bridge.deploy.hold_text" = "2 Sekunden halten zum Bereitstellen";
 "bridge.deploy.to" = "an";
+
+// Zusätzliche UI
+"bridge.learn_more" = "Mehr erfahren";
 
 // Schnellaktionen
 "bridge.actions.title" = "Schnellaktionen";
@@ -424,3 +509,144 @@
 "circuits.run" = "Schaltung ausführen";
 "circuits.running" = "Läuft...";
 "circuits.result" = "Ergebnis";
+"circuits.qubits" = "Qubits";
+"circuits.gates" = "Gatter";
+"circuits.shots" = "Schüsse:";
+
+// Schwierigkeit
+"circuits.difficulty.beginner" = "Anfänger";
+"circuits.difficulty.intermediate" = "Fortgeschritten";
+"circuits.difficulty.advanced" = "Experte";
+
+// Schaltung Premium
+"circuits.premium.title" = "Premium-Schaltungen freischalten";
+"circuits.premium.desc" = "Zugang zu erweiterten Quantenschaltungen und Algorithmen";
+"circuits.premium.feat1" = "Fortgeschrittene/Experten-Quantenschaltungen";
+"circuits.premium.feat2" = "Quantenteleportation & GHZ-Zustand";
+"circuits.premium.feat3" = "Grover-Suchalgorithmus";
+"circuits.premium.feat4" = "Surface Code Fehlerkorrektur";
+"circuits.premium.feat5" = "QAOA Optimierungsalgorithmus";
+"circuits.premium.upgrade" = "Upgrade - €9,99/Monat";
+"circuits.premium.trial" = "7 Tage kostenlose Testversion inklusive";
+
+// MARK: - Bridge Zusätzliche Schlüssel
+
+"bridge.backend.simulator.title" = "Lokaler Simulator";
+"bridge.backend.brisbane.title" = "IBM Brisbane";
+"bridge.backend.osaka.title" = "IBM Osaka";
+"bridge.backend.kyoto.title" = "IBM Kyoto";
+"bridge.backend.qubits127" = "127 echte Qubits";
+"bridge.backend.queue_wait" = "Warteschlangenzeit";
+"bridge.backend.limited_daily" = "Begrenzte tägliche Nutzung";
+"bridge.backend.osaka.adv1" = "Optimierte Gattergeschwindigkeit";
+"bridge.backend.osaka.adv2" = "Kürzere Warteschlangenzeiten";
+"bridge.backend.osaka.lim1" = "Moderate Rauschpegel";
+"bridge.backend.kyoto.adv1" = "Erweiterte Fehlerminderung";
+"bridge.backend.kyoto.adv2" = "Forschungspartnerschaften";
+"bridge.backend.kyoto.lim1" = "Derzeit in Wartung";
+"bridge.backend.kyoto.lim2" = "Begrenzte Verfügbarkeit";
+
+"bridge.queue.est_wait" = "Geschätzte Wartezeit";
+"bridge.action.bell" = "Bell-Zustand";
+"bridge.action.bell.sub" = "Verschränkung erstellen";
+"bridge.action.ghz" = "GHZ-Zustand";
+"bridge.action.ghz.sub" = "3-Qubit-Verschränkung";
+"bridge.action.export" = "QASM exportieren";
+"bridge.action.export.sub" = "Schaltungscode teilen";
+"bridge.action.continuous" = "Dauermodus";
+"bridge.action.continuous.sub" = "Schaltungen automatisch wiederholen";
+"bridge.action.stop_continuous" = "Dauerst stoppen";
+"bridge.action.running" = "Läuft...";
+
+"bridge.continuous.active" = "Dauermodus aktiv";
+"bridge.continuous.desc" = "Schaltungen werden alle 30 Sekunden automatisch wiederholt";
+"bridge.continuous.runs" = "Durchläufe";
+
+"bridge.ecc.title" = "Fehlerkorrektur";
+"bridge.ecc.status" = "ECC-Status";
+"bridge.ecc.correcting" = "Auto-Korrektur...";
+"bridge.ecc.fidelity" = "Treue";
+
+"bridge.qasm.what" = "Was ist QASM?";
+"bridge.qasm.desc" = "OpenQASM ist ein Standardformat zur Beschreibung von Quantenschaltungen. Sie können diesen Code mit IBM Quantum, Qiskit oder anderen Quantencomputerplattformen verwenden.";
+
+"bridge.apikey.title" = "Mit IBM Quantum verbinden";
+"bridge.apikey.desc" = "Geben Sie Ihren API-Schlüssel von quantum-computing.ibm.com ein";
+"bridge.apikey.placeholder" = "API-Schlüssel";
+
+"bridge.premium.title" = "Factory Premium freischalten";
+"bridge.premium.desc" = "Zugang zu echter Quantenhardware und erweiterten Bereitstellungsfunktionen";
+"bridge.premium.feat1" = "IBM Quantum Hardware-Zugang";
+"bridge.premium.feat2" = "127-Qubit-Systeme";
+"bridge.premium.feat3" = "Prioritäts-Warteschlange";
+"bridge.premium.feat4" = "Erweiterte Fehlerminderung";
+"bridge.premium.feat5" = "Dauerbetriebsmodus";
+"bridge.premium.upgrade" = "Upgrade - €9,99/Monat";
+"bridge.premium.trial" = "7 Tage kostenlose Testversion inklusive";
+
+// MARK: - Industrie Zusätzliche Schlüssel
+
+"industry.efficiency" = "Effizienz";
+"industry.legend.without" = "Ohne Quantum";
+"industry.legend.with" = "Mit Quantum Premium";
+"industry.badge.best" = "BESTER WERT";
+"industry.badge.popular" = "BELIEBT";
+"industry.premium.trial" = "7 Tage kostenlose Testversion inklusive";
+
+// Industrie-Anwendungsfälle
+"industry.use.finance.1" = "Portfoliooptimierung";
+"industry.use.finance.2" = "Risikobewertung";
+"industry.use.finance.3" = "Betrugserkennung";
+"industry.use.finance.4" = "Hochfrequenzhandel";
+"industry.use.health.1" = "Arzneimittelmolekülsimulation";
+"industry.use.health.2" = "Proteinfaltung";
+"industry.use.health.3" = "Behandlungsoptimierung";
+"industry.use.health.4" = "Medizinische Bildgebung";
+"industry.use.logistics.1" = "Routenoptimierung";
+"industry.use.logistics.2" = "Lagerlayout";
+"industry.use.logistics.3" = "Lieferkette";
+"industry.use.logistics.4" = "Lieferplanung";
+"industry.use.energy.1" = "Netzoptimierung";
+"industry.use.energy.2" = "Nachfrageprognose";
+"industry.use.energy.3" = "Erneuerbare Integration";
+"industry.use.energy.4" = "Lastverteilung";
+"industry.use.mfg.1" = "Qualitätskontrolle";
+"industry.use.mfg.2" = "Vorausschauende Wartung";
+"industry.use.mfg.3" = "Prozessoptimierung";
+"industry.use.mfg.4" = "Bestandsmanagement";
+"industry.use.ai.1" = "Quanten-Neuronale Netze";
+"industry.use.ai.2" = "Merkmalauswahl";
+"industry.use.ai.3" = "Optimierungsprobleme";
+"industry.use.ai.4" = "Generative Modelle";
+"industry.use.default.1" = "Optimierung";
+"industry.use.default.2" = "Simulation";
+"industry.use.default.3" = "Analyse";
+
+// MARK: - Mehr Tab
+
+"more.academy.subtitle" = "Quantencomputing lernen";
+"more.industry.subtitle" = "Unternehmenslösungen";
+"more.profile.subtitle" = "Ihre Quantenreise";
+"more.done" = "Fertig";
+"more.login" = "Anmelden";
+"more.premium" = "Premium";
+"more.admin" = "Admin";
+"more.coming_soon" = "Demnächst";
+"more.coming_soon_message" = "Diese Funktion wird in einem zukünftigen Update verfügbar sein.";
+"more.ok" = "OK";
+"more.reset_tutorial" = "Tutorial zurücksetzen";
+"more.reset" = "Zurücksetzen";
+"more.cancel" = "Abbrechen";
+"more.reset_message" = "Das Onboarding-Tutorial wird beim Neustart der App erneut angezeigt.";
+"more.lessons" = "Lektionen";
+"more.xp" = "XP-Punkte";
+"more.level" = "Level";
+"more.rank" = "Rang";
+"more.appearance" = "Erscheinungsbild";
+"more.privacy" = "Datenschutz";
+"more.help" = "Hilfe & Support";
+
+// MARK: - Gemeinsame Nachrichten
+
+"common.coming_soon" = "Demnächst";
+"common.coming_soon_message" = "Diese Funktion befindet sich derzeit in der Entwicklung. Bitte haben Sie Geduld.";

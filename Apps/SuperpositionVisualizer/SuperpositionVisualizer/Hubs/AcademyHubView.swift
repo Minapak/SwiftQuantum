@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftQuantum
 
 // MARK: - Academy Hub - "The Learning Journey"
 // 행성계를 탐험하는 듯한 노드(Node)형 지도 스타일
@@ -7,10 +8,16 @@ import SwiftUI
 struct AcademyHubView: View {
     @StateObject private var viewModel = AcademyViewModel()
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @Namespace private var animation
     @State private var selectedLevel: LearningLevel?
     @State private var showLevelDetail = false
     @State private var showPremiumSheet = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -63,11 +70,11 @@ struct AcademyHubView: View {
             VStack(spacing: 16) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Level \(viewModel.currentLevel)")
+                        Text("\(L("academy.level")) \(viewModel.currentLevel)")
                             .font(QuantumHorizonTypography.heroTitle(36))
                             .foregroundStyle(QuantumHorizonColors.miamiSunset)
 
-                        Text("Quantum Explorer")
+                        Text(L("academy.explorer"))
                             .font(QuantumHorizonTypography.body(14))
                             .foregroundColor(.white.opacity(0.6))
                     }
@@ -80,7 +87,7 @@ struct AcademyHubView: View {
                             .font(QuantumHorizonTypography.statNumber(28))
                             .foregroundColor(QuantumHorizonColors.quantumGold)
 
-                        Text("Total XP")
+                        Text(L("academy.total_xp"))
                             .font(.system(size: 10, weight: .medium))
                             .foregroundColor(.white.opacity(0.5))
                     }
@@ -93,13 +100,13 @@ struct AcademyHubView: View {
                 // Progress Bar
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("Next Level")
+                        Text(L("academy.next_level"))
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(.white.opacity(0.5))
 
                         Spacer()
 
-                        Text("\(viewModel.xpToNextLevel) XP remaining")
+                        Text("\(viewModel.xpToNextLevel) \(L("academy.xp_to_go"))")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(QuantumHorizonColors.quantumGreen)
                     }
@@ -124,7 +131,7 @@ struct AcademyHubView: View {
     // MARK: - Learning Path View
     private var learningPathView: some View {
         VStack(spacing: 0) {
-            Text("Quantum Odyssey")
+            Text(L("academy.journey"))
                 .font(QuantumHorizonTypography.sectionTitle(20))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -201,7 +208,7 @@ struct AcademyHubView: View {
                     .font(.system(size: 18))
                     .foregroundColor(QuantumHorizonColors.quantumGold)
 
-                Text("Complete this course to increase your market value by 23%")
+                Text(L("academy.market_value"))
                     .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.white.opacity(0.8))
                     .lineLimit(2)
@@ -216,28 +223,28 @@ struct AcademyHubView: View {
     // MARK: - Stats Section
     private var statsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Your Progress")
+            Text(L("academy.stats"))
                 .font(QuantumHorizonTypography.sectionTitle(18))
                 .foregroundColor(.white)
 
             HStack(spacing: 12) {
                 StatCard(
                     value: "\(viewModel.completedLevels)",
-                    label: "Completed",
+                    label: L("academy.completed"),
                     icon: "checkmark.circle.fill",
                     color: QuantumHorizonColors.quantumGreen
                 )
 
                 StatCard(
                     value: "\(viewModel.streakDays)",
-                    label: "Day Streak",
+                    label: L("profile.day_streak"),
                     icon: "flame.fill",
                     color: .orange
                 )
 
                 StatCard(
                     value: formatTime(viewModel.totalLearningTime),
-                    label: "Study Time",
+                    label: L("profile.study_time"),
                     icon: "clock.fill",
                     color: QuantumHorizonColors.quantumCyan
                 )
@@ -266,7 +273,7 @@ struct AcademyHubView: View {
                 // Header
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Level \(viewModel.learningPath.firstIndex(where: { $0.id == level.id })! + 1)")
+                        Text("\(L("academy.level")) \(viewModel.learningPath.firstIndex(where: { $0.id == level.id })! + 1)")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(level.color.opacity(0.8))
 
@@ -295,7 +302,7 @@ struct AcademyHubView: View {
 
                 // Topics
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Topics")
+                    Text(L("academy.topics"))
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white.opacity(0.6))
 
@@ -318,7 +325,7 @@ struct AcademyHubView: View {
                 // XP and Duration
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Reward")
+                        Text(L("academy.reward"))
                             .font(.system(size: 12))
                             .foregroundColor(.white.opacity(0.5))
 
@@ -330,11 +337,11 @@ struct AcademyHubView: View {
                     Spacer()
 
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text("Duration")
+                        Text(L("academy.duration"))
                             .font(.system(size: 12))
                             .foregroundColor(.white.opacity(0.5))
 
-                        Text("\(level.estimatedMinutes) min")
+                        Text("\(level.estimatedMinutes) \(L("academy.min"))")
                             .font(QuantumHorizonTypography.statNumber(20))
                             .foregroundColor(QuantumHorizonColors.quantumCyan)
                     }
@@ -351,7 +358,7 @@ struct AcademyHubView: View {
                 }) {
                     HStack {
                         Image(systemName: level.status == .completed ? "arrow.clockwise" : "play.fill")
-                        Text(level.status == .completed ? "Review" : "Start Learning")
+                        Text(level.status == .completed ? L("academy.review") : L("academy.start_lesson"))
                     }
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
@@ -422,8 +429,14 @@ struct LearningNodeView: View {
     let index: Int
     let isSelected: Bool
     var isPremiumUser: Bool = false
+    @ObservedObject var localization = LocalizationManager.shared
 
     @State private var brightness: Double = 1.0
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     // Computed property to determine actual status (unlocked for premium)
     var effectiveStatus: LevelStatus {
@@ -485,7 +498,7 @@ struct LearningNodeView: View {
                         .foregroundColor(effectiveStatus == .locked ? .white.opacity(0.4) : .white)
 
                     if effectiveStatus == .current && level.status == .current {
-                        Text("CURRENT")
+                        Text(L("academy.current"))
                             .font(.system(size: 9, weight: .bold))
                             .foregroundColor(.black)
                             .padding(.horizontal, 6)
@@ -499,7 +512,7 @@ struct LearningNodeView: View {
                         HStack(spacing: 2) {
                             Image(systemName: "crown.fill")
                                 .font(.system(size: 8))
-                            Text("UNLOCKED")
+                            Text(L("academy.unlocked"))
                                 .font(.system(size: 9, weight: .bold))
                         }
                         .foregroundColor(.black)
@@ -794,7 +807,13 @@ class AcademyViewModel: ObservableObject {
 struct AcademyPremiumSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var premiumManager = PremiumManager.shared
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var showSuccessView = false
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
 
     var body: some View {
         ZStack {
@@ -826,22 +845,22 @@ struct AcademyPremiumSheet: View {
                         .font(.system(size: 64))
                         .foregroundStyle(QuantumHorizonColors.goldCelebration)
 
-                    Text("Quantum Academy Premium")
+                    Text(L("academy.premium.title"))
                         .font(QuantumHorizonTypography.sectionTitle(24))
                         .foregroundColor(.white)
 
-                    Text("Unlock all 12+ courses and master quantum computing")
+                    Text(L("academy.premium.desc"))
                         .font(QuantumHorizonTypography.body(14))
                         .foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
 
                     // Features list
                     VStack(alignment: .leading, spacing: 12) {
-                        premiumFeatureRow("Grover's Algorithm - Quantum Search")
-                        premiumFeatureRow("Error Correction & Fault Tolerance")
-                        premiumFeatureRow("Shor's Algorithm - Breaking RSA")
-                        premiumFeatureRow("Quantum Machine Learning")
-                        premiumFeatureRow("MIT/Harvard-style Curriculum")
+                        premiumFeatureRow(L("academy.feature.grover"))
+                        premiumFeatureRow(L("academy.feature.error"))
+                        premiumFeatureRow(L("academy.feature.shor"))
+                        premiumFeatureRow(L("academy.feature.ml"))
+                        premiumFeatureRow(L("academy.feature.curriculum"))
                     }
                     .padding()
                     .glassmorphism(intensity: 0.08, cornerRadius: 16)
@@ -854,7 +873,7 @@ struct AcademyPremiumSheet: View {
                             showSuccessView = true
                         }
                     }) {
-                        Text("Upgrade - $9.99/month")
+                        Text(L("profile.upgrade_btn"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity)
@@ -863,7 +882,7 @@ struct AcademyPremiumSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
 
-                    Text("7-day free trial included")
+                    Text(L("profile.trial"))
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.4))
 

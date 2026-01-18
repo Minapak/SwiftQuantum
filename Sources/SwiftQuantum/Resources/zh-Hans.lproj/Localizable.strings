@@ -227,6 +227,86 @@
 "industry.learn.mit" = "MIT xPRO量子课程";
 "industry.learn.roadmap" = "IBM量子2026路线图";
 
+// 额外Industry键
+"industry.upgrade_enterprise" = "升级到企业版";
+"industry.get_premium" = "获取高级版";
+"industry.efficiency_gain" = "效率提升";
+"industry.implementation" = "实施周期";
+"industry.impl_weeks" = "2-4周";
+"industry.team_size" = "团队规模";
+"industry.any_size" = "任意规模";
+"industry.stat.efficiency" = "效率";
+"industry.stat.roi" = "投资回报率";
+"industry.stat.clients" = "客户";
+
+// MARK: - 个人资料
+
+"profile.premium_explorer" = "高级量子探索者";
+"profile.member_since" = "加入于";
+"profile.gci.title" = "全球贡献指数";
+"profile.gci.score" = "GCI 分数";
+"profile.gci.top" = "前";
+"profile.gci.experiments" = "实验";
+"profile.gci.lessons" = "课程";
+"profile.gci.qpu_min" = "QPU 分钟";
+"profile.achievements" = "成就";
+"profile.learning_progress" = "学习进度";
+"profile.day_streak" = "连续天数";
+"profile.total_xp" = "总 XP";
+"profile.study_time" = "学习时间";
+"profile.this_week" = "本周";
+"profile.settings" = "设置";
+"profile.notifications" = "通知";
+"profile.dark_mode" = "深色模式";
+"profile.api_key" = "IBM Quantum API";
+"profile.configured" = "已配置";
+"profile.not_set" = "未设置";
+"profile.premium_status" = "高级状态";
+"profile.active" = "已激活";
+"profile.free" = "免费";
+"profile.upgrade_premium" = "升级到高级版";
+"profile.unlock_features" = "解锁所有高级功能，成为量子传奇";
+"profile.feature.bridge" = "QuantumBridge QPU 连接";
+"profile.feature.academy" = "12+ 学院课程";
+"profile.feature.industry" = "行业解决方案访问";
+"profile.feature.error" = "纠错模拟";
+"profile.feature.badge" = "高级徽章和称号";
+"profile.feature.support" = "优先支持";
+"profile.upgrade_btn" = "升级 - $9.99/月";
+"profile.trial" = "包含7天免费试用";
+
+// MARK: - 学院
+
+"academy.level" = "等级";
+"academy.explorer" = "量子探索者";
+"academy.total_xp" = "总 XP";
+"academy.next_level" = "下一级";
+"academy.xp_to_go" = "XP 剩余";
+"academy.journey" = "旅程";
+"academy.stats" = "统计";
+"academy.lessons_completed" = "课程";
+"academy.streak" = "连续天数";
+"academy.premium_unlock" = "高级解锁";
+"academy.start_lesson" = "开始课程";
+"academy.continue" = "继续";
+"academy.completed" = "已完成";
+"academy.locked" = "已锁定";
+"academy.market_value" = "完成本课程可将您的市场价值提升23%";
+"academy.topics" = "主题";
+"academy.reward" = "奖励";
+"academy.duration" = "时长";
+"academy.min" = "分钟";
+"academy.review" = "复习";
+"academy.current" = "当前";
+"academy.unlocked" = "已解锁";
+"academy.premium.title" = "量子学院高级版";
+"academy.premium.desc" = "解锁12+课程，掌握量子计算";
+"academy.feature.grover" = "格罗弗算法 - 量子搜索";
+"academy.feature.error" = "纠错与容错";
+"academy.feature.shor" = "肖尔算法 - 破解RSA";
+"academy.feature.ml" = "量子机器学习";
+"academy.feature.curriculum" = "MIT/Harvard风格课程";
+
 // MARK: - 错误
 
 "error.circuit_too_large" = "电路超出最大量子比特限制";
@@ -318,9 +398,14 @@
 "bridge.queue.wait" = "预计等待";
 
 // 部署部分
+"bridge.deploy.title" = "部署电路";
 "bridge.deploy.hold" = "长按部署";
 "bridge.deploy.deploying" = "部署中...";
+"bridge.deploy.hold_text" = "长按2秒部署电路";
 "bridge.deploy.to" = "到";
+
+// 额外UI
+"bridge.learn_more" = "了解更多";
 
 // 快速操作
 "bridge.actions.title" = "快速操作";
@@ -424,3 +509,144 @@
 "circuits.run" = "运行电路";
 "circuits.running" = "运行中...";
 "circuits.result" = "结果";
+"circuits.qubits" = "量子比特";
+"circuits.gates" = "门";
+"circuits.shots" = "次数:";
+
+// 难度
+"circuits.difficulty.beginner" = "初级";
+"circuits.difficulty.intermediate" = "中级";
+"circuits.difficulty.advanced" = "高级";
+
+// 电路高级版
+"circuits.premium.title" = "解锁高级电路";
+"circuits.premium.desc" = "访问高级量子电路和算法";
+"circuits.premium.feat1" = "中级/高级量子电路";
+"circuits.premium.feat2" = "量子隐形传态 & GHZ态";
+"circuits.premium.feat3" = "格罗弗搜索算法";
+"circuits.premium.feat4" = "表面码纠错";
+"circuits.premium.feat5" = "QAOA优化算法";
+"circuits.premium.upgrade" = "升级 - ¥68/月";
+"circuits.premium.trial" = "包含7天免费试用";
+
+// MARK: - 桥接附加键
+
+"bridge.backend.simulator.title" = "本地模拟器";
+"bridge.backend.brisbane.title" = "IBM Brisbane";
+"bridge.backend.osaka.title" = "IBM Osaka";
+"bridge.backend.kyoto.title" = "IBM Kyoto";
+"bridge.backend.qubits127" = "127真实量子比特";
+"bridge.backend.queue_wait" = "队列等待时间";
+"bridge.backend.limited_daily" = "每日使用限制";
+"bridge.backend.osaka.adv1" = "优化的门速度";
+"bridge.backend.osaka.adv2" = "更短的队列时间";
+"bridge.backend.osaka.lim1" = "中等噪声水平";
+"bridge.backend.kyoto.adv1" = "高级错误缓解";
+"bridge.backend.kyoto.adv2" = "研究合作伙伴";
+"bridge.backend.kyoto.lim1" = "目前维护中";
+"bridge.backend.kyoto.lim2" = "可用性有限";
+
+"bridge.queue.est_wait" = "预计等待";
+"bridge.action.bell" = "贝尔态";
+"bridge.action.bell.sub" = "创建纠缠";
+"bridge.action.ghz" = "GHZ态";
+"bridge.action.ghz.sub" = "3量子比特纠缠";
+"bridge.action.export" = "导出QASM";
+"bridge.action.export.sub" = "分享电路代码";
+"bridge.action.continuous" = "连续模式";
+"bridge.action.continuous.sub" = "自动重复电路";
+"bridge.action.stop_continuous" = "停止连续";
+"bridge.action.running" = "运行中...";
+
+"bridge.continuous.active" = "连续模式激活";
+"bridge.continuous.desc" = "电路将每30秒自动重复";
+"bridge.continuous.runs" = "次";
+
+"bridge.ecc.title" = "纠错";
+"bridge.ecc.status" = "ECC状态";
+"bridge.ecc.correcting" = "自动纠正中...";
+"bridge.ecc.fidelity" = "保真度";
+
+"bridge.qasm.what" = "什么是QASM？";
+"bridge.qasm.desc" = "OpenQASM是描述量子电路的标准格式。您可以在IBM Quantum、Qiskit或其他量子计算平台中使用此代码。";
+
+"bridge.apikey.title" = "连接到IBM Quantum";
+"bridge.apikey.desc" = "输入您从quantum-computing.ibm.com获取的API密钥";
+"bridge.apikey.placeholder" = "API密钥";
+
+"bridge.premium.title" = "解锁工厂高级版";
+"bridge.premium.desc" = "访问真实量子硬件和高级部署功能";
+"bridge.premium.feat1" = "IBM Quantum硬件访问";
+"bridge.premium.feat2" = "127量子比特系统";
+"bridge.premium.feat3" = "优先队列放置";
+"bridge.premium.feat4" = "高级错误缓解";
+"bridge.premium.feat5" = "连续运行模式";
+"bridge.premium.upgrade" = "升级 - ¥68/月";
+"bridge.premium.trial" = "包含7天免费试用";
+
+// MARK: - 行业标签附加键
+
+"industry.efficiency" = "效率";
+"industry.legend.without" = "无量子";
+"industry.legend.with" = "量子高级版";
+"industry.badge.best" = "最佳价值";
+"industry.badge.popular" = "热门";
+"industry.premium.trial" = "包含7天免费试用";
+
+// 行业用例
+"industry.use.finance.1" = "投资组合优化";
+"industry.use.finance.2" = "风险评估";
+"industry.use.finance.3" = "欺诈检测";
+"industry.use.finance.4" = "高频交易";
+"industry.use.health.1" = "药物分子模拟";
+"industry.use.health.2" = "蛋白质折叠";
+"industry.use.health.3" = "治疗优化";
+"industry.use.health.4" = "医学成像";
+"industry.use.logistics.1" = "路线优化";
+"industry.use.logistics.2" = "仓库布局";
+"industry.use.logistics.3" = "供应链";
+"industry.use.logistics.4" = "配送调度";
+"industry.use.energy.1" = "电网优化";
+"industry.use.energy.2" = "需求预测";
+"industry.use.energy.3" = "可再生能源整合";
+"industry.use.energy.4" = "负载均衡";
+"industry.use.mfg.1" = "质量控制";
+"industry.use.mfg.2" = "预测性维护";
+"industry.use.mfg.3" = "流程优化";
+"industry.use.mfg.4" = "库存管理";
+"industry.use.ai.1" = "量子神经网络";
+"industry.use.ai.2" = "特征选择";
+"industry.use.ai.3" = "优化问题";
+"industry.use.ai.4" = "生成模型";
+"industry.use.default.1" = "优化";
+"industry.use.default.2" = "模拟";
+"industry.use.default.3" = "分析";
+
+// MARK: - 更多标签
+
+"more.academy.subtitle" = "学习量子计算";
+"more.industry.subtitle" = "企业解决方案";
+"more.profile.subtitle" = "您的量子之旅";
+"more.done" = "完成";
+"more.login" = "登录";
+"more.premium" = "高级版";
+"more.admin" = "管理员";
+"more.coming_soon" = "即将推出";
+"more.coming_soon_message" = "此功能将在未来更新中提供。";
+"more.ok" = "确定";
+"more.reset_tutorial" = "重置教程";
+"more.reset" = "重置";
+"more.cancel" = "取消";
+"more.reset_message" = "重启应用后将再次显示引导教程。";
+"more.lessons" = "课程";
+"more.xp" = "经验值";
+"more.level" = "等级";
+"more.rank" = "排名";
+"more.appearance" = "外观";
+"more.privacy" = "隐私";
+"more.help" = "帮助与支持";
+
+// MARK: - 通用消息
+
+"common.coming_soon" = "即将推出";
+"common.coming_soon_message" = "此功能正在开发中，请稍候。";

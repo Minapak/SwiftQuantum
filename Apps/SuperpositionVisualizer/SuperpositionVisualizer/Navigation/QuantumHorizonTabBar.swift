@@ -224,8 +224,9 @@ struct HubContainerView<Content: View>: View {
 }
 
 // MARK: - Hub Header
-struct HubHeader: View {
+struct HubHeader<TrailingContent: View>: View {
     let hub: QuantumHub
+    @ViewBuilder var trailingContent: TrailingContent
     @State private var isAnimating = false
 
     private let sunsetGradient = LinearGradient(
@@ -236,6 +237,11 @@ struct HubHeader: View {
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
+
+    init(hub: QuantumHub, @ViewBuilder trailingContent: () -> TrailingContent = { EmptyView() }) {
+        self.hub = hub
+        self.trailingContent = trailingContent()
+    }
 
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
@@ -272,6 +278,9 @@ struct HubHeader: View {
             }
 
             Spacer()
+
+            // Trailing content (e.g., Learn More button)
+            trailingContent
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)

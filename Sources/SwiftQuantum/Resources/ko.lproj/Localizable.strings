@@ -227,6 +227,86 @@
 "industry.learn.mit" = "MIT xPRO 양자 과정";
 "industry.learn.roadmap" = "IBM 양자 2026 로드맵";
 
+// 추가 Industry 키
+"industry.upgrade_enterprise" = "엔터프라이즈로 업그레이드";
+"industry.get_premium" = "프리미엄 이용하기";
+"industry.efficiency_gain" = "효율성 향상";
+"industry.implementation" = "구현 기간";
+"industry.impl_weeks" = "2-4주";
+"industry.team_size" = "팀 규모";
+"industry.any_size" = "모든 규모";
+"industry.stat.efficiency" = "효율성";
+"industry.stat.roi" = "ROI";
+"industry.stat.clients" = "고객사";
+
+// MARK: - 프로필
+
+"profile.premium_explorer" = "프리미엄 양자 탐험가";
+"profile.member_since" = "가입일";
+"profile.gci.title" = "글로벌 기여 지수";
+"profile.gci.score" = "GCI 점수";
+"profile.gci.top" = "상위";
+"profile.gci.experiments" = "실험";
+"profile.gci.lessons" = "레슨";
+"profile.gci.qpu_min" = "QPU 분";
+"profile.achievements" = "업적";
+"profile.learning_progress" = "학습 진행";
+"profile.day_streak" = "연속 일수";
+"profile.total_xp" = "총 XP";
+"profile.study_time" = "학습 시간";
+"profile.this_week" = "이번 주";
+"profile.settings" = "설정";
+"profile.notifications" = "알림";
+"profile.dark_mode" = "다크 모드";
+"profile.api_key" = "IBM Quantum API";
+"profile.configured" = "설정됨";
+"profile.not_set" = "미설정";
+"profile.premium_status" = "프리미엄 상태";
+"profile.active" = "활성화";
+"profile.free" = "무료";
+"profile.upgrade_premium" = "프리미엄 업그레이드";
+"profile.unlock_features" = "모든 프리미엄 기능을 잠금 해제하고 양자 레전드가 되세요";
+"profile.feature.bridge" = "QuantumBridge QPU 연결";
+"profile.feature.academy" = "12개 이상 아카데미 코스";
+"profile.feature.industry" = "산업 솔루션 이용";
+"profile.feature.error" = "오류 정정 시뮬레이션";
+"profile.feature.badge" = "프리미엄 배지 및 칭호";
+"profile.feature.support" = "우선 지원";
+"profile.upgrade_btn" = "업그레이드 - $9.99/월";
+"profile.trial" = "7일 무료 체험 포함";
+
+// MARK: - 아카데미
+
+"academy.level" = "레벨";
+"academy.explorer" = "양자 탐험가";
+"academy.total_xp" = "총 XP";
+"academy.next_level" = "다음 레벨";
+"academy.xp_to_go" = "XP 필요";
+"academy.journey" = "여정";
+"academy.stats" = "통계";
+"academy.lessons_completed" = "완료 레슨";
+"academy.streak" = "연속 일수";
+"academy.premium_unlock" = "프리미엄 잠금 해제";
+"academy.start_lesson" = "레슨 시작";
+"academy.continue" = "계속하기";
+"academy.completed" = "완료됨";
+"academy.locked" = "잠김";
+"academy.market_value" = "이 과정을 완료하면 시장 가치가 23% 증가합니다";
+"academy.topics" = "주제";
+"academy.reward" = "보상";
+"academy.duration" = "소요 시간";
+"academy.min" = "분";
+"academy.review" = "복습";
+"academy.current" = "현재";
+"academy.unlocked" = "잠금해제";
+"academy.premium.title" = "양자 아카데미 프리미엄";
+"academy.premium.desc" = "12개 이상의 과정을 잠금 해제하고 양자 컴퓨팅을 마스터하세요";
+"academy.feature.grover" = "그로버 알고리즘 - 양자 검색";
+"academy.feature.error" = "오류 정정 및 결함 허용";
+"academy.feature.shor" = "쇼어 알고리즘 - RSA 해독";
+"academy.feature.ml" = "양자 머신러닝";
+"academy.feature.curriculum" = "MIT/Harvard 스타일 커리큘럼";
+
 // MARK: - 오류
 
 "error.circuit_too_large" = "회로가 최대 큐비트 한도를 초과합니다";
@@ -318,9 +398,14 @@
 "bridge.queue.wait" = "예상 대기";
 
 // 배포 섹션
+"bridge.deploy.title" = "회로 배포";
 "bridge.deploy.hold" = "길게 눌러 배포";
 "bridge.deploy.deploying" = "배포 중...";
+"bridge.deploy.hold_text" = "2초간 누르고 있으면 회로가 배포됩니다";
 "bridge.deploy.to" = "에";
+
+// 추가 UI
+"bridge.learn_more" = "알아보기";
 
 // 빠른 작업
 "bridge.actions.title" = "빠른 작업";
@@ -424,3 +509,144 @@
 "circuits.run" = "회로 실행";
 "circuits.running" = "실행 중...";
 "circuits.result" = "결과";
+"circuits.qubits" = "큐비트";
+"circuits.gates" = "게이트";
+"circuits.shots" = "샷 횟수:";
+
+// 난이도
+"circuits.difficulty.beginner" = "초급";
+"circuits.difficulty.intermediate" = "중급";
+"circuits.difficulty.advanced" = "고급";
+
+// 회로 프리미엄
+"circuits.premium.title" = "프리미엄 회로 잠금 해제";
+"circuits.premium.desc" = "고급 양자 회로와 알고리즘에 접근하세요";
+"circuits.premium.feat1" = "중급/고급 양자 회로";
+"circuits.premium.feat2" = "양자 텔레포테이션 및 GHZ 상태";
+"circuits.premium.feat3" = "그로버 검색 알고리즘";
+"circuits.premium.feat4" = "표면 코드 오류 정정";
+"circuits.premium.feat5" = "QAOA 최적화 알고리즘";
+"circuits.premium.upgrade" = "업그레이드 - 월 ₩9,900";
+"circuits.premium.trial" = "7일 무료 체험 포함";
+
+// MARK: - 브릿지 추가 키
+
+"bridge.backend.simulator.title" = "로컬 시뮬레이터";
+"bridge.backend.brisbane.title" = "IBM Brisbane";
+"bridge.backend.osaka.title" = "IBM Osaka";
+"bridge.backend.kyoto.title" = "IBM Kyoto";
+"bridge.backend.qubits127" = "127 실제 큐비트";
+"bridge.backend.queue_wait" = "대기열 대기 시간";
+"bridge.backend.limited_daily" = "일일 사용량 제한";
+"bridge.backend.osaka.adv1" = "최적화된 게이트 속도";
+"bridge.backend.osaka.adv2" = "짧은 대기열";
+"bridge.backend.osaka.lim1" = "중간 수준 노이즈";
+"bridge.backend.kyoto.adv1" = "고급 오류 완화";
+"bridge.backend.kyoto.adv2" = "연구 파트너십";
+"bridge.backend.kyoto.lim1" = "현재 유지보수 중";
+"bridge.backend.kyoto.lim2" = "제한된 가용성";
+
+"bridge.queue.est_wait" = "예상 대기";
+"bridge.action.bell" = "벨 상태";
+"bridge.action.bell.sub" = "얽힘 생성";
+"bridge.action.ghz" = "GHZ 상태";
+"bridge.action.ghz.sub" = "3큐비트 얽힘";
+"bridge.action.export" = "QASM 내보내기";
+"bridge.action.export.sub" = "회로 코드 공유";
+"bridge.action.continuous" = "연속 모드";
+"bridge.action.continuous.sub" = "회로 자동 반복";
+"bridge.action.stop_continuous" = "연속 중지";
+"bridge.action.running" = "실행 중...";
+
+"bridge.continuous.active" = "연속 모드 활성화";
+"bridge.continuous.desc" = "30초마다 회로가 자동 반복됩니다";
+"bridge.continuous.runs" = "회";
+
+"bridge.ecc.title" = "오류 정정";
+"bridge.ecc.status" = "ECC 상태";
+"bridge.ecc.correcting" = "자동 정정 중...";
+"bridge.ecc.fidelity" = "충실도";
+
+"bridge.qasm.what" = "QASM이란?";
+"bridge.qasm.desc" = "OpenQASM은 양자 회로를 설명하는 표준 형식입니다. IBM Quantum, Qiskit 또는 기타 양자 컴퓨팅 플랫폼에서 이 코드를 사용할 수 있습니다.";
+
+"bridge.apikey.title" = "IBM Quantum 연결";
+"bridge.apikey.desc" = "quantum-computing.ibm.com에서 API 키를 입력하세요";
+"bridge.apikey.placeholder" = "API 키";
+
+"bridge.premium.title" = "Factory 프리미엄 잠금 해제";
+"bridge.premium.desc" = "실제 양자 하드웨어와 고급 배포 기능에 접근하세요";
+"bridge.premium.feat1" = "IBM Quantum 하드웨어 접근";
+"bridge.premium.feat2" = "127큐비트 시스템";
+"bridge.premium.feat3" = "우선 대기열 배치";
+"bridge.premium.feat4" = "고급 오류 완화";
+"bridge.premium.feat5" = "연속 작동 모드";
+"bridge.premium.upgrade" = "업그레이드 - 월 ₩9,900";
+"bridge.premium.trial" = "7일 무료 체험 포함";
+
+// MARK: - 산업 탭 추가 키
+
+"industry.efficiency" = "효율";
+"industry.legend.without" = "양자 없이";
+"industry.legend.with" = "양자 프리미엄 포함";
+"industry.badge.best" = "최고 가치";
+"industry.badge.popular" = "인기";
+"industry.premium.trial" = "7일 무료 체험 포함";
+
+// 산업별 사용 사례
+"industry.use.finance.1" = "포트폴리오 최적화";
+"industry.use.finance.2" = "위험 평가";
+"industry.use.finance.3" = "사기 탐지";
+"industry.use.finance.4" = "고빈도 거래";
+"industry.use.health.1" = "약물 분자 시뮬레이션";
+"industry.use.health.2" = "단백질 접힘";
+"industry.use.health.3" = "치료 최적화";
+"industry.use.health.4" = "의료 영상";
+"industry.use.logistics.1" = "경로 최적화";
+"industry.use.logistics.2" = "창고 레이아웃";
+"industry.use.logistics.3" = "공급망";
+"industry.use.logistics.4" = "배송 일정";
+"industry.use.energy.1" = "그리드 최적화";
+"industry.use.energy.2" = "수요 예측";
+"industry.use.energy.3" = "재생에너지 통합";
+"industry.use.energy.4" = "부하 분산";
+"industry.use.mfg.1" = "품질 관리";
+"industry.use.mfg.2" = "예측 유지보수";
+"industry.use.mfg.3" = "공정 최적화";
+"industry.use.mfg.4" = "재고 관리";
+"industry.use.ai.1" = "양자 신경망";
+"industry.use.ai.2" = "특성 선택";
+"industry.use.ai.3" = "최적화 문제";
+"industry.use.ai.4" = "생성 모델";
+"industry.use.default.1" = "최적화";
+"industry.use.default.2" = "시뮬레이션";
+"industry.use.default.3" = "분석";
+
+// MARK: - 더보기 탭
+
+"more.academy.subtitle" = "양자 컴퓨팅 학습";
+"more.industry.subtitle" = "기업 솔루션";
+"more.profile.subtitle" = "나의 양자 여정";
+"more.done" = "완료";
+"more.login" = "로그인";
+"more.premium" = "프리미엄";
+"more.admin" = "관리자";
+"more.coming_soon" = "준비 중";
+"more.coming_soon_message" = "이 기능은 향후 업데이트에서 제공될 예정입니다.";
+"more.ok" = "확인";
+"more.reset_tutorial" = "튜토리얼 초기화";
+"more.reset" = "초기화";
+"more.cancel" = "취소";
+"more.reset_message" = "앱을 재시작하면 온보딩 튜토리얼이 다시 표시됩니다.";
+"more.lessons" = "레슨";
+"more.xp" = "XP 포인트";
+"more.level" = "레벨";
+"more.rank" = "등급";
+"more.appearance" = "외관";
+"more.privacy" = "개인정보";
+"more.help" = "도움말 및 지원";
+
+// MARK: - 공통 메시지
+
+"common.coming_soon" = "준비 중";
+"common.coming_soon_message" = "이 기능은 현재 개발 중입니다. 조금만 기다려주세요.";

@@ -227,6 +227,86 @@
 "industry.learn.mit" = "MIT xPRO量子コース";
 "industry.learn.roadmap" = "IBM量子2026ロードマップ";
 
+// 追加Industry キー
+"industry.upgrade_enterprise" = "エンタープライズにアップグレード";
+"industry.get_premium" = "プレミアムを取得";
+"industry.efficiency_gain" = "効率向上";
+"industry.implementation" = "実装期間";
+"industry.impl_weeks" = "2-4週間";
+"industry.team_size" = "チーム規模";
+"industry.any_size" = "全規模対応";
+"industry.stat.efficiency" = "効率性";
+"industry.stat.roi" = "ROI";
+"industry.stat.clients" = "クライアント";
+
+// MARK: - プロフィール
+
+"profile.premium_explorer" = "プレミアム量子探検家";
+"profile.member_since" = "加入日";
+"profile.gci.title" = "グローバル貢献指数";
+"profile.gci.score" = "GCIスコア";
+"profile.gci.top" = "上位";
+"profile.gci.experiments" = "実験";
+"profile.gci.lessons" = "レッスン";
+"profile.gci.qpu_min" = "QPU分";
+"profile.achievements" = "実績";
+"profile.learning_progress" = "学習進捗";
+"profile.day_streak" = "連続日数";
+"profile.total_xp" = "合計XP";
+"profile.study_time" = "学習時間";
+"profile.this_week" = "今週";
+"profile.settings" = "設定";
+"profile.notifications" = "通知";
+"profile.dark_mode" = "ダークモード";
+"profile.api_key" = "IBM Quantum API";
+"profile.configured" = "設定済み";
+"profile.not_set" = "未設定";
+"profile.premium_status" = "プレミアム状態";
+"profile.active" = "有効";
+"profile.free" = "無料";
+"profile.upgrade_premium" = "プレミアムにアップグレード";
+"profile.unlock_features" = "すべてのプレミアム機能をアンロックし、量子レジェンドになりましょう";
+"profile.feature.bridge" = "QuantumBridge QPU接続";
+"profile.feature.academy" = "12以上のアカデミーコース";
+"profile.feature.industry" = "産業ソリューションアクセス";
+"profile.feature.error" = "エラー訂正シミュレーション";
+"profile.feature.badge" = "プレミアムバッジとタイトル";
+"profile.feature.support" = "優先サポート";
+"profile.upgrade_btn" = "アップグレード - $9.99/月";
+"profile.trial" = "7日間無料トライアル付き";
+
+// MARK: - アカデミー
+
+"academy.level" = "レベル";
+"academy.explorer" = "量子探検家";
+"academy.total_xp" = "合計XP";
+"academy.next_level" = "次のレベル";
+"academy.xp_to_go" = "XP残り";
+"academy.journey" = "旅程";
+"academy.stats" = "統計";
+"academy.lessons_completed" = "レッスン";
+"academy.streak" = "連続日数";
+"academy.premium_unlock" = "プレミアムアンロック";
+"academy.start_lesson" = "レッスン開始";
+"academy.continue" = "続ける";
+"academy.completed" = "完了";
+"academy.locked" = "ロック中";
+"academy.market_value" = "このコースを完了すると市場価値が23%向上します";
+"academy.topics" = "トピック";
+"academy.reward" = "報酬";
+"academy.duration" = "所要時間";
+"academy.min" = "分";
+"academy.review" = "復習";
+"academy.current" = "現在";
+"academy.unlocked" = "アンロック";
+"academy.premium.title" = "量子アカデミープレミアム";
+"academy.premium.desc" = "12以上のコースをアンロックし、量子コンピューティングをマスター";
+"academy.feature.grover" = "グローバーアルゴリズム - 量子検索";
+"academy.feature.error" = "エラー訂正とフォールトトレランス";
+"academy.feature.shor" = "ショアアルゴリズム - RSA解読";
+"academy.feature.ml" = "量子機械学習";
+"academy.feature.curriculum" = "MIT/Harvardスタイルカリキュラム";
+
 // MARK: - エラー
 
 "error.circuit_too_large" = "回路が最大量子ビット制限を超えています";
@@ -318,9 +398,14 @@
 "bridge.queue.wait" = "予想待機";
 
 // デプロイセクション
+"bridge.deploy.title" = "回路をデプロイ";
 "bridge.deploy.hold" = "長押しでデプロイ";
 "bridge.deploy.deploying" = "デプロイ中...";
+"bridge.deploy.hold_text" = "2秒間押し続けると回路がデプロイされます";
 "bridge.deploy.to" = "へ";
+
+// 追加UI
+"bridge.learn_more" = "詳細";
 
 // クイックアクション
 "bridge.actions.title" = "クイックアクション";
@@ -424,3 +509,144 @@
 "circuits.run" = "回路を実行";
 "circuits.running" = "実行中...";
 "circuits.result" = "結果";
+"circuits.qubits" = "量子ビット";
+"circuits.gates" = "ゲート";
+"circuits.shots" = "ショット:";
+
+// 難易度
+"circuits.difficulty.beginner" = "初級";
+"circuits.difficulty.intermediate" = "中級";
+"circuits.difficulty.advanced" = "上級";
+
+// 回路プレミアム
+"circuits.premium.title" = "プレミアム回路のロックを解除";
+"circuits.premium.desc" = "高度な量子回路とアルゴリズムにアクセス";
+"circuits.premium.feat1" = "中級/上級量子回路";
+"circuits.premium.feat2" = "量子テレポーテーション & GHZ状態";
+"circuits.premium.feat3" = "グローバー検索アルゴリズム";
+"circuits.premium.feat4" = "サーフェスコードエラー訂正";
+"circuits.premium.feat5" = "QAOA最適化アルゴリズム";
+"circuits.premium.upgrade" = "アップグレード - 月額¥1,480";
+"circuits.premium.trial" = "7日間無料トライアル含む";
+
+// MARK: - ブリッジ追加キー
+
+"bridge.backend.simulator.title" = "ローカルシミュレーター";
+"bridge.backend.brisbane.title" = "IBM Brisbane";
+"bridge.backend.osaka.title" = "IBM Osaka";
+"bridge.backend.kyoto.title" = "IBM Kyoto";
+"bridge.backend.qubits127" = "127実量子ビット";
+"bridge.backend.queue_wait" = "キュー待ち時間";
+"bridge.backend.limited_daily" = "日次使用制限";
+"bridge.backend.osaka.adv1" = "最適化されたゲート速度";
+"bridge.backend.osaka.adv2" = "短いキュー時間";
+"bridge.backend.osaka.lim1" = "中程度のノイズレベル";
+"bridge.backend.kyoto.adv1" = "高度なエラー軽減";
+"bridge.backend.kyoto.adv2" = "研究パートナーシップ";
+"bridge.backend.kyoto.lim1" = "現在メンテナンス中";
+"bridge.backend.kyoto.lim2" = "限定的な可用性";
+
+"bridge.queue.est_wait" = "推定待ち";
+"bridge.action.bell" = "ベル状態";
+"bridge.action.bell.sub" = "もつれを作成";
+"bridge.action.ghz" = "GHZ状態";
+"bridge.action.ghz.sub" = "3量子ビットもつれ";
+"bridge.action.export" = "QASM出力";
+"bridge.action.export.sub" = "回路コードを共有";
+"bridge.action.continuous" = "連続モード";
+"bridge.action.continuous.sub" = "回路を自動繰り返し";
+"bridge.action.stop_continuous" = "連続停止";
+"bridge.action.running" = "実行中...";
+
+"bridge.continuous.active" = "連続モード有効";
+"bridge.continuous.desc" = "30秒ごとに回路が自動繰り返されます";
+"bridge.continuous.runs" = "回";
+
+"bridge.ecc.title" = "エラー訂正";
+"bridge.ecc.status" = "ECC状態";
+"bridge.ecc.correcting" = "自動訂正中...";
+"bridge.ecc.fidelity" = "忠実度";
+
+"bridge.qasm.what" = "QASMとは？";
+"bridge.qasm.desc" = "OpenQASMは量子回路を記述する標準フォーマットです。IBM Quantum、Qiskit、その他の量子コンピューティングプラットフォームでこのコードを使用できます。";
+
+"bridge.apikey.title" = "IBM Quantumに接続";
+"bridge.apikey.desc" = "quantum-computing.ibm.comからAPIキーを入力してください";
+"bridge.apikey.placeholder" = "APIキー";
+
+"bridge.premium.title" = "ファクトリープレミアムのロックを解除";
+"bridge.premium.desc" = "実際の量子ハードウェアと高度なデプロイ機能にアクセス";
+"bridge.premium.feat1" = "IBM Quantumハードウェアアクセス";
+"bridge.premium.feat2" = "127量子ビットシステム";
+"bridge.premium.feat3" = "優先キュー配置";
+"bridge.premium.feat4" = "高度なエラー軽減";
+"bridge.premium.feat5" = "連続運用モード";
+"bridge.premium.upgrade" = "アップグレード - 月額¥1,480";
+"bridge.premium.trial" = "7日間無料トライアル含む";
+
+// MARK: - 産業タブ追加キー
+
+"industry.efficiency" = "効率";
+"industry.legend.without" = "量子なし";
+"industry.legend.with" = "量子プレミアム付き";
+"industry.badge.best" = "最高価値";
+"industry.badge.popular" = "人気";
+"industry.premium.trial" = "7日間無料トライアル含む";
+
+// 産業別ユースケース
+"industry.use.finance.1" = "ポートフォリオ最適化";
+"industry.use.finance.2" = "リスク評価";
+"industry.use.finance.3" = "不正検出";
+"industry.use.finance.4" = "高頻度取引";
+"industry.use.health.1" = "薬物分子シミュレーション";
+"industry.use.health.2" = "タンパク質折りたたみ";
+"industry.use.health.3" = "治療最適化";
+"industry.use.health.4" = "医療画像";
+"industry.use.logistics.1" = "ルート最適化";
+"industry.use.logistics.2" = "倉庫レイアウト";
+"industry.use.logistics.3" = "サプライチェーン";
+"industry.use.logistics.4" = "配送スケジュール";
+"industry.use.energy.1" = "グリッド最適化";
+"industry.use.energy.2" = "需要予測";
+"industry.use.energy.3" = "再生可能エネルギー統合";
+"industry.use.energy.4" = "負荷分散";
+"industry.use.mfg.1" = "品質管理";
+"industry.use.mfg.2" = "予知保全";
+"industry.use.mfg.3" = "プロセス最適化";
+"industry.use.mfg.4" = "在庫管理";
+"industry.use.ai.1" = "量子ニューラルネットワーク";
+"industry.use.ai.2" = "特徴選択";
+"industry.use.ai.3" = "最適化問題";
+"industry.use.ai.4" = "生成モデル";
+"industry.use.default.1" = "最適化";
+"industry.use.default.2" = "シミュレーション";
+"industry.use.default.3" = "分析";
+
+// MARK: - もっとタブ
+
+"more.academy.subtitle" = "量子コンピューティングを学ぶ";
+"more.industry.subtitle" = "エンタープライズソリューション";
+"more.profile.subtitle" = "あなたの量子の旅";
+"more.done" = "完了";
+"more.login" = "ログイン";
+"more.premium" = "プレミアム";
+"more.admin" = "管理者";
+"more.coming_soon" = "近日公開";
+"more.coming_soon_message" = "この機能は将来のアップデートで利用可能になります。";
+"more.ok" = "OK";
+"more.reset_tutorial" = "チュートリアルをリセット";
+"more.reset" = "リセット";
+"more.cancel" = "キャンセル";
+"more.reset_message" = "アプリを再起動するとオンボーディングチュートリアルが再び表示されます。";
+"more.lessons" = "レッスン";
+"more.xp" = "XPポイント";
+"more.level" = "レベル";
+"more.rank" = "ランク";
+"more.appearance" = "外観";
+"more.privacy" = "プライバシー";
+"more.help" = "ヘルプとサポート";
+
+// MARK: - 共通メッセージ
+
+"common.coming_soon" = "近日公開";
+"common.coming_soon_message" = "この機能は現在開発中です。お待ちください。";

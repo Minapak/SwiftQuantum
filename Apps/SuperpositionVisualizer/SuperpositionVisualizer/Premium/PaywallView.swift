@@ -13,25 +13,49 @@ import StoreKit
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject private var premiumManager = PremiumManager.shared
+    @ObservedObject private var localization = LocalizationManager.shared
 
     @State private var selectedProduct: Product?
+    @State private var selectedTier: SubscriptionTier = .premium
+    @State private var selectedPeriod: SubscriptionPeriod = .yearly
     @State private var isPurchasing = false
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var showSuccess = false
 
+    enum SubscriptionTier {
+        case pro
+        case premium
+    }
+
+    enum SubscriptionPeriod {
+        case monthly
+        case yearly
+    }
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
+
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 28) {
+                VStack(spacing: 24) {
                     // Header
                     headerSection
 
-                    // Feature comparison
-                    featureComparisonSection
+                    // Tier Selection (Pro vs Premium)
+                    tierSelectionSection
 
-                    // Products
-                    productsSection
+                    // Period Selection (Monthly vs Yearly)
+                    periodSelectionSection
+
+                    // Feature List
+                    featureListSection
+
+                    // Price Display
+                    priceDisplaySection
 
                     // Purchase button
                     purchaseButton
@@ -48,9 +72,18 @@ struct PaywallView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Close") { dismiss() }
+                    Button(L("subscription.close")) { dismiss() }
                         .foregroundColor(.yellow)
                 }
+            }
+            .onAppear {
+                updateSelectedProduct()
+            }
+            .onChange(of: selectedTier) { _, _ in
+                updateSelectedProduct()
+            }
+            .onChange(of: selectedPeriod) { _, _ in
+                updateSelectedProduct()
             }
         }
         .alert("Error", isPresented: $showError) {
@@ -67,7 +100,7 @@ struct PaywallView: View {
 
     private var headerSection: some View {
         VStack(spacing: 16) {
-            // Crown icon with glow
+            // App icon with glow
             ZStack {
                 Circle()
                     .fill(
@@ -80,22 +113,18 @@ struct PaywallView: View {
                     )
                     .frame(width: 120, height: 120)
 
-                Image(systemName: "crown.fill")
-                    .font(.system(size: 56))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.yellow, .orange],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                Image("QuantumNativeIcon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 80)
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
             }
 
-            Text("Unlock SwiftQuantum")
+            Text(L("subscription.title"))
                 .font(.title.bold())
                 .foregroundColor(.white)
 
-            Text("Access the full power of quantum computing")
+            Text(L("subscription.subtitle"))
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -103,104 +132,207 @@ struct PaywallView: View {
         .padding(.top, 20)
     }
 
-    // MARK: - Feature Comparison Section
+    // MARK: - Tier Selection
 
-    private var featureComparisonSection: some View {
-        VStack(spacing: 16) {
-            // Pro features
-            VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.blue)
-                    Text("Pro")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                }
+    private var tierSelectionSection: some View {
+        VStack(spacing: 12) {
+            Text(L("subscription.choose_plan"))
+                .font(.headline)
+                .foregroundColor(.white)
 
-                FeatureRow(icon: "graduationcap.fill", text: "All 12 Academy Courses", color: .blue)
-                FeatureRow(icon: "cpu", text: "40 Qubit Local Simulation", color: .blue)
-                FeatureRow(icon: "book.fill", text: "Advanced Examples", color: .blue)
-                FeatureRow(icon: "envelope.fill", text: "Email Support", color: .blue)
+            HStack(spacing: 12) {
+                // Pro Tier Button
+                tierButton(
+                    tier: .pro,
+                    title: L("subscription.pro"),
+                    icon: "star.fill",
+                    color: .blue,
+                    isSelected: selectedTier == .pro
+                )
+
+                // Premium Tier Button
+                tierButton(
+                    tier: .premium,
+                    title: L("subscription.premium"),
+                    icon: "crown.fill",
+                    color: .yellow,
+                    isSelected: selectedTier == .premium,
+                    isRecommended: true
+                )
             }
-            .padding()
-            .background(Color.blue.opacity(0.1))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.blue.opacity(0.3), lineWidth: 1)
-            )
+        }
+    }
 
-            // Premium features
-            VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    Image(systemName: "crown.fill")
-                        .foregroundColor(.yellow)
-                    Text("Premium")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                    Spacer()
-                    Text("RECOMMENDED")
-                        .font(.caption2.bold())
+    private func tierButton(tier: SubscriptionTier, title: String, icon: String, color: Color, isSelected: Bool, isRecommended: Bool = false) -> some View {
+        Button(action: {
+            withAnimation(.spring(response: 0.3)) {
+                selectedTier = tier
+            }
+        }) {
+            VStack(spacing: 8) {
+                if isRecommended {
+                    Text(L("subscription.recommended"))
+                        .font(.system(size: 9, weight: .bold))
                         .foregroundColor(.black)
                         .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 3)
                         .background(Color.yellow)
                         .clipShape(Capsule())
                 }
 
-                FeatureRow(icon: "checkmark.circle.fill", text: "Everything in Pro", color: .yellow)
-                FeatureRow(icon: "network", text: "QuantumBridge QPU Connection", color: .yellow)
-                FeatureRow(icon: "shield.checkered", text: "Error Correction Simulation", color: .yellow)
-                FeatureRow(icon: "building.2.fill", text: "Industry Solutions Access", color: .yellow)
-                FeatureRow(icon: "headphones", text: "Priority Support", color: .yellow)
+                Image(systemName: icon)
+                    .font(.system(size: 28))
+                    .foregroundColor(isSelected ? color : color.opacity(0.5))
+
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(isSelected ? .white : .white.opacity(0.6))
             }
-            .padding()
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 20)
             .background(
-                LinearGradient(
-                    colors: [Color.yellow.opacity(0.15), Color.orange.opacity(0.1)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.yellow.opacity(0.5), lineWidth: 2)
+                    .fill(isSelected ? color.opacity(0.15) : Color.white.opacity(0.05))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(isSelected ? color : Color.white.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Period Selection
+
+    private var periodSelectionSection: some View {
+        HStack(spacing: 12) {
+            // Monthly Button
+            periodButton(
+                period: .monthly,
+                title: L("subscription.monthly"),
+                isSelected: selectedPeriod == .monthly
+            )
+
+            // Yearly Button
+            periodButton(
+                period: .yearly,
+                title: L("subscription.yearly"),
+                isSelected: selectedPeriod == .yearly,
+                badge: L("subscription.save_percent")
             )
         }
     }
 
-    // MARK: - Products Section
+    private func periodButton(period: SubscriptionPeriod, title: String, isSelected: Bool, badge: String? = nil) -> some View {
+        let accentColor: Color = selectedTier == .premium ? .yellow : .blue
 
-    private var productsSection: some View {
-        VStack(spacing: 12) {
-            if premiumManager.isLoading && premiumManager.products.isEmpty {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .yellow))
-                    .padding()
-            } else {
-                ForEach(premiumManager.products.sorted { $0.price > $1.price }, id: \.id) { product in
-                    ProductRow(
-                        product: product,
-                        isSelected: selectedProduct?.id == product.id,
-                        onSelect: { selectedProduct = product }
-                    )
+        return Button(action: {
+            withAnimation(.spring(response: 0.3)) {
+                selectedPeriod = period
+            }
+        }) {
+            VStack(spacing: 4) {
+                HStack(spacing: 6) {
+                    Text(title)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(isSelected ? .white : .white.opacity(0.6))
+
+                    if let badge = badge {
+                        Text(badge)
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundColor(.black)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.green)
+                            .clipShape(Capsule())
+                    }
                 }
             }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? accentColor.opacity(0.15) : Color.white.opacity(0.05))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(isSelected ? accentColor : Color.white.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                    )
+            )
         }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Feature List
+
+    private var featureListSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            let accentColor: Color = selectedTier == .premium ? .yellow : .blue
+
+            if selectedTier == .pro {
+                FeatureRow(icon: "graduationcap.fill", text: L("subscription.pro.feature1"), color: accentColor)
+                FeatureRow(icon: "cpu", text: L("subscription.pro.feature2"), color: accentColor)
+                FeatureRow(icon: "book.fill", text: L("subscription.pro.feature3"), color: accentColor)
+                FeatureRow(icon: "envelope.fill", text: L("subscription.pro.feature4"), color: accentColor)
+            } else {
+                FeatureRow(icon: "checkmark.circle.fill", text: L("subscription.premium.feature1"), color: accentColor)
+                FeatureRow(icon: "network", text: L("subscription.premium.feature2"), color: accentColor)
+                FeatureRow(icon: "shield.checkered", text: L("subscription.premium.feature3"), color: accentColor)
+                FeatureRow(icon: "building.2.fill", text: L("subscription.premium.feature4"), color: accentColor)
+                FeatureRow(icon: "headphones", text: L("subscription.premium.feature5"), color: accentColor)
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.05))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
+    }
+
+    // MARK: - Price Display
+
+    private var priceDisplaySection: some View {
+        VStack(spacing: 8) {
+            if let product = selectedProduct {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(product.displayPrice)
+                        .font(.system(size: 36, weight: .bold))
+                        .foregroundColor(selectedTier == .premium ? .yellow : .blue)
+
+                    Text(selectedPeriod == .yearly ? L("subscription.per_year") : L("subscription.per_month"))
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.6))
+                }
+
+                Text(selectedPeriod == .yearly
+                     ? (selectedTier == .premium ? L("subscription.premium.desc_yearly") : L("subscription.pro.desc_yearly"))
+                     : (selectedTier == .premium ? L("subscription.premium.desc_monthly") : L("subscription.pro.desc_monthly")))
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.5))
+            } else {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .yellow))
+            }
+        }
+        .padding(.vertical, 8)
     }
 
     // MARK: - Purchase Button
 
     private var purchaseButton: some View {
-        Button(action: purchase) {
+        let accentColor: Color = selectedTier == .premium ? .yellow : .blue
+
+        return Button(action: purchase) {
             HStack(spacing: 8) {
                 if isPurchasing {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .black))
                 } else {
-                    Image(systemName: "crown.fill")
-                    Text("Subscribe")
+                    Image(systemName: selectedTier == .premium ? "crown.fill" : "star.fill")
+                    Text(L("subscription.subscribe"))
                     if let product = selectedProduct {
                         Text("- \(product.displayPrice)")
                     }
@@ -212,7 +344,7 @@ struct PaywallView: View {
             .padding(.vertical, 16)
             .background(
                 selectedProduct != nil
-                    ? LinearGradient(colors: [.yellow, .orange], startPoint: .leading, endPoint: .trailing)
+                    ? LinearGradient(colors: selectedTier == .premium ? [.yellow, .orange] : [.blue, .cyan], startPoint: .leading, endPoint: .trailing)
                     : LinearGradient(colors: [.gray, .gray], startPoint: .leading, endPoint: .trailing)
             )
             .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -224,7 +356,7 @@ struct PaywallView: View {
 
     private var restoreButton: some View {
         Button(action: restore) {
-            Text("Restore Purchases")
+            Text(L("subscription.restore"))
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.7))
         }
@@ -234,20 +366,39 @@ struct PaywallView: View {
 
     private var legalSection: some View {
         VStack(spacing: 8) {
-            Text("Subscription auto-renews unless cancelled 24 hours before the end of the current period.")
+            Text(L("subscription.legal"))
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.5))
                 .multilineTextAlignment(.center)
 
             HStack(spacing: 16) {
-                Link("Terms of Use", destination: URL(string: "https://swiftquantum.app/terms")!)
+                Link(L("subscription.terms"), destination: URL(string: "https://swiftquantum.app/terms")!)
                 Text("•")
-                Link("Privacy Policy", destination: URL(string: "https://swiftquantum.app/privacy")!)
+                Link(L("subscription.privacy"), destination: URL(string: "https://swiftquantum.app/privacy")!)
             }
             .font(.caption)
             .foregroundColor(.blue)
         }
         .padding(.top, 8)
+    }
+
+    // MARK: - Helper Methods
+
+    private func updateSelectedProduct() {
+        let productId: String
+
+        switch (selectedTier, selectedPeriod) {
+        case (.pro, .monthly):
+            productId = "com.swiftquantum.pro.monthly"
+        case (.pro, .yearly):
+            productId = "com.swiftquantum.pro.yearly"
+        case (.premium, .monthly):
+            productId = "com.swiftquantum.premium.monthly"
+        case (.premium, .yearly):
+            productId = "com.swiftquantum.premium.yearly"
+        }
+
+        selectedProduct = premiumManager.products.first { $0.id == productId }
     }
 
     // MARK: - Actions
@@ -307,95 +458,6 @@ private struct FeatureRow: View {
                 .foregroundStyle(.green)
                 .font(.caption)
         }
-    }
-}
-
-// MARK: - Product Row
-
-private struct ProductRow: View {
-    let product: Product
-    let isSelected: Bool
-    let onSelect: () -> Void
-
-    private var isPremium: Bool {
-        product.id.contains("premium")
-    }
-
-    private var isYearly: Bool {
-        product.id.contains("yearly")
-    }
-
-    private var tierName: String {
-        isPremium ? "Premium" : "Pro"
-    }
-
-    private var periodName: String {
-        isYearly ? "Yearly" : "Monthly"
-    }
-
-    var body: some View {
-        Button(action: onSelect) {
-            HStack {
-                // Radio button
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundStyle(isSelected ? (isPremium ? .yellow : .blue) : .gray)
-                    .font(.title2)
-
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(tierName)
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        Text(periodName)
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
-
-                        if isYearly {
-                            Text("SAVE 33%")
-                                .font(.caption2.bold())
-                                .foregroundColor(.black)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.green)
-                                .clipShape(Capsule())
-                        }
-                    }
-
-                    Text(product.description)
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.5))
-                        .lineLimit(1)
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(product.displayPrice)
-                        .font(.headline)
-                        .foregroundStyle(isPremium ? .yellow : .blue)
-
-                    Text(isYearly ? "/year" : "/month")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.5))
-                }
-            }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white.opacity(0.05))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(
-                                isSelected
-                                    ? (isPremium ? Color.yellow : Color.blue)
-                                    : Color.white.opacity(0.1),
-                                lineWidth: isSelected ? 2 : 1
-                            )
-                    )
-            )
-        }
-        .buttonStyle(.plain)
     }
 }
 

@@ -1,7 +1,7 @@
-# SwiftQuantum v2.2.1 - Architecture Document
+# SwiftQuantum v2.2.3 - Architecture Document
 
-> **Document Version:** 2.2.1
-> **Last Updated:** 2026-01-16
+> **Document Version:** 2.2.3
+> **Last Updated:** 2026-01-18
 
 ---
 
@@ -28,7 +28,7 @@
 | Item | Value |
 |------|-------|
 | **Project Name** | SwiftQuantum |
-| **Version** | 2.2.1 |
+| **Version** | 2.2.3 |
 | **License** | MIT |
 | **Platform** | iOS 15+ / macOS 14+ |
 | **Swift Version** | 6.0 |
@@ -168,6 +168,9 @@ SwiftQuantum/
 │           │
 │           ├── Onboarding/
 │           │   └── OnboardingView.swift
+│           │
+│           ├── Auth/
+│           │   └── AuthenticationView.swift    # Login/SignUp/Reset
 │           │
 │           └── Localization/
 │               └── LocalizationManager.swift
@@ -734,10 +737,82 @@ Apple Silicon M-series:
 
 ---
 
+## 12. Authentication System
+
+### 12.1 AuthenticationView.swift
+
+```swift
+struct AuthenticationView: View {
+    @ObservedObject var authService = AuthService.shared
+    @ObservedObject var localization = LocalizationManager.shared
+
+    enum AuthMode {
+        case login
+        case signUp
+        case forgotPassword
+    }
+
+    // Localization helper
+    private func L(_ key: String) -> String {
+        return localization.string(forKey: key)
+    }
+}
+```
+
+### 12.2 Authentication Localization Keys
+
+| Key | EN | KO |
+|-----|----|----|
+| `auth.welcome_back` | Welcome Back | 다시 오신 것을 환영합니다 |
+| `auth.create_account` | Create Account | 계정 만들기 |
+| `auth.email` | Email | 이메일 |
+| `auth.password` | Password | 비밀번호 |
+| `auth.login` | Login | 로그인 |
+| `auth.signup` | Sign Up | 회원가입 |
+| `auth.forgot_password` | Forgot Password? | 비밀번호를 잊으셨나요? |
+
+---
+
+## 13. Subscription Paywall System
+
+### 13.1 PaywallView.swift
+
+```swift
+struct PaywallView: View {
+    enum SubscriptionTier {
+        case pro      // $4.99/month, $39.99/year
+        case premium  // $9.99/month, $79.99/year
+    }
+
+    enum SubscriptionPeriod {
+        case monthly
+        case yearly   // 33% savings
+    }
+
+    @State private var selectedTier: SubscriptionTier = .premium
+    @State private var selectedPeriod: SubscriptionPeriod = .yearly
+}
+```
+
+### 13.2 Subscription Localization Keys
+
+| Key | EN | KO |
+|-----|----|----|
+| `subscription.title` | Unlock SwiftQuantum | SwiftQuantum 잠금 해제 |
+| `subscription.pro` | Pro | Pro |
+| `subscription.premium` | Premium | Premium |
+| `subscription.monthly` | Monthly | 월간 |
+| `subscription.yearly` | Yearly | 연간 |
+| `subscription.save_percent` | SAVE 33% | 33% 할인 |
+| `subscription.subscribe` | Subscribe | 구독하기 |
+
+---
+
 ## Change History
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.3 | 2026-01-18 | Auth localization, PaywallView redesign, Industry/Circuits UI improvements |
 | 2.2.1 | 2026-01-16 | Real-time localization, backend integration, hardcoded values removal |
 | 2.2.0 | 2026-01-13 | Backend integration (APIClient), StoreKit 2, ContentAccessManager, PaywallView, German support |
 | 2.1.1 | 2026-01-08 | Developer Mode QA/QC system |
@@ -749,7 +824,7 @@ Apple Silicon M-series:
 
 <div align="center">
 
-**SwiftQuantum v2.2.1**
+**SwiftQuantum v2.2.3**
 
 *The future of quantum computing on iOS - Powered by Harvard-MIT research*
 

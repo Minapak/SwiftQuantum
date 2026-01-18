@@ -228,6 +228,86 @@
 "industry.learn.mit" = "MIT xPRO Quantum Course";
 "industry.learn.roadmap" = "IBM Quantum 2026 Roadmap";
 
+// Additional Industry keys
+"industry.upgrade_enterprise" = "Upgrade to Enterprise";
+"industry.get_premium" = "Get Premium Access";
+"industry.efficiency_gain" = "Efficiency Gain";
+"industry.implementation" = "Implementation";
+"industry.impl_weeks" = "2-4 weeks";
+"industry.team_size" = "Team Size";
+"industry.any_size" = "Any size";
+"industry.stat.efficiency" = "Efficiency";
+"industry.stat.roi" = "ROI";
+"industry.stat.clients" = "Clients";
+
+// MARK: - Profile
+
+"profile.premium_explorer" = "Premium Quantum Explorer";
+"profile.member_since" = "Member since";
+"profile.gci.title" = "Global Contribution Index";
+"profile.gci.score" = "GCI Score";
+"profile.gci.top" = "Top";
+"profile.gci.experiments" = "Experiments";
+"profile.gci.lessons" = "Lessons";
+"profile.gci.qpu_min" = "QPU Min";
+"profile.achievements" = "Achievements";
+"profile.learning_progress" = "Learning Progress";
+"profile.day_streak" = "Day Streak";
+"profile.total_xp" = "Total XP";
+"profile.study_time" = "Study Time";
+"profile.this_week" = "This Week";
+"profile.settings" = "Settings";
+"profile.notifications" = "Notifications";
+"profile.dark_mode" = "Dark Mode";
+"profile.api_key" = "IBM Quantum API";
+"profile.configured" = "Configured";
+"profile.not_set" = "Not set";
+"profile.premium_status" = "Premium Status";
+"profile.active" = "Active";
+"profile.free" = "Free";
+"profile.upgrade_premium" = "Upgrade to Premium";
+"profile.unlock_features" = "Unlock all premium features and become a Quantum Legend";
+"profile.feature.bridge" = "QuantumBridge QPU Connection";
+"profile.feature.academy" = "All 12+ Academy Courses";
+"profile.feature.industry" = "Industry Solutions Access";
+"profile.feature.error" = "Error Correction Simulation";
+"profile.feature.badge" = "Premium Badge & Title";
+"profile.feature.support" = "Priority Support";
+"profile.upgrade_btn" = "Upgrade - $9.99/month";
+"profile.trial" = "7-day free trial included";
+
+// MARK: - Academy
+
+"academy.level" = "Level";
+"academy.explorer" = "Quantum Explorer";
+"academy.total_xp" = "Total XP";
+"academy.next_level" = "Next Level";
+"academy.xp_to_go" = "XP to go";
+"academy.journey" = "Journey";
+"academy.stats" = "Stats";
+"academy.lessons_completed" = "Lessons";
+"academy.streak" = "Streak";
+"academy.premium_unlock" = "Premium Unlock";
+"academy.start_lesson" = "Start Lesson";
+"academy.continue" = "Continue";
+"academy.completed" = "Completed";
+"academy.locked" = "Locked";
+"academy.market_value" = "Complete this course to increase your market value by 23%";
+"academy.topics" = "Topics";
+"academy.reward" = "Reward";
+"academy.duration" = "Duration";
+"academy.min" = "min";
+"academy.review" = "Review";
+"academy.current" = "CURRENT";
+"academy.unlocked" = "UNLOCKED";
+"academy.premium.title" = "Quantum Academy Premium";
+"academy.premium.desc" = "Unlock all 12+ courses and master quantum computing";
+"academy.feature.grover" = "Grover's Algorithm - Quantum Search";
+"academy.feature.error" = "Error Correction & Fault Tolerance";
+"academy.feature.shor" = "Shor's Algorithm - Breaking RSA";
+"academy.feature.ml" = "Quantum Machine Learning";
+"academy.feature.curriculum" = "MIT/Harvard-style Curriculum";
+
 // MARK: - Errors
 
 "error.circuit_too_large" = "Circuit exceeds maximum qubit limit";
@@ -319,9 +399,14 @@
 "bridge.queue.wait" = "Est. Wait";
 
 // Deploy Section
+"bridge.deploy.title" = "Deploy Circuit";
 "bridge.deploy.hold" = "Hold to Deploy";
 "bridge.deploy.deploying" = "Deploying...";
+"bridge.deploy.hold_text" = "Hold for 2 seconds to deploy the circuit";
 "bridge.deploy.to" = "to";
+
+// Additional UI
+"bridge.learn_more" = "Learn More";
 
 // Quick Actions
 "bridge.actions.title" = "Quick Actions";
@@ -425,3 +510,144 @@
 "circuits.run" = "Run Circuit";
 "circuits.running" = "Running...";
 "circuits.result" = "Result";
+"circuits.qubits" = "qubits";
+"circuits.gates" = "gates";
+"circuits.shots" = "Shots:";
+
+// Difficulty
+"circuits.difficulty.beginner" = "Beginner";
+"circuits.difficulty.intermediate" = "Intermediate";
+"circuits.difficulty.advanced" = "Advanced";
+
+// Circuits Premium
+"circuits.premium.title" = "Unlock Premium Circuits";
+"circuits.premium.desc" = "Access advanced quantum circuits and algorithms";
+"circuits.premium.feat1" = "Intermediate/Advanced quantum circuits";
+"circuits.premium.feat2" = "Quantum Teleportation & GHZ State";
+"circuits.premium.feat3" = "Grover's Search Algorithm";
+"circuits.premium.feat4" = "Surface Code Error Correction";
+"circuits.premium.feat5" = "QAOA Optimization Algorithm";
+"circuits.premium.upgrade" = "Upgrade - $9.99/month";
+"circuits.premium.trial" = "7-day free trial included";
+
+// MARK: - Bridge Additional Keys
+
+"bridge.backend.simulator.title" = "Local Simulator";
+"bridge.backend.brisbane.title" = "IBM Brisbane";
+"bridge.backend.osaka.title" = "IBM Osaka";
+"bridge.backend.kyoto.title" = "IBM Kyoto";
+"bridge.backend.qubits127" = "127 real qubits";
+"bridge.backend.queue_wait" = "Queue wait time";
+"bridge.backend.limited_daily" = "Limited daily usage";
+"bridge.backend.osaka.adv1" = "Optimized gate speed";
+"bridge.backend.osaka.adv2" = "Shorter queue times";
+"bridge.backend.osaka.lim1" = "Moderate noise levels";
+"bridge.backend.kyoto.adv1" = "Advanced error mitigation";
+"bridge.backend.kyoto.adv2" = "Research partnerships";
+"bridge.backend.kyoto.lim1" = "Currently in maintenance";
+"bridge.backend.kyoto.lim2" = "Limited availability";
+
+"bridge.queue.est_wait" = "Est. Wait";
+"bridge.action.bell" = "Bell State";
+"bridge.action.bell.sub" = "Create entanglement";
+"bridge.action.ghz" = "GHZ State";
+"bridge.action.ghz.sub" = "3-qubit entanglement";
+"bridge.action.export" = "Export QASM";
+"bridge.action.export.sub" = "Share circuit code";
+"bridge.action.continuous" = "Continuous Mode";
+"bridge.action.continuous.sub" = "Auto-repeat circuits";
+"bridge.action.stop_continuous" = "Stop Continuous";
+"bridge.action.running" = "Running...";
+
+"bridge.continuous.active" = "Continuous Mode Active";
+"bridge.continuous.desc" = "Circuits will auto-repeat every 30 seconds";
+"bridge.continuous.runs" = "runs";
+
+"bridge.ecc.title" = "Error Correction";
+"bridge.ecc.status" = "ECC Status";
+"bridge.ecc.correcting" = "Auto-correcting...";
+"bridge.ecc.fidelity" = "Fidelity";
+
+"bridge.qasm.what" = "What is QASM?";
+"bridge.qasm.desc" = "OpenQASM is a standard format for describing quantum circuits. You can use this code with IBM Quantum, Qiskit, or other quantum computing platforms.";
+
+"bridge.apikey.title" = "Connect to IBM Quantum";
+"bridge.apikey.desc" = "Enter your API key from quantum-computing.ibm.com";
+"bridge.apikey.placeholder" = "API Key";
+
+"bridge.premium.title" = "Unlock Factory Premium";
+"bridge.premium.desc" = "Access real quantum hardware and advanced deployment features";
+"bridge.premium.feat1" = "IBM Quantum hardware access";
+"bridge.premium.feat2" = "127-qubit systems";
+"bridge.premium.feat3" = "Priority queue placement";
+"bridge.premium.feat4" = "Advanced error mitigation";
+"bridge.premium.feat5" = "Continuous operation mode";
+"bridge.premium.upgrade" = "Upgrade - $9.99/month";
+"bridge.premium.trial" = "7-day free trial included";
+
+// MARK: - Industry Additional Keys
+
+"industry.efficiency" = "efficiency";
+"industry.legend.without" = "Without Quantum";
+"industry.legend.with" = "With Quantum Premium";
+"industry.badge.best" = "BEST VALUE";
+"industry.badge.popular" = "POPULAR";
+"industry.premium.trial" = "7-day free trial included";
+
+// Industry Use Cases
+"industry.use.finance.1" = "Portfolio optimization";
+"industry.use.finance.2" = "Risk assessment";
+"industry.use.finance.3" = "Fraud detection";
+"industry.use.finance.4" = "High-frequency trading";
+"industry.use.health.1" = "Drug molecule simulation";
+"industry.use.health.2" = "Protein folding";
+"industry.use.health.3" = "Treatment optimization";
+"industry.use.health.4" = "Medical imaging";
+"industry.use.logistics.1" = "Route optimization";
+"industry.use.logistics.2" = "Warehouse layout";
+"industry.use.logistics.3" = "Supply chain";
+"industry.use.logistics.4" = "Delivery scheduling";
+"industry.use.energy.1" = "Grid optimization";
+"industry.use.energy.2" = "Demand forecasting";
+"industry.use.energy.3" = "Renewable integration";
+"industry.use.energy.4" = "Load balancing";
+"industry.use.mfg.1" = "Quality control";
+"industry.use.mfg.2" = "Predictive maintenance";
+"industry.use.mfg.3" = "Process optimization";
+"industry.use.mfg.4" = "Inventory management";
+"industry.use.ai.1" = "Quantum neural networks";
+"industry.use.ai.2" = "Feature selection";
+"industry.use.ai.3" = "Optimization problems";
+"industry.use.ai.4" = "Generative models";
+"industry.use.default.1" = "Optimization";
+"industry.use.default.2" = "Simulation";
+"industry.use.default.3" = "Analysis";
+
+// MARK: - More Tab
+
+"more.academy.subtitle" = "Learn Quantum Computing";
+"more.industry.subtitle" = "Enterprise Solutions";
+"more.profile.subtitle" = "Your Quantum Journey";
+"more.done" = "Done";
+"more.login" = "Login";
+"more.premium" = "Premium";
+"more.admin" = "Admin";
+"more.coming_soon" = "Coming Soon";
+"more.coming_soon_message" = "This feature will be available in a future update.";
+"more.ok" = "OK";
+"more.reset_tutorial" = "Reset Tutorial";
+"more.reset" = "Reset";
+"more.cancel" = "Cancel";
+"more.reset_message" = "This will show the onboarding tutorial again when you restart the app.";
+"more.lessons" = "Lessons";
+"more.xp" = "XP Points";
+"more.level" = "Level";
+"more.rank" = "Rank";
+"more.appearance" = "Appearance";
+"more.privacy" = "Privacy";
+"more.help" = "Help & Support";
+
+// MARK: - Common Messages
+
+"common.coming_soon" = "Coming Soon";
+"common.coming_soon_message" = "This feature is currently under development. Please stay tuned.";
