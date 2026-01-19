@@ -60,7 +60,8 @@ let package = Package(
                 "Experience/DailyChallengeEngine.swift",
                 "Experience/OracleEngine.swift",
                 "Experience/QuantumArtMapper.swift",
-                "Experience/QuantumExperience.swift"
+                "Experience/QuantumExperience.swift",
+                "Experience/ExperienceAPIClient.swift"
             ],
             resources: [
                 .process("Resources")
