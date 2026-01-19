@@ -55,7 +55,12 @@ let package = Package(
                 "Localization/QuantumLocalizedStrings.swift",
                 // Serialization (DTO for network communication)
                 "Serialization/GateDTO.swift",
-                "Serialization/QuantumCircuitDTO.swift"
+                "Serialization/QuantumCircuitDTO.swift",
+                // Experience (Entertainment Logic Module)
+                "Experience/DailyChallengeEngine.swift",
+                "Experience/OracleEngine.swift",
+                "Experience/QuantumArtMapper.swift",
+                "Experience/QuantumExperience.swift"
             ],
             resources: [
                 .process("Resources")
