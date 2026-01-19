@@ -1,4 +1,4 @@
-# SwiftQuantum v2.2.5 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.6 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
@@ -21,7 +21,50 @@
 
 ---
 
-## What's New in v2.2.5 (2026 Production Release)
+## What's New in v2.2.6 (2026 Production Release)
+
+### Backend API Integration for QuantumExperience
+
+Full backend connectivity for the QuantumExperience entertainment module:
+
+- **ExperienceAPIClient**: Actor-based async API client for backend integration
+  - Connects to `https://api.swiftquantum.tech/api/v1/experience/*`
+  - Automatic local fallback when network unavailable
+  - Auth token support for authenticated requests
+  - Full endpoint coverage: daily, oracle, art, combined
+
+```swift
+// Backend API usage examples
+let client = ExperienceAPIClient.shared
+
+// Get today's pattern from server (with local fallback)
+let pattern = try await client.getTodayPattern()
+
+// Consult oracle via backend
+let result = try await client.consultOracle(question: "Should I invest?")
+
+// Generate art from qubit state
+let artData = try await client.generateArt(from: qubit)
+
+// Get combined daily experience
+let experience = try await client.getDailyExperience()
+```
+
+**Backend Endpoints:**
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/experience/daily/today` | GET | Today's daily pattern |
+| `/experience/daily/pattern/{date}` | GET | Pattern by specific date |
+| `/experience/oracle/consult` | POST | Oracle consultation |
+| `/experience/oracle/statistics` | POST | Oracle statistics |
+| `/experience/art/from-qubit` | POST | Art from qubit state |
+| `/experience/combined/daily` | GET | Combined daily experience |
+| `/experience/combined/signature` | POST | Personal quantum signature |
+
+---
+
+## What's New in v2.2.5
 
 ### QuantumExperience Entertainment Module
 
@@ -222,7 +265,7 @@ SomeView()
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/Minapak/SwiftQuantum.git", from: "2.2.5")
+    .package(url: "https://github.com/Minapak/SwiftQuantum.git", from: "2.2.6")
 ]
 ```
 
@@ -405,11 +448,12 @@ SwiftQuantum v2.2.5/
 │   │   ├── QuantumBridge.swift        # QASM export, IBM config
 │   │   └── QuantumExecutor.swift      # Hybrid execution protocol
 │   │
-│   ├── Experience/                    # Entertainment Logic (NEW)
+│   ├── Experience/                    # Entertainment Logic + Backend API
 │   │   ├── QuantumExperience.swift    # Unified API entry point
 │   │   ├── DailyChallengeEngine.swift # Daily Pulse patterns
 │   │   ├── OracleEngine.swift         # Quantum decision making
-│   │   └── QuantumArtMapper.swift     # State-to-art mapping
+│   │   ├── QuantumArtMapper.swift     # State-to-art mapping
+│   │   └── ExperienceAPIClient.swift  # Backend API client (NEW)
 │   │
 │   └── Resources/                     # Localization
 │       ├── en.lproj/                  # English (Default)
@@ -503,7 +547,15 @@ SwiftQuantum is built on cutting-edge quantum computing research:
 
 ## Roadmap
 
-### Version 2.2.5 (Current - January 2026)
+### Version 2.2.6 (Current - January 2026)
+- [x] ExperienceAPIClient for backend integration
+- [x] Actor-based async networking with URLSession
+- [x] Local fallback when network unavailable
+- [x] Backend REST API endpoints for all Experience features
+- [x] SwiftQuantumBackend Experience service deployment
+- [x] FNV-1a hash algorithm consistency between iOS and backend
+
+### Version 2.2.5 (January 2026)
 - [x] QuantumExperience entertainment module for premium features
 - [x] DailyChallengeEngine: Deterministic daily patterns (FNV-1a hash, O(1))
 - [x] OracleEngine: True quantum randomness with context injection

@@ -4,10 +4,10 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 2.2.6   | :white_check_mark: |
 | 2.2.x   | :white_check_mark: |
-| 2.1.x   | :white_check_mark: |
-| 2.0.x   | :x:                |
-| < 2.0   | :x:                |
+| 2.1.x   | :x:                |
+| < 2.1   | :x:                |
 
 ## Reporting a Vulnerability
 
@@ -28,7 +28,8 @@ Never commit sensitive data. Use environment variables for:
 
 ```bash
 # .env (never committed to git)
-API_BASE_URL=https://api.your-domain.com
+API_BASE_URL=https://api.swiftquantum.tech
+BRIDGE_BASE_URL=https://bridge.swiftquantum.tech
 IBM_QUANTUM_API_KEY=your_api_key_here
 APP_STORE_KEY_ID=your_key_id
 APP_STORE_ISSUER_ID=your_issuer_id
@@ -84,6 +85,28 @@ guard numberOfQubits > 0, numberOfQubits <= 20 else {
 - Certificate pinning for production
 - Request signing for sensitive operations
 - Timeout limits on all requests
+- ExperienceAPIClient uses URLSession with secure defaults
+- Local fallback ensures functionality without network exposure
+
+### Experience API Security
+
+The ExperienceAPIClient follows security best practices:
+
+```swift
+// Actor-based isolation prevents data races
+public actor ExperienceAPIClient {
+    // Auth token stored securely
+    public var authToken: String?
+
+    // HTTPS-only communication
+    public var baseURL: String = "https://api.swiftquantum.tech"
+}
+```
+
+- All Experience API endpoints use HTTPS
+- Optional auth token for premium features
+- No sensitive data stored locally
+- Automatic local fallback protects user privacy
 
 ## Third-Party Dependencies
 

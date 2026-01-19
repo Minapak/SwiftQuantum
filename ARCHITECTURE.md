@@ -1,6 +1,6 @@
-# SwiftQuantum v2.2.5 - Architecture Document
+# SwiftQuantum v2.2.6 - Architecture Document
 
-> **Document Version:** 2.2.5
+> **Document Version:** 2.2.6
 > **Last Updated:** 2026-01-19
 
 ---
@@ -28,7 +28,7 @@
 | Item | Value |
 |------|-------|
 | **Project Name** | SwiftQuantum |
-| **Version** | 2.2.5 |
+| **Version** | 2.2.6 |
 | **License** | MIT |
 | **Platform** | iOS 15+ / macOS 14+ |
 | **Swift Version** | 6.0 |
@@ -126,11 +126,12 @@ SwiftQuantum/
 │       │   ├── GateDTO.swift              # Qiskit-compatible gate DTO
 │       │   └── QuantumCircuitDTO.swift    # Circuit serialization DTO
 │       │
-│       ├── Experience/                    # Entertainment Logic (NEW)
+│       ├── Experience/                    # Entertainment Logic + Backend API
 │       │   ├── QuantumExperience.swift    # Unified API entry point
 │       │   ├── DailyChallengeEngine.swift # Daily Pulse patterns
 │       │   ├── OracleEngine.swift         # Quantum decision making
-│       │   └── QuantumArtMapper.swift     # State-to-art mapping
+│       │   ├── QuantumArtMapper.swift     # State-to-art mapping
+│       │   └── ExperienceAPIClient.swift  # Backend API client (NEW)
 │       │
 │       └── Resources/                     # Multi-language resources
 │           ├── en.lproj/
@@ -456,6 +457,61 @@ public struct ArtData: Codable, Equatable, Sendable {
 | **Contrast** | Phase variance | Larger variance = higher contrast |
 | **Saturation** | Probability concentration | Max prob → saturation |
 | **Brightness** | Superposition count | More states = brighter |
+
+---
+
+### 3.6 Experience API Client (NEW in v2.2.6)
+
+#### ExperienceAPIClient.swift - Backend Integration
+
+```swift
+/// Actor-based API client for QuantumExperience backend integration
+public actor ExperienceAPIClient {
+    public static let shared = ExperienceAPIClient()
+    public var baseURL: String = "https://api.swiftquantum.tech"
+
+    // Daily Pulse API
+    public func getTodayPattern() async throws -> DailyPatternData
+    public func getPattern(for date: String) async throws -> DailyPatternData
+    public func calculateAlignment(userAmplitude: Double, userPhase: Double, date: String?) async throws -> AlignmentResult
+
+    // Oracle API
+    public func consultOracle(question: String) async throws -> OracleResult
+    public func oracleStatistics(question: String, shots: Int) async throws -> OracleStatistics
+    public func quickOracleAnswer() async throws -> Bool
+
+    // Art API
+    public func generateArt(from qubit: Qubit) async throws -> ArtData
+    public func generateArtFromSuperposition() async throws -> ArtData
+
+    // Combined Experience API
+    public func getDailyExperience() async throws -> DailyExperience
+    public func createPersonalSignature(userIdentifier: String) async throws -> PersonalQuantumSignature
+}
+```
+
+**Backend API Endpoints:**
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v1/experience/daily/today` | GET | Today's daily pattern |
+| `/api/v1/experience/daily/pattern/{date}` | GET | Pattern by date |
+| `/api/v1/experience/daily/alignment` | POST | Calculate alignment score |
+| `/api/v1/experience/oracle/consult` | POST | Oracle consultation |
+| `/api/v1/experience/oracle/statistics` | POST | Oracle statistics |
+| `/api/v1/experience/oracle/quick` | GET | Quick yes/no answer |
+| `/api/v1/experience/art/from-qubit` | POST | Art from qubit state |
+| `/api/v1/experience/art/from-superposition` | GET | Art from \|+⟩ state |
+| `/api/v1/experience/combined/daily` | GET | Combined daily experience |
+| `/api/v1/experience/combined/signature` | POST | Personal quantum signature |
+
+**Features:**
+
+- **Actor-based concurrency**: Thread-safe singleton pattern
+- **Async/await networking**: Modern Swift concurrency with URLSession
+- **Local fallback**: Automatic fallback to local engines when network unavailable
+- **Auth token support**: Optional authentication for premium features
+- **Consistent algorithms**: FNV-1a hash implementation matches backend exactly
 
 ---
 
@@ -920,6 +976,7 @@ struct PaywallView: View {
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.6 | 2026-01-19 | ExperienceAPIClient backend integration, REST API endpoints for Experience module |
 | 2.2.5 | 2026-01-19 | QuantumExperience entertainment module (DailyChallengeEngine, OracleEngine, QuantumArtMapper) |
 | 2.2.4 | 2026-01-18 | IBM Quantum Ecosystem localization, subscription system redesign |
 | 2.2.3 | 2026-01-18 | Auth localization, PaywallView redesign, Industry/Circuits UI improvements |
@@ -934,7 +991,7 @@ struct PaywallView: View {
 
 <div align="center">
 
-**SwiftQuantum v2.2.5**
+**SwiftQuantum v2.2.6**
 
 *The future of quantum computing on iOS - Powered by Harvard-MIT research*
 
