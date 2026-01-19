@@ -1,4 +1,4 @@
-# SwiftQuantum v2.2.4 - Premium Quantum Hybrid Platform
+# SwiftQuantum v2.2.5 - Premium Quantum Hybrid Platform
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/platform-iOS%2018%2B%20%7C%20macOS%2015%2B-lightgrey.svg)](https://developer.apple.com)
@@ -21,7 +21,47 @@
 
 ---
 
-## What's New in v2.2.4 (2026 Production Release)
+## What's New in v2.2.5 (2026 Production Release)
+
+### QuantumExperience Entertainment Module
+
+New entertainment logic module for premium monetization features:
+
+- **DailyChallengeEngine (Daily Pulse Logic)**:
+  - Deterministic daily patterns using FNV-1a hash algorithm
+  - O(1) complexity - instant pattern generation
+  - Same date = Same pattern globally (user synchronization)
+  - Extended pattern data: entanglement strength, coherence, lucky quantum state
+
+- **OracleEngine (The Oracle Logic)**:
+  - True quantum randomness via Hadamard gate + measurement
+  - Context injection: user questions influence initial phase rotation
+  - Confidence calculation based on entropy and probability distribution
+  - Consultation history with configurable size limit
+
+- **QuantumArtMapper (Art Data Mapping)**:
+  - Maps quantum states to visual art parameters (hue, complexity, contrast)
+  - Supports single qubit, multi-qubit registers, and circuit results
+  - Configurable hue modes: continuous, quantized6, quantized12, warm, cool
+  - HSB to RGB color conversion with hex output
+
+```swift
+// Daily Pulse - Global synchronized pattern
+let pattern = QuantumExperience.todayPattern
+print("Amplitude: \(pattern.amplitude), Phase: \(pattern.phase)")
+
+// The Oracle - Quantum decision making
+let answer = QuantumExperience.askOracle("Should I invest?")
+print("Oracle says: \(answer ? "Yes" : "No")")
+
+// Quantum Art - Generate colors from quantum states
+let artData = QuantumExperience.generateArt(from: circuit)
+print("Color: \(artData.hexColor), Complexity: \(artData.complexity)")
+```
+
+---
+
+## What's New in v2.2.4
 
 ### IBM Quantum Ecosystem Localization & Subscription System Overhaul
 
@@ -182,7 +222,7 @@ SomeView()
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/Minapak/SwiftQuantum.git", from: "2.2.4")
+    .package(url: "https://github.com/Minapak/SwiftQuantum.git", from: "2.2.5")
 ]
 ```
 
