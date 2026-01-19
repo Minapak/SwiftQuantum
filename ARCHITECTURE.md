@@ -1,7 +1,7 @@
-# SwiftQuantum v2.2.3 - Architecture Document
+# SwiftQuantum v2.2.5 - Architecture Document
 
-> **Document Version:** 2.2.3
-> **Last Updated:** 2026-01-18
+> **Document Version:** 2.2.5
+> **Last Updated:** 2026-01-19
 
 ---
 
@@ -28,7 +28,7 @@
 | Item | Value |
 |------|-------|
 | **Project Name** | SwiftQuantum |
-| **Version** | 2.2.3 |
+| **Version** | 2.2.5 |
 | **License** | MIT |
 | **Platform** | iOS 15+ / macOS 14+ |
 | **Swift Version** | 6.0 |
@@ -59,6 +59,12 @@
 │  │ Complex  │  │  Pauli,H  │  │  Builder  │  │  Bell,Grover      │ │
 │  │  Qubit   │  │  Rx,Ry,Rz │  │  Execute  │  │  DJ,Simon         │ │
 │  └──────────┘  └───────────┘  └───────────┘  └───────────────────┘ │
+├─────────────────────────────────────────────────────────────────────┤
+│                      Experience Layer (NEW)                         │
+│  ┌────────────────┐  ┌──────────────────┐  ┌────────────────────┐  │
+│  │ DailyChallenge │  │   OracleEngine   │  │ QuantumArtMapper   │  │
+│  │    Engine      │  │  (True Random)   │  │ (State→Art)        │  │
+│  └────────────────┘  └──────────────────┘  └────────────────────┘  │
 ├─────────────────────────────────────────────────────────────────────┤
 │                        Bridge Layer                                  │
 │  ┌────────────────────────┐  ┌────────────────────────────────────┐ │
@@ -119,6 +125,12 @@ SwiftQuantum/
 │       ├── Serialization/
 │       │   ├── GateDTO.swift              # Qiskit-compatible gate DTO
 │       │   └── QuantumCircuitDTO.swift    # Circuit serialization DTO
+│       │
+│       ├── Experience/                    # Entertainment Logic (NEW)
+│       │   ├── QuantumExperience.swift    # Unified API entry point
+│       │   ├── DailyChallengeEngine.swift # Daily Pulse patterns
+│       │   ├── OracleEngine.swift         # Quantum decision making
+│       │   └── QuantumArtMapper.swift     # State-to-art mapping
 │       │
 │       └── Resources/                     # Multi-language resources
 │           ├── en.lproj/
@@ -348,6 +360,102 @@ enum ExecutorType {
 | **Deutsch-Jozsa** | Function characterization | Exponential → Constant |
 | **Grover's Search** | Unordered search | O(N) → O(√N) |
 | **Simon's Algorithm** | Hidden period | Exponential → Polynomial |
+
+---
+
+### 3.5 Experience Layer (NEW in v2.2.5)
+
+#### DailyChallengeEngine.swift - Daily Pulse Logic
+
+```swift
+/// Generates deterministic daily patterns for global user synchronization
+public struct DailyChallengeEngine {
+    /// O(1) deterministic pattern generation
+    public static func generateDailyPattern(userSeed: String) -> (amplitude: Double, phase: Double)
+
+    /// Extended pattern with additional quantum-inspired parameters
+    public static func generateExtendedDailyPattern(userSeed: String) -> DailyPatternData
+
+    /// Today's pattern using current UTC date
+    public static func generateTodayPattern() -> (amplitude: Double, phase: Double)
+}
+
+/// Extended daily pattern data
+public struct DailyPatternData: Codable, Equatable, Sendable {
+    let amplitude: Double              // 0.0-1.0
+    let phase: Double                  // 0.0-2π
+    let entanglementStrength: Double   // 0.0-1.0
+    let coherenceTime: Double          // 0.0-1.0
+    let interferencePattern: Int       // For visual generation
+    let luckyQuantumState: Int         // 1-8 (quantum octets)
+    let dateSeed: String
+}
+```
+
+#### OracleEngine.swift - The Oracle Logic
+
+```swift
+/// True quantum randomness for entertainment-grade decision making
+public final class OracleEngine: @unchecked Sendable {
+    /// Consults the oracle with a question (Hadamard + Measure)
+    public func consultOracle(question: String) -> OracleResult
+
+    /// Statistical analysis over multiple consultations
+    public func consultOracleStatistics(question: String, shots: Int) -> OracleStatistics
+
+    /// Quick boolean decision
+    public func quickDecision(question: String) -> Bool
+}
+
+/// Oracle consultation result
+public struct OracleResult: Codable, Equatable, Sendable {
+    let answer: Bool                   // true = Yes, false = No
+    let confidence: Double             // 0.0-1.0
+    let collapsedCoordinate: CGPoint   // For visualization
+    let question: String
+    let timestamp: Date
+    let quantumState: String           // State at measurement
+}
+```
+
+#### QuantumArtMapper.swift - Art Data Mapping
+
+```swift
+/// Transforms quantum states to visual art parameters
+public final class QuantumArtMapper: @unchecked Sendable {
+    /// Map single qubit to art parameters
+    public func mapToArtParameters(qubit: Qubit) -> ArtData
+
+    /// Map multi-qubit register to art parameters
+    public func mapToArtParameters(register: QuantumRegister) -> ArtData
+
+    /// Map circuit execution result
+    public func mapToArtParameters(circuit: QuantumCircuit) -> ArtData
+}
+
+/// Art parameters derived from quantum states
+public struct ArtData: Codable, Equatable, Sendable {
+    let primaryHue: Double     // 0.0-1.0 (maps to 0-360°)
+    let complexity: Int        // 1-10 (fractal depth)
+    let contrast: Double       // 0.0-1.0 (phase variance based)
+    let saturation: Double     // 0.0-1.0
+    let brightness: Double     // 0.0-1.0
+    let quantumSignature: String
+
+    var hexColor: String       // e.g., "#FF6B6B"
+    var rgbColor: (red: Double, green: Double, blue: Double)
+}
+```
+
+**Mapping Logic:**
+
+| Parameter | Source | Algorithm |
+|-----------|--------|-----------|
+| **Hue** | Most probable basis state | Index normalized to [0, 1] |
+| **Complexity** | Entropy | Higher entropy = higher complexity |
+| **Contrast** | Phase variance | Larger variance = higher contrast |
+| **Saturation** | Probability concentration | Max prob → saturation |
+| **Brightness** | Superposition count | More states = brighter |
 
 ---
 
@@ -812,6 +920,8 @@ struct PaywallView: View {
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.5 | 2026-01-19 | QuantumExperience entertainment module (DailyChallengeEngine, OracleEngine, QuantumArtMapper) |
+| 2.2.4 | 2026-01-18 | IBM Quantum Ecosystem localization, subscription system redesign |
 | 2.2.3 | 2026-01-18 | Auth localization, PaywallView redesign, Industry/Circuits UI improvements |
 | 2.2.1 | 2026-01-16 | Real-time localization, backend integration, hardcoded values removal |
 | 2.2.0 | 2026-01-13 | Backend integration (APIClient), StoreKit 2, ContentAccessManager, PaywallView, German support |
@@ -824,7 +934,7 @@ struct PaywallView: View {
 
 <div align="center">
 
-**SwiftQuantum v2.2.3**
+**SwiftQuantum v2.2.5**
 
 *The future of quantum computing on iOS - Powered by Harvard-MIT research*
 

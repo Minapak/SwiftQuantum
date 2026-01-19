@@ -389,7 +389,7 @@ SwiftQuantum now integrates with the **IBM Quantum Ecosystem**, allowing you to 
 ## Architecture
 
 ```
-SwiftQuantum v2.2.4/
+SwiftQuantum v2.2.5/
 ├── Sources/SwiftQuantum/
 │   ├── Core/
 │   │   ├── Complex.swift              # Complex number arithmetic
@@ -404,6 +404,12 @@ SwiftQuantum v2.2.4/
 │   ├── Bridge/
 │   │   ├── QuantumBridge.swift        # QASM export, IBM config
 │   │   └── QuantumExecutor.swift      # Hybrid execution protocol
+│   │
+│   ├── Experience/                    # Entertainment Logic (NEW)
+│   │   ├── QuantumExperience.swift    # Unified API entry point
+│   │   ├── DailyChallengeEngine.swift # Daily Pulse patterns
+│   │   ├── OracleEngine.swift         # Quantum decision making
+│   │   └── QuantumArtMapper.swift     # State-to-art mapping
 │   │
 │   └── Resources/                     # Localization
 │       ├── en.lproj/                  # English (Default)
@@ -497,7 +503,15 @@ SwiftQuantum is built on cutting-edge quantum computing research:
 
 ## Roadmap
 
-### Version 2.2.4 (Current - January 2026)
+### Version 2.2.5 (Current - January 2026)
+- [x] QuantumExperience entertainment module for premium features
+- [x] DailyChallengeEngine: Deterministic daily patterns (FNV-1a hash, O(1))
+- [x] OracleEngine: True quantum randomness with context injection
+- [x] QuantumArtMapper: Quantum state to visual art parameters
+- [x] Swift 6 concurrency-safe with Sendable conformance
+- [x] 16 new unit tests for Experience module
+
+### Version 2.2.4 (January 2026)
 - [x] IBM Quantum Ecosystem full localization (12 projects, 6 categories)
 - [x] Subscription system complete redesign with tab-based comparison
 - [x] Subscription Info page in More tab settings
